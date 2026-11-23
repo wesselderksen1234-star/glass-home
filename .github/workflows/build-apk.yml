@@ -1,0 +1,41 @@
+name: Build APK
+on:
+  push:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: "8.7"
+      - name: Copy web app into assets
+        run: |
+          if [ -d web ]; then
+            mkdir -p app/src/main/assets/web
+            cp -r web/* app/src/main/assets/web/
+          fi
+          # Sleutels uit GitHub-secret GH_CONFIG_JS (zo staan ze niet in je repo)
+          if [ -n "$GH_CONFIG_JS" ]; then printf '%s' "$GH_CONFIG_JS" > app/src/main/assets/web/config.js; fi
+        env:
+          GH_CONFIG_JS: ${{ secrets.GH_CONFIG_JS }}
+      - name: Build release APK
+        run: gradle assembleRelease
+      - uses: actions/upload-artifact@v4
+        with:
+          name: glasshome-apk
+          path: app/build/outputs/apk/release/*.apk
+      - name: APK opslaan in branch 'builds'
+        if: github.ref == 'refs/heads/main'
+        run: |
+          mkdir -p /tmp/out && cp app/build/outputs/apk/release/*.apk /tmp/out/GlassHome-GoogleTV.apk
+          git config user.name "github-actions"; git config user.email "actions@github.com"
+          git checkout --orphan builds && git rm -rqf . && cp /tmp/out/GlassHome-GoogleTV.apk .
+          git add GlassHome-GoogleTV.apk && git commit -qm "APK ${GITHUB_SHA::7}" && git push -f origin builds

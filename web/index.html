@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="nl"><head><meta charset="utf-8"><title>Glass Home</title>
+<style>html,body{margin:0;width:100%;height:100%;background:#06070c url(splash.png) center/cover no-repeat}</style></head><body>
+<script>
+// Glass Home lader: haalt de nieuwste versie van internet, met de ingebouwde versie als reserve.
+(function(){
+ var R="https://raw.githubusercontent.com/wesselderksen1234-star/glass-home/main/web/app.html";
+ var done=false,c=null;try{c=localStorage.getItem("ghCode")}catch(e){}
+ function run(h){if(done)return;done=true;document.open();document.write(h);document.close();}
+ function local(){var x=new XMLHttpRequest();x.open("GET","app.html");x.onload=function(){run(x.responseText)};x.onerror=function(){};x.send();}
+ function fallback(){c?run(c):local();}
+ var x=new XMLHttpRequest();x.open("GET",R+"?t="+Math.floor(Date.now()/6e4));x.timeout=2500;
+ x.onload=function(){if(x.status===200&&x.responseText.indexOf("GH_BUILD")>0){try{localStorage.setItem("ghCode",x.responseText)}catch(e){}run(x.responseText)}else fallback()};
+ x.onerror=x.ontimeout=fallback;try{x.send()}catch(e){fallback()}
+})();
+</script></body></html>

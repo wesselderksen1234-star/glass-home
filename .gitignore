@@ -1,0 +1,16 @@
+.gradle/
+build/
+local.properties
+.idea/
+
+web/config.js
+
+# lokaal en privé
+tv-brug/tv-ip.txt
+tv-brug/tv-key.txt
+tv-brug/log.txt
+tv-brug/opdracht*.json
+tv-brug/antwoord*.json
+tv-brug/unsigned.txt
+tv-brug/autostart-uit.txt
+apps-backup.txt
