@@ -177,6 +177,7 @@ function Run-Commands {
         "button" { Button $c.name; $res = "ok" }
         "wait"   { Start-Sleep -Milliseconds ([int]($c.s * 1000)); $res = "ok" }
         "shot"   { $res = Shot }
+        "post"   { $wc = New-Object Net.WebClient; $wc.Encoding = [Text.Encoding]::UTF8; $wc.Headers.Add("Content-Type", "application/json"); $wc.Headers.Add("User-Agent", "Mozilla/5.0"); $res = $wc.UploadString($c.url, "POST", ($c.body | ConvertTo-Json -Depth 20 -Compress)); [IO.File]::WriteAllText((Join-Path $Dir "post.json"), $res); "ok" }
         "fetch"  { $f = [IO.Path]::GetFullPath((Join-Path $Dir $c.file)); if (-not $f.StartsWith($Dir)) { throw "pad niet toegestaan" }; New-Item -ItemType Directory -Force -Path (Split-Path $f) | Out-Null; $wc = New-Object Net.WebClient; $wc.Headers.Add("User-Agent", "GlassHome/1.0 (persoonlijke tv-launcher)"); $wc.DownloadFile($c.url, $f); $res = "ok" }
         "autostart" { $af = Join-Path $Dir "autostart-uit.txt"; if ($c.on) { Remove-Item $af -ErrorAction SilentlyContinue } else { Set-Content $af "uit" }; $res = "ok" }
         default  { $res = "onbekend" }
