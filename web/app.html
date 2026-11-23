@@ -1,4 +1,4 @@
-<!DOCTYPE html><!--GH_BUILD:2.3.2-->
+<!DOCTYPE html><!--GH_BUILD:2.3.3-->
 <html lang="nl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width">
 <title>Glass Home</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
@@ -188,6 +188,25 @@ body.hasHero #hero:after{bottom:auto;height:1080px}body.hasHero #hero{overflow:v
 #intro .ghw{width:130px;height:130px;display:block}#intro .ghl{width:130px;height:130px;opacity:.88;animation:none!important}#intro .orb{display:none}#intro .ghs{position:absolute;inset:0;-webkit-mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Cpath%20fill%3D%22%23000%22%20fill-rule%3D%22evenodd%22%20d%3D%22M44.6%2012.9a8%208%200%200%201%2010.8%200l30.2%2027.5a8%208%200%200%201%202.6%205.9V82a8%208%200%200%201-8%208H19.8a8%208%200%200%201-8-8V46.3a8%208%200%200%201%202.6-5.9Z%20M50%2060a8%208%200%200%200-8%208v22h16V68a8%208%200%200%200-8-8Z%22/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Cpath%20fill%3D%22%23000%22%20fill-rule%3D%22evenodd%22%20d%3D%22M44.6%2012.9a8%208%200%200%201%2010.8%200l30.2%2027.5a8%208%200%200%201%202.6%205.9V82a8%208%200%200%201-8%208H19.8a8%208%200%200%201-8-8V46.3a8%208%200%200%201%202.6-5.9Z%20M50%2060a8%208%200%200%200-8%208v22h16V68a8%208%200%200%200-8-8Z%22/%3E%3C/svg%3E");-webkit-mask-size:100% 100%;mask-size:100% 100%;background:linear-gradient(100deg,transparent 35%,rgba(255,255,255,.95) 50%,transparent 65%);background-size:320% 100%;background-position:100% 0;animation:ghs 2s cubic-bezier(.45,0,.25,1) .35s both}
 .card::before{content:"";position:absolute;left:0;right:0;bottom:0;height:60%;background:linear-gradient(180deg,transparent,rgba(0,0,0,.72));border-radius:inherit;pointer-events:none;z-index:1}.card .lab{z-index:2}
 body.amb #bgwrap{opacity:1!important}
+
+/* thema's */
+body.th-dark #panel,body.th-dark #det{background:linear-gradient(160deg,rgba(20,22,30,.9),rgba(6,7,11,.94))!important}
+body.th-dark #rail,body.th-dark #clock,body.th-dark .glass:not(#det):not(#panel){background:linear-gradient(160deg,rgba(28,30,40,.72),rgba(10,11,16,.78))!important;border-color:rgba(255,255,255,.12)!important}
+body.th-dark #apps .app::before{background:linear-gradient(160deg,rgba(0,0,0,.25),rgba(0,0,0,.4))}
+body.th-dark #scrim{background:rgba(0,0,0,.55)}
+body.th-light #panel,body.th-light #det{background:linear-gradient(160deg,rgba(250,251,255,.86),rgba(226,230,242,.9))!important;color:#15161c;text-shadow:none}
+body.th-light #panel *,body.th-light #det *{text-shadow:none}
+body.th-light #panel .hint,body.th-light #ctitle,body.th-light #det h4,body.th-light #dsrc,body.th-light #dmeta{color:rgba(20,22,30,.62)!important}
+body.th-light .opt.focus,body.th-light .cat.focus{background:#15161c!important;color:#fff!important}
+body.th-light .cat.sel{background:rgba(20,22,30,.1)!important}
+body.th-light .cat svg,body.th-light .opt svg{stroke:currentColor}
+body.th-light #msg{background:rgba(20,22,30,.08);color:#15161c}
+body.th-light #det .chip{background:rgba(20,22,30,.08);color:#15161c;border-color:rgba(20,22,30,.15)}
+body.th-light #det .chip.big{background:#15161c;color:#fff}
+body.th-light #rail,body.th-light #clock,body.th-light .empty.glass{background:linear-gradient(160deg,rgba(255,255,255,.72),rgba(236,239,248,.62))!important;color:#15161c;text-shadow:none;border-color:rgba(255,255,255,.8)!important}
+body.th-light #rail svg{stroke:#15161c}body.th-light .ri.focus{background:#15161c;color:#fff}body.th-light .ri.focus svg{stroke:#fff}
+body.th-light #clock *{color:#15161c;text-shadow:none}
+body.th-light #scrim{background:rgba(255,255,255,.18)}
 </style></head><body class="boot"><script>(function(){var M={},C={};function R(n){n=n.replace(/^\.\//,"./").replace(/\.js$/,"");if(C[n])return C[n].exports;var m={exports:{}};C[n]=m;M[n](m,m.exports);return m.exports;}
 M["./QRErrorCorrectLevel"]=function(module,exports){module.exports = {
 	L : 1,
@@ -1435,7 +1454,7 @@ module.exports = QRRSBlock;
 
 };
 var Q=R("./index"),E=R("./QRErrorCorrectLevel");window.ghQR=function(t){var q=new Q(-1,E.M);q.addData(t);q.make();var n=q.getModuleCount(),p="";for(var r=0;r<n;r++)for(var c=0;c<n;c++)if(q.isDark(r,c))p+="M"+(c+2)+" "+(r+2)+"h1v1h-1z";return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 '+(n+4)+' '+(n+4)+'" shape-rendering="crispEdges"><rect width="100%" height="100%" fill="#fff"/><path d="'+p+'" fill="#000"/></svg>';};})();</script>
-<script type="text/plain" id="ghv">GH_BUILD:2.3.2</script>
+<script type="text/plain" id="ghv">GH_BUILD:2.3.3</script>
 <div id="intro"><div class="orb"></div><div class="ghw"><svg class="ghl" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
 <defs>
 <linearGradient id="gl" x1="0" y1="0" x2="0.35" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".96"/><stop offset=".55" stop-color="#e9ecf6" stop-opacity=".78"/><stop offset="1" stop-color="#c9cfe6" stop-opacity=".6"/></linearGradient>
@@ -1623,6 +1642,7 @@ async function potd(){const p=n=>String(n).padStart(2,"0");
    const im=r.image;if(!im||!im.thumbnail||!im.image||im.image.width<im.image.height*1.2||im.image.width<1920)continue;
    return im.thumbnail.source.replace(/\/\d+px-/,"/"+Math.min(3840,im.image.width)+"px-");}catch(e){}}
  return "https://picsum.photos/seed/"+Date.now()+"/3840/2160";}
+function applyTheme(){document.body.classList.toggle("th-dark",S.th===1);document.body.classList.toggle("th-light",S.th===2);}
 function applyGlass(){document.body.classList.toggle("reed",S.glass===1);document.body.classList.toggle("reedbg",S.glass===2);}
 function nextBg(){const el=$(cur==="bgA"?"bgB":"bgA");const show=()=>{if(cur===el.id)return;el.classList.add("on");$(cur).classList.remove("on");cur=el.id;};
  let url="";if(S.theme===1&&P!=="preview"){potd().then(u=>{const tryL=(u,n)=>{const im=new Image();im.onload=()=>{el.style.backgroundImage=cu(u);show()};im.onerror=()=>{const sm=/peapix/.test(u)?u.replace(/(_1920)?\.jpg$/,"_1920.jpg"):u.replace(/\/\d+px-/,"/1920px-");if(n<1&&sm!==u)return tryL(sm,n+1);if(!$(cur).style.backgroundImage){el.style.backgroundImage=mesh();show()}};im.src=u;};tryL(u,0);});return;}
@@ -2075,6 +2095,7 @@ window.GH_back=()=>{if(mode==="amb")return amb(false);if(mode==="panel")return p
 let oi=0,kn="tmdb",CUR;const OPTS=[
  {l:"Profielen en kinderslot",v:()=>esc(profName())+" ›",ok:()=>profiles()},
  {l:"Rij 'Ga verder' tonen",v:()=>S.showCont?"Aan":"Uit",ok:()=>{S.showCont=S.showCont?0:1;$("s-cont").style.display=S.showCont?"":"none";save();build();}},
+ {l:"Thema",v:()=>["Standaard","Donker","Licht"][S.th||0],ch:d=>{S.th=((S.th||0)+d+3)%3;save();applyTheme();}},
  {l:"Taal van titels en teksten",v:()=>["Automatisch","Nederlands","Engels"][S.lang||0],ch:d=>{S.lang=((S.lang||0)+d+3)%3;save();loadAll();}},
   {l:"Snelle modus (minder blur)",v:()=>S.lite?"Aan":"Uit",ok:()=>{S.lite=S.lite?0:1;document.body.classList.toggle("lite",!!S.lite)}},
  {l:"Achtergrond",v:()=>THEMES[S.theme],ch:d=>{S.theme=(S.theme+d+3)%3;sched()}},
@@ -2088,7 +2109,7 @@ let oi=0,kn="tmdb",CUR;const OPTS=[
  {l:"Apps beheren",v:()=>"›",ok:manageApps},
  {l:"Nieuwe achtergrond",v:()=>"OK",ok:nextBg}];
 RG.paint='<rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4"/>';RG.grid='<rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/>';RG.user='<circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/>';RG.key='<circle cx="8" cy="15" r="4"/><path d="M11 12l9-9M17 6l3 3M15 8l2 2"/>';RG.info='<circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.5"/>';
-const CATDEF=[["paint","Weergave",/Snelle|Achtergrond|Wissel|achtergrond|Taal|Glas|Ga verder/],["grid","Apps",/App |Apps|PlayStation|startscherm/],["user","Accounts",/account|Letterboxd/],["key","Sleutels en bronnen",/sleutel|afspeellijst|EPG|Client/],["grid","Zijmenu",/^$/],["user","Profielen",/^Profiel/],["info","Over Glass Home",/^$/]];
+const CATDEF=[["paint","Weergave",/Snelle|Achtergrond|Wissel|achtergrond|Taal|Glas|Ga verder|Thema/],["grid","Apps",/App |Apps|PlayStation|startscherm/],["user","Accounts",/account|Letterboxd/],["key","Sleutels en bronnen",/sleutel|afspeellijst|EPG|Client/],["grid","Zijmenu",/^$/],["user","Profielen",/^Profiel/],["info","Over Glass Home",/^$/]];
 function appLink(ap){const tr=S.trRefresh,tm=key("tmdb");
  if(/moonlight/i.test(ap.n))return["Niet nodig","Moonlight streamt je pc naar de tv. Hier hoeft niets gekoppeld te worden."];
  if(/stremio/i.test(ap.n))return[S.stAuth?"Gekoppeld ✓":"Koppelen","Stremio deelt je kijkgeschiedenis via Trakt. Zet in Stremio bij Instellingen ‘Trakt’ aan en koppel hier je Trakt-account. Dan verschijnt wat je kijkt bij Ga verder en krijg je tips op maat."];
@@ -2138,7 +2159,7 @@ document.addEventListener("keydown",e=>{const k=e.keyCode;bump();
 function fit(){const s=Math.min(innerWidth/1920,innerHeight/1080);document.body.style.transformOrigin="0 0";
  document.body.style.transform=s<1?"translate("+(innerWidth-1920*s)/2+"px,"+(innerHeight-1080*s)/2+"px) scale("+s+")":"";}
 addEventListener("resize",fit);fit();
-document.body.classList.toggle("lite",!!S.lite);applyGlass();setTimeout(()=>{const i=$("intro");i.classList.add("out");document.body.classList.remove("boot");setTimeout(()=>i.remove(),900);},2300);drawCont();loadAll();loadTrakt().then(loadStremio);sched();try{localStorage.removeItem("ghBoot")}catch(e){}
+document.body.classList.toggle("lite",!!S.lite);applyGlass();applyTheme();setTimeout(()=>{const i=$("intro");i.classList.add("out");document.body.classList.remove("boot");setTimeout(()=>i.remove(),900);},2300);drawCont();loadAll();loadTrakt().then(loadStremio);sched();try{localStorage.removeItem("ghBoot")}catch(e){}
 addEventListener("online",()=>{loadAll();loadTrakt().then(loadStremio);});
 }
 </script></body></html>
