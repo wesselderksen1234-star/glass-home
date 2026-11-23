@@ -37,12 +37,16 @@ if (-not $mutex.WaitOne(0)) { Write-Host "De tv-brug draait al."; exit }
 # de tv gebruikt een eigen (zelf-ondertekend) certificaat: accepteer dat alleen in deze brug
 Add-Type -TypeDefinition @"
 using System.Net; using System.Net.Security; using System.Security.Cryptography.X509Certificates;
-public static class GHTrust {
-  static bool Ok(object s, X509Certificate c, X509Chain ch, SslPolicyErrors e) { return true; }
+public static class GHTrust3 {
+  public static string Host = "";
+  static bool Ok(object s, X509Certificate c, X509Chain ch, SslPolicyErrors e) {
+    if (e == SslPolicyErrors.None) return true;
+    var r = s as HttpWebRequest; if (r == null) return true;
+    return Host != "" && r.RequestUri.Host == Host; }
   public static void Enable() { ServicePointManager.ServerCertificateValidationCallback = Ok; }
 }
 "@
-[GHTrust]::Enable()
+[GHTrust3]::Enable(); [GHTrust3]::Host = "$TV"
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 $enc = [Text.Encoding]::UTF8
 
@@ -82,8 +86,8 @@ function Req($uri, $payloadJson) {
   while ((Get-Date) -lt $end) {
     $m = Poll-Ws $script:ws 500
     if ($m -eq $null) { continue }
+    if ($m.IndexOf('"id":"' + $id + '"') -ge 0 -or $m.IndexOf('"id": "' + $id + '"') -ge 0) { $script:lastRaw = $m; return ($m | ConvertFrom-Json) }
     $o = $m | ConvertFrom-Json
-    if ($o.id -eq $id) { return $o }
     Handle-Event $o
   }
   return @{ type = "timeout"; id = $id }
@@ -160,24 +164,27 @@ function Connect-Tv {
 function Run-Commands {
   $f = Join-Path $Dir "opdracht2.json"
   if (-not (Test-Path $f)) { return }
-  $raw = Get-Content $f -Raw -Encoding UTF8; Remove-Item $f -Force
-  $job = $raw | ConvertFrom-Json; $out = @()
+  try { $raw = Get-Content $f -Raw -Encoding UTF8 -ErrorAction Stop; $job = $raw | ConvertFrom-Json } catch { return }
+  Remove-Item $f -Force; $out = New-Object Collections.ArrayList
   foreach ($c in $job.cmds) {
     $res = ""
     try {
       switch ($c.t) {
-        "ssap"   { $res = Req $c.uri (($c.p | ConvertTo-Json -Depth 20 -Compress)) }
-        "luna"   { $res = Luna $c.uri (($c.p | ConvertTo-Json -Depth 20 -Compress)) }
+        "ssap"   { $script:lastRaw = $null; $r = Req $c.uri (($c.p | ConvertTo-Json -Depth 20 -Compress)); $res = if ($script:lastRaw) { [pscustomobject]@{ raw = $script:lastRaw } } else { $r } }
+        "luna"   { $script:lastRaw = $null; $r = Luna $c.uri (($c.p | ConvertTo-Json -Depth 20 -Compress)); $res = if ($script:lastRaw) { [pscustomobject]@{ raw = $script:lastRaw } } else { $r } }
         "button" { Button $c.name; $res = "ok" }
         "wait"   { Start-Sleep -Milliseconds ([int]($c.s * 1000)); $res = "ok" }
         "shot"   { $res = Shot }
+        "fetch"  { $f = [IO.Path]::GetFullPath((Join-Path $Dir $c.file)); if (-not $f.StartsWith($Dir)) { throw "pad niet toegestaan" }; New-Item -ItemType Directory -Force -Path (Split-Path $f) | Out-Null; (New-Object Net.WebClient).DownloadFile($c.url, $f); $res = "ok" }
         "autostart" { $af = Join-Path $Dir "autostart-uit.txt"; if ($c.on) { Remove-Item $af -ErrorAction SilentlyContinue } else { Set-Content $af "uit" }; $res = "ok" }
         default  { $res = "onbekend" }
       }
     } catch { $res = "fout: $_" }
-    $out += [pscustomobject]@{ cmd = $c; result = $res }
+    $cj = $c | ConvertTo-Json -Depth 6 -Compress
+    if ($res -is [pscustomobject] -and $res.raw) { $rj = $res.raw } else { $rj = ($res | ConvertTo-Json -Depth 6 -Compress) }
+    [void]$out.Add('{"cmd":' + $cj + ',"result":' + $rj + '}')
   }
-  ($out | ConvertTo-Json -Depth 20) | Set-Content -Path (Join-Path $Dir "antwoord2.json") -Encoding UTF8
+  [IO.File]::WriteAllText((Join-Path $Dir "antwoord2.json"), ('[' + ($out -join ',') + ']'), (New-Object Text.UTF8Encoding($false)))
   Log ("Opdracht uitgevoerd (" + $out.Count + " stappen).")
 }
 
@@ -194,14 +201,13 @@ while ($true) {
     if (-not $script:ws -or $script:ws.State -ne "Open") {
       $ok = Connect-Tv
       if (-not $ok) { Start-Sleep -Seconds 3; continue }
-      if (-not $script:wasActive) { Start-GlassHome }
     }
     $m = Poll-Ws $script:ws 1000
     if ($m) { Handle-Event ($m | ConvertFrom-Json) }
     Run-Commands
   } catch {
     Log ("Fout: " + $_.Exception.Message + " [regel " + $_.InvocationInfo.ScriptLineNumber + ": " + $_.InvocationInfo.Line.Trim() + "] (nieuwe poging over 10 s)")
-    $script:ws = $null; $script:wasActive = $false
+    $script:ws = $null; if ($_.Exception.Message -match 'verbinding|socket|Abort|antwoord|connect|closed') { $script:wasActive = $false }
     Start-Sleep -Seconds 10
   }
 }

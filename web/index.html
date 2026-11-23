@@ -7,10 +7,10 @@
 (function(){
  var R="https://raw.githubusercontent.com/wesselderksen1234-star/glass-home/main/web/app.html";
  function ver(h){var m=/GH_BUILD:([\d.]+)/.exec(h||"");if(!m)return 0;var p=m[1].split(".");return (+p[0]||0)*1e6+(+p[1]||0)*1e3+(+p[2]||0);}
- var c=null;try{c=localStorage.getItem("ghCode")}catch(e){}
+ var c=null;try{c=localStorage.getItem("ghCode");if(localStorage.getItem("ghBoot")=="1"){localStorage.removeItem("ghCode");localStorage.removeItem("ghBoot");c=null;}}catch(e){}
  function run(h){document.open();document.write(h);document.close();}
  var l=new XMLHttpRequest();l.open("GET","app.html");
- l.onload=function(){var local=l.responseText;run(ver(c)>ver(local)?c:local);};
- l.onerror=function(){if(c)run(c)};l.send();
+ l.onload=function(){var local=l.responseText;if(ver(c)>ver(local)){try{localStorage.setItem("ghBoot","1")}catch(e){}run(c);}else run(local);};
+ l.onerror=function(){if(c)run(c);else location.replace("app.html")};l.send();
 })();
 </script></body></html>
