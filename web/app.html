@@ -1,4 +1,4 @@
-<!DOCTYPE html><!--GH_BUILD:2.4.8-->
+<!DOCTYPE html><!--GH_BUILD:2.4.9-->
 <html lang="nl" style="background:#05060a url(splash5.png) center/cover no-repeat"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width">
 <title>Glass Home</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
@@ -1469,7 +1469,7 @@ module.exports = QRRSBlock;
 
 };
 var Q=R("./index"),E=R("./QRErrorCorrectLevel");window.ghQR=function(t){var q=new Q(-1,E.M);q.addData(t);q.make();var n=q.getModuleCount(),p="";for(var r=0;r<n;r++)for(var c=0;c<n;c++)if(q.isDark(r,c))p+="M"+(c+2)+" "+(r+2)+"h1v1h-1z";return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 '+(n+4)+' '+(n+4)+'" shape-rendering="crispEdges"><rect width="100%" height="100%" fill="#fff"/><path d="'+p+'" fill="#000"/></svg>';};})();</script>
-<script type="text/plain" id="ghv">GH_BUILD:2.4.8</script>
+<script type="text/plain" id="ghv">GH_BUILD:2.4.9</script>
 <div id="intro"><div class="orb"></div><div class="ghw"><svg class="ghl" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
 <defs>
 <linearGradient id="gl" x1="0" y1="0" x2="0.35" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".96"/><stop offset=".55" stop-color="#e9ecf6" stop-opacity=".78"/><stop offset="1" stop-color="#c9cfe6" stop-opacity=".6"/></linearGradient>
@@ -1553,7 +1553,7 @@ const SKEY=PROF.cur==="main"?"gh3":"gh3_"+PROF.cur,saveProf=()=>{try{localStorag
 let S;try{S=Object.assign({},DEF,JSON.parse(localStorage.getItem(SKEY)||"{}"))}catch(e){S=Object.assign({},DEF)}
 if(!S.mig24){S.mig24=1;S.railOrder=[];S.railHide=[];}
 if(!S.mig180){S.mig180=1;S.theme=1;}if(S.showCont)setTimeout(()=>{$("s-cont").style.display=""},0);S.glass=0;
-const save=()=>{if(window.GH_DEL)return;try{localStorage.setItem(SKEY,JSON.stringify(S))}catch(e){}};
+const save=()=>{if(window.GH_DEL)return;try{localStorage.setItem(SKEY,JSON.stringify(S))}catch(e){}if(window.ghSyncQ)ghSyncQ();};
 
 // webOS
 const LUNA_KEEP=[];function luna(uri,p,cb){try{const b=new PalmServiceBridge();if(p&&p.subscribe)LUNA_KEEP.push(b);b.onservicecallback=r=>{try{cb&&cb(JSON.parse(r))}catch(e){}};b.call(uri,JSON.stringify(p||{}))}catch(e){cb&&cb(null)}}
@@ -2021,6 +2021,28 @@ async function jwLink(it){if(it.jw!==undefined)return it.jw;it.jw="";const re=JW
 async function openTitle(it){const a=APPS[it.a];if(!JWP[it.a])return open(it.a);toast("Openen in "+a.n+"…");const u=await jwLink(it);if(!u)return open(it.a);
  if(P==="android")return open(it.a,u);let t=u;if(it.a===4){const m=u.match(/title\/(\d+)/);if(m)t="m=https://www.netflix.com/title/"+m[1]+"&source_type=4";}open(it.a,t);}
 function openCont(c){if(!c)return;const u=c.imdb?"stremio:///detail/"+c.type+"/"+c.imdb+"/"+c.imdb+(c.se?":"+c.se:""):"";open(1,u);}
+
+// Automatisch overzetten van koppelingen en sleutels tussen je tv's (versleuteld, alleen apparaten met dezelfde geheime sync-sleutel)
+const SYK=["trTok","trRefresh","trExp","stAuth","ytTok","ytRefresh","ytExp","spTok","spRefresh","spExp"].concat(XK);
+let syncK=null,syncTopic="",syncT=0,syncBusy=false;
+async function syncInit(){const sec=key("sync");if(!sec||SKEY!=="gh3"||!window.crypto||!crypto.subtle)return false;if(syncK)return true;
+ const h=async t=>new Uint8Array(await crypto.subtle.digest("SHA-256",new TextEncoder().encode(t)));
+ syncTopic="ghs"+b64u((await h("topic:"+sec)).slice(0,18)).replace(/[-_]/g,"x");syncK=await crypto.subtle.importKey("raw",(await h("key:"+sec)),"AES-GCM",false,["encrypt","decrypt"]);return true;}
+function syncSnap(){const o={};SYK.forEach(k=>{const v=S[k]!=null&&S[k]!==""?S[k]:(typeof GH_KEYS!=="undefined"&&GH_KEYS[k]?GH_KEYS[k]:null);if(v!=null&&v!==""&&v!==KDEF[k])o[k]=v});return JSON.stringify(o);}
+window.ghSyncQ=()=>{if(syncBusy)return;clearTimeout(syncT);syncT=setTimeout(syncPush,4000);};
+async function syncPush(){try{if(!(await syncInit()))return;const snap=syncSnap();if(snap===S.syncSnap||snap==="{}")return;
+ const ts=Date.now(),iv=rndB(12),ct=new Uint8Array(await crypto.subtle.encrypt({name:"AES-GCM",iv},syncK,new TextEncoder().encode(JSON.stringify({ts,d:JSON.parse(snap)}))));
+ const all=new Uint8Array(12+ct.length);all.set(iv);all.set(ct,12);
+ const r=await fetch("https://ntfy.sh/"+syncTopic,{method:"POST",body:b64u(all)});if(!r.ok)return;
+ syncBusy=true;S.syncSnap=snap;S.syncTs=ts;save();syncBusy=false;}catch(e){syncBusy=false}}
+async function syncPull(){try{if(!(await syncInit()))return;const tx=await(await fetch("https://ntfy.sh/"+syncTopic+"/json?poll=1&since=all",{cache:"no-store"})).text();
+ let best=null;for(const ln of tx.split("\n")){if(!ln)continue;let e;try{e=JSON.parse(ln)}catch(x){continue}if(e.event!=="message")continue;
+  try{const raw=Uint8Array.from(atob(e.message.replace(/-/g,"+").replace(/_/g,"/")),c=>c.charCodeAt(0));
+   const m=JSON.parse(new TextDecoder().decode(await crypto.subtle.decrypt({name:"AES-GCM",iv:raw.slice(0,12)},syncK,raw.slice(12))));if(!best||m.ts>best.ts)best=m;}catch(x){}}
+ if(!best||best.ts<=(S.syncTs||0)){if(Date.now()-(S.syncTs||0)>216e5)S.syncSnap="";return syncPush();}
+ let ch=false;Object.keys(best.d||{}).forEach(k=>{if(SYK.includes(k)&&best.d[k]!==""&&best.d[k]!=null&&JSON.stringify(S[k])!==JSON.stringify(best.d[k])){S[k]=best.d[k];ch=true}});
+ syncBusy=true;S.syncTs=best.ts;S.syncSnap=syncSnap();save();syncBusy=false;if(ch){try{loadAll()}catch(x){}try{if(mode==="panel")drawOpts()}catch(x){}}}catch(e){syncBusy=false}}
+setTimeout(syncPull,3000);setInterval(syncPull,6e5);
 
 async function loadAll(){const tk=key("tmdb");
  if(!tk&&!key("youtube")&&!S.ytRefresh&&!key("spotifyRefresh")&&!S.spRefresh&&!S.trRefresh&&!key("epgUrl")){ITEMS=(P==="preview"?SAMPLE:[]).filter(x=>!(LG&&x.tv)).concat(LG?MOON:[]).map((x,i)=>Object.assign({h:i*47+200},x,{avg:x.sp?x.sc.SP:x.sc?wavg(x.sc):0,rs:x.sc?wavg(x.sc):0}));$("note").textContent=P==="preview"?"Voorbeeld":"";}

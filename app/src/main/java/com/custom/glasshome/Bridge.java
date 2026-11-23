@@ -206,6 +206,12 @@ public class Bridge {
     @JavascriptInterface
     public boolean isHomeOverrideEnabled() {
         try {
+            Intent h = new Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_HOME);
+            android.content.pm.ResolveInfo ri = ctx.getPackageManager().resolveActivity(h, PackageManager.MATCH_DEFAULT_ONLY);
+            if (ri != null && ri.activityInfo != null && ctx.getPackageName().equals(ri.activityInfo.packageName)) return true;
+        } catch (Exception ignored) {
+        }
+        try {
             String enabled = Settings.Secure.getString(ctx.getContentResolver(),
                     Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES);
             if (enabled == null) return false;
