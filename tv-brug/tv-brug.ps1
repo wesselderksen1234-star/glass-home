@@ -1,4 +1,4 @@
-﻿# Glass Home tv-brug: verbindt je pc met de LG-tv (officiële LG-netwerkbediening)
+# Glass Home tv-brug: verbindt je pc met de LG-tv (officiële LG-netwerkbediening)
 # en zet Glass Home automatisch aan als de tv aangaat.
 param([switch]$Setup)
 $ErrorActionPreference = "Continue"
@@ -179,6 +179,8 @@ function Run-Commands {
         "shot"   { $res = Shot }
         "post"   { $wc = New-Object Net.WebClient; $wc.Encoding = [Text.Encoding]::UTF8; $wc.Headers.Add("Content-Type", "application/json"); $wc.Headers.Add("User-Agent", "Mozilla/5.0"); $res = $wc.UploadString($c.url, "POST", ($c.body | ConvertTo-Json -Depth 20 -Compress)); [IO.File]::WriteAllText((Join-Path $Dir "post.json"), $res); "ok" }
         "fetch"  { $f = [IO.Path]::GetFullPath((Join-Path $Dir $c.file)); if (-not $f.StartsWith($Dir)) { throw "pad niet toegestaan" }; New-Item -ItemType Directory -Force -Path (Split-Path $f) | Out-Null; $wc = New-Object Net.WebClient; $wc.Headers.Add("User-Agent", "GlassHome/1.0 (persoonlijke tv-launcher)"); $wc.DownloadFile($c.url, $f); $res = "ok" }
+        "unzip"  { $z = [IO.Path]::GetFullPath((Join-Path $Dir $c.file)); $t = [IO.Path]::GetFullPath((Join-Path $Dir $c.to)); if (-not $z.StartsWith($Dir) -or -not $t.StartsWith($Dir)) { throw "pad niet toegestaan" }; Expand-Archive -Path $z -DestinationPath $t -Force; $res = "ok" }
+        "adb"    { $exe = Join-Path $Dir "platform-tools\adb.exe"; $pi = New-Object Diagnostics.ProcessStartInfo; $pi.FileName = $exe; $pi.Arguments = (($c.args | ForEach-Object { if ($_ -match '\s') { '"' + $_ + '"' } else { $_ } }) -join ' '); $pi.UseShellExecute = $false; $pi.RedirectStandardOutput = $true; $pi.RedirectStandardError = $true; $pi.CreateNoWindow = $true; $pr = [Diagnostics.Process]::Start($pi); $so = $pr.StandardOutput.ReadToEndAsync(); $se = $pr.StandardError.ReadToEndAsync(); $tm = if ($c.timeout) { [int]$c.timeout } else { 60 }; if (-not $pr.WaitForExit($tm * 1000)) { $pr.Kill(); $res = "timeout" } else { $res = ($so.Result + $se.Result) } }
         "autostart" { $af = Join-Path $Dir "autostart-uit.txt"; if ($c.on) { Remove-Item $af -ErrorAction SilentlyContinue } else { Set-Content $af "uit" }; $res = "ok" }
         default  { $res = "onbekend" }
       }
@@ -203,7 +205,7 @@ while ($true) {
     }
     if (-not $script:ws -or $script:ws.State -ne "Open") {
       $ok = Connect-Tv
-      if (-not $ok) { Start-Sleep -Seconds 3; continue }
+      if (-not $ok) { Run-Commands; Start-Sleep -Seconds 3; continue }
     }
     $m = Poll-Ws $script:ws 1000
     if ($m) { Handle-Event ($m | ConvertFrom-Json) }
