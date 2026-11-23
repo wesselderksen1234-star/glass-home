@@ -1,4 +1,4 @@
-<!DOCTYPE html><!--GH_BUILD:1.9.7-->
+<!DOCTYPE html><!--GH_BUILD:1.9.8-->
 <html lang="nl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width">
 <title>Glass Home</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
@@ -166,7 +166,7 @@ body.lite .card.kb,body.lite .hi.kb{animation:none}
 #rail:not(.open){width:12px;left:14px;padding:16px 0;opacity:.55;border-radius:8px}
 #rail .ri{transition:opacity .3s,transform .45s cubic-bezier(.2,.9,.25,1)}#rail:not(.open) .ri{opacity:0;transform:translateX(-30px)}
 body.amb #rail{opacity:0}
-</style></head><body class="boot"><script type="text/plain" id="ghv">GH_BUILD:1.9.7</script>
+</style></head><body class="boot"><script type="text/plain" id="ghv">GH_BUILD:1.9.8</script>
 <div id="intro"><div class="shine"></div><div class="shine shine2"></div></div>
 <div id="bgwrap"><div class="bg" id="bgA"></div><div class="bg" id="bgB"></div></div><div id="tint"></div><div id="fbg"></div>
 <div id="amb"><b id="atime"></b><span id="adate"></span><div id="aextra"><span id="aw"></span><span id="anow"></span></div></div><div id="toast" class="glass"></div>
@@ -458,7 +458,7 @@ async function seeds(B,k){const out=[],lb=key("letterboxd");
    .forEach(r=>{if(r)out.push({id:r.id,type:r.media_type,title:r.title||r.name,w:1.5})});}catch(e){}
  if(S.trRefresh){try{(await tr("sync/history?limit=80")).forEach(h=>{const o=h.movie||h.show,t=h.movie?"movie":"tv";if(o&&o.ids.tmdb&&!out.some(x=>x.id===o.ids.tmdb))out.push({id:o.ids.tmdb,type:t,title:o.title,w:2});});}catch(e){}}
  return out;}
-async function loadMovies(tk){const c=cget("ghM7",432e5);if(c)return c;
+async function loadMovies(tk){const c=cget("ghM7"+(S.lang||0),432e5);if(c)return c;
  const B="https://api.themoviedb.org/3/",k="api_key="+tk,ok=key("omdb"),sd=await seeds(B,k),C=new Map(),own=new Set(sd.map(s=>s.type+s.id));
  const add=(m,type,why,w)=>{const id=type+m.id;let c=C.get(id);if(!c){c={m,type,n:0,why:[]};C.set(id,c)}c.n+=w;if(why&&c.why.length<2&&!c.why.includes(why))c.why.push(why);};
  await Promise.all(sd.slice(0,25).map(s=>j(B+s.type+"/"+s.id+"/recommendations?language=nl-NL&"+k).then(r=>r.results.slice(0,12).forEach(m=>add(m,s.type,s.title,s.w))).catch(()=>{})));
@@ -468,8 +468,9 @@ async function loadMovies(tk){const c=cget("ghM7",432e5);if(c)return c;
  const det=async c=>{try{const m=c.m;
   const d=await j(B+c.type+"/"+m.id+"?language=nl-NL&append_to_response=watch/providers,external_ids,translations&"+k);
   const tl=((d.translations||{}).translations||[]),en=(tl.find(x=>x.iso_639_1==="en"&&x.iso_3166_1==="US")||tl.find(x=>x.iso_639_1==="en")||{}).data||{},lat=x=>x&&/^[\u0000-\u024F\u2000-\u206F\s]+$/.test(x);
-  const ttl=d.original_language==="nl"?(d.title||d.name):(en.title||en.name||(lat(d.original_title||d.original_name)?(d.original_title||d.original_name):(d.title||d.name)));
-  if(!d.overview)d.overview=en.overview||"";
+  const L=S.lang||0,nlT=d.title||d.name,enT=en.title||en.name||(lat(d.original_title||d.original_name)?(d.original_title||d.original_name):nlT);
+  const ttl=L===1?nlT:L===2?enT:(d.original_language==="nl"?nlT:enT);
+  if(L===2&&en.overview)d.overview=en.overview;if(!d.overview)d.overview=en.overview||"";
   const hit=((((d["watch/providers"]||{}).results||{}).NL||{}).flatrate||[]).find(x=>PROV[x.provider_name]!==undefined);
   const sc={},imdb=(d.external_ids||{}).imdb_id||d.imdb_id;
   if(c.type==="movie"){try{const h=await(await fetch("https://letterboxd.com/tmdb/"+m.id+"/")).text();
@@ -484,7 +485,7 @@ async function loadMovies(tk){const c=cget("ghM7",432e5);if(c)return c;
    img:"https://image.tmdb.org/t/p/w1280"+(d.backdrop_path||m.backdrop_path),big:"https://image.tmdb.org/t/p/original"+(d.backdrop_path||m.backdrop_path),bp:d.backdrop_path};}catch(e){return null}};
  let res=[];for(let i=0;i<list.length;i+=10)res=res.concat(await Promise.all(list.slice(i,i+10).map(det)));
  const out=res.filter(x=>x&&x.bp&&x.avg>=68).sort((a,b)=>b.rs-a.rs);
- cset("ghM7",out);return out;}
+ cset("ghM7"+(S.lang||0),out);return out;}
 
 // ---------- Spotify: jouw toppers + nieuwe releases die bij je passen ----------
 let spTokenP;async function spToken(){return spTokenP||(spTokenP=_spToken().finally(()=>{spTokenP=null}));}
@@ -571,7 +572,7 @@ async function trLink(){const cid=key("traktClientId"),m=$("msg");if(!cid){m.tex
  try{const d=await j("https://api.trakt.tv/oauth/device/code",{method:"POST",headers:TH(),body:JSON.stringify({client_id:cid})});
   m.innerHTML='Ga op je telefoon naar <b>'+esc(d.verification_url)+'</b> en vul in: <b class="code">'+esc(d.user_code)+'</b>';
   clearInterval(trPoll);const tEnd=Date.now()+(d.expires_in||600)*1000;trPoll=setInterval(async()=>{if(Date.now()>tEnd){clearInterval(trPoll);m.textContent="Code verlopen, probeer opnieuw.";return}try{const r=await j("https://api.trakt.tv/oauth/device/token",{method:"POST",headers:TH(),body:JSON.stringify({code:d.device_code,client_id:cid,client_secret:key("traktClientSecret")})});
-   if(r.refresh_token){clearInterval(trPoll);S.trRefresh=r.refresh_token;S.trTok=r.access_token;S.trExp=Date.now()+r.expires_in*1000;save();m.textContent="Trakt gekoppeld ✓";["ghM7","ghTR"].forEach(x=>{try{localStorage.removeItem(x)}catch(e){}});drawOpts();loadTrakt();loadAll();}}catch(e){}},(d.interval||5)*1000);
+   if(r.refresh_token){clearInterval(trPoll);S.trRefresh=r.refresh_token;S.trTok=r.access_token;S.trExp=Date.now()+r.expires_in*1000;save();m.textContent="Trakt gekoppeld ✓";["ghM7"+(S.lang||0),"ghTR"].forEach(x=>{try{localStorage.removeItem(x)}catch(e){}});drawOpts();loadTrakt();loadAll();}}catch(e){}},(d.interval||5)*1000);
  }catch(e){m.textContent="Koppelen lukte niet. Controleer je Trakt-gegevens.";}}
 async function loadTrakt(){
  if(!S.trRefresh){if(P==="preview"){CONT=[{t:"Noorderlicht",s:"S1 · A4 · De ijsvlakte",p:62,type:"series"},{t:"Rode Woestijn",s:"Film · 2023",p:35,type:"movie"},{t:"Grensgebied",s:"S2 · A1 · Terug",p:12,type:"series"}];drawCont();}return;}
@@ -613,7 +614,7 @@ function detail(k){clearTimeout(dT);if(isNaN(k)||k<0||!ITEMS[k]){document.body.c
  if(!it.zeg)dT=setTimeout(()=>summarize(k),400);}
 const tmo=ms=>{try{const c=new AbortController();setTimeout(()=>c.abort(),ms);return c.signal}catch(e){return undefined}};
 async function summarize(k){const it=ITEMS[k];if(!it)return;if(it.tv){it.zeg=it.ov||"Geen omschrijving in de gids.";it.waarom="Loopt nu, nog "+it.left+" minuten.";if(dk===k){$("dzeg").textContent=it.zeg;$("dwhy").textContent=it.waarom}return;}
- const ck="ghS_"+(it.v||(it.sp?"sp":it.type)+it.id);
+ const ck="ghS"+(S.lang===2?"en":"")+"_"+(it.v||(it.sp?"sp":it.type)+it.id);
  const fill=(z,w,src)=>{it.zeg=z;it.waarom=w;if(dk===k){$("dzeg").textContent=z;$("dwhy").textContent=w;$("dsrc").textContent=src}};
  try{const c=JSON.parse(localStorage.getItem(ck)||"null");if(c)return fill(c.z,c.w,c.s)}catch(e){}
  const fb=()=>fill(it.yt?"Deze video is nu populair bij kijkers.":it.sp?(it.s+" van "+it.c+(it.genres&&it.genres.length?", in de stijl "+it.genres.join(", "):"")+"."):(it.ov||"Geen omschrijving beschikbaar."),why(it),it.yt||it.sp?"":"Omschrijving: TMDB");
@@ -627,7 +628,7 @@ async function summarize(k){const it=ITEMS[k];if(!it)return;if(it.tv){it.zeg=it.
  const info=it.yt?"YouTube-video: "+it.t+" van kanaal "+it.c+", "+it.vw+" weergaven, "+it.lr+"% likes per weergave.\nWaarom aangeraden: "+bec+"\nReacties van kijkers:\n"+ctx
   :it.sp?"Muziek: "+it.s+" '"+it.t+"' van "+it.c+". Genres van de artiest: "+(it.genres||[]).join(", ")+". Spotify-populariteit "+it.sc.SP+"/100.\nWaarom aangeraden: "+bec
   :(it.type==="tv"?"Serie":"Film")+": "+it.t+" ("+it.s+").\nScores: "+Object.keys(it.sc).map(s=>SRC[s]+" "+shown(s,it.sc[s])).join(", ")+".\nWaarom aangeraden: "+(bec?"de gebruiker keek "+bec:"populair")+"\nKorte omschrijving: "+it.ov+"\nReviews van kijkers:\n"+ctx;
- try{let t="";const body=PROMPT+"\n\n"+info;
+ try{let t="";const body=(S.lang===2?"Write the summary and the JSON values in English (ignore the instruction to write in Dutch).\n":"")+PROMPT+"\n\n"+info;
   if(gk)for(const md of ["gemini-flash-lite-latest","gemini-flash-latest","gemini-3.5-flash"]){for(let tr=0;tr<2&&!t;tr++){try{const r=await j("https://generativelanguage.googleapis.com/v1beta/models/"+md+":generateContent?key="+encodeURIComponent(gk),{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({contents:[{parts:[{text:body}]}],generationConfig:{responseMimeType:"application/json",maxOutputTokens:4096}}),signal:tmo(30000)});t=r.candidates[0].content.parts.map(x=>x.text||"").join("");}catch(x){if(x===404||x===400||x===403)break;await new Promise(z=>setTimeout(z,1500));}}if(t)break;}
   if(!t&&ak){const r=await j("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"content-type":"application/json","x-api-key":ak,"anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true"},signal:tmo(20000),body:JSON.stringify({model:"claude-haiku-5-5",max_tokens:500,messages:[{role:"user",content:body}]})});t=r.content[0].text;}
   if(!t)throw "geen antwoord";const m=JSON.parse(t.slice(t.indexOf("{"),t.lastIndexOf("}")+1)),src="Samenvatting door AI · zonder spoilers";
@@ -706,6 +707,7 @@ window.GH_back=()=>{if(mode==="amb")return amb(false);if(mode==="panel")return p
 
 // instellingen
 let oi=0,kn="tmdb",CUR;const OPTS=[
+ {l:"Taal van titels en teksten",v:()=>["Automatisch","Nederlands","Engels"][S.lang||0],ch:d=>{S.lang=((S.lang||0)+d+3)%3;save();loadAll();}},
  {l:"Snelle modus (minder blur)",v:()=>S.lite?"Aan":"Uit",ok:()=>{S.lite=S.lite?0:1;document.body.classList.toggle("lite",!!S.lite)}},
  {l:"Achtergrond",v:()=>THEMES[S.theme],ch:d=>{S.theme=(S.theme+d+3)%3;sched()}},
  {l:"Wissel elke",v:()=>IVS[S.iv]+" min",ch:d=>{S.iv=Math.max(0,Math.min(4,S.iv+d));sched()}},
@@ -718,7 +720,7 @@ let oi=0,kn="tmdb",CUR;const OPTS=[
  {l:"Apps beheren",v:()=>"›",ok:manageApps},
  {l:"Nieuwe achtergrond",v:()=>"OK",ok:nextBg}];
 RG.paint='<rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4"/>';RG.grid='<rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/>';RG.user='<circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/>';RG.key='<circle cx="8" cy="15" r="4"/><path d="M11 12l9-9M17 6l3 3M15 8l2 2"/>';RG.info='<circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.5"/>';
-const CATDEF=[["paint","Weergave",/Snelle|Achtergrond|Wissel|achtergrond/],["grid","Apps",/App |Apps|PlayStation|startscherm/],["user","Accounts",/account|Letterboxd/],["key","Sleutels en bronnen",/sleutel|afspeellijst|EPG|Client/],["info","Over Glass Home",/^$/]];
+const CATDEF=[["paint","Weergave",/Snelle|Achtergrond|Wissel|achtergrond|Taal/],["grid","Apps",/App |Apps|PlayStation|startscherm/],["user","Accounts",/account|Letterboxd/],["key","Sleutels en bronnen",/sleutel|afspeellijst|EPG|Client/],["info","Over Glass Home",/^$/]];
 function appLink(ap){const tr=S.trRefresh,tm=key("tmdb");
  if(/moonlight/i.test(ap.n))return["Niet nodig","Moonlight streamt je pc naar de tv. Hier hoeft niets gekoppeld te worden."];
  if(/stremio/i.test(ap.n))return[tr?"Via Trakt ✓":"Via Trakt","Stremio deelt je kijkgeschiedenis via Trakt. Zet in Stremio bij Instellingen ‘Trakt’ aan en koppel hier je Trakt-account. Dan verschijnt wat je kijkt bij Ga verder en krijg je tips op maat."];
@@ -736,7 +738,7 @@ function drawOpts(){drawCats();$("opts").innerHTML=CUR.map((o,i)=>'<div class="o
 $("pcats").addEventListener("click",e=>{const c=e.target.closest(".cat");if(!c)return;pc=+c.dataset.c;CUR=CATS[pc].o;oi=0;pf="opts";drawOpts();});
 $("opts").addEventListener("click",e=>{const o=e.target.closest(".opt");if(!o)return;oi=+o.dataset.i;const O=CUR[oi];O.ok?O.ok():O.ch(1);save();drawOpts();});
 $("keyin").addEventListener("keydown",e=>{if(e.keyCode===461||e.keyCode===27){$("keybox").style.display="none";$("keyin").blur();e.preventDefault();e.stopPropagation();return;}if(e.keyCode===13&&kn==="_addid"){const v=e.target.value.trim();e.target.placeholder="Plak je API-sleutel en druk op OK";if(v){S.extra.push({n:v.split(".").pop().replace(/[-_]/g," ").replace(/^./,c=>c.toUpperCase()),id:v});addExtras();save();drawApps();build();toast("App toegevoegd");}panel(false);e.stopPropagation();return;}
- if(e.keyCode===13){S[kn]=e.target.value.trim();save();try{["ghM7","ghYT6","ghSP6","ghEPG","ghTR"].forEach(x=>localStorage.removeItem(x))}catch(x){}$("keybox").style.display="none";drawOpts();loadAll();}e.stopPropagation();});
+ if(e.keyCode===13){S[kn]=e.target.value.trim();save();try{["ghM7"+(S.lang||0),"ghYT6","ghSP6","ghEPG","ghTR"].forEach(x=>localStorage.removeItem(x))}catch(x){}$("keybox").style.display="none";drawOpts();loadAll();}e.stopPropagation();});
 function openSettingsAt(lbl){panel(true);const ci=CATS.findIndex(c=>c.o.some(o=>o.l.indexOf(lbl)>-1));if(ci<0)return;pc=ci;CUR=CATS[pc].o;oi=Math.max(0,CUR.findIndex(o=>o.l.indexOf(lbl)>-1));pf="opts";drawOpts();}
 function sheet(t,opts){fromSettings=fromSettings||(!!CATS&&mode==="panel");CATS=null;CUR=opts;$("ptitle").textContent=t;mode="panel";$("panel").classList.add("open");$("msg").textContent="";$("keybox").style.display="none";oi=0;drawOpts();paint();}
 function panel(o){$("scrim").classList.toggle("on",!!o);if(o){CATS=buildCats();if(!fromSettings){pc=0;}pf=fromSettings?"opts":"cats";CUR=CATS[pc].o;$("ptitle").textContent="Instellingen";}fromSettings=false;mode=o?"panel":"home";$("panel").classList.toggle("open",o);$("msg").textContent="";$("keybox").style.display="none";oi=0;drawOpts();paint();}
