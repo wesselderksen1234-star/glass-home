@@ -28,6 +28,7 @@ public class MainActivity extends Activity {
         webView.setFocusableInTouchMode(true);
         webView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
         WebSettings s = webView.getSettings();
+        s.setTextZoom(100); s.setSupportZoom(false); s.setUseWideViewPort(false);
         s.setJavaScriptEnabled(true);
         s.setDomStorageEnabled(true);
         s.setAllowFileAccess(true);
