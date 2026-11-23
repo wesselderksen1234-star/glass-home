@@ -1,4 +1,4 @@
-<!DOCTYPE html><!--GH_BUILD:1.8.4-->
+<!DOCTYPE html><!--GH_BUILD:1.8.5-->
 <html lang="nl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width">
 <title>Glass Home</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
@@ -158,7 +158,7 @@ body.lite .card.kb,body.lite .hi.kb{animation:none}
 .card.rc .gi.tl{position:absolute;left:28px;right:auto;top:30px;width:auto;height:58px;max-width:62%;border-radius:0;box-shadow:none;object-fit:contain;object-position:left top;filter:drop-shadow(0 3px 10px rgba(0,0,0,.35))}
 .empty.focus{background:rgba(255,255,255,.3)!important;border-color:rgba(255,255,255,.9)!important;box-shadow:0 0 0 4px rgba(255,255,255,.85),0 18px 40px rgba(0,0,0,.35)!important;transform:scale(1.05)}
 #msg{font-size:23px;font-weight:600;color:#fff;background:rgba(255,255,255,.12);border-radius:16px;padding:0 18px}#msg:not(:empty){padding:14px 18px}
-</style></head><body class="boot"><script type="text/plain" id="ghv">GH_BUILD:1.8.4</script>
+</style></head><body class="boot"><script type="text/plain" id="ghv">GH_BUILD:1.8.5</script>
 <div id="intro"><div class="shine"></div><div class="shine shine2"></div></div>
 <div id="bgwrap"><div class="bg" id="bgA"></div><div class="bg" id="bgB"></div></div><div id="tint"></div><div id="fbg"></div>
 <div id="amb"><b id="atime"></b><span id="adate"></span><div id="aextra"><span id="aw"></span><span id="anow"></span></div></div><div id="toast" class="glass"></div>
@@ -705,7 +705,13 @@ let oi=0,kn="tmdb",CUR;const OPTS=[
  {l:"Nieuwe achtergrond",v:()=>"OK",ok:nextBg}];
 RG.paint='<rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4"/>';RG.grid='<rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/>';RG.user='<circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/>';RG.key='<circle cx="8" cy="15" r="4"/><path d="M11 12l9-9M17 6l3 3M15 8l2 2"/>';RG.info='<circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.5"/>';
 const CATDEF=[["paint","Weergave",/Snelle|Achtergrond|Wissel|achtergrond/],["grid","Apps",/App |Apps|PlayStation|startscherm/],["user","Accounts",/account|Letterboxd/],["key","Sleutels en bronnen",/sleutel|afspeellijst|EPG|Client/],["info","Over Glass Home",/^$/]];
+function appLink(ap){const tr=S.trRefresh,tm=key("tmdb");
+ if(/moonlight/i.test(ap.n))return["Niet nodig","Moonlight streamt je pc naar de tv. Hier hoeft niets gekoppeld te worden."];
+ if(/stremio/i.test(ap.n))return[tr?"Via Trakt ✓":"Via Trakt","Stremio deelt je kijkgeschiedenis via Trakt. Zet in Stremio bij Instellingen ‘Trakt’ aan en koppel hier je Trakt-account. Dan verschijnt wat je kijkt bij Ga verder en krijg je tips op maat."];
+ if(/tivimate|epg/i.test(ap.n))return[key("epgUrl")?"Ingesteld":"Tv-gids","Voeg je tv-gids (EPG) toe onder Sleutels en bronnen."];
+ return[tm?(tr?"Tips op maat ✓":"Populaire tips ✓"):"Tips via TMDB",ap.n+" heeft geen openbare koppeling: geen enkele app buiten "+ap.n+" kan je kijkgeschiedenis daar lezen. Glass Home laat daarom zien wat er nu op "+ap.n+" staat (via TMDB) en maakt het persoonlijk met je Trakt- en Letterboxd-account."];}
 function buildCats(){const used=new Set();return CATDEF.map(([ic,n,re])=>{const o=OPTS.filter(x=>!used.has(x)&&re.test(x.l));o.forEach(x=>used.add(x));
+ if(n==="Accounts")APPS.forEach(ap=>{if(ap.removed||/youtube|spotify/i.test(ap.n))return;const st=appLink(ap);o.push({l:ap.n,v:()=>st[0],ok:()=>{$("msg").textContent=st[1]}})});
  if(n==="Over Glass Home")o.push({l:"Versie",v:()=>((document.documentElement.outerHTML.match(/GH_BUILD:([\d.]+)/)||[,"?"])[1])},{l:"Apparaat",v:()=>P==="webos"?"LG webOS":P==="android"?"Google TV":"Voorbeeld"},{l:"Updates",v:()=>"Automatisch via internet"});
  return{ic,n,o};});}
 let CATS=null,pc=0,pf="opts",fromSettings=false;
