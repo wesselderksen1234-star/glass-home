@@ -1,4 +1,4 @@
-<!DOCTYPE html><!--GH_BUILD:1.9.8-->
+<!DOCTYPE html><!--GH_BUILD:1.9.9-->
 <html lang="nl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width">
 <title>Glass Home</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
@@ -166,7 +166,7 @@ body.lite .card.kb,body.lite .hi.kb{animation:none}
 #rail:not(.open){width:12px;left:14px;padding:16px 0;opacity:.55;border-radius:8px}
 #rail .ri{transition:opacity .3s,transform .45s cubic-bezier(.2,.9,.25,1)}#rail:not(.open) .ri{opacity:0;transform:translateX(-30px)}
 body.amb #rail{opacity:0}
-</style></head><body class="boot"><script type="text/plain" id="ghv">GH_BUILD:1.9.8</script>
+</style></head><body class="boot"><script type="text/plain" id="ghv">GH_BUILD:1.9.9</script>
 <div id="intro"><div class="shine"></div><div class="shine shine2"></div></div>
 <div id="bgwrap"><div class="bg" id="bgA"></div><div class="bg" id="bgB"></div></div><div id="tint"></div><div id="fbg"></div>
 <div id="amb"><b id="atime"></b><span id="adate"></span><div id="aextra"><span id="aw"></span><span id="anow"></span></div></div><div id="toast" class="glass"></div>
@@ -609,11 +609,12 @@ function detail(k){clearTimeout(dT);if(isNaN(k)||k<0||!ITEMS[k]){document.body.c
   (it.yt?(it.lr?'<span class="chip big">♥ '+it.lr+'% likes</span>':'')
   :it.sp?(it.sc.SP!=null?'<span class="chip big">♫ Populariteit '+it.sc.SP+'</span>':'')+(it.genres||[]).map(g=>'<span class="chip">'+esc(g)+'</span>').join("")
   :'<span class="chip big">★ '+sc10(it.avg)+'</span>'+Object.keys(it.sc).sort((a,b)=>W[b]-W[a]).map(s=>'<span class="chip'+(s==="LB"?" lb":"")+'">'+SRC[s]+' <b>'+shown(s,it.sc[s])+'</b></span>').join(""));
- $("dzeg").textContent=it.zeg||"Samenvatting maken…";$("dwhy").textContent=it.waarom||"";$("dsrc").textContent=it.zeg&&!it.id&&!it.v&&!it.act&&!(it.tv&&key("epgUrl"))?"Voorbeeldtekst":"";
+ $("dzeg").textContent=it.zeg||it.ov||"Samenvatting maken…";$("dwhy").textContent=it.waarom||"";$("dsrc").textContent=it.zeg&&!it.id&&!it.v&&!it.act&&!(it.tv&&key("epgUrl"))?"Voorbeeldtekst":"";
  $("hwhy").textContent=it.tv?"Speeltijd":it.act?"Wat het doet":it.sp||it.yt?"Waarom voor jou":"Waarom deze score";$("hzeg").textContent=it.tv?"Waar het over gaat":it.act?"Uitleg":it.sp?"Hoe het klinkt en wat mensen zeggen":"Wat mensen zeggen";
  if(!it.zeg)dT=setTimeout(()=>summarize(k),400);}
 const tmo=ms=>{try{const c=new AbortController();setTimeout(()=>c.abort(),ms);return c.signal}catch(e){return undefined}};
-async function summarize(k){const it=ITEMS[k];if(!it)return;if(it.tv){it.zeg=it.ov||"Geen omschrijving in de gids.";it.waarom="Loopt nu, nog "+it.left+" minuten.";if(dk===k){$("dzeg").textContent=it.zeg;$("dwhy").textContent=it.waarom}return;}
+async function summarize(k){const it=ITEMS[k];if(!it||it.busy)return;it.busy=1;try{await summarize0(k)}finally{it.busy=0}}
+async function summarize0(k){const it=ITEMS[k];if(!it)return;if(it.tv){it.zeg=it.ov||"Geen omschrijving in de gids.";it.waarom="Loopt nu, nog "+it.left+" minuten.";if(dk===k){$("dzeg").textContent=it.zeg;$("dwhy").textContent=it.waarom}return;}
  const ck="ghS"+(S.lang===2?"en":"")+"_"+(it.v||(it.sp?"sp":it.type)+it.id);
  const fill=(z,w,src)=>{it.zeg=z;it.waarom=w;if(dk===k){$("dzeg").textContent=z;$("dwhy").textContent=w;$("dsrc").textContent=src}};
  try{const c=JSON.parse(localStorage.getItem(ck)||"null");if(c)return fill(c.z,c.w,c.s)}catch(e){}
@@ -632,8 +633,14 @@ async function summarize(k){const it=ITEMS[k];if(!it)return;if(it.tv){it.zeg=it.
   if(gk)for(const md of ["gemini-flash-lite-latest","gemini-flash-latest","gemini-3.5-flash"]){for(let tr=0;tr<2&&!t;tr++){try{const r=await j("https://generativelanguage.googleapis.com/v1beta/models/"+md+":generateContent?key="+encodeURIComponent(gk),{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({contents:[{parts:[{text:body}]}],generationConfig:{responseMimeType:"application/json",maxOutputTokens:4096}}),signal:tmo(30000)});t=r.candidates[0].content.parts.map(x=>x.text||"").join("");}catch(x){if(x===404||x===400||x===403)break;await new Promise(z=>setTimeout(z,1500));}}if(t)break;}
   if(!t&&ak){const r=await j("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"content-type":"application/json","x-api-key":ak,"anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true"},signal:tmo(20000),body:JSON.stringify({model:"claude-haiku-5-5",max_tokens:500,messages:[{role:"user",content:body}]})});t=r.content[0].text;}
   if(!t)throw "geen antwoord";const m=JSON.parse(t.slice(t.indexOf("{"),t.lastIndexOf("}")+1)),src="Samenvatting door AI · zonder spoilers";
-  try{localStorage.setItem(ck,JSON.stringify({z:m.zeggen,w:m.waarom,s:src}))}catch(e){}fill(m.zeggen,m.waarom,src);}catch(e){fb();if(dk===k)$("dsrc").textContent="Omschrijving: TMDB · AI-samenvatting volgt later";delete it.zeg;}}
+  try{localStorage.setItem(ck,JSON.stringify({z:m.zeggen,w:m.waarom,s:src}))}catch(e){}fill(m.zeggen,m.waarom,src);}catch(e){fb();if(dk===k)$("dsrc").textContent="Omschrijving: TMDB · AI-samenvatting volgt later";delete it.zeg;it.fail=(it.fail||0)+1;}}
 
+// samenvattingen alvast op de achtergrond maken
+let warmT=null;function warm(){clearTimeout(warmT);warmT=setTimeout(async()=>{if((key("gemini")||key("claude"))&&mode!=="amb"){
+ const cur=shelfApp,c=ITEMS.map((it,i)=>[it,i]).filter(([it])=>!it.zeg&&!it.busy&&(it.fail||0)<2&&!it.tv&&!it.act&&it.kind!=="playlist"&&(it.id||it.v))
+  .sort((a,b)=>((b[0].a===cur)-(a[0].a===cur))||((b[0].rs||0)-(a[0].rs||0)));
+ if(c.length)await summarize(c[0][1]).catch(()=>{});}warm();},4500);}
+setTimeout(warm,8000);
 function remember(i){S.recent=[i].concat(S.recent.filter(x=>x!==i)).slice(0,6);S.seen[i]=Date.now();save();setTimeout(drawCont,800);}
 function openYT(v){remember(0);launchApp(APPS[0],P==="android"?"https://www.youtube.com/watch?v="+v:"https://www.youtube.com/tv?v="+v);}
 function openSP(uri){remember(3);launchApp(APPS[3],uri);}
