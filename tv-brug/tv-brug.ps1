@@ -175,7 +175,7 @@ function Run-Commands {
         "button" { Button $c.name; $res = "ok" }
         "wait"   { Start-Sleep -Milliseconds ([int]($c.s * 1000)); $res = "ok" }
         "shot"   { $res = Shot }
-        "fetch"  { $f = [IO.Path]::GetFullPath((Join-Path $Dir $c.file)); if (-not $f.StartsWith($Dir)) { throw "pad niet toegestaan" }; New-Item -ItemType Directory -Force -Path (Split-Path $f) | Out-Null; (New-Object Net.WebClient).DownloadFile($c.url, $f); $res = "ok" }
+        "fetch"  { $f = [IO.Path]::GetFullPath((Join-Path $Dir $c.file)); if (-not $f.StartsWith($Dir)) { throw "pad niet toegestaan" }; New-Item -ItemType Directory -Force -Path (Split-Path $f) | Out-Null; $wc = New-Object Net.WebClient; $wc.Headers.Add("User-Agent", "GlassHome/1.0 (persoonlijke tv-launcher)"); $wc.DownloadFile($c.url, $f); $res = "ok" }
         "autostart" { $af = Join-Path $Dir "autostart-uit.txt"; if ($c.on) { Remove-Item $af -ErrorAction SilentlyContinue } else { Set-Content $af "uit" }; $res = "ok" }
         default  { $res = "onbekend" }
       }

@@ -1,4 +1,4 @@
-<!DOCTYPE html><!--GH_BUILD:1.8.3-->
+<!DOCTYPE html><!--GH_BUILD:1.8.4-->
 <html lang="nl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width">
 <title>Glass Home</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
@@ -153,9 +153,12 @@ body.amb #amb{opacity:1}
 #ui{transition:opacity .9s ease,transform 1.1s cubic-bezier(.2,.9,.25,1)}
 body.boot #ui{opacity:0;transform:scale(1.03)}
 body.lite .card.kb,body.lite .hi.kb{animation:none}
-.ico.tl{width:auto;height:46px;max-width:140px;border-radius:0;box-shadow:none;object-fit:contain;object-position:left center;filter:drop-shadow(0 2px 6px rgba(0,0,0,.22))}
+.ico.tl{width:auto;height:50px;max-width:142px;border-radius:0;box-shadow:none;object-fit:contain;object-position:left center;filter:drop-shadow(0 2px 6px rgba(0,0,0,.22))}
 .app.lt b{color:#15161c;text-shadow:none}.app.lt .ico.tl{filter:none}
-</style></head><body class="boot"><script type="text/plain" id="ghv">GH_BUILD:1.8.3</script>
+.card.rc .gi.tl{position:absolute;left:28px;right:auto;top:30px;width:auto;height:58px;max-width:62%;border-radius:0;box-shadow:none;object-fit:contain;object-position:left top;filter:drop-shadow(0 3px 10px rgba(0,0,0,.35))}
+.empty.focus{background:rgba(255,255,255,.3)!important;border-color:rgba(255,255,255,.9)!important;box-shadow:0 0 0 4px rgba(255,255,255,.85),0 18px 40px rgba(0,0,0,.35)!important;transform:scale(1.05)}
+#msg{font-size:23px;font-weight:600;color:#fff;background:rgba(255,255,255,.12);border-radius:16px;padding:0 18px}#msg:not(:empty){padding:14px 18px}
+</style></head><body class="boot"><script type="text/plain" id="ghv">GH_BUILD:1.8.4</script>
 <div id="intro"><div class="shine"></div><div class="shine shine2"></div></div>
 <div id="bgwrap"><div class="bg" id="bgA"></div><div class="bg" id="bgB"></div></div><div id="tint"></div><div id="fbg"></div>
 <div id="amb"><b id="atime"></b><span id="adate"></span><div id="aextra"><span id="aw"></span><span id="anow"></span></div></div><div id="toast" class="glass"></div>
@@ -203,8 +206,8 @@ const APPS=[
  {n:"Prime Video",k:"prime",id:"amazon",pkg:"com.amazon.amazonvideo.livingroom",g:"star",c:["#4cc9ff","#0b6fb8"]}
 ];
 if(LG)APPS[2]={n:"Moonlight",k:"moonlight",id:"com.limelight.webos",g:"pad",c:["#5b6cff","#272f8f"]};
-const TINT={amazon:["#1a8cff","#0457c8"],"com.limelight.webos":["#5b6270","#2c313b"],"io.strem.tv":["#2a2650","#100f1f"],netflix:["#ffffff","#e9e9ee",1],npo:["#3a44d0","#1e2490"],"spotify-beehive":["#2a2424","#121010"],videoland2021:["#ff4a58","#d92233"],"youtube.leanback.v4":["#ffffff","#e9e9ee",1]};
-if(P==="webos")APPS.forEach(a=>{const t=TINT[a.id];if(t){a.icon="icons/t-"+a.id+".png";a.tl=1;a.c=[t[0],t[1]];a.lt=t[2]||0;}});
+const TINT={amazon:["#1a8cff","#0457c8"],"com.limelight.webos":["#5b6270","#2c313b"],"io.strem.tv":["#2a2650","#100f1f"],netflix:["#3a0a0e","#0d0d0f"],npo:["#3a44d0","#1e2490"],"spotify-beehive":["#2a2424","#121010"],videoland2021:["#ff4a58","#d92233"],"youtube.leanback.v4":["#4a1010","#141414"]};
+if(P==="webos")APPS.forEach(a=>{const t=TINT[a.id];if(t){a.icon="icons/t2-"+a.id+".png";a.tl=1;a.c=[t[0],t[1]];a.lt=t[2]||0;}});
 const PROV={"Netflix":4,"Amazon Prime Video":7,"Videoland":5,"NPO Start":6,"NPO Plus":6};
 const svg=g=>'<svg viewBox="0 0 24 24">'+G[g]+'</svg>';
 const icon=(a,cls)=>a.icon?'<img class="'+cls+'" src="'+a.icon+'">':(cls==='ico'?svg(a.g):'<svg class="gl" viewBox="0 0 24 24">'+G[a.g]+'</svg>');
@@ -365,7 +368,7 @@ function ago(t){if(!t)return"Onlangs geopend";const m=Math.round((Date.now()-t)/
 let CONT=[];
 function drawCont(){if(CONT.length){$("conth").textContent="Ga verder";$("cont").innerHTML=CONT.map((c,n)=>'<div class="card f" data-c="'+n+'" style="background-image:'+(c.img?cu(c.img):art(n*53+190))+'"><div class="lab"><div class="tt">'+esc(c.t)+'</div><small>'+esc(c.s)+'</small><div class="bar"><i style="width:'+c.p+'%"></i></div></div></div>').join("");return build();}
  $("cont").innerHTML=S.recent.filter(i=>APPS[i]&&!APPS[i].removed).map((i,n)=>{const a=APPS[i];
- return '<div class="card f" data-a="'+i+'" style="background:'+grad(a.c)+'">'+icon(a,"gi")+'<div class="lab">'+a.n+'<small>'+ago(S.seen[i])+'</small><div class="bar"><i style="width:'+(72-n*11)+'%"></i></div></div></div>'}).join("");build();}
+ return '<div class="card f rc" data-a="'+i+'" style="background:'+grad(a.c)+'">'+icon(a,a.tl?"gi tl":"gi")+'<div class="lab">'+a.n+'<small>Laatst geopend · '+ago(S.seen[i])+'</small></div></div>'}).join("");build();}
 
 // aanraders + hero
 const key=n=>S[n]||((window.GH_KEYS||{})[n])||"";
@@ -503,7 +506,7 @@ async function _ytToken(){const cid=key("ytClientId");if(!cid||!S.ytRefresh)retu
  const r=await form("https://oauth2.googleapis.com/token",{client_id:cid,client_secret:key("ytClientSecret"),refresh_token:S.ytRefresh,grant_type:"refresh_token"});
  S.ytTok=r.access_token;S.ytExp=Date.now()+r.expires_in*1000;save();return S.ytTok;}
 let ytPoll;
-async function ytLink(){const cid=key("ytClientId"),m=$("msg");if(!cid){m.textContent="Vul eerst ytClientId en ytClientSecret in config.js in (zie KOPPELEN.md).";return;}
+async function ytLink(){const cid=key("ytClientId"),m=$("msg");if(!cid){m.textContent="Om YouTube te koppelen is eenmalig een gratis Google-sleutel nodig. Vul onder Sleutels en bronnen je Google Client ID en Secret in, of vraag Claude om hulp.";return;}
  try{const d=await form("https://oauth2.googleapis.com/device/code",{client_id:cid,scope:"https://www.googleapis.com/auth/youtube.readonly"});
   m.innerHTML='Ga op je telefoon naar <b>'+esc(d.verification_url)+'</b> en vul deze code in: <b class="code">'+esc(d.user_code)+'</b>';
   clearInterval(ytPoll);const yEnd=Date.now()+(d.expires_in||900)*1000;ytPoll=setInterval(async()=>{if(Date.now()>yEnd){clearInterval(ytPoll);m.textContent="Code verlopen, probeer opnieuw.";return}try{const r=await form("https://oauth2.googleapis.com/token",{client_id:cid,client_secret:key("ytClientSecret"),device_code:d.device_code,grant_type:"urn:ietf:params:oauth:grant-type:device_code"});
@@ -552,7 +555,7 @@ async function _trToken(){if(!S.trRefresh)return"";if(S.trTok&&S.trExp>Date.now(
  S.trTok=r.access_token;S.trRefresh=r.refresh_token;S.trExp=Date.now()+r.expires_in*1000;save();return S.trTok;}
 const tr=async u=>{const t=await trToken();return j("https://api.trakt.tv/"+u,{headers:Object.assign(TH(),{Authorization:"Bearer "+t})})};
 let trPoll;
-async function trLink(){const cid=key("traktClientId"),m=$("msg");if(!cid){m.textContent="Vul eerst traktClientId en traktClientSecret in config.js in (zie KOPPELEN.md).";return;}
+async function trLink(){const cid=key("traktClientId"),m=$("msg");if(!cid){m.textContent="Om Trakt te koppelen is eenmalig een gratis Trakt-sleutel nodig. Vul onder Sleutels en bronnen je Trakt Client ID en Secret in, of vraag Claude om hulp.";return;}
  try{const d=await j("https://api.trakt.tv/oauth/device/code",{method:"POST",headers:TH(),body:JSON.stringify({client_id:cid})});
   m.innerHTML='Ga op je telefoon naar <b>'+esc(d.verification_url)+'</b> en vul in: <b class="code">'+esc(d.user_code)+'</b>';
   clearInterval(trPoll);const tEnd=Date.now()+(d.expires_in||600)*1000;trPoll=setInterval(async()=>{if(Date.now()>tEnd){clearInterval(trPoll);m.textContent="Code verlopen, probeer opnieuw.";return}try{const r=await j("https://api.trakt.tv/oauth/device/token",{method:"POST",headers:TH(),body:JSON.stringify({code:d.device_code,client_id:cid,client_secret:key("traktClientSecret")})});
@@ -693,7 +696,7 @@ let oi=0,kn="tmdb",CUR;const OPTS=[
  {l:"Achtergrond",v:()=>THEMES[S.theme],ch:d=>{S.theme=(S.theme+d+3)%3;sched()}},
  {l:"Wissel elke",v:()=>IVS[S.iv]+" min",ch:d=>{S.iv=Math.max(0,Math.min(4,S.iv+d));sched()}},
  ...(P==="android"?[{l:"Glass Home als startscherm",v:()=>{try{return GHAndroid.isHomeOverrideEnabled()?"Aan":"Aanzetten"}catch(e){return""}},ok:()=>{try{GHAndroid.openAccessibilitySettings()}catch(e){}}}]:[{l:"PlayStation-ingang",v:()=>"HDMI "+S.hdmi,ch:d=>{S.hdmi=(S.hdmi-1+d+4)%4+1}}]),
- ...[["letterboxd","Letterboxd-gebruikersnaam"],["tmdb","TMDB-sleutel (films/series)"],["omdb","OMDb-sleutel (IMDb, RT, Metacritic)"],["youtube","YouTube-sleutel"],["claude","Claude-sleutel (samenvattingen)"],["ytPlaylist","YouTube-afspeellijst (ID)"],["urls","Eigen achtergrond-URL's"]].concat(LG?[]:[["epgUrl","EPG-link voor TiviMate (XMLTV)"]]).map(([n,l])=>({l,v:()=>key(n)?"Ingesteld":"Niet ingesteld",ok:()=>{kn=n;$("keybox").style.display="block";$("keyin").value=S[n]||"";$("keyin").focus();}})),
+ ...[["letterboxd","Letterboxd-gebruikersnaam"],["tmdb","TMDB-sleutel (films/series)"],["omdb","OMDb-sleutel (IMDb, RT, Metacritic)"],["youtube","YouTube-sleutel"],["claude","Claude-sleutel (samenvattingen)"],["ytPlaylist","YouTube-afspeellijst (ID)"],["traktClientId","Trakt Client ID"],["traktClientSecret","Trakt Client Secret"],["ytClientId","Google Client ID (voor YouTube)"],["ytClientSecret","Google Client Secret (voor YouTube)"],["urls","Eigen achtergrond-URL's"]].concat(LG?[]:[["epgUrl","EPG-link voor TiviMate (XMLTV)"]]).map(([n,l])=>({l,v:()=>key(n)?"Ingesteld":"Niet ingesteld",ok:()=>{kn=n;$("keybox").style.display="block";$("keyin").value=S[n]||"";$("keyin").focus();}})),
  {l:"Trakt-account",v:()=>S.trRefresh?"Gekoppeld":"Koppelen",ok:trLink},
  {l:"YouTube-account",v:()=>S.ytRefresh?"Gekoppeld":"Koppelen",ok:ytLink},
  {l:"Spotify-account",v:()=>(S.spRefresh||key("spotifyRefresh"))?"Gekoppeld":"Via spotify-koppelen.bat",ok:()=>{}},
@@ -701,7 +704,7 @@ let oi=0,kn="tmdb",CUR;const OPTS=[
  {l:"Apps beheren",v:()=>"›",ok:manageApps},
  {l:"Nieuwe achtergrond",v:()=>"OK",ok:nextBg}];
 RG.paint='<rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4"/>';RG.grid='<rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/>';RG.user='<circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/>';RG.key='<circle cx="8" cy="15" r="4"/><path d="M11 12l9-9M17 6l3 3M15 8l2 2"/>';RG.info='<circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.5"/>';
-const CATDEF=[["paint","Weergave",/Snelle|Achtergrond|Wissel|achtergrond/],["grid","Apps",/App |Apps|PlayStation|startscherm/],["user","Accounts",/account|Letterboxd/],["key","Sleutels en bronnen",/sleutel|afspeellijst|EPG/],["info","Over Glass Home",/^$/]];
+const CATDEF=[["paint","Weergave",/Snelle|Achtergrond|Wissel|achtergrond/],["grid","Apps",/App |Apps|PlayStation|startscherm/],["user","Accounts",/account|Letterboxd/],["key","Sleutels en bronnen",/sleutel|afspeellijst|EPG|Client/],["info","Over Glass Home",/^$/]];
 function buildCats(){const used=new Set();return CATDEF.map(([ic,n,re])=>{const o=OPTS.filter(x=>!used.has(x)&&re.test(x.l));o.forEach(x=>used.add(x));
  if(n==="Over Glass Home")o.push({l:"Versie",v:()=>((document.documentElement.outerHTML.match(/GH_BUILD:([\d.]+)/)||[,"?"])[1])},{l:"Apparaat",v:()=>P==="webos"?"LG webOS":P==="android"?"Google TV":"Voorbeeld"},{l:"Updates",v:()=>"Automatisch via internet"});
  return{ic,n,o};});}
