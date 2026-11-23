@@ -1,5 +1,5 @@
-<!DOCTYPE html><!--GH_BUILD:2.3.6-->
-<html lang="nl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width">
+<!DOCTYPE html><!--GH_BUILD:2.3.7-->
+<html lang="nl" style="background:#05060a url(splash5.png) center/cover no-repeat"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width">
 <title>Glass Home</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
 <style>
@@ -7,7 +7,7 @@
    PICTURE full-bleed rotating hero  COLOUR near-black, wallpaper glow, white focus ring
    TYPE Inter 400-800  LAYOUT slim glass rail left, hero, shelves of apps / verder / tips */
 *{box-sizing:border-box;margin:0;padding:0}
-html,body{width:1920px;height:1080px;overflow:hidden;background:#05060a;color:#fff;font-family:Inter,"Helvetica Neue",Arial,sans-serif;-webkit-font-smoothing:antialiased}
+html,body{width:1920px;height:1080px;overflow:hidden;background:transparent;color:#fff;font-family:Inter,"Helvetica Neue",Arial,sans-serif;-webkit-font-smoothing:antialiased}
 .bg{position:absolute;inset:-60px;background-size:cover;background-position:center;opacity:0;transition:opacity 2.5s}
 .bg.on{opacity:1}
 #bgwrap{position:absolute;inset:0;filter:blur(60px) brightness(.45) saturate(1.3);transition:filter 1s}
@@ -208,8 +208,9 @@ body.th-light #rail svg{stroke:#15161c}body.th-light .ri.focus{background:#15161
 body.th-light #clock *{color:#15161c;text-shadow:none}
 body.th-light #scrim{background:rgba(255,255,255,.18)}
 #live .lv{width:230px}.lv b small{display:block;font-size:15px;font-weight:500;opacity:.75;margin-top:2px}.lv .ldot{font-size:15px;font-weight:700;color:#fff;background:rgba(230,0,20,.85);padding:4px 10px;border-radius:999px;align-self:flex-start}
-#s-live{top:830px;transition:top .5s cubic-bezier(.2,.9,.25,1)}body.shelf #s-live{top:1160px}
+#s-live{top:830px}body.haslive #s-shelf{top:1060px}body.haslive.shelf #s-cont{top:1390px}
 body.det #s-live{opacity:0;pointer-events:none}#s-live{transition:top .5s cubic-bezier(.2,.9,.25,1),opacity .3s}
+body.fb #hero .hi{opacity:0!important}#hero .hi{transition:opacity .9s}
 </style></head><body class="boot"><script>(function(){var M={},C={};function R(n){n=n.replace(/^\.\//,"./").replace(/\.js$/,"");if(C[n])return C[n].exports;var m={exports:{}};C[n]=m;M[n](m,m.exports);return m.exports;}
 M["./QRErrorCorrectLevel"]=function(module,exports){module.exports = {
 	L : 1,
@@ -1457,7 +1458,7 @@ module.exports = QRRSBlock;
 
 };
 var Q=R("./index"),E=R("./QRErrorCorrectLevel");window.ghQR=function(t){var q=new Q(-1,E.M);q.addData(t);q.make();var n=q.getModuleCount(),p="";for(var r=0;r<n;r++)for(var c=0;c<n;c++)if(q.isDark(r,c))p+="M"+(c+2)+" "+(r+2)+"h1v1h-1z";return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 '+(n+4)+' '+(n+4)+'" shape-rendering="crispEdges"><rect width="100%" height="100%" fill="#fff"/><path d="'+p+'" fill="#000"/></svg>';};})();</script>
-<script type="text/plain" id="ghv">GH_BUILD:2.3.6</script>
+<script type="text/plain" id="ghv">GH_BUILD:2.3.7</script>
 <div id="intro"><div class="orb"></div><div class="ghw"><svg class="ghl" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
 <defs>
 <linearGradient id="gl" x1="0" y1="0" x2="0.35" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".96"/><stop offset=".55" stop-color="#e9ecf6" stop-opacity=".78"/><stop offset="1" stop-color="#c9cfe6" stop-opacity=".6"/></linearGradient>
@@ -1718,7 +1719,7 @@ const LIVEDEF=[{n:"Live TV",s:"Tv-zenders",id:"com.webos.app.livetv",pkg:"ar.tvp
  {n:"Ziggo GO",s:"Tv en Ziggo Sport",id:"com.ziggo.tv",pkg:"com.lgi.ziggotv",c:["#f48c00","#a85b00"]},{n:"KPN TV",s:"Live tv",id:"kpn.poc",pkg:"com.kpn.epg.app",c:["#00c300","#007a00"]},{n:"Canal Digitaal",s:"Live tv",id:"tv.solocoo.m7cp",pkg:"tv.solocoo.m7cp",c:["#1c1c1c","#000"]},
  {n:"Viaplay",s:"F1 en voetbal",id:"viaplay-lg",pkg:"com.viaplay.android.tv",c:["#2f2a7a","#16133d"]},{n:"ESPN",s:"Eredivisie",id:"espn",pkg:"com.espn.score_center",c:["#c00","#600"]},{n:"Pathé Thuis",s:"Films",id:"pathe",pkg:"nl.pathe.thuis",c:["#f5c400","#a88600"]}];
 let LIVE=[];function drawLive(){const ids=new Set(ALLAPPS.map(x=>x.id));LIVE=LIVEDEF.filter(d=>P==="preview"||ids.has(P==="android"?d.pkg:d.id));
- $("s-live").style.display=S.showLive!==0&&LIVE.length?"":"none";
+ const hl=S.showLive!==0&&LIVE.length>0;$("s-live").style.display=hl?"":"none";document.body.classList.toggle("haslive",hl);
  $("live").innerHTML=LIVE.map((d,i)=>{const m=ALLAPPS.find(x=>x.id===(P==="android"?d.pkg:d.id))||{};let ic=P==="webos"?(m.largeIcon||m.icon||""):"";if(ic&&!/^(\/|file:|https?:|data:)/.test(ic))ic=(m.folderPath||"")+"/"+ic;
   return '<div class="app lv f" data-l="'+i+'" style="background:'+appBg(d.c)+'">'+(ic?'<img class="ico" src="'+esc(ic)+'">':'<span class="ldot">● LIVE</span>')+'<b>'+esc(d.n)+'<small>'+esc(d.s)+'</small></b></div>'}).join("");try{build()}catch(e){}}
 function openLive(i){const d=LIVE[i];if(!d)return;launchApp({n:d.n,id:d.id,pkg:d.pkg});}
@@ -2087,7 +2088,7 @@ function paint(){rows.flat().forEach(e=>e.classList.remove("focus"));$("rail").c
  if(fr===3&&el.dataset.c)detailC(+el.dataset.c);else detail(fr===3?+el.dataset.k:-1);
  const bgi=fr>=2&&/url\(/.test(el.style.backgroundImage)?el.style.backgroundImage:"";clearTimeout(window.tiT);window.tiT=setTimeout(()=>{if(bgi){$("tint").style.backgroundImage=bgi;document.body.classList.add("tinted")}else document.body.classList.remove("tinted")},160);
  mediaFocus(el);
- if(fr>0){const op=document.body.classList.contains("shelf");$("main").style.transform="translateY(-"+(fr===1?0:fr===2?(op?120:0):fr===3?520:(op?500:220))+"px)";}}
+ if(fr>0){const op=document.body.classList.contains("shelf");$("main").style.transform="translateY(-"+(fr===1?0:document.body.classList.contains("haslive")?(fr===2||fr===4?(op?120:0):750):fr===2?(op?120:0):fr===3?520:(op?500:220))+"px)";}}
 function act(){const el=rows[fr][fi];if(!el){fr=2;fi=0;return paint();}
  if(fr===0)return RAIL[fi][2]();
  if(fr===1)return HERO.length?openTitle(HERO[hi]):openSettingsAt("TMDB-sleutel");
@@ -2099,7 +2100,7 @@ function move(dr,di){
  if(fr>0&&!rows[fr][fi]){fr=2;fi=Math.min(fi,rows[2].length-1);return paint();}
  if(fr===0){if(dr)fi=Math.max(0,Math.min(RAIL.length-1,fi+dr));else if(di>0){fr=last.r;fi=last.i;}return paint();}
  if(di<0&&fi===0){last={r:fr,i:fi};fr=0;fi=Math.max(0,RAIL.findIndex(r=>r[0]==="home"));return paint();}
- if(dr){let n=fr+dr;while(n>=1&&n<=4&&!rows[n].length)n+=dr;if(n<1||n>4)return;
+ if(dr){const ORD=document.body.classList.contains("haslive")?[1,2,4,3]:[1,2,3,4];let p=ORD.indexOf(fr)+dr;while(p>=0&&p<ORD.length&&!rows[ORD[p]].length)p+=dr;if(p<0||p>=ORD.length)return;const n=ORD[p];
   const o=rows[fr][fi],cx=o.getBoundingClientRect().left;fr=n;let b=0,bd=1e9;
   rows[fr].forEach((e,q)=>{const d=Math.abs(e.getBoundingClientRect().left-cx);if(d<bd){bd=d;b=q}});fi=b;}
  else fi=Math.max(0,Math.min(rows[fr].length-1,fi+di));paint();}
