@@ -100,7 +100,9 @@ function Luna($uri, $paramsJson) {
   return $r
 }
 function Button($name) {
-  if (-not $script:btn -or $script:btn.State -ne "Open") {
+  if (-not $script:btn -or $script:btn.State -ne "Open" -or ((Get-Date) - $script:btnT).TotalSeconds -gt 30) {
+    try { if ($script:btn) { $script:btn.Dispose() } } catch {}
+    $script:btnT = Get-Date
     $r = Req "ssap://com.webos.service.networkinput/getPointerInputSocket" "{}"
     $script:btn = Open-Ws $r.payload.socketPath
   }
