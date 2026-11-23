@@ -3,60 +3,129 @@
 <title>Glass Home koppelen</title>
 <style>
 :root{color-scheme:dark}
-body{margin:0;min-height:100vh;font:17px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,sans-serif;color:#fff;background:radial-gradient(circle at 20% 0%,#3b4a8a,transparent 55%),radial-gradient(circle at 90% 90%,#7a3b6a,transparent 50%),#0c0e16}
-main{max-width:480px;margin:0 auto;padding:28px 20px 60px}
-.card{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:22px;padding:22px;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);margin-bottom:16px}
-h1{font-size:26px;margin:0 0 6px}p{margin:8px 0;opacity:.9}small{opacity:.7}
-label{display:block;font-weight:600;margin:16px 0 6px}
-input{box-sizing:border-box;width:100%;font:inherit;padding:13px 14px;border-radius:12px;border:1px solid rgba(255,255,255,.3);background:rgba(0,0,0,.35);color:#fff}
-button{width:100%;margin-top:20px;font:inherit;font-weight:700;padding:14px;border:0;border-radius:14px;background:#fff;color:#111}
-ol{padding-left:20px}li{margin:6px 0}code{background:rgba(255,255,255,.15);padding:2px 6px;border-radius:6px;word-break:break-all;user-select:all}
-a{color:#9cc4ff}.ok{font-size:22px;font-weight:700}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;font:18px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,sans-serif;color:#fff;background:radial-gradient(circle at 15% 0%,#3b4a8a,transparent 55%),radial-gradient(circle at 90% 95%,#6a3b7a,transparent 50%),#0c0e16}
+main{max-width:520px;margin:0 auto;padding:22px 16px 70px}
+.card{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:22px;padding:20px;margin-bottom:14px;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
+h1{font-size:26px;margin:0}
+p{margin:8px 0}.sub{opacity:.75;margin-top:4px}
+.step{display:flex;gap:14px;align-items:flex-start;margin:16px 0}
+.num{flex:none;width:34px;height:34px;border-radius:50%;background:#fff;color:#111;font-weight:800;display:flex;align-items:center;justify-content:center}
+.step div{flex:1}
+.btn,button{display:block;width:100%;margin-top:10px;font:inherit;font-weight:700;padding:15px;border:0;border-radius:14px;background:#fff;color:#111;text-align:center;text-decoration:none;cursor:pointer}
+button.ghost{background:rgba(255,255,255,.16);color:#fff}
+.copy{display:flex;gap:8px;align-items:center;margin:8px 0;background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.2);border-radius:12px;padding:8px 8px 8px 12px}
+.copy code{flex:1;word-break:break-all;font-size:16px}
+.copy button{width:auto;margin:0;padding:9px 14px;font-size:15px;border-radius:10px}
+input{width:100%;font:inherit;padding:14px;border-radius:12px;border:1px solid rgba(255,255,255,.35);background:rgba(0,0,0,.35);color:#fff;margin-top:8px}
+.code{font-size:44px;font-weight:800;letter-spacing:6px;text-align:center;margin:10px 0;font-family:ui-monospace,Menlo,monospace}
+.ok{font-size:24px;font-weight:800}
+.warn{color:#ffb4b4}
+img.pv{display:block;width:120px;height:120px;border-radius:50%;object-fit:cover;margin:14px auto}
+small{opacity:.75;display:block;margin-top:6px}
 </style></head><body><main>
-<div class="card"><h1>Glass Home</h1><p id="sub">Koppelen met je tv</p></div>
-<div class="card" id="box"></div>
+<div class="card"><h1 id="h">Glass Home</h1><p class="sub" id="sub">Koppelen met je tv</p></div>
+<div id="box"></div>
 </main>
 <script>
 (function(){
-var PAGE=location.origin+location.pathname,box=document.getElementById("box"),sub=document.getElementById("sub");
-function qp(s){var o={};(s||"").replace(/^[#?]/,"").split("&").forEach(function(p){if(!p)return;var i=p.indexOf("=");o[decodeURIComponent(p.slice(0,i))]=decodeURIComponent(p.slice(i+1))});return o}
-function esc(t){return String(t||"").replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+var PAGE=location.origin+location.pathname,box=document.getElementById("box"),H1=document.getElementById("h"),SUB=document.getElementById("sub");
+function qp(s){var o={};(s||"").replace(/^[#?]/,"").split("&").forEach(function(p){if(!p)return;var i=p.indexOf("=");if(i<0)return;o[decodeURIComponent(p.slice(0,i))]=decodeURIComponent(p.slice(i+1))});return o}
+function esc(t){return String(t==null?"":t).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
 function b64u(a){return btoa(String.fromCharCode.apply(null,a)).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"")}
 function unb64u(s){return Uint8Array.from(atob(s.replace(/-/g,"+").replace(/_/g,"/")),function(c){return c.charCodeAt(0)})}
+function card(html){box.innerHTML='<div class="card">'+html+'</div>'}
+function step(n,html){return '<div class="step"><span class="num">'+n+'</span><div>'+html+'</div></div>'}
+function cp(t){return '<div class="copy"><code>'+esc(t)+'</code><button type="button" data-c="'+esc(t)+'">Kopieer</button></div>'}
+function link(u,t){return '<a class="btn" href="'+esc(u)+'" target="_blank" rel="noopener">'+t+'</a>'}
+function copyText(t){try{if(navigator.clipboard&&navigator.clipboard.writeText)return navigator.clipboard.writeText(t)}catch(e){}var a=document.createElement("textarea");a.value=t;document.body.appendChild(a);a.select();try{document.execCommand("copy")}catch(e){}a.remove();return Promise.resolve()}
+document.addEventListener("click",function(e){var b=e.target.closest&&e.target.closest("[data-c]");if(!b)return;copyText(b.getAttribute("data-c"));var o=b.textContent;b.textContent="Gekopieerd ✓";setTimeout(function(){b.textContent=o},1600)});
 var H=qp(location.hash),Q=qp(location.search);
-if(!H.t){try{H=JSON.parse(localStorage.getItem("ghLink")||"{}")}catch(e){H={}}}
-if(!H.t||!H.k){box.innerHTML="<p>Open deze pagina door de QR-code op je tv te scannen.</p>";return}
+if(!H.m){try{H=JSON.parse(localStorage.getItem("ghLink")||"{}")}catch(e){H={}}}
+if(!H.m){card("<p>Open deze pagina door de QR-code op je tv te scannen met de camera van je telefoon.</p>");return}
+
+// ---- code overnemen (Trakt, YouTube) ----
+if(H.m==="code"){
+ H1.textContent=H.n||"Koppelen";SUB.textContent="Nog één stap";
+ var url=H.u||"";
+ card(step(1,"Druk op de knop. De code wordt voor je gekopieerd en de website gaat open.")+
+  '<div class="code">'+esc(H.c)+'</div><button id="go" type="button">Kopieer code en open de website</button>'+
+  step(2,"Log in als de website daarom vraagt.")+
+  step(3,"Staat de code er niet al? Houd je vinger in het lege vakje en kies <b>Plakken</b>.")+
+  step(4,"Druk op <b>Doorgaan</b> of <b>Toestaan</b>. Klaar! Je tv laat het zelf zien."));
+ document.getElementById("go").onclick=function(){copyText(H.c).then(function(){location.href=url},function(){location.href=url})};
+ return;}
+
+// ---- sleutels van tv 1 bewaren op deze telefoon ----
+if(H.m==="xfer"){history.replaceState(null,"",PAGE);try{localStorage.setItem("ghXfer",H.d||"")}catch(e){}
+ H1.textContent="Stap 1 klaar ✓";SUB.textContent="Je sleutels staan nu tijdelijk op deze telefoon";
+ card(step(1,"Ga naar je andere tv en open Glass Home.")+step(2,"Kies <b>Instellingen → Sleutels en bronnen → Sleutels overnemen</b>.")+step(3,"Scan de code die daar staat. Klaar!"));return;}
 history.replaceState(null,"",PAGE);
+if(!H.t||!H.k){card("<p>Deze code werkt niet meer. Scan de QR-code op je tv opnieuw.</p>");return}
 async function send(obj){
  var key=await crypto.subtle.importKey("raw",unb64u(H.k),"AES-GCM",false,["encrypt"]),iv=crypto.getRandomValues(new Uint8Array(12));
  var ct=new Uint8Array(await crypto.subtle.encrypt({name:"AES-GCM",iv:iv},key,new TextEncoder().encode(JSON.stringify(obj))));
  var all=new Uint8Array(12+ct.length);all.set(iv);all.set(ct,12);
- var r=await fetch("https://ntfy.sh/"+H.t,{method:"POST",body:b64u(all)});if(!r.ok)throw new Error("versturen mislukt ("+r.status+")");
+ var r=await fetch("https://ntfy.sh/"+H.t,{method:"POST",body:b64u(all)});if(!r.ok)throw new Error("versturen lukte niet ("+r.status+")");
  try{localStorage.removeItem("ghLink")}catch(e){}
- box.innerHTML='<p class="ok">Klaar ✓</p><p>Kijk op je tv: Glass Home pakt het nu automatisch op. Je kunt deze pagina sluiten.</p>';}
-function fail(e){box.insertAdjacentHTML("beforeend",'<p style="color:#ff9b9b">Er ging iets mis: '+esc(e&&e.message||e)+'</p>')}
+ H1.textContent="Klaar ✓";SUB.textContent="";card('<p class="ok">Gelukt!</p><p>Kijk op je tv: Glass Home heeft het al ontvangen. Je kunt deze pagina sluiten.</p>');}
+function fail(e){box.insertAdjacentHTML("beforeend",'<div class="card warn">Er ging iets mis: '+esc(e&&e.message||e)+'<br>Scan de code op de tv opnieuw.</div>')}
+
+// ---- profielfoto ----
+if(H.m==="photo"){
+ H1.textContent="Profielfoto";SUB.textContent="Kies een foto voor je profiel";
+ card(step(1,"Druk op <b>Kies een foto</b> en kies een foto, of maak er een.")+'<input type="file" id="f" accept="image/*" style="display:none"><button id="pick" type="button">Kies een foto</button><img class="pv" id="pv" style="display:none">'+step(2,"Druk op <b>Naar de tv sturen</b>.")+'<button id="go" type="button" class="ghost" disabled>Naar de tv sturen</button>');
+ var data="";document.getElementById("pick").onclick=function(){document.getElementById("f").click()};
+ document.getElementById("f").onchange=function(e){var file=e.target.files[0];if(!file)return;var img=new Image();img.onload=function(){var s=72,c=document.createElement("canvas");c.width=c.height=s;var g=c.getContext("2d"),m=Math.min(img.width,img.height);g.drawImage(img,(img.width-m)/2,(img.height-m)/2,m,m,0,0,s,s);data=c.toDataURL("image/jpeg",.72);var pv=document.getElementById("pv");pv.src=data;pv.style.display="block";var go=document.getElementById("go");go.disabled=false;go.className="";};img.src=URL.createObjectURL(file)};
+ document.getElementById("go").onclick=function(){if(!data)return;this.disabled=true;this.textContent="Versturen…";send({pImg:data}).catch(fail)};
+ return;}
+
+// ---- sleutels doorgeven aan tv 2 ----
+if(H.m==="key"&&H.h==="xfer"){var xd="";try{xd=localStorage.getItem("ghXfer")||""}catch(e){}
+ H1.textContent="Sleutels overnemen";SUB.textContent="";
+ if(!xd){card(step(1,"Open Glass Home op je <b>eerste</b> tv.")+step(2,"Kies <b>Instellingen → Sleutels en bronnen → Sleutels overzetten</b> en scan die code.")+step(3,"Scan daarna deze code op je nieuwe tv opnieuw."));return;}
+ var obj={};try{obj=JSON.parse(decodeURIComponent(escape(atob(xd.replace(/-/g,"+").replace(/_/g,"/")))))}catch(e){}
+ card(step(1,"Je sleutels zijn gevonden ("+Object.keys(obj).length+" stuks).")+step(2,"Druk op de knop. Klaar!")+'<button id="go" type="button">Naar de tv sturen</button>');
+ document.getElementById("go").onclick=function(){this.disabled=true;this.textContent="Versturen…";send(obj).then(function(){try{localStorage.removeItem("ghXfer")}catch(e){}}).catch(fail)};return;}
+// ---- sleutels invullen ----
 var HELP={
- trakt:'<p>Eenmalig een gratis Trakt-sleutel aanmaken:</p><ol><li>Log in op <a href="https://trakt.tv/auth/signin" target="_blank">trakt.tv</a> (of maak een gratis account).</li><li>Open <a href="https://developer.trakt.tv/apps" target="_blank">developer.trakt.tv/apps</a> en maak een nieuwe app met de naam <code>Glass Home</code>.</li><li>Open de app, ga naar <b>Credentials</b> en druk bij Client ID op <b>Copy</b>.</li><li>Plak hem hieronder. Een Client Secret is niet nodig.</li></ol>',
- google:'<p>Eenmalig een gratis Google-sleutel aanmaken:</p><ol><li>Open <a href="https://console.cloud.google.com/projectcreate" target="_blank">Google Cloud</a> en maak een project <code>Glass Home</code>.</li><li>Zet <a href="https://console.cloud.google.com/apis/library/youtube.googleapis.com" target="_blank">YouTube Data API v3</a> aan.</li><li>Ga naar <a href="https://console.cloud.google.com/auth/overview" target="_blank">Google Auth Platform</a>, kies <b>External</b> en voeg jezelf toe als testgebruiker.</li><li>Maak bij <a href="https://console.cloud.google.com/auth/clients/create" target="_blank">Clients</a> een client van het type <b>TVs and Limited Input devices</b>.</li><li>Kopieer de Client ID en Client Secret hieronder.</li></ol>'};
+ google:[
+  ["Open Google Cloud en log in met je Google-account.",link("https://console.cloud.google.com/projectcreate","Open Google Cloud")+"<small>Vul bij <b>Projectnaam</b> in:</small>"+cp("Glass Home")+"<small>Druk op <b>Maken</b> en wacht even.</small>"],
+  ["Zet YouTube aan.",link("https://console.cloud.google.com/apis/library/youtube.googleapis.com","Open YouTube Data API")+"<small>Druk op <b>Inschakelen</b>.</small>"],
+  ["Stel de inlogpagina in.",link("https://console.cloud.google.com/auth/overview/create","Open Google Auth Platform")+"<small>App-naam:</small>"+cp("Glass Home")+"<small>Kies je e-mailadres, kies <b>Extern</b>, vul je e-mailadres nog een keer in en druk steeds op <b>Volgende</b> en dan op <b>Maken</b>.</small>"],
+  ["Zet jezelf op de gastenlijst. Anders zegt Google straks 'Toegang geblokkeerd'.",link("https://console.cloud.google.com/auth/audience","Open Doelgroep")+"<small>Druk bij <b>Testgebruikers</b> op <b>Add users</b>, vul je eigen Gmail-adres in en druk op <b>Opslaan</b>.</small>"],
+  ["Maak de sleutel.",link("https://console.cloud.google.com/auth/clients/create","Open Clients")+"<small>Kies bij <b>Type applicatie</b>: <b>Tv's en apparaten met beperkte invoer</b>. Naam:</small>"+cp("Glass Home")+"<small>Druk op <b>Maken</b>. Je ziet nu een <b>Client-ID</b> en een <b>Clientgeheim</b>.</small>"],
+  ["Kopieer ze één voor één en plak ze hieronder.",""]],
+ tmdb:[["Maak een gratis account of log in.",link("https://www.themoviedb.org/settings/api","Open TMDB")],["Vraag een sleutel aan (kies <b>Developer</b>) en kopieer de <b>API Key</b>.",""],["Plak hem hieronder.",""]],
+ gemini:[["Log in met je Google-account.",link("https://aistudio.google.com/apikey","Open Google AI Studio")],["Druk op <b>Create API key</b> en kopieer de sleutel.",""],["Plak hem hieronder.",""]]};
 if(H.m==="key"){
  var f=(H.f||"").split(";").filter(Boolean).map(function(x){var p=x.split("|");return{n:p[0],l:p[1]||p[0]}});
- sub.textContent="Invullen voor je tv";
- box.innerHTML=(HELP[H.h]||"")+f.map(function(x,i){return '<label for="f'+i+'">'+esc(x.l)+'</label><input id="f'+i+'" autocomplete="off" autocapitalize="off" spellcheck="false">'}).join("")+'<button id="go">Naar de tv sturen</button>';
- document.getElementById("go").onclick=function(){var o={};f.forEach(function(x,i){o[x.n]=document.getElementById("f"+i).value.trim()});
-  if(f.some(function(x){return!o[x.n]}))return alert("Vul alle velden in.");this.disabled=true;send(o).catch(fail)};
-}else if(H.m==="spotify"){
- sub.textContent="Spotify koppelen";
+ H1.textContent=H.h==="google"?"YouTube koppelen":"Invullen voor je tv";SUB.textContent=H.h==="google"?"Eenmalig, duurt ongeveer 5 minuten":"Plakken op je telefoon is makkelijker dan typen met de afstandsbediening";
+ var st=HELP[H.h]||[["Plak hieronder wat je wilt invullen.",""]],html="";st.forEach(function(s,i){html+=step(i+1,s[0]+s[1])});
+ html+=f.map(function(x,i){return '<label style="display:block;margin-top:14px;font-weight:700">'+esc(x.l)+'</label><input id="f'+i+'" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Hier plakken">'}).join("")+'<button id="go" type="button">Naar de tv sturen</button>';
+ card(html);
+ document.getElementById("go").onclick=function(){var o={};f.forEach(function(x,i){o[x.n]=document.getElementById("f"+i).value.trim()});if(f.some(function(x){return!o[x.n]}))return alert("Vul eerst alle vakjes in.");this.disabled=true;this.textContent="Versturen…";send(o).catch(fail)};
+ return;}
+
+// ---- Spotify ----
+if(H.m==="spotify"){
+ H1.textContent="Spotify koppelen";SUB.textContent="Eenmalig, duurt ongeveer 3 minuten";
  var SC="user-read-recently-played user-top-read user-read-currently-playing user-read-playback-state user-library-read playlist-read-private";
  async function pkce(cid){var v=b64u(crypto.getRandomValues(new Uint8Array(48))),ch=b64u(new Uint8Array(await crypto.subtle.digest("SHA-256",new TextEncoder().encode(v))));
   H.cid=cid;H.v=v;localStorage.setItem("ghLink",JSON.stringify(H));
   location.href="https://accounts.spotify.com/authorize?"+new URLSearchParams({client_id:cid,response_type:"code",redirect_uri:PAGE,code_challenge_method:"S256",code_challenge:ch,scope:SC})}
- if(Q.code&&H.v){box.innerHTML="<p>Bezig met koppelen…</p>";
+ if(Q.code&&H.v){card("<p>Bezig met koppelen…</p>");
   fetch("https://accounts.spotify.com/api/token",{method:"POST",headers:{"content-type":"application/x-www-form-urlencoded"},body:new URLSearchParams({client_id:H.cid,grant_type:"authorization_code",code:Q.code,redirect_uri:PAGE,code_verifier:H.v})})
   .then(function(r){return r.json()}).then(function(d){if(!d.refresh_token)throw new Error(d.error_description||d.error||"geen toegang");return send({spotifyClientId:H.cid,spRefresh:d.refresh_token})}).catch(fail);
- }else if(Q.error){box.innerHTML="<p>Spotify gaf geen toestemming ("+esc(Q.error)+"). Scan de code op je tv opnieuw.</p>"}
- else if(H.cid){box.innerHTML='<p>Log in bij Spotify en geef Glass Home toestemming.</p><button id="go">Inloggen bij Spotify</button>';document.getElementById("go").onclick=function(){pkce(H.cid)}}
- else{box.innerHTML='<p>Eenmalig een gratis Spotify-sleutel aanmaken:</p><ol><li>Open <a href="https://developer.spotify.com/dashboard/create" target="_blank">developer.spotify.com/dashboard</a> en log in.</li><li>App name: <code>Glass Home</code>, description: <code>Tv-startscherm</code></li><li>Redirect URI: <code>'+esc(PAGE)+'</code> (druk op Add)</li><li>Vink <b>Web API</b> aan, ga akkoord en druk op <b>Save</b>.</li><li>Kopieer de <b>Client ID</b> hieronder.</li></ol><label for="cid">Client ID</label><input id="cid" autocomplete="off" autocapitalize="off" spellcheck="false"><button id="go">Inloggen bij Spotify</button>';
-  document.getElementById("go").onclick=function(){var c=document.getElementById("cid").value.trim();if(!c)return alert("Vul de Client ID in.");pkce(c)}}
-}else box.innerHTML="<p>Onbekende koppeling.</p>";
+ }else if(Q.error){card("<p>Spotify gaf geen toestemming. Scan de code op je tv opnieuw.</p>")}
+ else if(H.cid){card(step(1,"Druk op de knop en log in bij Spotify.")+step(2,"Druk op <b>Akkoord</b>. Klaar!")+'<button id="go" type="button">Inloggen bij Spotify</button>');document.getElementById("go").onclick=function(){pkce(H.cid)}}
+ else{card(step(1,"Log in bij Spotify voor ontwikkelaars (met je gewone Spotify-account)."+link("https://developer.spotify.com/dashboard/create","Open Spotify Developer"))+
+  step(2,"Vul bij <b>App name</b> in:"+cp("Glass Home")+"En bij <b>App description</b>:"+cp("Startscherm voor mijn tv"))+
+  step(3,"Plak bij <b>Redirect URIs</b> deze link en druk op <b>Add</b>:"+cp(PAGE))+
+  step(4,"Vink <b>Web API</b> aan, vink de voorwaarden aan en druk op <b>Save</b>.")+
+  step(5,"Kopieer de <b>Client ID</b> (bovenaan de pagina) en plak hem hier:")+'<input id="cid" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Hier plakken"><button id="go" type="button">Inloggen bij Spotify</button>');
+  document.getElementById("go").onclick=function(){var c=document.getElementById("cid").value.trim();if(!c)return alert("Plak eerst de Client ID.");pkce(c)}}
+ return;}
+card("<p>Onbekende koppeling. Scan de code op je tv opnieuw.</p>");
 })();
 </script></body></html>

@@ -142,6 +142,20 @@ public class Bridge {
     }
 
     @JavascriptInterface
+    public boolean openSearch() {
+        String[] acts = {"android.search.action.GLOBAL_SEARCH", Intent.ACTION_ASSIST, Intent.ACTION_WEB_SEARCH};
+        for (String act : acts) {
+            try {
+                Intent i = new Intent(act);
+                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                ctx.startActivity(i);
+                return true;
+            } catch (Exception e) { }
+        }
+        return false;
+    }
+
+    @JavascriptInterface
     public boolean openUri(String uri, String pkg) {
         try {
             Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));

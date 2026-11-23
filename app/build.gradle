@@ -10,14 +10,23 @@ android {
         applicationId 'com.custom.glasshome'
         minSdk 28
         targetSdk 34
-        versionCode 238
-        versionName '2.3.8'
+        versionCode 240
+        versionName '2.4.0'
+    }
+
+    signingConfigs {
+        gh {
+            storeFile file('glasshome.keystore')
+            storePassword 'glasshome'
+            keyAlias 'glasshome'
+            keyPassword 'glasshome'
+        }
     }
 
     buildTypes {
         release {
             minifyEnabled false
-            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.gh
         }
     }
 
