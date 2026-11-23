@@ -1,4 +1,4 @@
-<!DOCTYPE html><!--GH_BUILD:1.8.0-->
+<!DOCTYPE html><!--GH_BUILD:1.8.1-->
 <html lang="nl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width">
 <title>Glass Home</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
@@ -96,7 +96,7 @@ body.det #det{opacity:1;transform:none}
 #msg{font-size:22px;margin-top:16px;line-height:1.5}#msg .code{font-size:34px;letter-spacing:3px;background:#fff;color:#000;padding:2px 14px;border-radius:10px;margin-left:8px}
 #apps{gap:18px}.app{flex:none;width:186px;height:132px;border-radius:26px;overflow:hidden;display:flex;flex-direction:column;justify-content:space-between;padding:20px 22px}
 .app svg{width:46px;height:46px}
-.ico{width:64px;height:64px;border-radius:16px;object-fit:contain;filter:drop-shadow(0 4px 12px rgba(0,0,0,.3))}
+.ico{width:64px;height:64px;border-radius:16px;box-shadow:0 4px 14px rgba(0,0,0,.25);object-fit:contain;filter:drop-shadow(0 4px 12px rgba(0,0,0,.3))}
 .card .gi{position:absolute;right:26px;top:24px;width:96px;height:96px;border-radius:24px;object-fit:contain;filter:drop-shadow(0 6px 18px rgba(0,0,0,.35))}
 .app b{font-size:21px;font-weight:700;letter-spacing:-.2px}
 .app{backdrop-filter:blur(26px) saturate(190%);-webkit-backdrop-filter:blur(26px) saturate(190%);border:1px solid rgba(255,255,255,.3);box-shadow:inset 0 1.5px 0 rgba(255,255,255,.65),inset 0 -1px 0 rgba(255,255,255,.12),0 14px 34px rgba(0,0,0,.32)}
@@ -152,7 +152,7 @@ body.amb #amb{opacity:1}
 #intro.out{opacity:0}
 #ui{transition:opacity .9s ease,transform 1.1s cubic-bezier(.2,.9,.25,1)}
 body.boot #ui{opacity:0;transform:scale(1.03)}
-</style></head><body class="boot"><script type="text/plain" id="ghv">GH_BUILD:1.8.0</script>
+</style></head><body class="boot"><script type="text/plain" id="ghv">GH_BUILD:1.8.1</script>
 <div id="intro"><div class="shine"></div><div class="shine shine2"></div></div>
 <div id="bgwrap"><div class="bg" id="bgA"></div><div class="bg" id="bgB"></div></div><div id="tint"></div><div id="fbg"></div>
 <div id="amb"><b id="atime"></b><span id="adate"></span><div id="aextra"><span id="aw"></span><span id="anow"></span></div></div><div id="toast" class="glass"></div>
@@ -200,6 +200,7 @@ const APPS=[
  {n:"Prime Video",k:"prime",id:"amazon",pkg:"com.amazon.amazonvideo.livingroom",g:"star",c:["#4cc9ff","#0b6fb8"]}
 ];
 if(LG)APPS[2]={n:"Moonlight",k:"moonlight",id:"com.limelight.webos",g:"pad",c:["#5b6cff","#272f8f"]};
+if(P==="webos")APPS.forEach(a=>{if(["netflix","youtube.leanback.v4","amazon","spotify-beehive","io.strem.tv","videoland2021","npo","com.limelight.webos"].indexOf(a.id)>-1)a.icon="icons/"+a.id+".png";});
 const PROV={"Netflix":4,"Amazon Prime Video":7,"Videoland":5,"NPO Start":6,"NPO Plus":6};
 const svg=g=>'<svg viewBox="0 0 24 24">'+G[g]+'</svg>';
 const icon=(a,cls)=>a.icon?'<img class="'+cls+'" src="'+a.icon+'">':(cls==='ico'?svg(a.g):'<svg class="gl" viewBox="0 0 24 24">'+G[a.g]+'</svg>');
@@ -219,6 +220,7 @@ const $=id=>document.getElementById(id);
 // opslag
 const DEF={lite:LG?1:0,theme:1,iv:1,hdmi:1,tmdb:"",omdb:"",youtube:"",claude:"",letterboxd:"",urls:"",recent:[4,0,1,5],seen:{},extra:[],hidden:[],order:[]};
 let S;try{S=Object.assign({},DEF,JSON.parse(localStorage.getItem("gh3")||"{}"))}catch(e){S=Object.assign({},DEF)}
+if(!S.mig180){S.mig180=1;S.theme=1;}
 const save=()=>{try{localStorage.setItem("gh3",JSON.stringify(S))}catch(e){}};
 
 // webOS
@@ -226,8 +228,10 @@ const LUNA_KEEP=[];function luna(uri,p,cb){try{const b=new PalmServiceBridge();i
 let ALLAPPS=[];
 function syncApps(list){ALLAPPS=list.filter(x=>x.visible!==false&&x.title);addExtras();APPS.forEach(a=>{const lo=x=>(x.title||"").toLowerCase(),m=list.find(x=>x.id===a.pkg||x.id===a.id)||list.find(x=>lo(x)===a.n.toLowerCase())||list.find(x=>lo(x).includes(a.k)&&!/kids|music/.test(lo(x)));if(!m)return;
   if(P==="android"){a.pkg=m.id;try{a.icon=GHAndroid.appIcon(m.id)||""}catch(e){}return;}
-  a.id=m.id;let ic=m.largeIcon||m.icon||"";if(ic&&!/^(\/|file:|https?:|data:)/.test(ic))ic=(m.folderPath||"")+"/"+ic;if(ic)a.icon=(ic[0]==="/"?"file://":"")+ic;});
+  a.id=m.id;let ic=m.largeIcon||m.icon||"";if(ic&&!/^(\/|file:|https?:|data:)/.test(ic))ic=(m.folderPath||"")+"/"+ic;if(ic&&String(a.icon||"").indexOf("icons/")!==0)a.icon=(ic[0]==="/"?"file://":"")+ic;});
  drawApps();drawCont();}
+// Glass Home aanmelden als "ingang" (net als HDMI): was hij de laatste ingang, dan start de tv er vanzelf mee op
+if(P==="webos")luna("luna://com.webos.service.eim/addDevice",{appId:"com.custom.glasshome",pigImage:"",mvpdIcon:""},r=>{try{localStorage.setItem("ghEim",JSON.stringify(r))}catch(e){}});
 if(P==="webos")luna("luna://com.webos.applicationManager/listApps",{},r=>{if(r&&r.apps)syncApps(r.apps)});
 if(P==="android")setTimeout(()=>{try{syncApps(JSON.parse(GHAndroid.listApps()))}catch(e){}},50);
 function launchApp(a,uri){stopPreview();pvKey="";if(P==="android"){try{return uri?GHAndroid.openUri(uri,a.pkg||""):GHAndroid.launch(a.pkg||"")}catch(e){}return}
@@ -418,7 +422,8 @@ function drawShelf(ai){if(ai===shelfApp||isNaN(ai))return;shelfApp=ai;const a=AP
 
 // hero
 let HERO=[],hi=0,hT,hc="hA";
-function setHero(){HERO=ITEMS.filter(x=>!x.yt&&!x.sp&&x.a>3).sort((a,b)=>b.rs-a.rs).slice(0,5);$("htxt").style.display=HERO.length?"":"none";
+function setHero(){HERO=ITEMS.filter(x=>!x.yt&&!x.sp&&x.a>3).sort((a,b)=>b.rs-a.rs).slice(0,5);$("htxt").style.display="";if(!HERO.length){const h=new Date().getHours();$("htag").innerHTML='<i style="background:#7c8cff"></i>Glass Home';
+ $("htitle").textContent=h<6?"Goedenacht":h<12?"Goedemorgen":h<18?"Goedemiddag":"Goedenavond";$("hmeta").textContent="Koppel je accounts voor films, series en muziek die bij je passen.";$("hbl").textContent="Nu instellen";$("dots").innerHTML="";}
  $("dots").innerHTML=HERO.map(()=>'<i></i>').join("");hi=-1;nextHero();clearInterval(hT);hT=setInterval(nextHero,12000);}
 function nextHero(){if(!HERO.length)return;hi=(hi+1)%HERO.length;const r=HERO[hi],a=APPS[r.a],el=$(hc==="hA"?"hB":"hA");
  el.style.backgroundImage=r.big?cu(r.big):art(r.h);el.classList.add("on");$(hc).classList.remove("on");hc=el.id;
@@ -652,7 +657,7 @@ function paint(){rows.flat().forEach(e=>e.classList.remove("focus"));$("rail").c
  if(fr>0){const op=document.body.classList.contains("shelf");$("main").style.transform="translateY(-"+(fr===1?0:fr===2?(op?120:0):fr===3?520:(op?560:220))+"px)";}}
 function act(){const el=rows[fr][fi];if(!el){fr=2;fi=0;return paint();}
  if(fr===0)return RAIL[fi][2]();
- if(fr===1)return HERO.length&&open(HERO[hi].a);
+ if(fr===1)return HERO.length?open(HERO[hi].a):openSettingsAt("TMDB-sleutel");
  if(fr===3&&el.dataset.go)return openSettingsAt(el.dataset.go);
  if(fr===3){const it=ITEMS[+el.dataset.k];if(it.act==='ps')return ps();if(it.act==='open')return open(it.a);return it.yt&&it.v?openYT(it.v):it.sp&&it.uri?openSP(it.uri):open(it.a);}
  if(el.dataset.c)return openCont(CONT[+el.dataset.c]);open(+el.dataset.a);}
