@@ -1,4 +1,4 @@
-<!DOCTYPE html><!--GH_BUILD:2.1.3-->
+<!DOCTYPE html><!--GH_BUILD:2.1.4-->
 <html lang="nl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width">
 <title>Glass Home</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
@@ -182,6 +182,7 @@ body.reed #rail,body.reed #clock,body.reed .empty.glass{background-image:var(--r
 body.reed #intro .gh{background-image:repeating-linear-gradient(90deg,rgba(255,255,255,0) 0,rgba(255,255,255,0) 6px,rgba(0,0,0,.28) 9px,rgba(255,255,255,0) 11px),linear-gradient(100deg,rgba(255,255,255,.44) 0%,rgba(255,255,255,.44) 36%,#fff 50%,rgba(255,255,255,.44) 64%,rgba(255,255,255,.44) 100%);background-size:auto,320% 100%}
 body.reedbg #bgwrap,body.reedbg #fbg{filter:url(#reedf) brightness(.78)}
 body.reedbg #bgwrap::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(90deg,rgba(255,255,255,.11) 0,rgba(255,255,255,0) 4px,rgba(0,0,0,.08) 20px,rgba(255,255,255,.11) 26px);pointer-events:none}
+#intro .ghw{position:relative;display:flex;flex-direction:column;align-items:center;gap:26px}#intro .ghl{width:150px;height:150px;opacity:.9;filter:drop-shadow(0 10px 30px rgba(0,0,0,.35));animation:ghin 1s ease both}
 </style></head><body class="boot"><script>(function(){var M={},C={};function R(n){n=n.replace(/^\.\//,"./").replace(/\.js$/,"");if(C[n])return C[n].exports;var m={exports:{}};C[n]=m;M[n](m,m.exports);return m.exports;}
 M["./QRErrorCorrectLevel"]=function(module,exports){module.exports = {
 	L : 1,
@@ -1429,8 +1430,17 @@ module.exports = QRRSBlock;
 
 };
 var Q=R("./index"),E=R("./QRErrorCorrectLevel");window.ghQR=function(t){var q=new Q(-1,E.M);q.addData(t);q.make();var n=q.getModuleCount(),p="";for(var r=0;r<n;r++)for(var c=0;c<n;c++)if(q.isDark(r,c))p+="M"+(c+2)+" "+(r+2)+"h1v1h-1z";return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 '+(n+4)+' '+(n+4)+'" shape-rendering="crispEdges"><rect width="100%" height="100%" fill="#fff"/><path d="'+p+'" fill="#000"/></svg>';};})();</script>
-<script type="text/plain" id="ghv">GH_BUILD:2.1.3</script>
-<div id="intro"><div class="orb"></div><div class="gh">Glass Home</div></div>
+<script type="text/plain" id="ghv">GH_BUILD:2.1.4</script>
+<div id="intro"><div class="orb"></div><div class="ghw"><svg class="ghl" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+<defs>
+<linearGradient id="gl" x1="0" y1="0" x2="0.35" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".96"/><stop offset=".55" stop-color="#e9ecf6" stop-opacity=".78"/><stop offset="1" stop-color="#c9cfe6" stop-opacity=".6"/></linearGradient>
+<linearGradient id="hl" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".9"/><stop offset=".5" stop-color="#fff" stop-opacity="0"/></linearGradient>
+<clipPath id="cp"><path fill-rule="evenodd" d="M44.6 12.9a8 8 0 0 1 10.8 0l30.2 27.5a8 8 0 0 1 2.6 5.9V82a8 8 0 0 1-8 8H19.8a8 8 0 0 1-8-8V46.3a8 8 0 0 1 2.6-5.9Z M50 60a8 8 0 0 0-8 8v22h16V68a8 8 0 0 0-8-8Z"/></clipPath></defs>
+<path fill="url(#gl)" fill-rule="evenodd" d="M44.6 12.9a8 8 0 0 1 10.8 0l30.2 27.5a8 8 0 0 1 2.6 5.9V82a8 8 0 0 1-8 8H19.8a8 8 0 0 1-8-8V46.3a8 8 0 0 1 2.6-5.9Z M50 60a8 8 0 0 0-8 8v22h16V68a8 8 0 0 0-8-8Z"/>
+<g clip-path="url(#cp)"><path d="M-10 70 L70 -10 L82 -10 L2 70Z" fill="#fff" opacity=".28"/><path d="M-10 84 L84 -10 L88 -10 L-6 84Z" fill="#fff" opacity=".18"/></g>
+<path fill="none" stroke="url(#hl)" stroke-width="1.2" d="M45.1 13.5a7.3 7.3 0 0 1 9.8 0l30.2 27.5a7.3 7.3 0 0 1 2.4 5.3"/>
+</svg>
+<div class="gh">Glass Home</div></div></div>
 <svg width="0" height="0" style="position:absolute"><filter id="reedf" x="0" y="0" width="1" height="1" color-interpolation-filters="sRGB"><feImage href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%221920%22%20height%3D%221080%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22rgb%280%2C128%2C0%29%22/%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22rgb%28255%2C128%2C0%29%22/%3E%3C/linearGradient%3E%3Cpattern%20id%3D%22p%22%20width%3D%2226%22%20height%3D%221080%22%20patternUnits%3D%22userSpaceOnUse%22%3E%3Crect%20width%3D%2226%22%20height%3D%221080%22%20fill%3D%22url%28%23g%29%22/%3E%3C/pattern%3E%3C/defs%3E%3Crect%20width%3D%221920%22%20height%3D%221080%22%20fill%3D%22url%28%23p%29%22/%3E%3C/svg%3E" x="0" y="0" width="1920" height="1080" preserveAspectRatio="none" result="m"/><feDisplacementMap in="SourceGraphic" in2="m" scale="34" xChannelSelector="R" yChannelSelector="G"/></filter></svg><div id="bgwrap"><div class="bg" id="bgA"></div><div class="bg" id="bgB"></div></div><div id="tint"></div><div id="fbg"></div>
 <div id="amb"><b id="atime"></b><span id="adate"></span><div id="aextra"><span id="aw"></span><span id="anow"></span></div></div><div id="toast" class="glass"></div>
 <div id="ui">
