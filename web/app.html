@@ -1,4 +1,4 @@
-<!DOCTYPE html><!--GH_BUILD:1.8.9-->
+<!DOCTYPE html><!--GH_BUILD:1.9.0-->
 <html lang="nl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width">
 <title>Glass Home</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
@@ -130,7 +130,7 @@ body.amb #amb{opacity:1}
 .cat.sel{opacity:1;background:rgba(255,255,255,.14)}
 .cat.focus{opacity:1;background:#fff;color:#000}.cat.focus svg *{stroke:#000}
 #optwrap{overflow:hidden;min-height:0;display:flex;flex-direction:column}
-#opts{overflow-y:auto;scroll-behavior:smooth;padding:4px 6px 10px 2px;scrollbar-width:none}
+#opts{position:relative;overflow-y:auto;scroll-behavior:smooth;padding:4px 6px 10px 2px;scrollbar-width:none}
 #opts::-webkit-scrollbar{display:none}
 #ctitle{font-size:20px;font-weight:600;opacity:.55;margin:2px 0 12px 26px}
 #panel.single #ctitle{display:none}
@@ -162,7 +162,7 @@ body.lite .card.kb,body.lite .hi.kb{animation:none}
 #apps .app::before{content:"";position:absolute;inset:0;border-radius:inherit;background:linear-gradient(160deg,rgba(255,255,255,.16),rgba(255,255,255,.04) 60%);pointer-events:none}
 #apps .app{position:relative}#apps .app>*{position:relative}
 .card.res .score{left:22px;right:auto;top:auto;bottom:86px}.card.res.focus{box-shadow:0 0 0 4px #fff,0 20px 44px rgba(0,0,0,.45)}
-</style></head><body class="boot"><script type="text/plain" id="ghv">GH_BUILD:1.8.9</script>
+</style></head><body class="boot"><script type="text/plain" id="ghv">GH_BUILD:1.9.0</script>
 <div id="intro"><div class="shine"></div><div class="shine shine2"></div></div>
 <div id="bgwrap"><div class="bg" id="bgA"></div><div class="bg" id="bgB"></div></div><div id="tint"></div><div id="fbg"></div>
 <div id="amb"><b id="atime"></b><span id="adate"></span><div id="aextra"><span id="aw"></span><span id="anow"></span></div></div><div id="toast" class="glass"></div>
@@ -723,7 +723,7 @@ let CATS=null,pc=0,pf="opts",fromSettings=false;
 function drawCats(){$("scrim").classList.toggle("on",mode==="panel");if(!CATS){$("panel").classList.add("single");return;}$("panel").classList.remove("single");
  $("pcats").innerHTML=CATS.map((c,i)=>'<div class="cat'+(i===pc?(pf==="cats"?" focus":" sel"):"")+'" data-c="'+i+'">'+rsvg(c.ic)+'<span>'+c.n+'</span></div>').join("");
  $("ctitle").textContent=CATS[pc].n;$("panel").classList.toggle("opts-dim",pf==="cats");}
-function drawOpts(){drawCats();$("opts").innerHTML=CUR.map((o,i)=>'<div class="opt'+(i===oi?" focus":"")+'" data-i="'+i+'"><span>'+o.l+'</span><span class="v">'+o.v()+'</span></div>').join("");const f=$("opts").children[oi];if(f){const b=$("opts");if(f.offsetTop<b.scrollTop||f.offsetTop+f.offsetHeight>b.scrollTop+b.clientHeight)b.scrollTop=f.offsetTop-b.clientHeight/2+f.offsetHeight/2;}}
+function drawOpts(){drawCats();$("opts").innerHTML=CUR.map((o,i)=>'<div class="opt'+(i===oi?" focus":"")+'" data-i="'+i+'"><span>'+o.l+'</span><span class="v">'+o.v()+'</span></div>').join("");const f=$("opts").children[oi];if(f){const b=$("opts");const pad=14,t=f.offsetTop,h=f.offsetHeight;if(t-pad<b.scrollTop)b.scrollTop=Math.max(0,t-pad);else if(t+h+pad>b.scrollTop+b.clientHeight)b.scrollTop=t+h+pad-b.clientHeight;}}
 $("pcats").addEventListener("click",e=>{const c=e.target.closest(".cat");if(!c)return;pc=+c.dataset.c;CUR=CATS[pc].o;oi=0;pf="opts";drawOpts();});
 $("opts").addEventListener("click",e=>{const o=e.target.closest(".opt");if(!o)return;oi=+o.dataset.i;const O=CUR[oi];O.ok?O.ok():O.ch(1);save();drawOpts();});
 $("keyin").addEventListener("keydown",e=>{if(e.keyCode===461||e.keyCode===27){$("keybox").style.display="none";$("keyin").blur();e.preventDefault();e.stopPropagation();return;}if(e.keyCode===13&&kn==="_addid"){const v=e.target.value.trim();e.target.placeholder="Plak je API-sleutel en druk op OK";if(v){S.extra.push({n:v.split(".").pop().replace(/[-_]/g," ").replace(/^./,c=>c.toUpperCase()),id:v});addExtras();save();drawApps();build();toast("App toegevoegd");}panel(false);e.stopPropagation();return;}
