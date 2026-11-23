@@ -1,4 +1,4 @@
-<!DOCTYPE html><!--GH_BUILD:1.8.8-->
+<!DOCTYPE html><!--GH_BUILD:1.8.9-->
 <html lang="nl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width">
 <title>Glass Home</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
@@ -162,7 +162,7 @@ body.lite .card.kb,body.lite .hi.kb{animation:none}
 #apps .app::before{content:"";position:absolute;inset:0;border-radius:inherit;background:linear-gradient(160deg,rgba(255,255,255,.16),rgba(255,255,255,.04) 60%);pointer-events:none}
 #apps .app{position:relative}#apps .app>*{position:relative}
 .card.res .score{left:22px;right:auto;top:auto;bottom:86px}.card.res.focus{box-shadow:0 0 0 4px #fff,0 20px 44px rgba(0,0,0,.45)}
-</style></head><body class="boot"><script type="text/plain" id="ghv">GH_BUILD:1.8.8</script>
+</style></head><body class="boot"><script type="text/plain" id="ghv">GH_BUILD:1.8.9</script>
 <div id="intro"><div class="shine"></div><div class="shine shine2"></div></div>
 <div id="bgwrap"><div class="bg" id="bgA"></div><div class="bg" id="bgB"></div></div><div id="tint"></div><div id="fbg"></div>
 <div id="amb"><b id="atime"></b><span id="adate"></span><div id="aextra"><span id="aw"></span><span id="anow"></span></div></div><div id="toast" class="glass"></div>
@@ -372,7 +372,7 @@ function ago(t){if(!t)return"Onlangs geopend";const m=Math.round((Date.now()-t)/
 let CONT=[];
 function drawCont(){if(CONT.length){$("conth").textContent="Ga verder";$("cont").innerHTML=CONT.map((c,n)=>'<div class="card f" data-c="'+n+'" style="background-image:'+(c.img?cu(c.img):art(n*53+190))+'"><div class="lab"><div class="tt">'+esc(c.t)+'</div><small>'+esc(c.s)+'</small><div class="bar"><i style="width:'+c.p+'%"></i></div></div></div>').join("");return build();}
  $("cont").innerHTML=S.recent.filter(i=>APPS[i]&&!APPS[i].removed).map((i,n)=>{const a=APPS[i];
- return '<div class="card f rc" data-a="'+i+'" style="background:'+grad(a.c)+'">'+icon(a,a.tl?"gi tl":"gi")+'<div class="lab">'+a.n+'<small>Laatst geopend · '+ago(S.seen[i])+'</small></div></div>'}).join("");build();}
+ return '<div class="card f rc" data-a="'+i+'" style="background:'+grad(a.c)+'">'+icon(a,a.tl?"gi tl":"gi")+'<div class="lab">'+a.n+'<small>'+(S.seen[i]?'Laatst geopend · '+ago(S.seen[i]):'Onlangs geopend')+'</small></div></div>'}).join("");build();}
 
 // aanraders + hero
 const key=n=>S[n]||((window.GH_KEYS||{})[n])||"";
