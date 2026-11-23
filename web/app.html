@@ -1,4 +1,4 @@
-<!DOCTYPE html><!--GH_BUILD:2.1.2-->
+<!DOCTYPE html><!--GH_BUILD:2.1.3-->
 <html lang="nl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width">
 <title>Glass Home</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
@@ -1429,7 +1429,7 @@ module.exports = QRRSBlock;
 
 };
 var Q=R("./index"),E=R("./QRErrorCorrectLevel");window.ghQR=function(t){var q=new Q(-1,E.M);q.addData(t);q.make();var n=q.getModuleCount(),p="";for(var r=0;r<n;r++)for(var c=0;c<n;c++)if(q.isDark(r,c))p+="M"+(c+2)+" "+(r+2)+"h1v1h-1z";return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 '+(n+4)+' '+(n+4)+'" shape-rendering="crispEdges"><rect width="100%" height="100%" fill="#fff"/><path d="'+p+'" fill="#000"/></svg>';};})();</script>
-<script type="text/plain" id="ghv">GH_BUILD:2.1.2</script>
+<script type="text/plain" id="ghv">GH_BUILD:2.1.3</script>
 <div id="intro"><div class="orb"></div><div class="gh">Glass Home</div></div>
 <svg width="0" height="0" style="position:absolute"><filter id="reedf" x="0" y="0" width="1" height="1" color-interpolation-filters="sRGB"><feImage href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%221920%22%20height%3D%221080%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22rgb%280%2C128%2C0%29%22/%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22rgb%28255%2C128%2C0%29%22/%3E%3C/linearGradient%3E%3Cpattern%20id%3D%22p%22%20width%3D%2226%22%20height%3D%221080%22%20patternUnits%3D%22userSpaceOnUse%22%3E%3Crect%20width%3D%2226%22%20height%3D%221080%22%20fill%3D%22url%28%23g%29%22/%3E%3C/pattern%3E%3C/defs%3E%3Crect%20width%3D%221920%22%20height%3D%221080%22%20fill%3D%22url%28%23p%29%22/%3E%3C/svg%3E" x="0" y="0" width="1920" height="1080" preserveAspectRatio="none" result="m"/><feDisplacementMap in="SourceGraphic" in2="m" scale="34" xChannelSelector="R" yChannelSelector="G"/></filter></svg><div id="bgwrap"><div class="bg" id="bgA"></div><div class="bg" id="bgB"></div></div><div id="tint"></div><div id="fbg"></div>
 <div id="amb"><b id="atime"></b><span id="adate"></span><div id="aextra"><span id="aw"></span><span id="anow"></span></div></div><div id="toast" class="glass"></div>
@@ -2020,9 +2020,9 @@ let oi=0,kn="tmdb",CUR;const OPTS=[
  {l:"Wissel elke",v:()=>IVS[S.iv]+" min",ch:d=>{S.iv=Math.max(0,Math.min(4,S.iv+d));sched()}},
  ...(P==="android"?[{l:"Glass Home als startscherm",v:()=>{try{return GHAndroid.isHomeOverrideEnabled()?"Aan":"Aanzetten"}catch(e){return""}},ok:()=>{try{GHAndroid.openAccessibilitySettings()}catch(e){}}}]:[{l:"PlayStation-ingang",v:()=>"HDMI "+S.hdmi,ch:d=>{S.hdmi=(S.hdmi-1+d+4)%4+1}}]),
  ...[["letterboxd","Letterboxd-gebruikersnaam"],["tmdb","TMDB-sleutel (films/series)"],["omdb","OMDb-sleutel (IMDb, RT, Metacritic)"],["youtube","YouTube-sleutel"],["gemini","Gemini-sleutel (samenvattingen)"],["claude","Claude-sleutel (samenvattingen, optioneel)"],["ytPlaylist","YouTube-afspeellijst (ID)"],["traktClientId","Trakt Client ID"],["traktClientSecret","Trakt Client Secret"],["ytClientId","Google Client ID (voor YouTube)"],["ytClientSecret","Google Client Secret (voor YouTube)"],["urls","Eigen achtergrond-URL's"]].concat(LG?[]:[["epgUrl","EPG-link voor TiviMate (XMLTV)"]]).map(([n,l])=>({l,v:()=>key(n)?"Ingesteld":"Niet ingesteld",ok:()=>{phoneLink({m:"key",f:n+"|"+l},"Vul <b>"+esc(l)+"</b> in op je telefoon, of typ hieronder met de afstandsbediening.");kn=n;$("keybox").style.display="block";$("keyin").value=S[n]||"";$("keyin").focus();}})),
- {l:"Trakt-account",v:()=>S.trRefresh?"Gekoppeld":"Koppelen",ok:trLink},
- {l:"YouTube-account",v:()=>S.ytRefresh?"Gekoppeld":"Koppelen",ok:ytLink},
- {l:"Spotify-account",v:()=>(S.spRefresh||key("spotifyRefresh"))?"Gekoppeld":"Koppelen",ok:spLink},
+ {l:"Trakt-account",v:()=>S.trRefresh?"Gekoppeld ✓":"Koppelen",ok:trLink},
+ {l:"YouTube-account",v:()=>S.ytRefresh?"Gekoppeld ✓":"Koppelen",ok:ytLink},
+ {l:"Spotify-account",v:()=>(S.spRefresh||key("spotifyRefresh"))?"Gekoppeld ✓":"Koppelen",ok:spLink},
  {l:"App toevoegen",v:()=>"＋",ok:addApp},
  {l:"Apps beheren",v:()=>"›",ok:manageApps},
  {l:"Nieuwe achtergrond",v:()=>"OK",ok:nextBg}];
