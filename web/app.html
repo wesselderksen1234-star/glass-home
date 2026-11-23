@@ -1,4 +1,4 @@
-<!DOCTYPE html><!--GH_BUILD:1.8.2-->
+<!DOCTYPE html><!--GH_BUILD:1.8.3-->
 <html lang="nl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width">
 <title>Glass Home</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
@@ -153,7 +153,9 @@ body.amb #amb{opacity:1}
 #ui{transition:opacity .9s ease,transform 1.1s cubic-bezier(.2,.9,.25,1)}
 body.boot #ui{opacity:0;transform:scale(1.03)}
 body.lite .card.kb,body.lite .hi.kb{animation:none}
-</style></head><body class="boot"><script type="text/plain" id="ghv">GH_BUILD:1.8.2</script>
+.ico.tl{width:auto;height:46px;max-width:140px;border-radius:0;box-shadow:none;object-fit:contain;object-position:left center;filter:drop-shadow(0 2px 6px rgba(0,0,0,.22))}
+.app.lt b{color:#15161c;text-shadow:none}.app.lt .ico.tl{filter:none}
+</style></head><body class="boot"><script type="text/plain" id="ghv">GH_BUILD:1.8.3</script>
 <div id="intro"><div class="shine"></div><div class="shine shine2"></div></div>
 <div id="bgwrap"><div class="bg" id="bgA"></div><div class="bg" id="bgB"></div></div><div id="tint"></div><div id="fbg"></div>
 <div id="amb"><b id="atime"></b><span id="adate"></span><div id="aextra"><span id="aw"></span><span id="anow"></span></div></div><div id="toast" class="glass"></div>
@@ -201,7 +203,8 @@ const APPS=[
  {n:"Prime Video",k:"prime",id:"amazon",pkg:"com.amazon.amazonvideo.livingroom",g:"star",c:["#4cc9ff","#0b6fb8"]}
 ];
 if(LG)APPS[2]={n:"Moonlight",k:"moonlight",id:"com.limelight.webos",g:"pad",c:["#5b6cff","#272f8f"]};
-if(P==="webos")APPS.forEach(a=>{if(["netflix","youtube.leanback.v4","amazon","spotify-beehive","io.strem.tv","videoland2021","npo","com.limelight.webos"].indexOf(a.id)>-1)a.icon="icons/"+a.id+".png";});
+const TINT={amazon:["#1a8cff","#0457c8"],"com.limelight.webos":["#5b6270","#2c313b"],"io.strem.tv":["#2a2650","#100f1f"],netflix:["#ffffff","#e9e9ee",1],npo:["#3a44d0","#1e2490"],"spotify-beehive":["#2a2424","#121010"],videoland2021:["#ff4a58","#d92233"],"youtube.leanback.v4":["#ffffff","#e9e9ee",1]};
+if(P==="webos")APPS.forEach(a=>{const t=TINT[a.id];if(t){a.icon="icons/t-"+a.id+".png";a.tl=1;a.c=[t[0],t[1]];a.lt=t[2]||0;}});
 const PROV={"Netflix":4,"Amazon Prime Video":7,"Videoland":5,"NPO Start":6,"NPO Plus":6};
 const svg=g=>'<svg viewBox="0 0 24 24">'+G[g]+'</svg>';
 const icon=(a,cls)=>a.icon?'<img class="'+cls+'" src="'+a.icon+'">':(cls==='ico'?svg(a.g):'<svg class="gl" viewBox="0 0 24 24">'+G[a.g]+'</svg>');
@@ -338,7 +341,7 @@ const aid=a=>a.pkg&&P==="android"?a.pkg:a.id||a.n;
 function addExtras(){(S.extra||[]).forEach(e=>{if(APPS.some(a=>a.x&&!a.removed&&a.id===e.id))return;let h=0;for(const ch of e.n)h=(h*31+ch.charCodeAt(0))%360;
  APPS.push({n:e.n,k:e.n.toLowerCase(),id:e.id,pkg:e.id,x:1,g:"orb",c:["hsl("+h+",65%,58%)","hsl("+((h+30)%360)+",70%,30%)"]});});}
 function orderIdx(){const o=S.order||[],pos=a=>{const p=o.indexOf(aid(a));return p<0?1e3+APPS.indexOf(a):p};return APPS.map((a,i)=>i).sort((x,y)=>pos(APPS[x])-pos(APPS[y]));}
-function drawApps(){$("apps").innerHTML=orderIdx().map(i=>[APPS[i],i]).map(([a,i])=>a.removed||(S.hidden||[]).includes(aid(a))?'':'<div class="app f" data-a="'+i+'" style="background:'+glassBg(a.c)+'">'+icon(a,"ico")+'<b>'+String(a.n).replace(/</g,"&lt;")+'</b></div>').join("");}
+function drawApps(){$("apps").innerHTML=orderIdx().map(i=>[APPS[i],i]).map(([a,i])=>a.removed||(S.hidden||[]).includes(aid(a))?'':'<div class="app f'+(a.lt?' lt':'')+'" data-a="'+i+'" style="background:'+glassBg(a.c)+'">'+icon(a,a.tl?"ico tl":"ico")+'<b>'+String(a.n).replace(/</g,"&lt;")+'</b></div>').join("");}
 addExtras();drawApps();
 function moveApp(a,d){const vis=orderIdx().map(i=>APPS[i]).filter(x=>!x.removed&&!(S.hidden||[]).includes(aid(x))).map(aid),p=vis.indexOf(aid(a)),q=p+d;
  if(p<0||q<0||q>=vis.length)return;vis.splice(p,1);vis.splice(q,0,aid(a));S.order=vis;save();drawApps();if(fr===2)fi=q;build();}
