@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="nl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Glass Home koppelen</title>
+<style>
+:root{color-scheme:dark}
+body{margin:0;min-height:100vh;font:17px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,sans-serif;color:#fff;background:radial-gradient(circle at 20% 0%,#3b4a8a,transparent 55%),radial-gradient(circle at 90% 90%,#7a3b6a,transparent 50%),#0c0e16}
+main{max-width:480px;margin:0 auto;padding:28px 20px 60px}
+.card{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:22px;padding:22px;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);margin-bottom:16px}
+h1{font-size:26px;margin:0 0 6px}p{margin:8px 0;opacity:.9}small{opacity:.7}
+label{display:block;font-weight:600;margin:16px 0 6px}
+input{box-sizing:border-box;width:100%;font:inherit;padding:13px 14px;border-radius:12px;border:1px solid rgba(255,255,255,.3);background:rgba(0,0,0,.35);color:#fff}
+button{width:100%;margin-top:20px;font:inherit;font-weight:700;padding:14px;border:0;border-radius:14px;background:#fff;color:#111}
+ol{padding-left:20px}li{margin:6px 0}code{background:rgba(255,255,255,.15);padding:2px 6px;border-radius:6px;word-break:break-all;user-select:all}
+a{color:#9cc4ff}.ok{font-size:22px;font-weight:700}
+</style></head><body><main>
+<div class="card"><h1>Glass Home</h1><p id="sub">Koppelen met je tv</p></div>
+<div class="card" id="box"></div>
+</main>
+<script>
+(function(){
+var PAGE=location.origin+location.pathname,box=document.getElementById("box"),sub=document.getElementById("sub");
+function qp(s){var o={};(s||"").replace(/^[#?]/,"").split("&").forEach(function(p){if(!p)return;var i=p.indexOf("=");o[decodeURIComponent(p.slice(0,i))]=decodeURIComponent(p.slice(i+1))});return o}
+function esc(t){return String(t||"").replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+function b64u(a){return btoa(String.fromCharCode.apply(null,a)).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"")}
+function unb64u(s){return Uint8Array.from(atob(s.replace(/-/g,"+").replace(/_/g,"/")),function(c){return c.charCodeAt(0)})}
+var H=qp(location.hash),Q=qp(location.search);
+if(!H.t){try{H=JSON.parse(localStorage.getItem("ghLink")||"{}")}catch(e){H={}}}
+if(!H.t||!H.k){box.innerHTML="<p>Open deze pagina door de QR-code op je tv te scannen.</p>";return}
+history.replaceState(null,"",PAGE);
+async function send(obj){
+ var key=await crypto.subtle.importKey("raw",unb64u(H.k),"AES-GCM",false,["encrypt"]),iv=crypto.getRandomValues(new Uint8Array(12));
+ var ct=new Uint8Array(await crypto.subtle.encrypt({name:"AES-GCM",iv:iv},key,new TextEncoder().encode(JSON.stringify(obj))));
+ var all=new Uint8Array(12+ct.length);all.set(iv);all.set(ct,12);
+ var r=await fetch("https://ntfy.sh/"+H.t,{method:"POST",body:b64u(all)});if(!r.ok)throw new Error("versturen mislukt ("+r.status+")");
+ try{localStorage.removeItem("ghLink")}catch(e){}
+ box.innerHTML='<p class="ok">Klaar ✓</p><p>Kijk op je tv: Glass Home pakt het nu automatisch op. Je kunt deze pagina sluiten.</p>';}
+function fail(e){box.insertAdjacentHTML("beforeend",'<p style="color:#ff9b9b">Er ging iets mis: '+esc(e&&e.message||e)+'</p>')}
+var HELP={
+ trakt:'<p>Eenmalig een gratis Trakt-sleutel aanmaken:</p><ol><li>Log in op <a href="https://trakt.tv/auth/signin" target="_blank">trakt.tv</a> (of maak een gratis account).</li><li>Open <a href="https://trakt.tv/oauth/applications/new" target="_blank">trakt.tv/oauth/applications/new</a>.</li><li>Name: <code>Glass Home</code><br>Redirect uri: <code>urn:ietf:wg:oauth:2.0:oob</code></li><li>Druk op <b>Save app</b> en kopieer de Client ID en Client Secret hieronder.</li></ol>',
+ google:'<p>Eenmalig een gratis Google-sleutel aanmaken:</p><ol><li>Open <a href="https://console.cloud.google.com/projectcreate" target="_blank">Google Cloud</a> en maak een project <code>Glass Home</code>.</li><li>Zet <a href="https://console.cloud.google.com/apis/library/youtube.googleapis.com" target="_blank">YouTube Data API v3</a> aan.</li><li>Ga naar <a href="https://console.cloud.google.com/auth/overview" target="_blank">Google Auth Platform</a>, kies <b>External</b> en voeg jezelf toe als testgebruiker.</li><li>Maak bij <a href="https://console.cloud.google.com/auth/clients/create" target="_blank">Clients</a> een client van het type <b>TVs and Limited Input devices</b>.</li><li>Kopieer de Client ID en Client Secret hieronder.</li></ol>'};
+if(H.m==="key"){
+ var f=(H.f||"").split(";").filter(Boolean).map(function(x){var p=x.split("|");return{n:p[0],l:p[1]||p[0]}});
+ sub.textContent="Invullen voor je tv";
+ box.innerHTML=(HELP[H.h]||"")+f.map(function(x,i){return '<label for="f'+i+'">'+esc(x.l)+'</label><input id="f'+i+'" autocomplete="off" autocapitalize="off" spellcheck="false">'}).join("")+'<button id="go">Naar de tv sturen</button>';
+ document.getElementById("go").onclick=function(){var o={};f.forEach(function(x,i){o[x.n]=document.getElementById("f"+i).value.trim()});
+  if(f.some(function(x){return!o[x.n]}))return alert("Vul alle velden in.");this.disabled=true;send(o).catch(fail)};
+}else if(H.m==="spotify"){
+ sub.textContent="Spotify koppelen";
+ var SC="user-read-recently-played user-top-read user-read-currently-playing user-read-playback-state user-library-read playlist-read-private";
+ async function pkce(cid){var v=b64u(crypto.getRandomValues(new Uint8Array(48))),ch=b64u(new Uint8Array(await crypto.subtle.digest("SHA-256",new TextEncoder().encode(v))));
+  H.cid=cid;H.v=v;localStorage.setItem("ghLink",JSON.stringify(H));
+  location.href="https://accounts.spotify.com/authorize?"+new URLSearchParams({client_id:cid,response_type:"code",redirect_uri:PAGE,code_challenge_method:"S256",code_challenge:ch,scope:SC})}
+ if(Q.code&&H.v){box.innerHTML="<p>Bezig met koppelen…</p>";
+  fetch("https://accounts.spotify.com/api/token",{method:"POST",headers:{"content-type":"application/x-www-form-urlencoded"},body:new URLSearchParams({client_id:H.cid,grant_type:"authorization_code",code:Q.code,redirect_uri:PAGE,code_verifier:H.v})})
+  .then(function(r){return r.json()}).then(function(d){if(!d.refresh_token)throw new Error(d.error_description||d.error||"geen toegang");return send({spotifyClientId:H.cid,spRefresh:d.refresh_token})}).catch(fail);
+ }else if(Q.error){box.innerHTML="<p>Spotify gaf geen toestemming ("+esc(Q.error)+"). Scan de code op je tv opnieuw.</p>"}
+ else if(H.cid){box.innerHTML='<p>Log in bij Spotify en geef Glass Home toestemming.</p><button id="go">Inloggen bij Spotify</button>';document.getElementById("go").onclick=function(){pkce(H.cid)}}
+ else{box.innerHTML='<p>Eenmalig een gratis Spotify-sleutel aanmaken:</p><ol><li>Open <a href="https://developer.spotify.com/dashboard/create" target="_blank">developer.spotify.com/dashboard</a> en log in.</li><li>App name: <code>Glass Home</code>, description: <code>Tv-startscherm</code></li><li>Redirect URI: <code>'+esc(PAGE)+'</code> (druk op Add)</li><li>Vink <b>Web API</b> aan, ga akkoord en druk op <b>Save</b>.</li><li>Kopieer de <b>Client ID</b> hieronder.</li></ol><label for="cid">Client ID</label><input id="cid" autocomplete="off" autocapitalize="off" spellcheck="false"><button id="go">Inloggen bij Spotify</button>';
+  document.getElementById("go").onclick=function(){var c=document.getElementById("cid").value.trim();if(!c)return alert("Vul de Client ID in.");pkce(c)}}
+}else box.innerHTML="<p>Onbekende koppeling.</p>";
+})();
+</script></body></html>
