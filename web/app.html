@@ -1,4 +1,4 @@
-<!DOCTYPE html><!--GH_BUILD:1.9.4-->
+<!DOCTYPE html><!--GH_BUILD:1.9.5-->
 <html lang="nl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width">
 <title>Glass Home</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
@@ -44,7 +44,7 @@ body.lite #tint{filter:none;transition:opacity .4s}body.lite .f{will-change:auto
 body.lite .row.in>*{animation-duration:.25s}
 body.amb #ui{opacity:0;pointer-events:none}
 /* rail */
-#rail{position:absolute;left:36px;top:50%;transform:translateY(-50%);z-index:20;border-radius:44px;padding:16px;display:flex;flex-direction:column;gap:12px;width:104px;transition:width .35s cubic-bezier(.2,.9,.25,1);overflow:hidden}
+#rail{position:absolute;left:36px;top:50%;transform:translateY(-50%);z-index:20;border-radius:44px;padding:16px;display:flex;flex-direction:column;gap:12px;width:104px;transition:width .45s cubic-bezier(.2,.9,.25,1),left .45s cubic-bezier(.2,.9,.25,1),padding .45s cubic-bezier(.2,.9,.25,1),opacity .45s,border-radius .45s;overflow:hidden}
 #rail.open{width:330px}
 .ri{height:72px;border-radius:36px;display:flex;align-items:center;gap:22px;padding:0 18px;font-size:24px;font-weight:600;white-space:nowrap;transition:background .25s,color .25s}
 .ri span{opacity:0;transition:opacity .2s}#rail.open .ri span{opacity:1}
@@ -163,7 +163,10 @@ body.lite .card.kb,body.lite .hi.kb{animation:none}
 #apps .app{position:relative}#apps .app>*{position:relative}
 .card.res .score{left:22px;right:auto;top:auto;bottom:86px}.card.res.focus{box-shadow:0 0 0 4px #fff,0 20px 44px rgba(0,0,0,.45)}
 .card .score{background:rgba(16,18,26,.66)!important;-webkit-backdrop-filter:blur(16px) saturate(140%);backdrop-filter:blur(16px) saturate(140%);border:1px solid rgba(255,255,255,.22);color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.5);box-shadow:0 4px 12px rgba(0,0,0,.3)}
-</style></head><body class="boot"><script type="text/plain" id="ghv">GH_BUILD:1.9.4</script>
+#rail:not(.open){width:12px;left:14px;padding:16px 0;opacity:.55;border-radius:8px}
+#rail .ri{transition:opacity .3s,transform .45s cubic-bezier(.2,.9,.25,1)}#rail:not(.open) .ri{opacity:0;transform:translateX(-30px)}
+body.amb #rail{opacity:0}
+</style></head><body class="boot"><script type="text/plain" id="ghv">GH_BUILD:1.9.5</script>
 <div id="intro"><div class="shine"></div><div class="shine shine2"></div></div>
 <div id="bgwrap"><div class="bg" id="bgA"></div><div class="bg" id="bgB"></div></div><div id="tint"></div><div id="fbg"></div>
 <div id="amb"><b id="atime"></b><span id="adate"></span><div id="aextra"><span id="aw"></span><span id="anow"></span></div></div><div id="toast" class="glass"></div>
@@ -621,7 +624,7 @@ async function summarize(k){const it=ITEMS[k];if(!it)return;if(it.tv){it.zeg=it.
  const info=it.yt?"YouTube-video: "+it.t+" van kanaal "+it.c+", "+it.vw+" weergaven, "+it.lr+"% likes per weergave.\nWaarom aangeraden: "+bec+"\nReacties van kijkers:\n"+ctx
   :it.sp?"Muziek: "+it.s+" '"+it.t+"' van "+it.c+". Genres van de artiest: "+(it.genres||[]).join(", ")+". Spotify-populariteit "+it.sc.SP+"/100.\nWaarom aangeraden: "+bec
   :(it.type==="tv"?"Serie":"Film")+": "+it.t+" ("+it.s+").\nScores: "+Object.keys(it.sc).map(s=>SRC[s]+" "+shown(s,it.sc[s])).join(", ")+".\nWaarom aangeraden: "+(bec?"de gebruiker keek "+bec:"populair")+"\nKorte omschrijving: "+it.ov+"\nReviews van kijkers:\n"+ctx;
- try{let t;if(gk){const r=await j("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key="+encodeURIComponent(gk),{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({contents:[{parts:[{text:PROMPT+"\n\n"+info}]}],generationConfig:{responseMimeType:"application/json",maxOutputTokens:1024,thinkingConfig:{thinkingBudget:0}}}),signal:tmo(20000)});t=r.candidates[0].content.parts.map(x=>x.text||"").join("");}else{const r=await j("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"content-type":"application/json","x-api-key":ak,"anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true"},signal:tmo(20000),
+ try{let t;if(gk){const r=await j("https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-lite-latest:generateContent?key="+encodeURIComponent(gk),{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({contents:[{parts:[{text:PROMPT+"\n\n"+info}]}],generationConfig:{responseMimeType:"application/json",maxOutputTokens:4096}}),signal:tmo(30000)});t=r.candidates[0].content.parts.map(x=>x.text||"").join("");}else{const r=await j("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"content-type":"application/json","x-api-key":ak,"anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true"},signal:tmo(20000),
    body:JSON.stringify({model:"claude-haiku-5-5",max_tokens:500,messages:[{role:"user",content:PROMPT+"\n\n"+info}]})});
   t=r.content[0].text;}const m=JSON.parse(t.slice(t.indexOf("{"),t.lastIndexOf("}")+1)),src="Samenvatting door AI · zonder spoilers";
   try{localStorage.setItem(ck,JSON.stringify({z:m.zeggen,w:m.waarom,s:src}))}catch(e){}fill(m.zeggen,m.waarom,src);}catch(e){fb();if(dk===k)$("dsrc").textContent="AI-samenvatting lukte niet ("+(e&&e.name==="AbortError"?"te traag":e)+")";}}
