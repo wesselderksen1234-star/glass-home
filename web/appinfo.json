@@ -1,16 +1,16 @@
 {
   "id": "com.custom.glasshome",
-  "version": "1.7.2",
+  "version": "1.7.3",
   "vendor": "Custom",
   "type": "web",
   "main": "index.html",
   "title": "Glass Home",
-  "icon": "icon.png",
-  "largeIcon": "largeIcon.png",
+  "icon": "gh-icon-v2.png",
+  "largeIcon": "gh-largeicon-v2.png",
   "resolution": "1920x1080",
   "disableBackHistoryAPI": true,
   "splashBackground": "splash.png",
   "bgColor": "#06070c",
   "splashColor": "#ffffff",
-  "iconColor": "#06070c"
+  "iconColor": "#0a0b16"
 }
