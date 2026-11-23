@@ -1,4 +1,4 @@
-<!DOCTYPE html><!--GH_BUILD:1.9.9-->
+<!DOCTYPE html><!--GH_BUILD:2.0.0-->
 <html lang="nl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width">
 <title>Glass Home</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
@@ -166,7 +166,7 @@ body.lite .card.kb,body.lite .hi.kb{animation:none}
 #rail:not(.open){width:12px;left:14px;padding:16px 0;opacity:.55;border-radius:8px}
 #rail .ri{transition:opacity .3s,transform .45s cubic-bezier(.2,.9,.25,1)}#rail:not(.open) .ri{opacity:0;transform:translateX(-30px)}
 body.amb #rail{opacity:0}
-</style></head><body class="boot"><script type="text/plain" id="ghv">GH_BUILD:1.9.9</script>
+</style></head><body class="boot"><script type="text/plain" id="ghv">GH_BUILD:2.0.0</script>
 <div id="intro"><div class="shine"></div><div class="shine shine2"></div></div>
 <div id="bgwrap"><div class="bg" id="bgA"></div><div class="bg" id="bgB"></div></div><div id="tint"></div><div id="fbg"></div>
 <div id="amb"><b id="atime"></b><span id="adate"></span><div id="aextra"><span id="aw"></span><span id="anow"></span></div></div><div id="toast" class="glass"></div>
@@ -681,7 +681,7 @@ function paint(){rows.flat().forEach(e=>e.classList.remove("focus"));$("rail").c
  const pr=el.parentNode;if(pr.classList.contains("row"))pr.scrollLeft=Math.max(0,el.offsetLeft-200);
  if(fr===2)drawShelf(+el.dataset.a);
  detail(fr===3?+el.dataset.k:-1);
- const bgi=fr>=2?el.style.backgroundImage:"";clearTimeout(window.tiT);window.tiT=setTimeout(()=>{if(bgi){$("tint").style.backgroundImage=bgi;document.body.classList.add("tinted")}else document.body.classList.remove("tinted")},160);
+ const bgi=fr>=2&&/url\(/.test(el.style.backgroundImage)?el.style.backgroundImage:"";clearTimeout(window.tiT);window.tiT=setTimeout(()=>{if(bgi){$("tint").style.backgroundImage=bgi;document.body.classList.add("tinted")}else document.body.classList.remove("tinted")},160);
  mediaFocus(el);
  if(fr>0){const op=document.body.classList.contains("shelf");$("main").style.transform="translateY(-"+(fr===1?0:fr===2?(op?120:0):fr===3?520:(op?500:220))+"px)";}}
 function act(){const el=rows[fr][fi];if(!el){fr=2;fi=0;return paint();}
