@@ -44,7 +44,14 @@ public class MainActivity extends Activity {
                 return true;
             }
         });
-        webView.setWebChromeClient(new WebChromeClient());
+        webView.setWebChromeClient(new WebChromeClient() {
+            @Override
+            public boolean onConsoleMessage(android.webkit.ConsoleMessage m) {
+                android.util.Log.i("GH", m.message() + " @" + m.lineNumber());
+                return true;
+            }
+        });
+        WebView.setWebContentsDebuggingEnabled(true);
         webView.addJavascriptInterface(new Bridge(this), "GHAndroid");
         setContentView(webView);
         webView.loadUrl("file:///android_asset/web/index.html");
