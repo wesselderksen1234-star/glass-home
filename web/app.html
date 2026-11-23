@@ -1,4 +1,4 @@
-<!DOCTYPE html><!--GH_BUILD:2.1.1-->
+<!DOCTYPE html><!--GH_BUILD:2.1.2-->
 <html lang="nl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width">
 <title>Glass Home</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
@@ -1429,7 +1429,7 @@ module.exports = QRRSBlock;
 
 };
 var Q=R("./index"),E=R("./QRErrorCorrectLevel");window.ghQR=function(t){var q=new Q(-1,E.M);q.addData(t);q.make();var n=q.getModuleCount(),p="";for(var r=0;r<n;r++)for(var c=0;c<n;c++)if(q.isDark(r,c))p+="M"+(c+2)+" "+(r+2)+"h1v1h-1z";return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 '+(n+4)+' '+(n+4)+'" shape-rendering="crispEdges"><rect width="100%" height="100%" fill="#fff"/><path d="'+p+'" fill="#000"/></svg>';};})();</script>
-<script type="text/plain" id="ghv">GH_BUILD:2.1.1</script>
+<script type="text/plain" id="ghv">GH_BUILD:2.1.2</script>
 <div id="intro"><div class="orb"></div><div class="gh">Glass Home</div></div>
 <svg width="0" height="0" style="position:absolute"><filter id="reedf" x="0" y="0" width="1" height="1" color-interpolation-filters="sRGB"><feImage href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%221920%22%20height%3D%221080%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22rgb%280%2C128%2C0%29%22/%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22rgb%28255%2C128%2C0%29%22/%3E%3C/linearGradient%3E%3Cpattern%20id%3D%22p%22%20width%3D%2226%22%20height%3D%221080%22%20patternUnits%3D%22userSpaceOnUse%22%3E%3Crect%20width%3D%2226%22%20height%3D%221080%22%20fill%3D%22url%28%23g%29%22/%3E%3C/pattern%3E%3C/defs%3E%3Crect%20width%3D%221920%22%20height%3D%221080%22%20fill%3D%22url%28%23p%29%22/%3E%3C/svg%3E" x="0" y="0" width="1920" height="1080" preserveAspectRatio="none" result="m"/><feDisplacementMap in="SourceGraphic" in2="m" scale="34" xChannelSelector="R" yChannelSelector="G"/></filter></svg><div id="bgwrap"><div class="bg" id="bgA"></div><div class="bg" id="bgB"></div></div><div id="tint"></div><div id="fbg"></div>
 <div id="amb"><b id="atime"></b><span id="adate"></span><div id="aextra"><span id="aw"></span><span id="anow"></span></div></div><div id="toast" class="glass"></div>
@@ -1787,7 +1787,7 @@ async function _ytToken(){const cid=key("ytClientId");if(!cid||!S.ytRefresh)retu
 let ytPoll;
 async function ytLink(){const cid=key("ytClientId"),m=$("msg");if(!cid)return phoneLink({m:"key",h:"google",f:"ytClientId|Google Client ID;ytClientSecret|Google Client Secret"},"Om YouTube te koppelen is eenmalig een gratis Google-sleutel nodig. Je telefoon legt uit hoe.",()=>ytLink());
  try{const d=await form("https://oauth2.googleapis.com/device/code",{client_id:cid,scope:"https://www.googleapis.com/auth/youtube.readonly"});
-  m.innerHTML='Ga op je telefoon naar <b>'+esc(d.verification_url)+'</b> en vul deze code in: <b class="code">'+esc(d.user_code)+'</b>';
+  m.innerHTML='<span class="qr">'+ghQR(d.verification_url_complete||d.verification_url)+'</span>Scan de QR-code of ga naar <b>'+esc(d.verification_url.replace(/^https?:\/\//,''))+'</b> en vul deze code in:<br><b class="code">'+esc(d.user_code)+'</b>';
   clearInterval(ytPoll);const yEnd=Date.now()+(d.expires_in||900)*1000;ytPoll=setInterval(async()=>{if(Date.now()>yEnd){clearInterval(ytPoll);m.textContent="Code verlopen, probeer opnieuw.";return}try{const r=await form("https://oauth2.googleapis.com/token",{client_id:cid,client_secret:key("ytClientSecret"),device_code:d.device_code,grant_type:"urn:ietf:params:oauth:grant-type:device_code"});
    if(r.refresh_token){clearInterval(ytPoll);S.ytRefresh=r.refresh_token;S.ytTok=r.access_token;S.ytExp=Date.now()+r.expires_in*1000;save();m.textContent="YouTube gekoppeld ✓";try{localStorage.removeItem("ghYT6")}catch(e){}drawOpts();loadAll();}}catch(e){}},(d.interval||5)*1000);
  }catch(e){m.textContent="Koppelen lukte niet. Controleer je client-gegevens.";}}
@@ -1854,7 +1854,7 @@ async function phoneLink(o,txt,done){clearTimeout(phT);const m=$("msg");
 function spLink(){phoneLink({m:"spotify",cid:key("spotifyClientId")||""},"Koppel je <b>Spotify-account</b> met je telefoon.",()=>{spTokenP=null;$("msg").textContent="Spotify gekoppeld ✓";try{localStorage.removeItem("ghSP6")}catch(e){}loadAll();});}
 async function trLink(){const cid=key("traktClientId"),m=$("msg");if(!cid)return phoneLink({m:"key",h:"trakt",f:"traktClientId|Trakt Client ID"},"Om Trakt te koppelen is eenmalig een gratis Trakt-sleutel nodig. Je telefoon legt uit hoe.",()=>trLink());
  try{const d=await j("https://api.trakt.tv/oauth/device/code",{method:"POST",headers:TH(),body:JSON.stringify({client_id:cid})});
-  m.innerHTML='Ga op je telefoon naar <b>'+esc(d.verification_url)+'</b> en vul in: <b class="code">'+esc(d.user_code)+'</b>';
+  m.innerHTML='<span class="qr">'+ghQR(/trakt/.test(d.verification_url)?d.verification_url+"/"+d.user_code:d.verification_url)+'</span>Scan de QR-code of ga naar <b>'+esc(d.verification_url.replace(/^https?:\/\//,''))+'</b> en vul deze code in:<br><b class="code">'+esc(d.user_code)+'</b>';
   clearInterval(trPoll);const tEnd=Date.now()+(d.expires_in||600)*1000;trPoll=setInterval(async()=>{if(Date.now()>tEnd){clearInterval(trPoll);m.textContent="Code verlopen, probeer opnieuw.";return}try{const r=await j("https://api.trakt.tv/oauth/device/token",{method:"POST",headers:TH(),body:JSON.stringify({code:d.device_code,client_id:cid,client_secret:key("traktClientSecret")||undefined})});
    if(r.refresh_token){clearInterval(trPoll);S.trRefresh=r.refresh_token;S.trTok=r.access_token;S.trExp=Date.now()+r.expires_in*1000;save();m.textContent="Trakt gekoppeld ✓";["ghM7"+(S.lang||0),"ghTR"].forEach(x=>{try{localStorage.removeItem(x)}catch(e){}});drawOpts();loadTrakt();loadAll();}}catch(e){}},(d.interval||5)*1000);
  }catch(e){m.textContent="Koppelen lukte niet. Controleer je Trakt-gegevens.";}}
