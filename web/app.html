@@ -1,4 +1,4 @@
-<!DOCTYPE html><!--GH_BUILD:2.0.8-->
+<!DOCTYPE html><!--GH_BUILD:2.0.9-->
 <html lang="nl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width">
 <title>Glass Home</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
@@ -175,6 +175,13 @@ body.amb #rail{opacity:0}
 @keyframes ghin{from{opacity:0;transform:scale(.965)}to{opacity:1;transform:none}}
 @keyframes ghorb{0%{transform:translateX(-620px) scale(.7);opacity:0}45%{opacity:1}100%{transform:translateX(620px) scale(.95);opacity:0}}
 #intro.out{opacity:0}
+
+:root{--rib:repeating-linear-gradient(90deg,rgba(255,255,255,.16) 0,rgba(255,255,255,.04) 5px,rgba(0,0,0,.07) 10px,rgba(255,255,255,.02) 12px,rgba(255,255,255,.16) 14px)}
+body.reed #apps .app::before{background:var(--rib),linear-gradient(160deg,rgba(255,255,255,.18),rgba(255,255,255,.04) 60%)}
+body.reed #rail,body.reed #clock,body.reed .empty.glass{background-image:var(--rib),linear-gradient(160deg,rgba(255,255,255,.3),rgba(255,255,255,.14) 55%,rgba(255,255,255,.2))!important}
+body.reed #intro .gh{background-image:repeating-linear-gradient(90deg,rgba(255,255,255,0) 0,rgba(255,255,255,0) 6px,rgba(0,0,0,.28) 9px,rgba(255,255,255,0) 11px),linear-gradient(100deg,rgba(255,255,255,.44) 0%,rgba(255,255,255,.44) 36%,#fff 50%,rgba(255,255,255,.44) 64%,rgba(255,255,255,.44) 100%);background-size:auto,320% 100%}
+body.reedbg #bgwrap,body.reedbg #fbg{filter:url(#reedf) brightness(.78)}
+body.reedbg #bgwrap::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(90deg,rgba(255,255,255,.11) 0,rgba(255,255,255,0) 4px,rgba(0,0,0,.08) 20px,rgba(255,255,255,.11) 26px);pointer-events:none}
 </style></head><body class="boot"><script>(function(){var M={},C={};function R(n){n=n.replace(/^\.\//,"./").replace(/\.js$/,"");if(C[n])return C[n].exports;var m={exports:{}};C[n]=m;M[n](m,m.exports);return m.exports;}
 M["./QRErrorCorrectLevel"]=function(module,exports){module.exports = {
 	L : 1,
@@ -1422,9 +1429,9 @@ module.exports = QRRSBlock;
 
 };
 var Q=R("./index"),E=R("./QRErrorCorrectLevel");window.ghQR=function(t){var q=new Q(-1,E.M);q.addData(t);q.make();var n=q.getModuleCount(),p="";for(var r=0;r<n;r++)for(var c=0;c<n;c++)if(q.isDark(r,c))p+="M"+(c+2)+" "+(r+2)+"h1v1h-1z";return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 '+(n+4)+' '+(n+4)+'" shape-rendering="crispEdges"><rect width="100%" height="100%" fill="#fff"/><path d="'+p+'" fill="#000"/></svg>';};})();</script>
-<script type="text/plain" id="ghv">GH_BUILD:2.0.8</script>
+<script type="text/plain" id="ghv">GH_BUILD:2.0.9</script>
 <div id="intro"><div class="orb"></div><div class="gh">Glass Home</div></div>
-<div id="bgwrap"><div class="bg" id="bgA"></div><div class="bg" id="bgB"></div></div><div id="tint"></div><div id="fbg"></div>
+<svg width="0" height="0" style="position:absolute"><filter id="reedf" x="0" y="0" width="1" height="1" color-interpolation-filters="sRGB"><feImage href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%221920%22%20height%3D%221080%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22rgb%280%2C128%2C0%29%22/%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22rgb%28255%2C128%2C0%29%22/%3E%3C/linearGradient%3E%3Cpattern%20id%3D%22p%22%20width%3D%2226%22%20height%3D%221080%22%20patternUnits%3D%22userSpaceOnUse%22%3E%3Crect%20width%3D%2226%22%20height%3D%221080%22%20fill%3D%22url%28%23g%29%22/%3E%3C/pattern%3E%3C/defs%3E%3Crect%20width%3D%221920%22%20height%3D%221080%22%20fill%3D%22url%28%23p%29%22/%3E%3C/svg%3E" x="0" y="0" width="1920" height="1080" preserveAspectRatio="none" result="m"/><feDisplacementMap in="SourceGraphic" in2="m" scale="34" xChannelSelector="R" yChannelSelector="G"/></filter></svg><div id="bgwrap"><div class="bg" id="bgA"></div><div class="bg" id="bgB"></div></div><div id="tint"></div><div id="fbg"></div>
 <div id="amb"><b id="atime"></b><span id="adate"></span><div id="aextra"><span id="aw"></span><span id="anow"></span></div></div><div id="toast" class="glass"></div>
 <div id="ui">
  <div id="clock"><b id="ctime"></b><span id="cdate"></span></div>
@@ -1491,7 +1498,7 @@ const $=id=>document.getElementById(id);
 // opslag
 const DEF={lite:LG?1:0,theme:1,iv:1,hdmi:1,tmdb:"",omdb:"",youtube:"",claude:"",letterboxd:"",urls:"",recent:[4,0,1,5],seen:{},extra:[],hidden:[],order:[]};
 let S;try{S=Object.assign({},DEF,JSON.parse(localStorage.getItem("gh3")||"{}"))}catch(e){S=Object.assign({},DEF)}
-if(!S.mig180){S.mig180=1;S.theme=1;}
+if(!S.mig180){S.mig180=1;S.theme=1;}if(!S.mig209){S.mig209=1;S.glass=1;}
 const save=()=>{try{localStorage.setItem("gh3",JSON.stringify(S))}catch(e){}};
 
 // webOS
@@ -1590,6 +1597,7 @@ async function potd(){const p=n=>String(n).padStart(2,"0");
    const im=r.image;if(!im||!im.thumbnail||!im.image||im.image.width<im.image.height*1.2||im.image.width<1920)continue;
    return im.thumbnail.source.replace(/\/\d+px-/,"/"+Math.min(3840,im.image.width)+"px-");}catch(e){}}
  return "https://picsum.photos/seed/"+Date.now()+"/3840/2160";}
+function applyGlass(){document.body.classList.toggle("reed",S.glass===1);document.body.classList.toggle("reedbg",S.glass===2);}
 function nextBg(){const el=$(cur==="bgA"?"bgB":"bgA");const show=()=>{if(cur===el.id)return;el.classList.add("on");$(cur).classList.remove("on");cur=el.id;};
  let url="";if(S.theme===1&&P!=="preview"){potd().then(u=>{const im=new Image();im.onload=()=>{el.style.backgroundImage=cu(u);show()};im.onerror=()=>{el.style.backgroundImage=mesh();show()};im.src=u;});return;}
  if(S.theme===2){const l=S.urls.split(/\s+/).filter(Boolean);if(l.length)url=l[Math.floor(Math.random()*l.length)];}
@@ -2007,6 +2015,7 @@ window.GH_back=()=>{if(mode==="amb")return amb(false);if(mode==="panel")return p
 // instellingen
 let oi=0,kn="tmdb",CUR;const OPTS=[
  {l:"Taal van titels en teksten",v:()=>["Automatisch","Nederlands","Engels"][S.lang||0],ch:d=>{S.lang=((S.lang||0)+d+3)%3;save();loadAll();}},
+ {l:"Glaseffect",v:()=>["Mat (standaard)","Geribbeld glas","Geribbeld over foto"][S.glass||0],ch:d=>{S.glass=((S.glass||0)+d+3)%3;save();applyGlass();}},
  {l:"Snelle modus (minder blur)",v:()=>S.lite?"Aan":"Uit",ok:()=>{S.lite=S.lite?0:1;document.body.classList.toggle("lite",!!S.lite)}},
  {l:"Achtergrond",v:()=>THEMES[S.theme],ch:d=>{S.theme=(S.theme+d+3)%3;sched()}},
  {l:"Wissel elke",v:()=>IVS[S.iv]+" min",ch:d=>{S.iv=Math.max(0,Math.min(4,S.iv+d));sched()}},
@@ -2019,7 +2028,7 @@ let oi=0,kn="tmdb",CUR;const OPTS=[
  {l:"Apps beheren",v:()=>"›",ok:manageApps},
  {l:"Nieuwe achtergrond",v:()=>"OK",ok:nextBg}];
 RG.paint='<rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4"/>';RG.grid='<rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/>';RG.user='<circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/>';RG.key='<circle cx="8" cy="15" r="4"/><path d="M11 12l9-9M17 6l3 3M15 8l2 2"/>';RG.info='<circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.5"/>';
-const CATDEF=[["paint","Weergave",/Snelle|Achtergrond|Wissel|achtergrond|Taal/],["grid","Apps",/App |Apps|PlayStation|startscherm/],["user","Accounts",/account|Letterboxd/],["key","Sleutels en bronnen",/sleutel|afspeellijst|EPG|Client/],["info","Over Glass Home",/^$/]];
+const CATDEF=[["paint","Weergave",/Snelle|Achtergrond|Wissel|achtergrond|Taal|Glas/],["grid","Apps",/App |Apps|PlayStation|startscherm/],["user","Accounts",/account|Letterboxd/],["key","Sleutels en bronnen",/sleutel|afspeellijst|EPG|Client/],["info","Over Glass Home",/^$/]];
 function appLink(ap){const tr=S.trRefresh,tm=key("tmdb");
  if(/moonlight/i.test(ap.n))return["Niet nodig","Moonlight streamt je pc naar de tv. Hier hoeft niets gekoppeld te worden."];
  if(/stremio/i.test(ap.n))return[S.stAuth?"Gekoppeld ✓":"Koppelen","Stremio deelt je kijkgeschiedenis via Trakt. Zet in Stremio bij Instellingen ‘Trakt’ aan en koppel hier je Trakt-account. Dan verschijnt wat je kijkt bij Ga verder en krijg je tips op maat."];
@@ -2066,7 +2075,7 @@ document.addEventListener("keydown",e=>{const k=e.keyCode;bump();
 function fit(){const s=Math.min(innerWidth/1920,innerHeight/1080);document.body.style.transformOrigin="0 0";
  document.body.style.transform=s<1?"translate("+(innerWidth-1920*s)/2+"px,"+(innerHeight-1080*s)/2+"px) scale("+s+")":"";}
 addEventListener("resize",fit);fit();
-document.body.classList.toggle("lite",!!S.lite);setTimeout(()=>{const i=$("intro");i.classList.add("out");document.body.classList.remove("boot");setTimeout(()=>i.remove(),900);},2300);drawCont();loadAll();loadTrakt().then(loadStremio);sched();try{localStorage.removeItem("ghBoot")}catch(e){}
+document.body.classList.toggle("lite",!!S.lite);applyGlass();setTimeout(()=>{const i=$("intro");i.classList.add("out");document.body.classList.remove("boot");setTimeout(()=>i.remove(),900);},2300);drawCont();loadAll();loadTrakt().then(loadStremio);sched();try{localStorage.removeItem("ghBoot")}catch(e){}
 addEventListener("online",()=>{loadAll();loadTrakt().then(loadStremio);});
 }
 </script></body></html>
