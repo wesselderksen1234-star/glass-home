@@ -1,4 +1,4 @@
-<!DOCTYPE html><!--GH_BUILD:2.3.7-->
+<!DOCTYPE html><!--GH_BUILD:2.3.8-->
 <html lang="nl" style="background:#05060a url(splash5.png) center/cover no-repeat"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width">
 <title>Glass Home</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
@@ -1458,7 +1458,7 @@ module.exports = QRRSBlock;
 
 };
 var Q=R("./index"),E=R("./QRErrorCorrectLevel");window.ghQR=function(t){var q=new Q(-1,E.M);q.addData(t);q.make();var n=q.getModuleCount(),p="";for(var r=0;r<n;r++)for(var c=0;c<n;c++)if(q.isDark(r,c))p+="M"+(c+2)+" "+(r+2)+"h1v1h-1z";return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 '+(n+4)+' '+(n+4)+'" shape-rendering="crispEdges"><rect width="100%" height="100%" fill="#fff"/><path d="'+p+'" fill="#000"/></svg>';};})();</script>
-<script type="text/plain" id="ghv">GH_BUILD:2.3.7</script>
+<script type="text/plain" id="ghv">GH_BUILD:2.3.8</script>
 <div id="intro"><div class="orb"></div><div class="ghw"><svg class="ghl" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
 <defs>
 <linearGradient id="gl" x1="0" y1="0" x2="0.35" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".96"/><stop offset=".55" stop-color="#e9ecf6" stop-opacity=".78"/><stop offset="1" stop-color="#c9cfe6" stop-opacity=".6"/></linearGradient>
@@ -2020,7 +2020,7 @@ function detail(k){clearTimeout(dT);if(isNaN(k)||k<0||!ITEMS[k]){document.body.c
 const tmo=ms=>{try{const c=new AbortController();setTimeout(()=>c.abort(),ms);return c.signal}catch(e){return undefined}};
 async function summarize(k){const it=ITEMS[k];if(!it||it.busy)return;it.busy=1;try{await summarize0(k)}finally{it.busy=0}}
 async function summarize0(k){const it=ITEMS[k];if(!it)return;if(it.tv){it.zeg=it.ov||"Geen omschrijving in de gids.";it.waarom="Loopt nu, nog "+it.left+" minuten.";if(dk===k){$("dzeg").textContent=it.zeg;$("dwhy").textContent=it.waarom}return;}
- const ck="ghS2"+(S.lang===2?"en":"")+"_"+(it.v||(it.sp?"sp":it.type)+it.id);
+ const ck="ghS3"+(S.lang===2?"en":"")+"_"+(it.v||(it.sp?"sp":it.type)+it.id);
  const fill=(z,w,src)=>{src=String(src||"").replace(" · zonder spoilers","");it.zeg=z;it.waarom=w;if(dk===k){$("dzeg").textContent=z;$("dwhy").textContent=w;$("hwhy").style.display=$("dwhy").style.display=w&&!it.yt?"":"none";$("dsrc").textContent=src}};
  try{const c=JSON.parse(localStorage.getItem(ck)||"null");if(c)return fill(c.z,c.w,c.s)}catch(e){}
  const fb=()=>fill(it.yt?"Deze video is nu populair bij kijkers.":it.sp?(it.s+" van "+it.c+(it.genres&&it.genres.length?", in de stijl "+it.genres.join(", "):"")+"."):(it.ov||"Geen omschrijving beschikbaar."),it.yt||it.sp?why(it):"",it.yt||it.sp?"":"Omschrijving: TMDB");
@@ -2034,7 +2034,7 @@ async function summarize0(k){const it=ITEMS[k];if(!it)return;if(it.tv){it.zeg=it
  const info=it.yt?"YouTube-video: "+it.t+" van kanaal "+it.c+", "+it.vw+" weergaven, "+it.lr+"% likes per weergave.\nWaarom aangeraden: "+bec+"\nReacties van kijkers:\n"+ctx
   :it.sp?"Muziek: "+it.s+" '"+it.t+"' van "+it.c+". Genres van de artiest: "+(it.genres||[]).join(", ")+". Spotify-populariteit "+it.sc.SP+"/100.\nWaarom aangeraden: "+bec
   :(it.type==="tv"?"Serie":"Film")+": "+it.t+" ("+it.s+").\nScores: "+Object.keys(it.sc).map(s=>SRC[s]+" "+shown(s,it.sc[s])).join(", ")+".\nWaarom aangeraden: "+(bec?"de gebruiker keek "+bec:"populair")+"\nKorte omschrijving: "+it.ov+"\nReviews van kijkers:\n"+ctx;
- try{let t="";const body=(S.lang===2?"Write the summary and the JSON values in English (ignore the instruction to write in Dutch).\n":"")+PROMPT+"\n\n"+info;
+ try{let t="";const body=(it.yt?"Dit is een YouTube-video: laat \"over\" beschrijven wat er in de video te zien is (onderwerp en opzet), niet wat kijkers ervan vinden.\n":"")+(S.lang===2?"Write the summary and the JSON values in English (ignore the instruction to write in Dutch).\n":"")+PROMPT+"\n\n"+info;
   if(gk)for(const md of ["gemini-flash-lite-latest","gemini-flash-latest","gemini-3.5-flash"]){for(let tr=0;tr<2&&!t;tr++){try{const r=await j("https://generativelanguage.googleapis.com/v1beta/models/"+md+":generateContent?key="+encodeURIComponent(gk),{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({contents:[{parts:[{text:body}]}],generationConfig:{responseMimeType:"application/json",maxOutputTokens:4096}}),signal:tmo(30000)});t=r.candidates[0].content.parts.map(x=>x.text||"").join("");}catch(x){if(x===404||x===400||x===403)break;await new Promise(z=>setTimeout(z,1500));}}if(t)break;}
   if(!t&&ak){const r=await j("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"content-type":"application/json","x-api-key":ak,"anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true"},signal:tmo(20000),body:JSON.stringify({model:"claude-haiku-5-5",max_tokens:500,messages:[{role:"user",content:body}]})});t=r.content[0].text;}
   if(!t)throw "geen antwoord";const m=JSON.parse(t.slice(t.indexOf("{"),t.lastIndexOf("}")+1)),src="Samenvatting door AI";
@@ -2072,7 +2072,7 @@ async function startPreview(box,it){const vid=await trailerFor(it);const kb=()=>
  const w=document.createElement("div");w.className="pv";const inner=document.createElement("div");w.appendChild(inner);box.insertBefore(w,box.firstChild);
  const player=new YT.Player(inner,{videoId:vid,host:"https://www.youtube-nocookie.com",playerVars:{autoplay:1,mute:1,controls:0,rel:0,modestbranding:1,playsinline:1,iv_load_policy:3,disablekb:1,fs:0,loop:1,playlist:vid,start:it.yt?0:6},
   events:{onReady:e=>{try{e.target.mute();e.target.playVideo()}catch(x){}},
-   onStateChange:e=>{if(e.data===1&&!w.classList.contains("on")){w.classList.add("on");try{e.target.unMute();e.target.setVolume(0);let v=0;const t=setInterval(()=>{v+=1;try{e.target.setVolume(v)}catch(x){}if(v>=18||!pv)clearInterval(t)},180)}catch(x){}}},
+   onStateChange:e=>{if(e.data===1&&!w.classList.contains("on")){w.classList.add("on");try{e.target.unMute();e.target.setVolume(0);let v=0;const t=setInterval(()=>{v+=4;try{e.target.setVolume(Math.min(60,v))}catch(x){}if(v>=60||!pv)clearInterval(t)},120)}catch(x){}}},
    onError:()=>{w.remove();kb();}}});
  pv={box:w,player};}
 function mediaFocus(el){let it=null,box=null;
@@ -2080,7 +2080,7 @@ function mediaFocus(el){let it=null,box=null;
  const k=it?(it.v||it.id||it.t):"";if(fr===1&&mode==="home"){if(!window.hpz){clearInterval(hT);window.hpz=1}}else if(window.hpz){window.hpz=0;clearInterval(hT);hT=setInterval(nextHero,12000);}
  if(k===pvKey&&!(el&&el.dataset.c))return;pvKey=k;stopPreview();
  clearTimeout(fbT);fbT=setTimeout(()=>{const c=fr===3&&el&&el.dataset.c?CONT[+el.dataset.c]:null;const u=(it&&fr===3&&(it.big||it.img))||(c&&c.img)||(mode==="home"&&fr>=2&&HERO.length&&HERO[hi]&&HERO[hi].big);if(u){$("fbg").style.backgroundImage=cu(u);document.body.classList.add("fb")}else document.body.classList.remove("fb")},420);
- if(it&&!it.act&&!it.tv&&!it.sp)pvT=setTimeout(()=>startPreview(box,it),fr===1?10000:8000);}
+ if(it&&!it.act&&!it.tv&&!it.sp)pvT=setTimeout(()=>startPreview(box,it),fr===1?10000:4000);}
 function paint(){rows.flat().forEach(e=>e.classList.remove("focus"));$("rail").classList.toggle("open",fr===0&&mode==="home");
  const el=rows[fr][fi];if(!el||mode!=="home"){detail(-1);mediaFocus(null);return;}el.classList.add("focus");
  const pr=el.parentNode;if(pr.classList.contains("row"))pr.scrollLeft=Math.max(0,el.offsetLeft-200);
