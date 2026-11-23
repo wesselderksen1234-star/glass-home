@@ -1,4 +1,4 @@
-<!DOCTYPE html><!--GH_BUILD:2.4.0-->
+<!DOCTYPE html><!--GH_BUILD:2.4.1-->
 <html lang="nl" style="background:#05060a url(splash5.png) center/cover no-repeat"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width">
 <title>Glass Home</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
@@ -218,7 +218,8 @@ body.fb #hero .hi{opacity:0!important}#hero .hi{transition:opacity .9s}
 #det p{font-size:21px;line-height:1.36}#det{height:420px;bottom:24px;padding:30px 48px}#det h4+p{margin-bottom:16px}
 body.shelf #clock{opacity:0}#clock{transition:opacity .3s}
 body.haslive #s-cont{display:none!important}
-</style></head><body class="boot"><script>(function(){var M={},C={};function R(n){n=n.replace(/^\.\//,"./").replace(/\.js$/,"");if(C[n])return C[n].exports;var m={exports:{}};C[n]=m;M[n](m,m.exports);return m.exports;}
+html{overflow:hidden}#rot{display:none}body.portrait{overflow:visible}body.portrait #rot{display:block;position:fixed;left:0;right:0;bottom:-90px;text-align:center;font-size:30px;color:rgba(255,255,255,.75);z-index:200}
+</style></head><body class="boot"><script>window.ghFit=function(){var w=innerWidth||1920,h=innerHeight||1080,s=Math.min(w/1920,h/1080),b=document.body;if(!b)return;b.style.transformOrigin="0 0";b.style.transform="translate("+Math.round((w-1920*s)/2)+"px,"+Math.round((h-1080*s)/2)+"px) scale("+s+")";b.classList.toggle("portrait",h>w*1.05);};window.ghFit();addEventListener("orientationchange",function(){setTimeout(window.ghFit,300)});</script><div id="rot">Draai je scherm een kwartslag voor het grootste beeld</div><script>(function(){var M={},C={};function R(n){n=n.replace(/^\.\//,"./").replace(/\.js$/,"");if(C[n])return C[n].exports;var m={exports:{}};C[n]=m;M[n](m,m.exports);return m.exports;}
 M["./QRErrorCorrectLevel"]=function(module,exports){module.exports = {
 	L : 1,
 	M : 0,
@@ -1465,7 +1466,7 @@ module.exports = QRRSBlock;
 
 };
 var Q=R("./index"),E=R("./QRErrorCorrectLevel");window.ghQR=function(t){var q=new Q(-1,E.M);q.addData(t);q.make();var n=q.getModuleCount(),p="";for(var r=0;r<n;r++)for(var c=0;c<n;c++)if(q.isDark(r,c))p+="M"+(c+2)+" "+(r+2)+"h1v1h-1z";return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 '+(n+4)+' '+(n+4)+'" shape-rendering="crispEdges"><rect width="100%" height="100%" fill="#fff"/><path d="'+p+'" fill="#000"/></svg>';};})();</script>
-<script type="text/plain" id="ghv">GH_BUILD:2.4.0</script>
+<script type="text/plain" id="ghv">GH_BUILD:2.4.1</script>
 <div id="intro"><div class="orb"></div><div class="ghw"><svg class="ghl" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
 <defs>
 <linearGradient id="gl" x1="0" y1="0" x2="0.35" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".96"/><stop offset=".55" stop-color="#e9ecf6" stop-opacity=".78"/><stop offset="1" stop-color="#c9cfe6" stop-opacity=".6"/></linearGradient>
@@ -2214,9 +2215,7 @@ document.addEventListener("keydown",e=>{const k=e.keyCode;bump();
   save();if(mode==="panel")drawOpts();}
  e.preventDefault();});
 
-function fit(){const s=Math.min(innerWidth/1920,innerHeight/1080);document.body.style.transformOrigin="0 0";
- document.body.style.transform=s<1?"translate("+(innerWidth-1920*s)/2+"px,"+(innerHeight-1080*s)/2+"px) scale("+s+")":"";}
-addEventListener("resize",fit);fit();
+addEventListener("resize",window.ghFit);window.ghFit();
 document.body.classList.toggle("lite",!!S.lite);applyGlass();applyTheme();setTimeout(()=>{const i=$("intro");i.classList.add("out");document.body.classList.remove("boot");setTimeout(()=>{i.remove();document.documentElement.style.background="#05060a"},900);},2300);drawCont();loadAll();loadTrakt().then(loadStremio);sched();try{localStorage.removeItem("ghBoot")}catch(e){}
 addEventListener("online",()=>{loadAll();loadTrakt().then(loadStremio);});
 }
