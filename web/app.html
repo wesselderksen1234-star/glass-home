@@ -1,4 +1,4 @@
-<!DOCTYPE html><!--GH_BUILD:1.8.7-->
+<!DOCTYPE html><!--GH_BUILD:1.8.8-->
 <html lang="nl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width">
 <title>Glass Home</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
@@ -162,7 +162,7 @@ body.lite .card.kb,body.lite .hi.kb{animation:none}
 #apps .app::before{content:"";position:absolute;inset:0;border-radius:inherit;background:linear-gradient(160deg,rgba(255,255,255,.16),rgba(255,255,255,.04) 60%);pointer-events:none}
 #apps .app{position:relative}#apps .app>*{position:relative}
 .card.res .score{left:22px;right:auto;top:auto;bottom:86px}.card.res.focus{box-shadow:0 0 0 4px #fff,0 20px 44px rgba(0,0,0,.45)}
-</style></head><body class="boot"><script type="text/plain" id="ghv">GH_BUILD:1.8.7</script>
+</style></head><body class="boot"><script type="text/plain" id="ghv">GH_BUILD:1.8.8</script>
 <div id="intro"><div class="shine"></div><div class="shine shine2"></div></div>
 <div id="bgwrap"><div class="bg" id="bgA"></div><div class="bg" id="bgB"></div></div><div id="tint"></div><div id="fbg"></div>
 <div id="amb"><b id="atime"></b><span id="adate"></span><div id="aextra"><span id="aw"></span><span id="anow"></span></div></div><div id="toast" class="glass"></div>
@@ -428,7 +428,7 @@ function drawShelf(ai){if(ai===shelfApp||isNaN(ai))return;shelfApp=ai;const a=AP
   list=[[ITEMS[k],k]].concat(ITEMS.map((it,i)=>[it,i]).filter(x=>!x[0].act&&!x[0].yt&&!x[0].sp&&!x[0].tv&&x[0].a>3).sort((p,q)=>q[0].rs-p[0].rs).slice(0,5));}const pers=list.some(x=>x[0].because&&x[0].because.length);
  $("shtitle").textContent=a.x?"Snel naar "+a.n+" · en je beste tips":ai===1?(S.trRefresh||pers?"Voor jou op Stremio":"Populair op Stremio"):ai===2?(LG?"Snelkoppelingen":"Nu live op tv"):(pers?"Voor jou op ":ai===0?"Populair op ":"Aanraders op ")+a.n;
  const row=$("shelf");row.classList.remove("in");void row.offsetWidth;
- const res=ai===1?CONT.map((c,n)=>'<div class="card f res" data-c="'+n+'" style="background-image:'+(c.img?cu(c.img):art(n*53+190))+'"><div class="score glass">▶ Verder</div><div class="lab"><div class="tt">'+esc(c.t)+'</div><small>'+esc(c.s)+(c.p?' · '+Math.round(c.p)+'% gekeken':'')+'</small><div class="bar"><i style="width:'+c.p+'%"></i></div></div></div>').join(""):(S.seen&&S.seen[ai]&&!a.x?'<div class="card f res" data-a="'+ai+'" style="background:'+grad(a.c)+'">'+icon(a,a.tl?"gi tl":"gi")+'<div class="score glass">▶ Verder</div><div class="lab"><div class="tt">Verder kijken</div><small>'+esc(a.n)+' onthoudt waar je was · '+ago(S.seen[ai])+'</small></div></div>':"");
+ const res=ai===1?CONT.map((c,n)=>'<div class="card f res" data-c="'+n+'" style="background-image:'+(c.img?cu(c.img):art(n*53+190))+'"><div class="score glass">▶ Verder</div><div class="lab"><div class="tt">'+esc(c.t)+'</div><small>'+esc(c.s)+(c.p?' · '+Math.round(c.p)+'% gekeken':'')+'</small><div class="bar"><i style="width:'+c.p+'%"></i></div></div></div>').join(""):(((S.seen&&S.seen[ai])||(S.recent||[]).includes(ai))&&!a.x&&ai!==2?'<div class="card f res" data-a="'+ai+'" style="background:'+grad(a.c)+'">'+icon(a,a.tl?"gi tl":"gi")+'<div class="score glass">▶ Verder</div><div class="lab"><div class="tt">Verder kijken</div><small>'+esc(a.n)+' onthoudt waar je was'+(S.seen&&S.seen[ai]?' · '+ago(S.seen[ai]):'')+'</small></div></div>':"");
  row.innerHTML=res+(list.length?list.map(x=>card(x[0],x[1])).join(""):(()=>{const e=EMPTY[ai]||(a.x?["Nog geen aanraders voor "+a.n,"Apps beheren"]:EMPTYX);return '<div class="empty glass f" data-go="'+e[1]+'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></svg><span>'+e[0]+'</span><b>Instellen ›</b></div>'})());
  row.classList.add("in");row.scrollLeft=0;build();}
 
