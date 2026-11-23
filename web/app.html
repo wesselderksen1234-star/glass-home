@@ -1,4 +1,4 @@
-<!DOCTYPE html><!--GH_BUILD:1.7.3-->
+<!DOCTYPE html><!--GH_BUILD:1.7.4-->
 <html lang="nl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width">
 <title>Glass Home</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
@@ -25,12 +25,12 @@ body.tinted #tint{opacity:.42}
 .card .live{position:absolute;top:16px;left:16px;height:30px;border-radius:15px;padding:0 12px;background:#ff3b30;font-size:15px;font-weight:800;display:flex;align-items:center}
 #ui{position:absolute;inset:0;transition:opacity .6s}
 body.lite .glass,body.lite .app,body.lite #clock,body.lite #panel,body.lite #det,body.lite #rail{-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
-body.lite .glass,body.lite #rail{background:linear-gradient(160deg,rgba(60,64,80,.78),rgba(22,24,32,.82))}
+body.lite .glass,body.lite #rail{background:linear-gradient(160deg,rgba(255,255,255,.26),rgba(255,255,255,.1) 55%,rgba(255,255,255,.16));border:1px solid rgba(255,255,255,.28);box-shadow:inset 0 1.5px 0 rgba(255,255,255,.55),inset 0 -1px 0 rgba(255,255,255,.1),0 16px 40px rgba(0,0,0,.28)}
 body.lite #det{background:linear-gradient(160deg,rgba(44,48,62,.94),rgba(18,20,28,.95))}
 body.lite #panel{background:linear-gradient(160deg,rgba(64,68,86,.9),rgba(22,24,34,.92))}
 #scrim{position:absolute;inset:0;z-index:29;background:radial-gradient(120% 90% at 50% 50%,rgba(4,5,10,.35),rgba(4,5,10,.7));opacity:0;transition:opacity .35s;pointer-events:none}
 #scrim.on{opacity:1}
-body.lite #clock{background:rgba(14,16,22,.6)}
+body.lite #clock{background:linear-gradient(160deg,rgba(255,255,255,.26),rgba(255,255,255,.1) 55%,rgba(255,255,255,.16));border:1px solid rgba(255,255,255,.28);box-shadow:inset 0 1.5px 0 rgba(255,255,255,.55),0 16px 40px rgba(0,0,0,.25)}
 body.lite .bg.on{animation:none}body.lite #bgwrap{filter:brightness(.45) saturate(1.2)}
 body.lite #tint{filter:none;transition:opacity .4s}body.lite .f{will-change:auto;transition:transform .18s ease-out}
 body.lite .row.in>*{animation-duration:.25s}
@@ -71,7 +71,9 @@ body.amb #ui{opacity:0;pointer-events:none}
 #s-cont{top:830px;transition:top .5s cubic-bezier(.2,.9,.25,1),opacity .4s}body.shelf #s-cont{top:1160px}body.det #s-cont{opacity:0}
 @keyframes slin{from{opacity:0;transform:translateX(60px)}}.row.in>*{animation:slin .45s cubic-bezier(.2,.9,.25,1) both}
 .row.in>*:nth-child(2){animation-delay:.04s}.row.in>*:nth-child(3){animation-delay:.08s}.row.in>*:nth-child(4){animation-delay:.12s}
-.empty{flex:none;height:110px;padding:0 40px;border-radius:26px;display:flex;align-items:center;font-size:22px;font-weight:500}
+.empty{flex:none;height:110px;padding:0 34px;border-radius:30px;display:flex;align-items:center;gap:20px;font-size:24px;font-weight:600;text-shadow:0 1px 10px rgba(0,0,0,.35)}
+.empty svg{width:34px;height:34px;flex:none;opacity:.9}.empty b{margin-left:18px;font-size:19px;font-weight:700;padding:9px 18px;border-radius:20px;background:rgba(255,255,255,.18)}
+.empty.focus b{background:#fff;color:#000;text-shadow:none}
 #det{position:absolute;left:200px;right:96px;bottom:40px;height:410px;z-index:15;border-radius:38px;padding:40px 48px;display:grid;grid-template-columns:600px 1fr;gap:56px;opacity:0;transform:translateY(40px);transition:opacity .35s,transform .45s cubic-bezier(.2,.9,.25,1);pointer-events:none;background:linear-gradient(160deg,rgba(40,44,56,.55),rgba(15,17,24,.6))}
 body.det #det{opacity:1;transform:none}
 #dtitle{font-size:46px;font-weight:800;letter-spacing:-1px;line-height:1.05}
@@ -354,7 +356,8 @@ const nl=x=>String(x).replace(".",",");
 const shown=(k,v)=>k==="LB"?nl((v/20).toFixed(1))+"/5":k==="RT"?v+"%":k==="MC"||k==="SP"?v+"/100":nl((v/10).toFixed(1));
 const wavg=sc=>{let s=0,w=0;for(const k in sc){s+=sc[k]*W[k];w+=W[k]}return w?s/w:0};
 const sc10=x=>nl((x/10).toFixed(1));
-const EMPTY={0:"Koppel je YouTube-account in Instellingen",1:"Voeg je TMDB-sleutel toe of koppel Trakt",2:"Voeg een EPG-link toe in Instellingen voor live tv",3:"Koppel Spotify met spotify-koppelen.bat"};
+const EMPTY={0:["Koppel je YouTube-account","YouTube-account"],1:["Koppel Trakt voor tips op Stremio","Trakt-account"],2:["Voeg je tv-gids (EPG) toe voor live tv","EPG"],3:["Koppel je Spotify-account","Spotify-account"]};
+const EMPTYX=["Voeg je TMDB-sleutel toe voor aanraders","TMDB-sleutel"];
 let ITEMS=[];
 const SAMPLE=[
  {t:"Noorderlicht",s:"Serie · 2025",a:4,because:["Dark"],sc:{LB:84,IMDb:86,RT:95,MC:84},zeg:"Kijkers roemen de ijzige sfeer en het ingetogen acteerwerk. Het begin is bewust traag, maar de spanning bouwt mooi op.",waarom:"Letterboxd-gebruikers en critici zijn het zelden zo eens: vakmanschap en sfeer worden overal geprezen."},
@@ -391,7 +394,7 @@ function drawShelf(ai){if(ai===shelfApp||isNaN(ai))return;shelfApp=ai;const a=AP
   list=[[ITEMS[k],k]].concat(ITEMS.map((it,i)=>[it,i]).filter(x=>!x[0].act&&!x[0].yt&&!x[0].sp&&!x[0].tv&&x[0].a>3).sort((p,q)=>q[0].rs-p[0].rs).slice(0,5));}const pers=list.some(x=>x[0].because&&x[0].because.length);
  $("shtitle").textContent=a.x?"Snel naar "+a.n+" · en je beste tips":ai===1?(S.trRefresh?"Voor jou via Trakt":"Hoog gewaardeerd buiten je diensten"):ai===2?(LG?"Snelkoppelingen":"Nu live op tv"):(pers?"Voor jou op ":ai===0?"Populair op ":"Aanraders op ")+a.n;
  const row=$("shelf");row.classList.remove("in");void row.offsetWidth;
- row.innerHTML=list.length?list.map(x=>card(x[0],x[1])).join(""):'<div class="empty glass">'+(EMPTY[ai]||"Nog geen aanraders voor "+a.n)+'</div>';
+ row.innerHTML=list.length?list.map(x=>card(x[0],x[1])).join(""):(()=>{const e=EMPTY[ai]||(a.x?["Nog geen aanraders voor "+a.n,"Apps beheren"]:EMPTYX);return '<div class="empty glass f" data-go="'+e[1]+'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></svg><span>'+e[0]+'</span><b>Instellen ›</b></div>'})();
  row.classList.add("in");row.scrollLeft=0;build();}
 
 // hero
@@ -539,7 +542,7 @@ async function loadTrakt(){
 function openCont(c){if(!c)return;const u=c.imdb?"stremio:///detail/"+c.type+"/"+c.imdb+"/"+c.imdb+(c.se?":"+c.se:""):"";open(1,P==="android"?u:"");}
 
 async function loadAll(){const tk=key("tmdb");
- if(!tk&&!key("youtube")&&!S.ytRefresh&&!key("spotifyRefresh")&&!S.spRefresh&&!S.trRefresh&&!key("epgUrl")){ITEMS=(P==="preview"?SAMPLE:[]).filter(x=>!(LG&&x.tv)).concat(LG?MOON:[]).map((x,i)=>Object.assign({h:i*47+200},x,{avg:x.sp?x.sc.SP:x.sc?wavg(x.sc):0,rs:x.sc?wavg(x.sc):0}));$("note").textContent=P==="preview"?"Voorbeeld":"Vul je sleutels in (zie KOPPELEN.md)";}
+ if(!tk&&!key("youtube")&&!S.ytRefresh&&!key("spotifyRefresh")&&!S.spRefresh&&!S.trRefresh&&!key("epgUrl")){ITEMS=(P==="preview"?SAMPLE:[]).filter(x=>!(LG&&x.tv)).concat(LG?MOON:[]).map((x,i)=>Object.assign({h:i*47+200},x,{avg:x.sp?x.sc.SP:x.sc?wavg(x.sc):0,rs:x.sc?wavg(x.sc):0}));$("note").textContent=P==="preview"?"Voorbeeld":"";}
  else{$("note").textContent="Laden…";const r=await Promise.all([tk||S.trRefresh?loadMovies(tk).catch(()=>[]):[],loadYT().catch(()=>[]),loadSpotify().catch(()=>[]),loadEPG().catch(()=>[])]);ITEMS=r.flat().concat(LG?MOON:[]);$("note").textContent="";}
  dk=-1;setHero();if(shelfApp>-1){const x=shelfApp;shelfApp=-1;drawShelf(x);}}
 
@@ -606,6 +609,7 @@ function paint(){rows.flat().forEach(e=>e.classList.remove("focus"));$("rail").c
 function act(){const el=rows[fr][fi];if(!el){fr=2;fi=0;return paint();}
  if(fr===0)return RAIL[fi][2]();
  if(fr===1)return HERO.length&&open(HERO[hi].a);
+ if(fr===3&&el.dataset.go)return openSettingsAt(el.dataset.go);
  if(fr===3){const it=ITEMS[+el.dataset.k];if(it.act==='ps')return ps();if(it.act==='open')return open(it.a);return it.yt&&it.v?openYT(it.v):it.sp&&it.uri?openSP(it.uri):open(it.a);}
  if(el.dataset.c)return openCont(CONT[+el.dataset.c]);open(+el.dataset.a);}
 function move(dr,di){
@@ -657,6 +661,7 @@ $("pcats").addEventListener("click",e=>{const c=e.target.closest(".cat");if(!c)r
 $("opts").addEventListener("click",e=>{const o=e.target.closest(".opt");if(!o)return;oi=+o.dataset.i;const O=CUR[oi];O.ok?O.ok():O.ch(1);save();drawOpts();});
 $("keyin").addEventListener("keydown",e=>{if(e.keyCode===461||e.keyCode===27){$("keybox").style.display="none";$("keyin").blur();e.preventDefault();e.stopPropagation();return;}if(e.keyCode===13&&kn==="_addid"){const v=e.target.value.trim();e.target.placeholder="Plak je API-sleutel en druk op OK";if(v){S.extra.push({n:v.split(".").pop().replace(/[-_]/g," ").replace(/^./,c=>c.toUpperCase()),id:v});addExtras();save();drawApps();build();toast("App toegevoegd");}panel(false);e.stopPropagation();return;}
  if(e.keyCode===13){S[kn]=e.target.value.trim();save();try{["ghM6","ghYT6","ghSP6","ghEPG","ghTR"].forEach(x=>localStorage.removeItem(x))}catch(x){}$("keybox").style.display="none";drawOpts();loadAll();}e.stopPropagation();});
+function openSettingsAt(lbl){panel(true);const ci=CATS.findIndex(c=>c.o.some(o=>o.l.indexOf(lbl)>-1));if(ci<0)return;pc=ci;CUR=CATS[pc].o;oi=Math.max(0,CUR.findIndex(o=>o.l.indexOf(lbl)>-1));pf="opts";drawOpts();}
 function sheet(t,opts){fromSettings=fromSettings||(!!CATS&&mode==="panel");CATS=null;CUR=opts;$("ptitle").textContent=t;mode="panel";$("panel").classList.add("open");$("msg").textContent="";$("keybox").style.display="none";oi=0;drawOpts();paint();}
 function panel(o){$("scrim").classList.toggle("on",!!o);if(o){CATS=buildCats();if(!fromSettings){pc=0;}pf=fromSettings?"opts":"cats";CUR=CATS[pc].o;$("ptitle").textContent="Instellingen";}fromSettings=false;mode=o?"panel":"home";$("panel").classList.toggle("open",o);$("msg").textContent="";$("keybox").style.display="none";oi=0;drawOpts();paint();}
 document.addEventListener("click",()=>{if(mode==="amb"&&Date.now()-ambT>400)amb(false);});
