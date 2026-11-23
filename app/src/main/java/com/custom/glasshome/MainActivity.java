@@ -28,6 +28,7 @@ public class MainActivity extends Activity {
         webView.setFocusableInTouchMode(true);
         webView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
         WebSettings s = webView.getSettings();
+        if (Build.VERSION.SDK_INT >= 26) webView.setDefaultFocusHighlightEnabled(false);
         s.setTextZoom(100); s.setSupportZoom(false); s.setUseWideViewPort(false);
         s.setJavaScriptEnabled(true);
         s.setDomStorageEnabled(true);

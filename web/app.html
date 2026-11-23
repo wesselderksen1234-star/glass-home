@@ -1,4 +1,4 @@
-<!DOCTYPE html><!--GH_BUILD:2.4.5-->
+<!DOCTYPE html><!--GH_BUILD:2.4.6-->
 <html lang="nl" style="background:#05060a url(splash5.png) center/cover no-repeat"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width">
 <title>Glass Home</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
@@ -220,6 +220,7 @@ body.shelf #clock{opacity:0}#clock{transition:opacity .3s}
 body.haslive #s-cont{display:none!important}
 html{overflow:hidden}#rot{display:none}body.portrait{overflow:visible}body.portrait #rot{display:block;position:fixed;left:0;right:0;bottom:-90px;text-align:center;font-size:30px;color:rgba(255,255,255,.75);z-index:200}
 .app.bn{padding:0}.app.bn .ico{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:inherit;filter:none}.app.bn b{display:none}.app.bn::before{background:linear-gradient(160deg,rgba(255,255,255,.14),rgba(255,255,255,0) 45%);z-index:1}
+*,*:focus{outline:none!important;-webkit-tap-highlight-color:transparent}
 </style></head><body class="boot"><script>window.ghFit=function(){var vv=window.visualViewport,de=document.documentElement,w=(vv&&vv.width)||de.clientWidth||innerWidth||1920,h=(vv&&vv.height)||de.clientHeight||innerHeight||1080,s=Math.min(w/1920,h/1080),b=document.body,r=document.documentElement;if(!b)return;var W=Math.round(Math.min(w/s,4000)),H=Math.round(Math.min(h/s,1620));if(h>w){W=1920;H=1080;}r.style.setProperty("--W",W+"px");r.style.setProperty("--H",H+"px");window.GW=W;window.GH=H;b.style.transformOrigin="0 0";b.style.transform="translate("+Math.round((w-W*s)/2)+"px,"+Math.round((h-H*s)/2)+"px) scale("+s+")";b.classList.toggle("portrait",h>w*1.05);};window.ghFit();addEventListener("orientationchange",function(){setTimeout(window.ghFit,300)});</script><div id="rot">Draai je scherm een kwartslag voor het grootste beeld</div><script>(function(){var M={},C={};function R(n){n=n.replace(/^\.\//,"./").replace(/\.js$/,"");if(C[n])return C[n].exports;var m={exports:{}};C[n]=m;M[n](m,m.exports);return m.exports;}
 M["./QRErrorCorrectLevel"]=function(module,exports){module.exports = {
 	L : 1,
@@ -1467,7 +1468,7 @@ module.exports = QRRSBlock;
 
 };
 var Q=R("./index"),E=R("./QRErrorCorrectLevel");window.ghQR=function(t){var q=new Q(-1,E.M);q.addData(t);q.make();var n=q.getModuleCount(),p="";for(var r=0;r<n;r++)for(var c=0;c<n;c++)if(q.isDark(r,c))p+="M"+(c+2)+" "+(r+2)+"h1v1h-1z";return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 '+(n+4)+' '+(n+4)+'" shape-rendering="crispEdges"><rect width="100%" height="100%" fill="#fff"/><path d="'+p+'" fill="#000"/></svg>';};})();</script>
-<script type="text/plain" id="ghv">GH_BUILD:2.4.5</script>
+<script type="text/plain" id="ghv">GH_BUILD:2.4.6</script>
 <div id="intro"><div class="orb"></div><div class="ghw"><svg class="ghl" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
 <defs>
 <linearGradient id="gl" x1="0" y1="0" x2="0.35" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".96"/><stop offset=".55" stop-color="#e9ecf6" stop-opacity=".78"/><stop offset="1" stop-color="#c9cfe6" stop-opacity=".6"/></linearGradient>
@@ -1520,12 +1521,13 @@ const APPS=[
  {n:"TiviMate",k:"tivimate",id:"",pkg:"ar.tvplayer.tv",g:"tv",c:["#3fa7ff","#1652c9"]},
  {n:"Spotify",k:"spotify",id:"spotify-beehive",pkg:"com.spotify.tv.android",g:"wave",c:["#3ee07a","#118a3e"]},
  {n:"Netflix",k:"netflix",id:"netflix",pkg:"com.netflix.ninja",g:"film",c:["#ff3b47","#7d0710"]},
- {n:"Videoland",k:"videoland",id:"videoland2021",g:"clap",c:["#ff5fa2","#b31560"]},
- {n:"NPO Start",k:"npo",id:"npo",g:"cast",c:["#ffa63d","#e0560f"]},
+ {n:"Videoland",k:"videoland",id:"videoland2021",pkg:"nl.rtl.videoland.v2",g:"clap",c:["#ff5fa2","#b31560"]},
+ {n:"NPO Start",k:"npo",id:"npo",pkg:"nl.uitzendinggemist",g:"cast",c:["#ffa63d","#e0560f"]},
  {n:"Prime Video",k:"prime",id:"amazon",pkg:"com.amazon.amazonvideo.livingroom",g:"star",c:["#4cc9ff","#0b6fb8"]}
 ];
 if(LG)APPS[2]={n:"Moonlight",k:"moonlight",id:"com.limelight.webos",g:"pad",c:["#5b6cff","#272f8f"]};
 const TINT={amazon:["#1a8cff","#0457c8"],"com.limelight.webos":["#5a6a8a","#2c3550"],"io.strem.tv":["#2e2670","#15113d"],netflix:["#3a0b0e","#120305"],npo:["#3a44d0","#1e2490"],"spotify-beehive":["#145a32","#08200f"],videoland2021:["#ff4a58","#d92233"],"youtube.leanback.v4":["#3a3a3e","#18181b"]};
+if(P==="android"){let IC={};try{IC=JSON.parse(localStorage.getItem("ghIcons")||"{}")}catch(e){}APPS.forEach(a=>{const t=TINT[a.id];if(t){a.c=[t[0],t[1]];a.lt=t[2]||0;if(IC[a.id]){a.icon=IC[a.id];a.tl=1;a.lg=1;}}});}
 if(P==="webos")APPS.forEach(a=>{const t=TINT[a.id];if(t){a.icon="icons/t2-"+a.id+".png";a.tl=1;a.c=[t[0],t[1]];a.lt=t[2]||0;}});
 const PROV={"Netflix":4,"Amazon Prime Video":7,"Videoland":5,"NPO Start":6,"NPO Plus":6};
 const svg=g=>'<svg viewBox="0 0 24 24">'+G[g]+'</svg>';
@@ -1556,7 +1558,7 @@ const save=()=>{if(window.GH_DEL)return;try{localStorage.setItem(SKEY,JSON.strin
 const LUNA_KEEP=[];function luna(uri,p,cb){try{const b=new PalmServiceBridge();if(p&&p.subscribe)LUNA_KEEP.push(b);b.onservicecallback=r=>{try{cb&&cb(JSON.parse(r))}catch(e){}};b.call(uri,JSON.stringify(p||{}))}catch(e){cb&&cb(null)}}
 let ALLAPPS=[];
 function syncApps(list){ALLAPPS=list.filter(x=>x.visible!==false&&x.title);if(P==="android"&&!S.aa1&&list.length){S.aa1=1;S.extra=S.extra||[];const skip=/^(com\.android\.|com\.google\.android\.(?!youtube)|com\.custom\.glasshome|com\.tech\.downloader|android)/;list.forEach(x=>{if(skip.test(x.id)||APPS.some(a=>a.pkg===x.id)||S.extra.some(e=>e.id===x.id))return;if(/youtube|stremio|spotify|netflix|videoland|npo|uitzendinggemist|prime|amazon|tvplayer|tivimate/i.test(x.id+" "+x.title))return;S.extra.push({n:x.title,id:x.id});});save();}setTimeout(drawLive,0);addExtras();APPS.forEach(a=>{const lo=x=>(x.title||"").toLowerCase(),m=list.find(x=>x.id===a.pkg||x.id===a.id)||list.find(x=>lo(x)===a.n.toLowerCase())||list.find(x=>lo(x).includes(a.k)&&!/kids|music/.test(lo(x)));if(!m){if(P==="android"&&list.length&&!a.x)a.missing=1;return;}a.missing=0;
-  if(P==="android"){a.pkg=m.id;try{a.icon=GHAndroid.appIcon(m.id)||""}catch(e){}return;}
+  if(P==="android"){a.pkg=m.id;if(!a.lg){try{a.icon=GHAndroid.appIcon(m.id)||""}catch(e){}}return;}
   a.id=m.id;let ic=m.largeIcon||m.icon||"";if(ic&&!/^(\/|file:|https?:|data:)/.test(ic))ic=(m.folderPath||"")+"/"+ic;if(ic&&String(a.icon||"").indexOf("icons/")!==0)a.icon=(ic[0]==="/"?"file://":"")+ic;});
  drawApps();drawCont();}
 // Glass Home aanmelden als "ingang" (net als HDMI): was hij de laatste ingang, dan start de tv er vanzelf mee op
