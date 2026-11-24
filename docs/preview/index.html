@@ -1,0 +1,2263 @@
+<!DOCTYPE html><!--GH_BUILD:2.5.8-->
+<html lang="nl" style="background:#05060a url(splash5.png) center/cover no-repeat"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width">
+<title>Glass Home</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<style>@font-face{font-family:Inter;font-weight:200;font-style:normal;font-display:swap;src:url(fonts/inter-200.woff) format("woff")}@font-face{font-family:Inter;font-weight:400;font-style:normal;font-display:swap;src:url(fonts/inter-400.woff) format("woff")}@font-face{font-family:Inter;font-weight:500;font-style:normal;font-display:swap;src:url(fonts/inter-500.woff) format("woff")}@font-face{font-family:Inter;font-weight:600;font-style:normal;font-display:swap;src:url(fonts/inter-600.woff) format("woff")}@font-face{font-family:Inter;font-weight:700;font-style:normal;font-display:swap;src:url(fonts/inter-700.woff) format("woff")}@font-face{font-family:Inter;font-weight:800;font-style:normal;font-display:swap;src:url(fonts/inter-800.woff) format("woff")}
+
+/* VOICE premium living-room tv  IDEA a cinema lobby: one huge featured poster, shelves below
+   PICTURE full-bleed rotating hero  COLOUR near-black, wallpaper glow, white focus ring
+   TYPE Inter 400-800  LAYOUT slim glass rail left, hero, shelves of apps / verder / tips */
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:var(--W,1920px);height:var(--H,1080px);overflow:hidden;background:transparent;color:#fff;font-family:Inter,"Helvetica Neue",Arial,sans-serif;-webkit-font-smoothing:antialiased}
+.bg{position:absolute;inset:-60px;background-size:cover;background-position:center;opacity:0;transition:opacity 2.5s}
+.bg.on{opacity:1}
+#bgwrap{position:absolute;inset:0;filter:blur(60px) brightness(.45) saturate(1.3);transition:filter 1s}
+body.amb #bgwrap{filter:none}
+.glass{background:linear-gradient(160deg,rgba(255,255,255,.2),rgba(255,255,255,.06) 50%,rgba(255,255,255,.1));backdrop-filter:blur(30px) saturate(180%);-webkit-backdrop-filter:blur(30px) saturate(180%);border:1px solid rgba(255,255,255,.2);box-shadow:inset 0 1.5px 0 rgba(255,255,255,.45),0 14px 40px rgba(0,0,0,.35)}
+.f{position:relative;will-change:transform;transition:transform .28s cubic-bezier(.2,.9,.25,1),box-shadow .28s}
+.f.focus{transform:scale(1.06);z-index:5;box-shadow:0 0 0 2px rgba(255,255,255,.75),0 26px 60px rgba(0,0,0,.6)}
+.f::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;opacity:0;transition:opacity .28s;background:linear-gradient(180deg,rgba(255,255,255,.42) 0,rgba(255,255,255,.08) 18%,transparent 40%);box-shadow:inset 0 1.5px 0 rgba(255,255,255,.95)}
+.f.focus::after{opacity:1}
+#tint{position:absolute;left:0;top:0;width:240px;height:135px;transform-origin:0 0;transform:scale(8);background-size:cover;background-position:center;filter:blur(5px) saturate(1.5);opacity:0;transition:opacity .9s,background-image .9s;will-change:opacity}
+body.tinted #tint{opacity:.42}
+#fbg{position:absolute;inset:0;background-size:cover;background-position:center;opacity:0;transition:opacity 1.1s ease;filter:brightness(.62) saturate(1.1)}
+body.fb #fbg{opacity:1}body.fb #tint{opacity:0}
+.pv{position:absolute;inset:0;z-index:1;opacity:0;transition:opacity 1.4s ease;pointer-events:none;overflow:hidden;border-radius:inherit;background:#000}
+.pv.on{opacity:1}.pv iframe{position:absolute;width:136%;height:136%;left:-18%;top:-18%;border:0}
+.card .lab,.card .score,.card .badge{z-index:2}
+#hero .pv{z-index:0}
+@keyframes kb{from{background-size:auto 112%;background-position:38% 50%}to{background-size:auto 128%;background-position:62% 42%}}
+.card.kb,.hi.kb{animation:kb 22s ease-in-out infinite alternate}
+#toast{position:absolute;left:50%;bottom:60px;z-index:40;transform:translateX(-50%) translateY(20px);padding:16px 30px;border-radius:30px;font-size:22px;font-weight:600;opacity:0;transition:all .3s;pointer-events:none}
+#toast.on{opacity:1;transform:translateX(-50%)}
+#aextra{margin-top:18px;font-size:26px;opacity:.85;display:flex;flex-direction:column;gap:6px}
+.card .live{position:absolute;top:16px;left:16px;height:30px;border-radius:15px;padding:0 12px;background:#ff3b30;font-size:15px;font-weight:800;display:flex;align-items:center}
+#ui{position:absolute;inset:0;transition:opacity .6s}
+body.lite .glass,body.lite .app,body.lite #clock,body.lite #rail{-webkit-backdrop-filter:blur(22px) saturate(170%)!important;backdrop-filter:blur(22px) saturate(170%)!important}body.lite #panel,body.lite #det{-webkit-backdrop-filter:blur(26px) saturate(150%)!important;backdrop-filter:blur(26px) saturate(150%)!important}
+body.lite .glass,body.lite #rail{background:linear-gradient(160deg,rgba(255,255,255,.3),rgba(255,255,255,.16) 55%,rgba(255,255,255,.22));border:1px solid rgba(255,255,255,.28);box-shadow:inset 0 1.5px 0 rgba(255,255,255,.55),inset 0 -1px 0 rgba(255,255,255,.1),0 16px 40px rgba(0,0,0,.28)}
+body.lite #det{background:linear-gradient(160deg,rgba(44,48,62,.72),rgba(18,20,28,.8))}
+body.lite #panel{background:linear-gradient(160deg,rgba(56,60,78,.74),rgba(20,22,32,.82))}
+#scrim{position:absolute;inset:0;z-index:29;background:radial-gradient(120% 90% at 50% 50%,rgba(4,5,10,.35),rgba(4,5,10,.7));opacity:0;transition:opacity .35s;pointer-events:none}
+#scrim.on{opacity:1}
+body.lite #clock{background:linear-gradient(160deg,rgba(255,255,255,.26),rgba(255,255,255,.1) 55%,rgba(255,255,255,.16));border:1px solid rgba(255,255,255,.28);box-shadow:inset 0 1.5px 0 rgba(255,255,255,.55),0 16px 40px rgba(0,0,0,.25)}
+body.lite .bg.on{animation:none}body.lite #bgwrap{filter:brightness(.62) saturate(1.15)}
+body.lite #tint{filter:none;transition:opacity .4s}body.lite .f{will-change:auto;transition:transform .18s ease-out}
+body.lite .row.in>*{animation-duration:.25s}
+body.amb #ui{opacity:0;pointer-events:none}
+/* rail */
+#rail{position:absolute;left:36px;top:50%;transform:translateY(-50%);z-index:20;border-radius:44px;padding:16px;display:flex;flex-direction:column;gap:12px;width:104px;transition:width .45s cubic-bezier(.2,.9,.25,1),max-height .45s cubic-bezier(.2,.9,.25,1),left .45s cubic-bezier(.2,.9,.25,1),padding .45s cubic-bezier(.2,.9,.25,1),opacity .45s,border-radius .45s;overflow:hidden}
+#rail.open{width:330px}
+.ri{height:72px;border-radius:36px;display:flex;align-items:center;gap:22px;padding:0 18px;font-size:24px;font-weight:600;white-space:nowrap;transition:background .25s,color .25s}
+.ri span{opacity:0;transition:opacity .2s}#rail.open .ri span{opacity:1}
+.ri svg{flex:none;width:36px;height:36px}
+.ri.focus{background:#fff;color:#000;transform:none;box-shadow:none}
+.ri.focus svg *{stroke:#000}
+/* main */
+#main{position:absolute;inset:0;transition:transform .5s cubic-bezier(.2,.9,.25,1)}
+#hero{position:absolute;left:0;right:0;top:0;height:640px;overflow:hidden}
+.hi{position:absolute;inset:0;background-size:cover;background-position:center 30%;opacity:0;transition:opacity 1.2s}
+.hi.on{opacity:1}
+#hero:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(5,6,10,.92) 0,rgba(5,6,10,.55) 40%,rgba(5,6,10,0) 70%)}
+#hero{-webkit-mask-image:linear-gradient(180deg,#000 55%,transparent);mask-image:linear-gradient(180deg,#000 55%,transparent)}
+#htxt{position:absolute;left:200px;bottom:110px;z-index:2;width:900px}
+#htag{display:inline-flex;align-items:center;gap:10px;font-size:20px;font-weight:600;padding:8px 18px;border-radius:20px;margin-bottom:22px}
+#htag i{width:10px;height:10px;border-radius:50%}
+#htitle{font-size:84px;font-weight:800;letter-spacing:-2.5px;line-height:1;text-shadow:0 4px 30px rgba(0,0,0,.4)}
+#hmeta{font-size:24px;opacity:.8;margin:18px 0 30px}
+#hbtn{display:inline-flex;align-items:center;gap:14px;height:72px;padding:0 36px;border-radius:36px;background:#fff;color:#000;font-size:24px;font-weight:700}
+#hbtn svg{width:26px;height:26px}
+#dots{position:absolute;right:96px;bottom:118px;z-index:2;display:flex;gap:10px}
+#dots i{width:10px;height:10px;border-radius:5px;background:rgba(255,255,255,.4);transition:all .4s}
+#dots i.on{width:34px;background:#fff}
+#clock{position:absolute;top:34px;right:96px;z-index:21;display:flex;flex-direction:column;align-items:flex-end;padding:12px 26px 14px;border-radius:26px;background:rgba(10,12,18,.35);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);text-shadow:0 2px 16px rgba(0,0,0,.4)}
+#ctime{font-size:42px;font-weight:600;letter-spacing:-1px;line-height:1.1}#cdate{font-size:19px;font-weight:500;opacity:.8}
+.sec{position:absolute;left:0;right:0}
+.sec h2{margin-left:200px;font-size:28px;font-weight:700;letter-spacing:-.3px;margin-bottom:6px}
+.sec h2 small{font-size:18px;font-weight:500;opacity:.55;margin-left:16px}
+.row{display:flex;gap:28px;padding:22px 96px 96px 200px;margin-bottom:-70px;overflow:hidden}
+.sec{pointer-events:none}.sec .f{pointer-events:auto}
+#s-apps{top:610px}#s-shelf{top:830px;opacity:0;transition:opacity .4s}body.shelf #s-shelf{opacity:1}
+#s-cont{top:830px;transition:top .5s cubic-bezier(.2,.9,.25,1),opacity .4s}body.shelf #s-cont{top:1160px}body.det #s-cont{opacity:0}
+@keyframes slin{from{opacity:0;transform:translateX(60px)}}.row.in>*{animation:slin .45s cubic-bezier(.2,.9,.25,1) both}
+.row.in>*:nth-child(2){animation-delay:.04s}.row.in>*:nth-child(3){animation-delay:.08s}.row.in>*:nth-child(4){animation-delay:.12s}
+.empty{flex:none;height:110px;padding:0 34px;border-radius:30px;display:flex;align-items:center;gap:20px;font-size:24px;font-weight:600;text-shadow:0 1px 10px rgba(0,0,0,.35)}
+.empty svg{width:34px;height:34px;flex:none;opacity:.9}.empty b{margin-left:18px;font-size:19px;font-weight:700;padding:9px 18px;border-radius:20px;background:rgba(255,255,255,.18)}
+.empty.focus b{background:#fff;color:#000;text-shadow:none}
+#det{position:absolute;left:200px;right:96px;bottom:40px;height:410px;z-index:15;border-radius:38px;padding:40px 48px;display:grid;grid-template-columns:600px 1fr;gap:56px;opacity:0;transform:translateY(40px);transition:opacity .35s,transform .45s cubic-bezier(.2,.9,.25,1);pointer-events:none;background:linear-gradient(160deg,rgba(40,44,56,.55),rgba(15,17,24,.6))}
+body.det #det{opacity:1;transform:none}
+#dtitle{font-size:46px;font-weight:800;letter-spacing:-1px;line-height:1.05}
+#dmeta{font-size:22px;opacity:.7;margin-top:10px}
+#dchips{display:flex;flex-wrap:wrap;gap:10px;margin-top:28px}
+.chip{padding:10px 18px;border-radius:22px;background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.15);font-size:19px}
+.chip b{font-weight:700;margin-left:4px}.chip.big{background:#fff;color:#000;font-weight:800;font-size:24px}.chip.lb{background:rgba(64,188,244,.22);border-color:rgba(64,188,244,.5)}
+#det h4{font-size:19px;font-weight:600;opacity:.6;margin-bottom:6px}#det h4+p{margin-bottom:22px}
+#det p{font-size:23px;line-height:1.45}#dsrc{font-size:15px;opacity:.5}
+.chip.me{background:rgba(255,214,10,.2);border-color:rgba(255,214,10,.5)}
+.card .by{font-weight:500;opacity:.8}
+#msg{font-size:22px;margin-top:16px;line-height:1.5}#msg .code{font-size:34px;letter-spacing:3px;background:#fff;color:#000;padding:2px 14px;border-radius:10px;margin-left:8px}
+#apps{gap:18px}.app{flex:none;width:186px;height:132px;border-radius:26px;overflow:hidden;display:flex;flex-direction:column;justify-content:space-between;padding:20px 22px}
+.app svg{width:46px;height:46px}
+.ico{width:64px;height:64px;border-radius:16px;box-shadow:0 4px 14px rgba(0,0,0,.25);object-fit:contain;filter:drop-shadow(0 4px 12px rgba(0,0,0,.3))}
+.card .gi{position:absolute;right:26px;top:24px;width:96px;height:96px;border-radius:24px;object-fit:contain;filter:drop-shadow(0 6px 18px rgba(0,0,0,.35))}
+.app b{font-size:21px;font-weight:700;letter-spacing:-.2px}
+.app{backdrop-filter:blur(26px) saturate(190%);-webkit-backdrop-filter:blur(26px) saturate(190%);border:1px solid rgba(255,255,255,.3);box-shadow:inset 0 1.5px 0 rgba(255,255,255,.65),inset 0 -1px 0 rgba(255,255,255,.12),0 14px 34px rgba(0,0,0,.32)}
+.app:before{content:"";position:absolute;inset:0;border-radius:inherit;background:radial-gradient(120% 70% at 20% 0%,rgba(255,255,255,.38),rgba(255,255,255,0) 55%),linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,0) 40%)}
+.app>*{position:relative}
+.card{flex:none;width:440px;height:248px;border-radius:26px;overflow:hidden;background-size:cover;background-position:center}
+.card .lab{position:absolute;left:0;right:0;bottom:0;padding:50px 24px 20px;background:linear-gradient(transparent,rgba(0,0,0,.8));font-size:25px;font-weight:700}
+.card .lab small{display:block;font-size:17px;font-weight:500;opacity:.8;margin-top:3px}
+.card .gl{position:absolute;right:26px;top:24px;width:84px;height:84px;opacity:.9}
+.card .bar{height:5px;border-radius:3px;background:rgba(255,255,255,.3);margin-top:12px}
+.card .bar i{display:block;height:100%;border-radius:3px;background:#fff}
+.score{position:absolute;top:16px;right:16px;height:34px;border-radius:17px;padding:0 14px;display:flex;align-items:center;font-size:17px;font-weight:800}
+.tt{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+#s-yt{top:1490px}
+.badge{position:absolute;top:16px;left:16px;height:34px;border-radius:17px;padding:0 14px;display:flex;align-items:center;gap:8px;font-size:15px;font-weight:700}
+.badge i{width:9px;height:9px;border-radius:50%}
+/* ambient */
+#amb{position:absolute;left:120px;bottom:110px;opacity:0;transition:opacity .8s;pointer-events:none}
+body.amb #amb{opacity:1}
+#amb b{display:block;font-size:180px;font-weight:200;letter-spacing:-6px;line-height:1;text-shadow:0 4px 40px rgba(0,0,0,.35)}
+#amb span{font-size:38px;opacity:.85}
+/* settings */
+#panel{position:absolute;top:50%;left:50%;z-index:30;width:1480px;height:800px;padding:48px 52px 36px;border-radius:46px;transform:translate(-50%,-50%) scale(.96);opacity:0;pointer-events:none;transition:opacity .3s,transform .4s cubic-bezier(.2,.9,.25,1);display:grid;grid-template-columns:380px 1fr;grid-template-rows:auto 1fr auto;column-gap:44px;-webkit-backdrop-filter:blur(34px) saturate(180%);backdrop-filter:blur(34px) saturate(180%);
+ background:linear-gradient(160deg,rgba(255,255,255,.2),rgba(255,255,255,.06) 50%,rgba(255,255,255,.1));box-shadow:inset 0 1.5px 0 rgba(255,255,255,.5),0 40px 120px rgba(0,0,0,.55)}
+#panel.single{width:1040px;height:auto;max-height:860px;grid-template-columns:1fr}
+#panel h3{grid-column:1/-1}
+#pcats{display:flex;flex-direction:column;gap:8px;border-right:1px solid rgba(255,255,255,.14);padding-right:30px}
+#panel.single #pcats{display:none}
+.cat{display:flex;align-items:center;gap:18px;height:68px;padding:0 22px;border-radius:34px;font-size:25px;font-weight:600;opacity:.75;transition:background .2s,opacity .2s}
+.cat svg{width:30px;height:30px;flex:none}
+.cat.sel{opacity:1;background:rgba(255,255,255,.14)}
+.cat.focus{opacity:1;background:#fff;color:#000}.cat.focus svg *{stroke:#000}
+#optwrap{overflow:hidden;min-height:0;display:flex;flex-direction:column}
+#opts{position:relative;overflow-y:auto;scroll-behavior:smooth;padding:4px 6px 10px 2px;scrollbar-width:none}
+#opts::-webkit-scrollbar{display:none}
+#ctitle{font-size:20px;font-weight:600;opacity:.55;margin:2px 0 12px 26px}
+#panel.single #ctitle{display:none}
+#panel .hint{grid-column:1/-1}
+#panel.open{opacity:1;transform:translate(-50%,-50%) scale(1);pointer-events:auto}
+#panel.opts-dim .opt.focus{background:rgba(255,255,255,.14);color:inherit}
+#panel h3{font-size:40px;font-weight:700;margin-bottom:28px;letter-spacing:-.5px}
+.opt{display:flex;justify-content:space-between;align-items:center;gap:30px;padding:16px 26px;border-radius:22px;font-size:24px;margin-bottom:6px;cursor:pointer;transition:background .2s}
+.opt.focus{background:#fff;color:#000}
+.opt .v{opacity:.7}
+.opt .mini{width:34px;height:34px;border-radius:8px;vertical-align:middle;margin-right:14px;object-fit:contain}
+.vbar{display:inline-block;width:240px;height:8px;border-radius:4px;background:rgba(127,127,127,.35);vertical-align:middle;margin-right:14px;overflow:hidden}.vbar i{display:block;height:100%;background:currentColor;border-radius:4px}
+.hint{font-size:19px;opacity:.6;margin-top:18px}
+#keybox{display:none;margin-top:14px}#keybox input{width:100%;font:22px Inter,sans-serif;padding:16px 20px;border-radius:18px;border:0}
+
+
+
+@keyframes sweep{to{background-position:36% 0}}
+
+#ui{transition:opacity .9s ease,transform 1.1s cubic-bezier(.2,.9,.25,1)}
+body.boot #ui{opacity:0;transform:scale(1.03)}
+body.lite .card.kb,body.lite .hi.kb{animation:none}
+.ico.tl{width:auto;height:38px;max-width:116px;border-radius:0;box-shadow:none;object-fit:contain;object-position:left center;filter:drop-shadow(0 2px 6px rgba(0,0,0,.22))}
+.app.lt b{color:#15161c;text-shadow:none}.app.lt .ico.tl{filter:none}
+.card.rc .gi.tl{position:absolute;left:28px;right:auto;top:30px;width:auto;height:58px;max-width:62%;border-radius:0;box-shadow:none;object-fit:contain;object-position:left top;filter:drop-shadow(0 3px 10px rgba(0,0,0,.35))}
+.empty.focus{background:rgba(255,255,255,.3)!important;border-color:rgba(255,255,255,.9)!important;box-shadow:0 0 0 4px rgba(255,255,255,.85),0 18px 40px rgba(0,0,0,.35)!important;transform:scale(1.05)}
+#msg{font-size:23px;font-weight:600;color:#fff;background:rgba(255,255,255,.12);border-radius:16px;padding:0 18px}#msg:not(:empty){padding:14px 18px}
+#apps .app{background-blend-mode:normal}
+#apps .app::before{content:"";position:absolute;inset:0;border-radius:inherit;background:linear-gradient(160deg,rgba(255,255,255,.16),rgba(255,255,255,.04) 60%);pointer-events:none}
+#apps .app{position:relative}#apps .app>*{position:relative}
+.card.res .score{left:22px;right:auto;top:auto;bottom:86px}.card.res.focus{box-shadow:0 0 0 4px #fff,0 20px 44px rgba(0,0,0,.45)}
+.card .score{background:rgba(16,18,26,.66)!important;-webkit-backdrop-filter:blur(16px) saturate(140%);backdrop-filter:blur(16px) saturate(140%);border:1px solid rgba(255,255,255,.22);color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.5);box-shadow:0 4px 12px rgba(0,0,0,.3)}
+#rail:not(.open){width:10px;max-height:84px;left:16px;padding:0;opacity:.7;border-radius:5px}#rail{max-height:900px}
+#rail .ri{transition:opacity .3s,transform .45s cubic-bezier(.2,.9,.25,1)}#rail:not(.open) .ri{opacity:0;transform:translateX(-30px)}
+body.amb #rail{opacity:0}
+.empty.lk{align-self:center}
+.qr{float:right;margin:0 0 10px 18px}.qr svg{display:block;width:230px;height:230px;border-radius:14px}
+#intro{position:fixed;left:0;top:0;width:var(--W,1920px);height:var(--H,1080px);z-index:100;overflow:hidden;background:radial-gradient(ellipse at 50% 55%,#171b2c 0%,#090a12 62%,#05060a 100%);display:flex;align-items:center;justify-content:center;transition:opacity .9s ease}
+#intro .orb{position:absolute;left:50%;top:50%;width:760px;height:760px;margin:-380px 0 0 -380px;border-radius:50%;background:radial-gradient(circle,rgba(170,190,255,.5),rgba(130,100,255,.16) 42%,transparent 66%);opacity:0;animation:ghorb 2.3s cubic-bezier(.45,0,.25,1) .15s both}
+#intro .gh{position:relative;font:600 136px/1.1 Inter,"Helvetica Neue",Arial,sans-serif;letter-spacing:-4px;padding:0 10px;color:transparent;-webkit-text-stroke:1.2px rgba(255,255,255,.32);background:linear-gradient(100deg,rgba(255,255,255,.44) 0%,rgba(255,255,255,.44) 36%,#fff 50%,rgba(255,255,255,.44) 64%,rgba(255,255,255,.44) 100%);background-size:320% 100%;background-position:100% 0;-webkit-background-clip:text;background-clip:text;animation:ghin 1s ease both,ghs 2s cubic-bezier(.45,0,.25,1) .35s both}
+@keyframes ghs{from{background-position:100% 0}to{background-position:0 0}}
+@keyframes ghin{from{opacity:0;transform:scale(.965)}to{opacity:1;transform:none}}
+@keyframes ghorb{0%{transform:translateX(-620px) scale(.7);opacity:0}45%{opacity:1}100%{transform:translateX(620px) scale(.95);opacity:0}}
+#intro.out{opacity:0}
+
+:root{--rib:repeating-linear-gradient(90deg,rgba(255,255,255,.16) 0,rgba(255,255,255,.04) 5px,rgba(0,0,0,.07) 10px,rgba(255,255,255,.02) 12px,rgba(255,255,255,.16) 14px)}
+body.reed #apps .app::before{background:var(--rib),linear-gradient(160deg,rgba(255,255,255,.18),rgba(255,255,255,.04) 60%)}
+body.reed #rail,body.reed #clock,body.reed .empty.glass{background-image:var(--rib),linear-gradient(160deg,rgba(255,255,255,.3),rgba(255,255,255,.14) 55%,rgba(255,255,255,.2))!important}
+body.reed #intro .gh{background-image:repeating-linear-gradient(90deg,rgba(255,255,255,0) 0,rgba(255,255,255,0) 6px,rgba(0,0,0,.28) 9px,rgba(255,255,255,0) 11px),linear-gradient(100deg,rgba(255,255,255,.44) 0%,rgba(255,255,255,.44) 36%,#fff 50%,rgba(255,255,255,.44) 64%,rgba(255,255,255,.44) 100%);background-size:auto,320% 100%}
+body.reedbg #bgwrap,body.reedbg #fbg{filter:url(#reedf) brightness(.78)}
+body.reedbg #bgwrap::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(90deg,rgba(255,255,255,.11) 0,rgba(255,255,255,0) 4px,rgba(0,0,0,.08) 20px,rgba(255,255,255,.11) 26px);pointer-events:none}
+#intro .ghw{position:relative;display:flex;flex-direction:column;align-items:center;gap:26px}#intro .ghl{width:150px;height:150px;opacity:.9;filter:drop-shadow(0 10px 30px rgba(0,0,0,.35));animation:ghin 1s ease both}
+body.hasHero #bgwrap{opacity:0}#bgwrap{transition:opacity 1.2s}
+body.hasHero #hero:after{bottom:auto;height:var(--H,1080px);-webkit-mask-image:linear-gradient(180deg,#000 60%,transparent);mask-image:linear-gradient(180deg,#000 60%,transparent)}body.hasHero #hero{overflow:visible;-webkit-mask-image:none;mask-image:none}body.hasHero .hi{bottom:auto;height:var(--H,1080px);-webkit-mask-image:linear-gradient(180deg,#000 40%,rgba(0,0,0,.45) 70%,rgba(0,0,0,.12) 88%,transparent);mask-image:linear-gradient(180deg,#000 40%,rgba(0,0,0,.45) 70%,rgba(0,0,0,.12) 88%,transparent)}
+#intro .ghw{width:130px;height:130px;display:block}#intro .ghl{width:130px;height:130px;opacity:.88;animation:none!important}#intro .orb{display:none}#intro .ghs{position:absolute;inset:0;-webkit-mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Cpath%20fill%3D%22%23000%22%20fill-rule%3D%22evenodd%22%20d%3D%22M44.6%2012.9a8%208%200%200%201%2010.8%200l30.2%2027.5a8%208%200%200%201%202.6%205.9V82a8%208%200%200%201-8%208H19.8a8%208%200%200%201-8-8V46.3a8%208%200%200%201%202.6-5.9Z%20M50%2060a8%208%200%200%200-8%208v22h16V68a8%208%200%200%200-8-8Z%22/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Cpath%20fill%3D%22%23000%22%20fill-rule%3D%22evenodd%22%20d%3D%22M44.6%2012.9a8%208%200%200%201%2010.8%200l30.2%2027.5a8%208%200%200%201%202.6%205.9V82a8%208%200%200%201-8%208H19.8a8%208%200%200%201-8-8V46.3a8%208%200%200%201%202.6-5.9Z%20M50%2060a8%208%200%200%200-8%208v22h16V68a8%208%200%200%200-8-8Z%22/%3E%3C/svg%3E");-webkit-mask-size:100% 100%;mask-size:100% 100%;background:linear-gradient(100deg,transparent 35%,rgba(255,255,255,.95) 50%,transparent 65%);background-size:320% 100%;background-position:100% 0;animation:ghs 2s cubic-bezier(.45,0,.25,1) .35s both}
+.card::before{content:"";position:absolute;left:0;right:0;bottom:0;height:60%;background:linear-gradient(180deg,transparent,rgba(0,0,0,.72));border-radius:inherit;pointer-events:none;z-index:1}.card .lab{z-index:2}
+body.amb #bgwrap{opacity:1!important}
+
+/* thema's */
+body.th-dark #panel,body.th-dark #det{background:linear-gradient(160deg,rgba(20,22,30,.9),rgba(6,7,11,.94))!important}
+body.th-dark #rail,body.th-dark #clock,body.th-dark .glass:not(#det):not(#panel){background:linear-gradient(160deg,rgba(28,30,40,.72),rgba(10,11,16,.78))!important;border-color:rgba(255,255,255,.12)!important}
+body.th-dark #apps .app::before{background:linear-gradient(160deg,rgba(0,0,0,.25),rgba(0,0,0,.4))}
+body.th-dark #scrim{background:rgba(0,0,0,.55)}
+body.th-light #panel,body.th-light #det{background:linear-gradient(160deg,rgba(250,251,255,.86),rgba(226,230,242,.9))!important;color:#15161c;text-shadow:none}
+body.th-light #panel *,body.th-light #det *{text-shadow:none}
+body.th-light #panel .hint,body.th-light #ctitle,body.th-light #det h4,body.th-light #dsrc,body.th-light #dmeta{color:rgba(20,22,30,.62)!important}
+body.th-light .opt.focus,body.th-light .cat.focus{background:#15161c!important;color:#fff!important}
+body.th-light .cat.sel{background:rgba(20,22,30,.1)!important}
+body.th-light .cat svg,body.th-light .opt svg{stroke:currentColor}
+body.th-light #msg{background:rgba(20,22,30,.08);color:#15161c}
+body.th-light #det .chip{background:rgba(20,22,30,.08);color:#15161c;border-color:rgba(20,22,30,.15)}
+body.th-light #det .chip.big{background:#15161c;color:#fff}
+body.th-light #rail,body.th-light #clock,body.th-light .empty.glass{background:linear-gradient(160deg,rgba(255,255,255,.72),rgba(236,239,248,.62))!important;color:#15161c;text-shadow:none;border-color:rgba(255,255,255,.8)!important}
+body.th-light #rail svg{stroke:#15161c}body.th-light .ri.focus{background:#15161c;color:#fff}body.th-light .ri.focus svg{stroke:#fff}
+body.th-light #clock *{color:#15161c;text-shadow:none}
+body.th-light #scrim{background:rgba(255,255,255,.18)}
+#live .lv{width:230px}.lv b small{display:block;font-size:15px;font-weight:500;opacity:.75;margin-top:2px}.lv .ldot{font-size:15px;font-weight:700;color:#fff;background:rgba(230,0,20,.85);padding:4px 10px;border-radius:999px;align-self:flex-start}
+#s-live{top:830px}body.haslive #s-shelf{top:1060px}body.haslive.shelf #s-cont{top:1390px}
+body.det #s-live{opacity:0;pointer-events:none}#s-live{transition:top .5s cubic-bezier(.2,.9,.25,1),opacity .3s}
+body.fb #hero .hi{opacity:0!important}#hero .hi{transition:opacity .9s}
+.av{display:inline-flex;align-items:center;justify-content:center;flex:none;border-radius:50%;object-fit:cover;color:#fff;font-weight:700;box-shadow:0 2px 8px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.35)}
+.ri .av{margin:0}.avl{display:inline-flex;align-items:center;gap:16px}.avl small{opacity:.6;font-size:.75em}
+.ri.last{margin-top:14px;position:relative}.ri.last::before{content:"";position:absolute;left:18px;right:18px;top:-14px;height:1px;background:rgba(255,255,255,.18)}
+.opt .v .av{vertical-align:middle;margin-right:8px}
+#det p{font-size:21px;line-height:1.36}#det{height:420px;bottom:24px;padding:30px 48px}#det h4+p{margin-bottom:16px}
+#clock{transition:opacity .3s}
+body.haslive #s-cont{display:none!important}
+html{overflow:hidden}#rot{display:none}body.portrait{overflow:visible}body.portrait #rot{display:block;position:fixed;left:0;right:0;bottom:-90px;text-align:center;font-size:30px;color:rgba(255,255,255,.75);z-index:200}
+.app.bn{padding:0}.app.bn .ico{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:inherit;filter:none}.app.bn b{display:none}.app.bn::before{background:linear-gradient(160deg,rgba(255,255,255,.14),rgba(255,255,255,0) 45%);z-index:1}
+*,*:focus{outline:none!important;-webkit-tap-highlight-color:transparent}
+.app .ico.lo{width:48px;height:48px;border-radius:14px;object-fit:cover;box-shadow:0 4px 12px rgba(0,0,0,.25)}
+body:not(.th-light) #clock{background:linear-gradient(160deg,rgba(255,255,255,.14),rgba(10,12,18,.46) 60%,rgba(10,12,18,.52))!important;text-shadow:0 1px 10px rgba(0,0,0,.55)}
+#amb{padding:22px 34px 24px;border-radius:34px;background:linear-gradient(160deg,rgba(255,255,255,.14),rgba(10,12,18,.46) 60%,rgba(10,12,18,.52));-webkit-backdrop-filter:blur(22px) saturate(160%);backdrop-filter:blur(22px) saturate(160%);border:1px solid rgba(255,255,255,.2);box-shadow:inset 0 1.5px 0 rgba(255,255,255,.35),0 16px 40px rgba(0,0,0,.25)}
+#amb b{font-size:96px!important;font-weight:300!important;letter-spacing:-2px!important;text-shadow:0 2px 14px rgba(0,0,0,.5)!important}
+#amb span{font-size:26px!important;text-shadow:0 1px 8px rgba(0,0,0,.5)}
+</style></head><body class="boot"><script>window.ghFit=function(){var vv=window.visualViewport,de=document.documentElement,w=(vv&&vv.width)||de.clientWidth||innerWidth||1920,h=(vv&&vv.height)||de.clientHeight||innerHeight||1080,s=Math.min(w/1920,h/1080),b=document.body,r=document.documentElement;if(!b)return;var W=Math.round(Math.min(w/s,4000)),H=Math.round(Math.min(h/s,1620));if(h>w){W=1920;H=1080;}r.style.setProperty("--W",W+"px");r.style.setProperty("--H",H+"px");window.GW=W;window.GH=H;b.style.transformOrigin="0 0";b.style.transform="translate("+Math.round((w-W*s)/2)+"px,"+Math.round((h-H*s)/2)+"px) scale("+s+")";b.classList.toggle("portrait",h>w*1.05);};window.ghFit();addEventListener("orientationchange",function(){setTimeout(window.ghFit,300)});</script><div id="rot">Draai je scherm een kwartslag voor het grootste beeld</div><script>(function(){var M={},C={};function R(n){n=n.replace(/^\.\//,"./").replace(/\.js$/,"");if(C[n])return C[n].exports;var m={exports:{}};C[n]=m;M[n](m,m.exports);return m.exports;}
+M["./QRErrorCorrectLevel"]=function(module,exports){module.exports = {
+	L : 1,
+	M : 0,
+	Q : 3,
+	H : 2
+};
+
+
+};
+M["./QRPolynomial"]=function(module,exports){var QRMath = R("./QRMath");
+
+function QRPolynomial(num, shift) {
+	if (num.length === undefined) {
+		throw new Error(num.length + "/" + shift);
+	}
+
+	var offset = 0;
+
+	while (offset < num.length && num[offset] === 0) {
+		offset++;
+	}
+
+	this.num = new Array(num.length - offset + shift);
+	for (var i = 0; i < num.length - offset; i++) {
+		this.num[i] = num[i + offset];
+	}
+}
+
+QRPolynomial.prototype = {
+
+	get : function(index) {
+		return this.num[index];
+	},
+	
+	getLength : function() {
+		return this.num.length;
+	},
+	
+	multiply : function(e) {
+	
+		var num = new Array(this.getLength() + e.getLength() - 1);
+	
+		for (var i = 0; i < this.getLength(); i++) {
+			for (var j = 0; j < e.getLength(); j++) {
+				num[i + j] ^= QRMath.gexp(QRMath.glog(this.get(i) ) + QRMath.glog(e.get(j) ) );
+			}
+		}
+	
+		return new QRPolynomial(num, 0);
+	},
+	
+	mod : function(e) {
+	
+		if (this.getLength() - e.getLength() < 0) {
+			return this;
+		}
+	
+		var ratio = QRMath.glog(this.get(0) ) - QRMath.glog(e.get(0) );
+	
+		var num = new Array(this.getLength() );
+		
+		for (var i = 0; i < this.getLength(); i++) {
+			num[i] = this.get(i);
+		}
+		
+		for (var x = 0; x < e.getLength(); x++) {
+			num[x] ^= QRMath.gexp(QRMath.glog(e.get(x) ) + ratio);
+		}
+	
+		// recursive call
+		return new QRPolynomial(num, 0).mod(e);
+	}
+};
+
+module.exports = QRPolynomial;
+
+};
+M["./QRMaskPattern"]=function(module,exports){module.exports = {
+	PATTERN000 : 0,
+	PATTERN001 : 1,
+	PATTERN010 : 2,
+	PATTERN011 : 3,
+	PATTERN100 : 4,
+	PATTERN101 : 5,
+	PATTERN110 : 6,
+	PATTERN111 : 7
+};
+
+};
+M["./QRMode"]=function(module,exports){module.exports = {
+    MODE_NUMBER :       1 << 0,
+    MODE_ALPHA_NUM :    1 << 1,
+    MODE_8BIT_BYTE :    1 << 2,
+    MODE_KANJI :        1 << 3
+};
+
+};
+M["./QRUtil"]=function(module,exports){var QRMode = R("./QRMode");
+var QRPolynomial = R("./QRPolynomial");
+var QRMath = R("./QRMath");
+var QRMaskPattern = R("./QRMaskPattern");
+
+var QRUtil = {
+
+    PATTERN_POSITION_TABLE : [
+        [],
+        [6, 18],
+        [6, 22],
+        [6, 26],
+        [6, 30],
+        [6, 34],
+        [6, 22, 38],
+        [6, 24, 42],
+        [6, 26, 46],
+        [6, 28, 50],
+        [6, 30, 54],        
+        [6, 32, 58],
+        [6, 34, 62],
+        [6, 26, 46, 66],
+        [6, 26, 48, 70],
+        [6, 26, 50, 74],
+        [6, 30, 54, 78],
+        [6, 30, 56, 82],
+        [6, 30, 58, 86],
+        [6, 34, 62, 90],
+        [6, 28, 50, 72, 94],
+        [6, 26, 50, 74, 98],
+        [6, 30, 54, 78, 102],
+        [6, 28, 54, 80, 106],
+        [6, 32, 58, 84, 110],
+        [6, 30, 58, 86, 114],
+        [6, 34, 62, 90, 118],
+        [6, 26, 50, 74, 98, 122],
+        [6, 30, 54, 78, 102, 126],
+        [6, 26, 52, 78, 104, 130],
+        [6, 30, 56, 82, 108, 134],
+        [6, 34, 60, 86, 112, 138],
+        [6, 30, 58, 86, 114, 142],
+        [6, 34, 62, 90, 118, 146],
+        [6, 30, 54, 78, 102, 126, 150],
+        [6, 24, 50, 76, 102, 128, 154],
+        [6, 28, 54, 80, 106, 132, 158],
+        [6, 32, 58, 84, 110, 136, 162],
+        [6, 26, 54, 82, 110, 138, 166],
+        [6, 30, 58, 86, 114, 142, 170]
+    ],
+
+    G15 : (1 << 10) | (1 << 8) | (1 << 5) | (1 << 4) | (1 << 2) | (1 << 1) | (1 << 0),
+    G18 : (1 << 12) | (1 << 11) | (1 << 10) | (1 << 9) | (1 << 8) | (1 << 5) | (1 << 2) | (1 << 0),
+    G15_MASK : (1 << 14) | (1 << 12) | (1 << 10)    | (1 << 4) | (1 << 1),
+
+    getBCHTypeInfo : function(data) {
+        var d = data << 10;
+        while (QRUtil.getBCHDigit(d) - QRUtil.getBCHDigit(QRUtil.G15) >= 0) {
+            d ^= (QRUtil.G15 << (QRUtil.getBCHDigit(d) - QRUtil.getBCHDigit(QRUtil.G15) ) );    
+        }
+        return ( (data << 10) | d) ^ QRUtil.G15_MASK;
+    },
+
+    getBCHTypeNumber : function(data) {
+        var d = data << 12;
+        while (QRUtil.getBCHDigit(d) - QRUtil.getBCHDigit(QRUtil.G18) >= 0) {
+            d ^= (QRUtil.G18 << (QRUtil.getBCHDigit(d) - QRUtil.getBCHDigit(QRUtil.G18) ) );    
+        }
+        return (data << 12) | d;
+    },
+
+    getBCHDigit : function(data) {
+
+        var digit = 0;
+
+        while (data !== 0) {
+            digit++;
+            data >>>= 1;
+        }
+
+        return digit;
+    },
+
+    getPatternPosition : function(typeNumber) {
+        return QRUtil.PATTERN_POSITION_TABLE[typeNumber - 1];
+    },
+
+    getMask : function(maskPattern, i, j) {
+        
+        switch (maskPattern) {
+            
+        case QRMaskPattern.PATTERN000 : return (i + j) % 2 === 0;
+        case QRMaskPattern.PATTERN001 : return i % 2 === 0;
+        case QRMaskPattern.PATTERN010 : return j % 3 === 0;
+        case QRMaskPattern.PATTERN011 : return (i + j) % 3 === 0;
+        case QRMaskPattern.PATTERN100 : return (Math.floor(i / 2) + Math.floor(j / 3) ) % 2 === 0;
+        case QRMaskPattern.PATTERN101 : return (i * j) % 2 + (i * j) % 3 === 0;
+        case QRMaskPattern.PATTERN110 : return ( (i * j) % 2 + (i * j) % 3) % 2 === 0;
+        case QRMaskPattern.PATTERN111 : return ( (i * j) % 3 + (i + j) % 2) % 2 === 0;
+
+        default :
+            throw new Error("bad maskPattern:" + maskPattern);
+        }
+    },
+
+    getErrorCorrectPolynomial : function(errorCorrectLength) {
+
+        var a = new QRPolynomial([1], 0);
+
+        for (var i = 0; i < errorCorrectLength; i++) {
+            a = a.multiply(new QRPolynomial([1, QRMath.gexp(i)], 0) );
+        }
+
+        return a;
+    },
+
+    getLengthInBits : function(mode, type) {
+
+        if (1 <= type && type < 10) {
+
+            // 1 - 9
+
+            switch(mode) {
+            case QRMode.MODE_NUMBER     : return 10;
+            case QRMode.MODE_ALPHA_NUM  : return 9;
+            case QRMode.MODE_8BIT_BYTE  : return 8;
+            case QRMode.MODE_KANJI      : return 8;
+            default :
+                throw new Error("mode:" + mode);
+            }
+
+        } else if (type < 27) {
+
+            // 10 - 26
+
+            switch(mode) {
+            case QRMode.MODE_NUMBER     : return 12;
+            case QRMode.MODE_ALPHA_NUM  : return 11;
+            case QRMode.MODE_8BIT_BYTE  : return 16;
+            case QRMode.MODE_KANJI      : return 10;
+            default :
+                throw new Error("mode:" + mode);
+            }
+
+        } else if (type < 41) {
+
+            // 27 - 40
+
+            switch(mode) {
+            case QRMode.MODE_NUMBER     : return 14;
+            case QRMode.MODE_ALPHA_NUM  : return 13;
+            case QRMode.MODE_8BIT_BYTE  : return 16;
+            case QRMode.MODE_KANJI      : return 12;
+            default :
+                throw new Error("mode:" + mode);
+            }
+
+        } else {
+            throw new Error("type:" + type);
+        }
+    },
+
+    getLostPoint : function(qrCode) {
+        
+        var moduleCount = qrCode.getModuleCount();
+        var lostPoint = 0;
+        var row = 0; 
+        var col = 0;
+
+        
+        // LEVEL1
+        
+        for (row = 0; row < moduleCount; row++) {
+
+            for (col = 0; col < moduleCount; col++) {
+
+                var sameCount = 0;
+                var dark = qrCode.isDark(row, col);
+
+                for (var r = -1; r <= 1; r++) {
+
+                    if (row + r < 0 || moduleCount <= row + r) {
+                        continue;
+                    }
+
+                    for (var c = -1; c <= 1; c++) {
+
+                        if (col + c < 0 || moduleCount <= col + c) {
+                            continue;
+                        }
+
+                        if (r === 0 && c === 0) {
+                            continue;
+                        }
+
+                        if (dark === qrCode.isDark(row + r, col + c) ) {
+                            sameCount++;
+                        }
+                    }
+                }
+
+                if (sameCount > 5) {
+                    lostPoint += (3 + sameCount - 5);
+                }
+            }
+        }
+
+        // LEVEL2
+
+        for (row = 0; row < moduleCount - 1; row++) {
+            for (col = 0; col < moduleCount - 1; col++) {
+                var count = 0;
+                if (qrCode.isDark(row,     col    ) ) count++;
+                if (qrCode.isDark(row + 1, col    ) ) count++;
+                if (qrCode.isDark(row,     col + 1) ) count++;
+                if (qrCode.isDark(row + 1, col + 1) ) count++;
+                if (count === 0 || count === 4) {
+                    lostPoint += 3;
+                }
+            }
+        }
+
+        // LEVEL3
+
+        for (row = 0; row < moduleCount; row++) {
+            for (col = 0; col < moduleCount - 6; col++) {
+                if (qrCode.isDark(row, col) && 
+                        !qrCode.isDark(row, col + 1) && 
+                         qrCode.isDark(row, col + 2) && 
+                         qrCode.isDark(row, col + 3) && 
+                         qrCode.isDark(row, col + 4) && 
+                        !qrCode.isDark(row, col + 5) && 
+                         qrCode.isDark(row, col + 6) ) {
+                    lostPoint += 40;
+                }
+            }
+        }
+
+        for (col = 0; col < moduleCount; col++) {
+            for (row = 0; row < moduleCount - 6; row++) {
+                if (qrCode.isDark(row, col) &&
+                        !qrCode.isDark(row + 1, col) &&
+                         qrCode.isDark(row + 2, col) &&
+                         qrCode.isDark(row + 3, col) &&
+                         qrCode.isDark(row + 4, col) &&
+                        !qrCode.isDark(row + 5, col) &&
+                         qrCode.isDark(row + 6, col) ) {
+                    lostPoint += 40;
+                }
+            }
+        }
+
+        // LEVEL4
+        
+        var darkCount = 0;
+
+        for (col = 0; col < moduleCount; col++) {
+            for (row = 0; row < moduleCount; row++) {
+                if (qrCode.isDark(row, col) ) {
+                    darkCount++;
+                }
+            }
+        }
+        
+        var ratio = Math.abs(100 * darkCount / moduleCount / moduleCount - 50) / 5;
+        lostPoint += ratio * 10;
+
+        return lostPoint;       
+    }
+
+};
+
+module.exports = QRUtil;
+
+};
+M["./QRMath"]=function(module,exports){var QRMath = {
+
+	glog : function(n) {
+	
+		if (n < 1) {
+			throw new Error("glog(" + n + ")");
+		}
+		
+		return QRMath.LOG_TABLE[n];
+	},
+	
+	gexp : function(n) {
+	
+		while (n < 0) {
+			n += 255;
+		}
+	
+		while (n >= 256) {
+			n -= 255;
+		}
+	
+		return QRMath.EXP_TABLE[n];
+	},
+	
+	EXP_TABLE : new Array(256),
+	
+	LOG_TABLE : new Array(256)
+
+};
+	
+for (var i = 0; i < 8; i++) {
+	QRMath.EXP_TABLE[i] = 1 << i;
+}
+for (var i = 8; i < 256; i++) {
+	QRMath.EXP_TABLE[i] = QRMath.EXP_TABLE[i - 4]
+		^ QRMath.EXP_TABLE[i - 5]
+		^ QRMath.EXP_TABLE[i - 6]
+		^ QRMath.EXP_TABLE[i - 8];
+}
+for (var i = 0; i < 255; i++) {
+	QRMath.LOG_TABLE[QRMath.EXP_TABLE[i] ] = i;
+}
+
+module.exports = QRMath;
+
+};
+M["./QR8bitByte"]=function(module,exports){var QRMode = R("./QRMode");
+
+function QR8bitByte(data) {
+	this.mode = QRMode.MODE_8BIT_BYTE;
+	this.data = data;
+}
+
+QR8bitByte.prototype = {
+
+	getLength : function() {
+		return this.data.length;
+	},
+	
+	write : function(buffer) {
+		for (var i = 0; i < this.data.length; i++) {
+			// not JIS ...
+			buffer.put(this.data.charCodeAt(i), 8);
+		}
+	}
+};
+
+module.exports = QR8bitByte;
+
+};
+M["./index"]=function(module,exports){//---------------------------------------------------------------------
+// QRCode for JavaScript
+//
+// Copyright (c) 2009 Kazuhiko Arase
+//
+// URL: http://www.d-project.com/
+//
+// Licensed under the MIT license:
+//   http://www.opensource.org/licenses/mit-license.php
+//
+// The word "QR Code" is registered trademark of 
+// DENSO WAVE INCORPORATED
+//   http://www.denso-wave.com/qrcode/faqpatent-e.html
+//
+//---------------------------------------------------------------------
+// Modified to work in node for this project (and some refactoring)
+//---------------------------------------------------------------------
+
+var QR8bitByte = R("./QR8bitByte");
+var QRUtil = R("./QRUtil");
+var QRPolynomial = R("./QRPolynomial");
+var QRRSBlock = R("./QRRSBlock");
+var QRBitBuffer = R("./QRBitBuffer");
+
+function QRCode(typeNumber, errorCorrectLevel) {
+	this.typeNumber = typeNumber;
+	this.errorCorrectLevel = errorCorrectLevel;
+	this.modules = null;
+	this.moduleCount = 0;
+	this.dataCache = null;
+	this.dataList = [];
+}
+
+QRCode.prototype = {
+	
+	addData : function(data) {
+		var newData = new QR8bitByte(data);
+		this.dataList.push(newData);
+		this.dataCache = null;
+	},
+	
+	isDark : function(row, col) {
+		if (row < 0 || this.moduleCount <= row || col < 0 || this.moduleCount <= col) {
+			throw new Error(row + "," + col);
+		}
+		return this.modules[row][col];
+	},
+
+	getModuleCount : function() {
+		return this.moduleCount;
+	},
+	
+	make : function() {
+		// Calculate automatically typeNumber if provided is < 1
+		if (this.typeNumber < 1 ){
+			var typeNumber = 1;
+			for (typeNumber = 1; typeNumber < 40; typeNumber++) {
+				var rsBlocks = QRRSBlock.getRSBlocks(typeNumber, this.errorCorrectLevel);
+
+				var buffer = new QRBitBuffer();
+				var totalDataCount = 0;
+				for (var i = 0; i < rsBlocks.length; i++) {
+					totalDataCount += rsBlocks[i].dataCount;
+				}
+
+				for (var x = 0; x < this.dataList.length; x++) {
+					var data = this.dataList[x];
+					buffer.put(data.mode, 4);
+					buffer.put(data.getLength(), QRUtil.getLengthInBits(data.mode, typeNumber) );
+					data.write(buffer);
+				}
+				if (buffer.getLengthInBits() <= totalDataCount * 8)
+					break;
+			}
+			this.typeNumber = typeNumber;
+		}
+		this.makeImpl(false, this.getBestMaskPattern() );
+	},
+	
+	makeImpl : function(test, maskPattern) {
+		
+		this.moduleCount = this.typeNumber * 4 + 17;
+		this.modules = new Array(this.moduleCount);
+		
+		for (var row = 0; row < this.moduleCount; row++) {
+			
+			this.modules[row] = new Array(this.moduleCount);
+			
+			for (var col = 0; col < this.moduleCount; col++) {
+				this.modules[row][col] = null;//(col + row) % 3;
+			}
+		}
+	
+		this.setupPositionProbePattern(0, 0);
+		this.setupPositionProbePattern(this.moduleCount - 7, 0);
+		this.setupPositionProbePattern(0, this.moduleCount - 7);
+		this.setupPositionAdjustPattern();
+		this.setupTimingPattern();
+		this.setupTypeInfo(test, maskPattern);
+		
+		if (this.typeNumber >= 7) {
+			this.setupTypeNumber(test);
+		}
+	
+		if (this.dataCache === null) {
+			this.dataCache = QRCode.createData(this.typeNumber, this.errorCorrectLevel, this.dataList);
+		}
+	
+		this.mapData(this.dataCache, maskPattern);
+	},
+
+	setupPositionProbePattern : function(row, col)  {
+		
+		for (var r = -1; r <= 7; r++) {
+			
+			if (row + r <= -1 || this.moduleCount <= row + r) continue;
+			
+			for (var c = -1; c <= 7; c++) {
+				
+				if (col + c <= -1 || this.moduleCount <= col + c) continue;
+				
+				if ( (0 <= r && r <= 6 && (c === 0 || c === 6) ) || 
+                     (0 <= c && c <= 6 && (r === 0 || r === 6) ) || 
+                     (2 <= r && r <= 4 && 2 <= c && c <= 4) ) {
+					this.modules[row + r][col + c] = true;
+				} else {
+					this.modules[row + r][col + c] = false;
+				}
+			}		
+		}		
+	},
+	
+	getBestMaskPattern : function() {
+	
+		var minLostPoint = 0;
+		var pattern = 0;
+	
+		for (var i = 0; i < 8; i++) {
+			
+			this.makeImpl(true, i);
+	
+			var lostPoint = QRUtil.getLostPoint(this);
+	
+			if (i === 0 || minLostPoint >  lostPoint) {
+				minLostPoint = lostPoint;
+				pattern = i;
+			}
+		}
+	
+		return pattern;
+	},
+	
+	createMovieClip : function(target_mc, instance_name, depth) {
+	
+		var qr_mc = target_mc.createEmptyMovieClip(instance_name, depth);
+		var cs = 1;
+	
+		this.make();
+
+		for (var row = 0; row < this.modules.length; row++) {
+			
+			var y = row * cs;
+			
+			for (var col = 0; col < this.modules[row].length; col++) {
+	
+				var x = col * cs;
+				var dark = this.modules[row][col];
+			
+				if (dark) {
+					qr_mc.beginFill(0, 100);
+					qr_mc.moveTo(x, y);
+					qr_mc.lineTo(x + cs, y);
+					qr_mc.lineTo(x + cs, y + cs);
+					qr_mc.lineTo(x, y + cs);
+					qr_mc.endFill();
+				}
+			}
+		}
+		
+		return qr_mc;
+	},
+
+	setupTimingPattern : function() {
+		
+		for (var r = 8; r < this.moduleCount - 8; r++) {
+			if (this.modules[r][6] !== null) {
+				continue;
+			}
+			this.modules[r][6] = (r % 2 === 0);
+		}
+	
+		for (var c = 8; c < this.moduleCount - 8; c++) {
+			if (this.modules[6][c] !== null) {
+				continue;
+			}
+			this.modules[6][c] = (c % 2 === 0);
+		}
+	},
+	
+	setupPositionAdjustPattern : function() {
+	
+		var pos = QRUtil.getPatternPosition(this.typeNumber);
+		
+		for (var i = 0; i < pos.length; i++) {
+		
+			for (var j = 0; j < pos.length; j++) {
+			
+				var row = pos[i];
+				var col = pos[j];
+				
+				if (this.modules[row][col] !== null) {
+					continue;
+				}
+				
+				for (var r = -2; r <= 2; r++) {
+				
+					for (var c = -2; c <= 2; c++) {
+					
+						if (Math.abs(r) === 2 || 
+                            Math.abs(c) === 2 ||
+                            (r === 0 && c === 0) ) {
+							this.modules[row + r][col + c] = true;
+						} else {
+							this.modules[row + r][col + c] = false;
+						}
+					}
+				}
+			}
+		}
+	},
+	
+	setupTypeNumber : function(test) {
+	
+		var bits = QRUtil.getBCHTypeNumber(this.typeNumber);
+        var mod;
+	
+		for (var i = 0; i < 18; i++) {
+			mod = (!test && ( (bits >> i) & 1) === 1);
+			this.modules[Math.floor(i / 3)][i % 3 + this.moduleCount - 8 - 3] = mod;
+		}
+	
+		for (var x = 0; x < 18; x++) {
+			mod = (!test && ( (bits >> x) & 1) === 1);
+			this.modules[x % 3 + this.moduleCount - 8 - 3][Math.floor(x / 3)] = mod;
+		}
+	},
+	
+	setupTypeInfo : function(test, maskPattern) {
+	
+		var data = (this.errorCorrectLevel << 3) | maskPattern;
+		var bits = QRUtil.getBCHTypeInfo(data);
+        var mod;
+	
+		// vertical		
+		for (var v = 0; v < 15; v++) {
+	
+			mod = (!test && ( (bits >> v) & 1) === 1);
+	
+			if (v < 6) {
+				this.modules[v][8] = mod;
+			} else if (v < 8) {
+				this.modules[v + 1][8] = mod;
+			} else {
+				this.modules[this.moduleCount - 15 + v][8] = mod;
+			}
+		}
+	
+		// horizontal
+		for (var h = 0; h < 15; h++) {
+	
+			mod = (!test && ( (bits >> h) & 1) === 1);
+			
+			if (h < 8) {
+				this.modules[8][this.moduleCount - h - 1] = mod;
+			} else if (h < 9) {
+				this.modules[8][15 - h - 1 + 1] = mod;
+			} else {
+				this.modules[8][15 - h - 1] = mod;
+			}
+		}
+	
+		// fixed module
+		this.modules[this.moduleCount - 8][8] = (!test);
+	
+	},
+	
+	mapData : function(data, maskPattern) {
+		
+		var inc = -1;
+		var row = this.moduleCount - 1;
+		var bitIndex = 7;
+		var byteIndex = 0;
+		
+		for (var col = this.moduleCount - 1; col > 0; col -= 2) {
+	
+			if (col === 6) col--;
+	
+			while (true) {
+	
+				for (var c = 0; c < 2; c++) {
+					
+					if (this.modules[row][col - c] === null) {
+						
+						var dark = false;
+	
+						if (byteIndex < data.length) {
+							dark = ( ( (data[byteIndex] >>> bitIndex) & 1) === 1);
+						}
+	
+						var mask = QRUtil.getMask(maskPattern, row, col - c);
+	
+						if (mask) {
+							dark = !dark;
+						}
+						
+						this.modules[row][col - c] = dark;
+						bitIndex--;
+	
+						if (bitIndex === -1) {
+							byteIndex++;
+							bitIndex = 7;
+						}
+					}
+				}
+								
+				row += inc;
+	
+				if (row < 0 || this.moduleCount <= row) {
+					row -= inc;
+					inc = -inc;
+					break;
+				}
+			}
+		}
+		
+	}
+
+};
+
+QRCode.PAD0 = 0xEC;
+QRCode.PAD1 = 0x11;
+
+QRCode.createData = function(typeNumber, errorCorrectLevel, dataList) {
+	
+	var rsBlocks = QRRSBlock.getRSBlocks(typeNumber, errorCorrectLevel);
+	
+	var buffer = new QRBitBuffer();
+	
+	for (var i = 0; i < dataList.length; i++) {
+		var data = dataList[i];
+		buffer.put(data.mode, 4);
+		buffer.put(data.getLength(), QRUtil.getLengthInBits(data.mode, typeNumber) );
+		data.write(buffer);
+	}
+
+	// calc num max data.
+	var totalDataCount = 0;
+	for (var x = 0; x < rsBlocks.length; x++) {
+		totalDataCount += rsBlocks[x].dataCount;
+	}
+
+	if (buffer.getLengthInBits() > totalDataCount * 8) {
+		throw new Error("code length overflow. (" + 
+            buffer.getLengthInBits() + 
+            ">" +  
+            totalDataCount * 8 + 
+            ")");
+	}
+
+	// end code
+	if (buffer.getLengthInBits() + 4 <= totalDataCount * 8) {
+		buffer.put(0, 4);
+	}
+
+	// padding
+	while (buffer.getLengthInBits() % 8 !== 0) {
+		buffer.putBit(false);
+	}
+
+	// padding
+	while (true) {
+		
+		if (buffer.getLengthInBits() >= totalDataCount * 8) {
+			break;
+		}
+		buffer.put(QRCode.PAD0, 8);
+		
+		if (buffer.getLengthInBits() >= totalDataCount * 8) {
+			break;
+		}
+		buffer.put(QRCode.PAD1, 8);
+	}
+
+	return QRCode.createBytes(buffer, rsBlocks);
+};
+
+QRCode.createBytes = function(buffer, rsBlocks) {
+
+	var offset = 0;
+	
+	var maxDcCount = 0;
+	var maxEcCount = 0;
+	
+	var dcdata = new Array(rsBlocks.length);
+	var ecdata = new Array(rsBlocks.length);
+	
+	for (var r = 0; r < rsBlocks.length; r++) {
+
+		var dcCount = rsBlocks[r].dataCount;
+		var ecCount = rsBlocks[r].totalCount - dcCount;
+
+		maxDcCount = Math.max(maxDcCount, dcCount);
+		maxEcCount = Math.max(maxEcCount, ecCount);
+		
+		dcdata[r] = new Array(dcCount);
+		
+		for (var i = 0; i < dcdata[r].length; i++) {
+			dcdata[r][i] = 0xff & buffer.buffer[i + offset];
+		}
+		offset += dcCount;
+		
+		var rsPoly = QRUtil.getErrorCorrectPolynomial(ecCount);
+		var rawPoly = new QRPolynomial(dcdata[r], rsPoly.getLength() - 1);
+
+		var modPoly = rawPoly.mod(rsPoly);
+		ecdata[r] = new Array(rsPoly.getLength() - 1);
+		for (var x = 0; x < ecdata[r].length; x++) {
+            var modIndex = x + modPoly.getLength() - ecdata[r].length;
+			ecdata[r][x] = (modIndex >= 0)? modPoly.get(modIndex) : 0;
+		}
+
+	}
+	
+	var totalCodeCount = 0;
+	for (var y = 0; y < rsBlocks.length; y++) {
+		totalCodeCount += rsBlocks[y].totalCount;
+	}
+
+	var data = new Array(totalCodeCount);
+	var index = 0;
+
+	for (var z = 0; z < maxDcCount; z++) {
+		for (var s = 0; s < rsBlocks.length; s++) {
+			if (z < dcdata[s].length) {
+				data[index++] = dcdata[s][z];
+			}
+		}
+	}
+
+	for (var xx = 0; xx < maxEcCount; xx++) {
+		for (var t = 0; t < rsBlocks.length; t++) {
+			if (xx < ecdata[t].length) {
+				data[index++] = ecdata[t][xx];
+			}
+		}
+	}
+
+	return data;
+
+};
+
+module.exports = QRCode;
+
+};
+M["./QRBitBuffer"]=function(module,exports){function QRBitBuffer() {
+	this.buffer = [];
+	this.length = 0;
+}
+
+QRBitBuffer.prototype = {
+
+	get : function(index) {
+		var bufIndex = Math.floor(index / 8);
+		return ( (this.buffer[bufIndex] >>> (7 - index % 8) ) & 1) == 1;
+	},
+	
+	put : function(num, length) {
+		for (var i = 0; i < length; i++) {
+			this.putBit( ( (num >>> (length - i - 1) ) & 1) == 1);
+		}
+	},
+	
+	getLengthInBits : function() {
+		return this.length;
+	},
+	
+	putBit : function(bit) {
+	
+		var bufIndex = Math.floor(this.length / 8);
+		if (this.buffer.length <= bufIndex) {
+			this.buffer.push(0);
+		}
+	
+		if (bit) {
+			this.buffer[bufIndex] |= (0x80 >>> (this.length % 8) );
+		}
+	
+		this.length++;
+	}
+};
+
+module.exports = QRBitBuffer;
+
+};
+M["./QRRSBlock"]=function(module,exports){var QRErrorCorrectLevel = R("./QRErrorCorrectLevel");
+
+function QRRSBlock(totalCount, dataCount) {
+	this.totalCount = totalCount;
+	this.dataCount  = dataCount;
+}
+
+QRRSBlock.RS_BLOCK_TABLE = [
+
+	// L
+	// M
+	// Q
+	// H
+
+	// 1
+	[1, 26, 19],
+	[1, 26, 16],
+	[1, 26, 13],
+	[1, 26, 9],
+	
+	// 2
+	[1, 44, 34],
+	[1, 44, 28],
+	[1, 44, 22],
+	[1, 44, 16],
+
+	// 3
+	[1, 70, 55],
+	[1, 70, 44],
+	[2, 35, 17],
+	[2, 35, 13],
+
+	// 4		
+	[1, 100, 80],
+	[2, 50, 32],
+	[2, 50, 24],
+	[4, 25, 9],
+	
+	// 5
+	[1, 134, 108],
+	[2, 67, 43],
+	[2, 33, 15, 2, 34, 16],
+	[2, 33, 11, 2, 34, 12],
+	
+	// 6
+	[2, 86, 68],
+	[4, 43, 27],
+	[4, 43, 19],
+	[4, 43, 15],
+	
+	// 7		
+	[2, 98, 78],
+	[4, 49, 31],
+	[2, 32, 14, 4, 33, 15],
+	[4, 39, 13, 1, 40, 14],
+	
+	// 8
+	[2, 121, 97],
+	[2, 60, 38, 2, 61, 39],
+	[4, 40, 18, 2, 41, 19],
+	[4, 40, 14, 2, 41, 15],
+	
+	// 9
+	[2, 146, 116],
+	[3, 58, 36, 2, 59, 37],
+	[4, 36, 16, 4, 37, 17],
+	[4, 36, 12, 4, 37, 13],
+	
+	// 10		
+	[2, 86, 68, 2, 87, 69],
+	[4, 69, 43, 1, 70, 44],
+	[6, 43, 19, 2, 44, 20],
+	[6, 43, 15, 2, 44, 16],
+
+	// 11
+	[4, 101, 81],
+	[1, 80, 50, 4, 81, 51],
+	[4, 50, 22, 4, 51, 23],
+	[3, 36, 12, 8, 37, 13],
+
+	// 12
+	[2, 116, 92, 2, 117, 93],
+	[6, 58, 36, 2, 59, 37],
+	[4, 46, 20, 6, 47, 21],
+	[7, 42, 14, 4, 43, 15],
+
+	// 13
+	[4, 133, 107],
+	[8, 59, 37, 1, 60, 38],
+	[8, 44, 20, 4, 45, 21],
+	[12, 33, 11, 4, 34, 12],
+
+	// 14
+	[3, 145, 115, 1, 146, 116],
+	[4, 64, 40, 5, 65, 41],
+	[11, 36, 16, 5, 37, 17],
+	[11, 36, 12, 5, 37, 13],
+
+	// 15
+	[5, 109, 87, 1, 110, 88],
+	[5, 65, 41, 5, 66, 42],
+	[5, 54, 24, 7, 55, 25],
+	[11, 36, 12],
+
+	// 16
+	[5, 122, 98, 1, 123, 99],
+	[7, 73, 45, 3, 74, 46],
+	[15, 43, 19, 2, 44, 20],
+	[3, 45, 15, 13, 46, 16],
+
+	// 17
+	[1, 135, 107, 5, 136, 108],
+	[10, 74, 46, 1, 75, 47],
+	[1, 50, 22, 15, 51, 23],
+	[2, 42, 14, 17, 43, 15],
+
+	// 18
+	[5, 150, 120, 1, 151, 121],
+	[9, 69, 43, 4, 70, 44],
+	[17, 50, 22, 1, 51, 23],
+	[2, 42, 14, 19, 43, 15],
+
+	// 19
+	[3, 141, 113, 4, 142, 114],
+	[3, 70, 44, 11, 71, 45],
+	[17, 47, 21, 4, 48, 22],
+	[9, 39, 13, 16, 40, 14],
+
+	// 20
+	[3, 135, 107, 5, 136, 108],
+	[3, 67, 41, 13, 68, 42],
+	[15, 54, 24, 5, 55, 25],
+	[15, 43, 15, 10, 44, 16],
+
+	// 21
+	[4, 144, 116, 4, 145, 117],
+	[17, 68, 42],
+	[17, 50, 22, 6, 51, 23],
+	[19, 46, 16, 6, 47, 17],
+
+	// 22
+	[2, 139, 111, 7, 140, 112],
+	[17, 74, 46],
+	[7, 54, 24, 16, 55, 25],
+	[34, 37, 13],
+
+	// 23
+	[4, 151, 121, 5, 152, 122],
+	[4, 75, 47, 14, 76, 48],
+	[11, 54, 24, 14, 55, 25],
+	[16, 45, 15, 14, 46, 16],
+
+	// 24
+	[6, 147, 117, 4, 148, 118],
+	[6, 73, 45, 14, 74, 46],
+	[11, 54, 24, 16, 55, 25],
+	[30, 46, 16, 2, 47, 17],
+
+	// 25
+	[8, 132, 106, 4, 133, 107],
+	[8, 75, 47, 13, 76, 48],
+	[7, 54, 24, 22, 55, 25],
+	[22, 45, 15, 13, 46, 16],
+
+	// 26
+	[10, 142, 114, 2, 143, 115],
+	[19, 74, 46, 4, 75, 47],
+	[28, 50, 22, 6, 51, 23],
+	[33, 46, 16, 4, 47, 17],
+
+	// 27
+	[8, 152, 122, 4, 153, 123],
+	[22, 73, 45, 3, 74, 46],
+	[8, 53, 23, 26, 54, 24],
+	[12, 45, 15, 28, 46, 16],
+
+	// 28
+	[3, 147, 117, 10, 148, 118],
+	[3, 73, 45, 23, 74, 46],
+	[4, 54, 24, 31, 55, 25],
+	[11, 45, 15, 31, 46, 16],
+
+	// 29
+	[7, 146, 116, 7, 147, 117],
+	[21, 73, 45, 7, 74, 46],
+	[1, 53, 23, 37, 54, 24],
+	[19, 45, 15, 26, 46, 16],
+
+	// 30
+	[5, 145, 115, 10, 146, 116],
+	[19, 75, 47, 10, 76, 48],
+	[15, 54, 24, 25, 55, 25],
+	[23, 45, 15, 25, 46, 16],
+
+	// 31
+	[13, 145, 115, 3, 146, 116],
+	[2, 74, 46, 29, 75, 47],
+	[42, 54, 24, 1, 55, 25],
+	[23, 45, 15, 28, 46, 16],
+
+	// 32
+	[17, 145, 115],
+	[10, 74, 46, 23, 75, 47],
+	[10, 54, 24, 35, 55, 25],
+	[19, 45, 15, 35, 46, 16],
+
+	// 33
+	[17, 145, 115, 1, 146, 116],
+	[14, 74, 46, 21, 75, 47],
+	[29, 54, 24, 19, 55, 25],
+	[11, 45, 15, 46, 46, 16],
+
+	// 34
+	[13, 145, 115, 6, 146, 116],
+	[14, 74, 46, 23, 75, 47],
+	[44, 54, 24, 7, 55, 25],
+	[59, 46, 16, 1, 47, 17],
+
+	// 35
+	[12, 151, 121, 7, 152, 122],
+	[12, 75, 47, 26, 76, 48],
+	[39, 54, 24, 14, 55, 25],
+	[22, 45, 15, 41, 46, 16],
+
+	// 36
+	[6, 151, 121, 14, 152, 122],
+	[6, 75, 47, 34, 76, 48],
+	[46, 54, 24, 10, 55, 25],
+	[2, 45, 15, 64, 46, 16],
+
+	// 37
+	[17, 152, 122, 4, 153, 123],
+	[29, 74, 46, 14, 75, 47],
+	[49, 54, 24, 10, 55, 25],
+	[24, 45, 15, 46, 46, 16],
+
+	// 38
+	[4, 152, 122, 18, 153, 123],
+	[13, 74, 46, 32, 75, 47],
+	[48, 54, 24, 14, 55, 25],
+	[42, 45, 15, 32, 46, 16],
+
+	// 39
+	[20, 147, 117, 4, 148, 118],
+	[40, 75, 47, 7, 76, 48],
+	[43, 54, 24, 22, 55, 25],
+	[10, 45, 15, 67, 46, 16],
+
+	// 40
+	[19, 148, 118, 6, 149, 119],
+	[18, 75, 47, 31, 76, 48],
+	[34, 54, 24, 34, 55, 25],
+	[20, 45, 15, 61, 46, 16]
+];
+
+QRRSBlock.getRSBlocks = function(typeNumber, errorCorrectLevel) {
+	
+	var rsBlock = QRRSBlock.getRsBlockTable(typeNumber, errorCorrectLevel);
+	
+	if (rsBlock === undefined) {
+		throw new Error("bad rs block @ typeNumber:" + typeNumber + "/errorCorrectLevel:" + errorCorrectLevel);
+	}
+
+	var length = rsBlock.length / 3;
+	
+	var list = [];
+	
+	for (var i = 0; i < length; i++) {
+
+		var count = rsBlock[i * 3 + 0];
+		var totalCount = rsBlock[i * 3 + 1];
+		var dataCount  = rsBlock[i * 3 + 2];
+
+		for (var j = 0; j < count; j++) {
+			list.push(new QRRSBlock(totalCount, dataCount) );	
+		}
+	}
+	
+	return list;
+};
+
+QRRSBlock.getRsBlockTable = function(typeNumber, errorCorrectLevel) {
+
+	switch(errorCorrectLevel) {
+	case QRErrorCorrectLevel.L :
+		return QRRSBlock.RS_BLOCK_TABLE[(typeNumber - 1) * 4 + 0];
+	case QRErrorCorrectLevel.M :
+		return QRRSBlock.RS_BLOCK_TABLE[(typeNumber - 1) * 4 + 1];
+	case QRErrorCorrectLevel.Q :
+		return QRRSBlock.RS_BLOCK_TABLE[(typeNumber - 1) * 4 + 2];
+	case QRErrorCorrectLevel.H :
+		return QRRSBlock.RS_BLOCK_TABLE[(typeNumber - 1) * 4 + 3];
+	default :
+		return undefined;
+	}
+};
+
+module.exports = QRRSBlock;
+
+};
+var Q=R("./index"),E=R("./QRErrorCorrectLevel");window.ghQR=function(t){var q=new Q(-1,E.M);q.addData(t);q.make();var n=q.getModuleCount(),p="";for(var r=0;r<n;r++)for(var c=0;c<n;c++)if(q.isDark(r,c))p+="M"+(c+2)+" "+(r+2)+"h1v1h-1z";return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 '+(n+4)+' '+(n+4)+'" shape-rendering="crispEdges"><rect width="100%" height="100%" fill="#fff"/><path d="'+p+'" fill="#000"/></svg>';};})();</script>
+<script type="text/plain" id="ghv">GH_BUILD:2.5.8</script>
+<div id="intro"><div class="orb"></div><div class="ghw"><svg class="ghl" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+<defs>
+<linearGradient id="gl" x1="0" y1="0" x2="0.35" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".96"/><stop offset=".55" stop-color="#e9ecf6" stop-opacity=".78"/><stop offset="1" stop-color="#c9cfe6" stop-opacity=".6"/></linearGradient>
+<linearGradient id="hl" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".9"/><stop offset=".5" stop-color="#fff" stop-opacity="0"/></linearGradient>
+<clipPath id="cp"><path fill-rule="evenodd" d="M44.6 12.9a8 8 0 0 1 10.8 0l30.2 27.5a8 8 0 0 1 2.6 5.9V82a8 8 0 0 1-8 8H19.8a8 8 0 0 1-8-8V46.3a8 8 0 0 1 2.6-5.9Z M50 60a8 8 0 0 0-8 8v22h16V68a8 8 0 0 0-8-8Z"/></clipPath></defs>
+<path fill="url(#gl)" fill-rule="evenodd" d="M44.6 12.9a8 8 0 0 1 10.8 0l30.2 27.5a8 8 0 0 1 2.6 5.9V82a8 8 0 0 1-8 8H19.8a8 8 0 0 1-8-8V46.3a8 8 0 0 1 2.6-5.9Z M50 60a8 8 0 0 0-8 8v22h16V68a8 8 0 0 0-8-8Z"/>
+<g clip-path="url(#cp)"><path d="M-10 70 L70 -10 L82 -10 L2 70Z" fill="#fff" opacity=".28"/><path d="M-10 84 L84 -10 L88 -10 L-6 84Z" fill="#fff" opacity=".18"/></g>
+<path fill="none" stroke="url(#hl)" stroke-width="1.2" d="M45.1 13.5a7.3 7.3 0 0 1 9.8 0l30.2 27.5a7.3 7.3 0 0 1 2.4 5.3"/>
+</svg>
+<div class="ghs"></div></div></div>
+<svg width="0" height="0" style="position:absolute"><filter id="reedf" x="0" y="0" width="1" height="1" color-interpolation-filters="sRGB"><feImage href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%221920%22%20height%3D%221080%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22rgb%280%2C128%2C0%29%22/%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22rgb%28255%2C128%2C0%29%22/%3E%3C/linearGradient%3E%3Cpattern%20id%3D%22p%22%20width%3D%2226%22%20height%3D%221080%22%20patternUnits%3D%22userSpaceOnUse%22%3E%3Crect%20width%3D%2226%22%20height%3D%221080%22%20fill%3D%22url%28%23g%29%22/%3E%3C/pattern%3E%3C/defs%3E%3Crect%20width%3D%221920%22%20height%3D%221080%22%20fill%3D%22url%28%23p%29%22/%3E%3C/svg%3E" x="0" y="0" width="1920" height="1080" preserveAspectRatio="none" result="m"/><feDisplacementMap in="SourceGraphic" in2="m" scale="34" xChannelSelector="R" yChannelSelector="G"/></filter></svg><div id="bgwrap"><div class="bg" id="bgA"></div><div class="bg" id="bgB"></div></div><div id="tint"></div><div id="fbg"></div>
+<div id="amb"><b id="atime"></b><span id="adate"></span><div id="aextra"><span id="aw"></span><span id="anow"></span></div></div><div id="toast" class="glass"></div>
+<div id="ui">
+ <div id="clock"><b id="ctime"></b><span id="cdate"></span></div>
+ <div id="det" class="glass"><div><div id="dtitle"></div><div id="dmeta"></div><div id="dchips"></div></div><div><h4 id="hzeg">Wat mensen zeggen</h4><p id="dzeg"></p><h4 id="hwhy">Waarom deze score</h4><p id="dwhy"></p><div id="dsrc"></div></div></div>
+ <div id="rail" class="glass"></div>
+ <div id="main">
+  <div id="hero"><div class="hi" id="hA"></div><div class="hi" id="hB"></div>
+   <div id="htxt"><div id="htag" class="glass"></div><div id="htitle"></div><div id="hmeta"></div>
+    <div id="hbtn" class="f"><svg viewBox="0 0 24 24"><path d="M7 4.5v15l12.5-7.5z" fill="#000"/></svg><span id="hbl"></span></div></div>
+   <div id="dots"></div></div>
+  <div class="sec" id="s-apps"><h2>Apps</h2><div class="row" id="apps"></div></div>
+    <div class="sec" id="s-cont" style="display:none"><h2 id="conth">Ga verder</h2><div class="row" id="cont"></div></div>
+  <div class="sec" id="s-shelf"><h2><span id="shtitle"></span> <small id="note"></small></h2><div class="row" id="shelf"></div></div>
+  <div class="sec" id="s-live" style="display:none"><h2>Live TV · Nieuws &amp; Sport</h2><div class="row" id="live"></div></div>
+</div>
+</div>
+<div id="scrim"></div><div id="panel"><h3 id="ptitle">Instellingen</h3><div id="pcats"></div><div id="optwrap"><div id="ctitle"></div><div id="opts"></div>
+ <div id="keybox"><input id="keyin" placeholder="Plak je API-sleutel en druk op OK"></div>
+ <div id="msg"></div></div>
+ <div class="hint">OK kiezen · ◀ ▶ wijzigen · Terug gaat terug</div></div>
+<script src="config.js"></script>
+<script>
+{
+const G={
+ pad:'<path d="M6 9h12a4 4 0 0 1 3.9 4.9l-.8 3.4a2.3 2.3 0 0 1-4 .9L15 16H9l-2.1 2.2a2.3 2.3 0 0 1-4-.9l-.8-3.4A4 4 0 0 1 6 9z" stroke="#fff" stroke-width="1.8" fill="none"/><path d="M7 12v3M5.5 13.5h3" stroke="#fff" stroke-width="1.8"/>',
+ play:'<path d="M8 5.5v13l10.5-6.5z" fill="#fff"/>',
+ orb:'<circle cx="12" cy="12" r="8" stroke="#fff" stroke-width="1.8" fill="none"/><path d="M10 8.5v7l5.5-3.5z" fill="#fff"/>',
+ tv:'<rect x="3" y="7" width="18" height="12" rx="2.5" stroke="#fff" stroke-width="1.8" fill="none"/><path d="M8.5 3.5 12 7l3.5-3.5" stroke="#fff" stroke-width="1.8" fill="none" stroke-linecap="round"/>',
+ wave:'<path d="M5 9v6M9 6v12M13 8v8M17 10v4M21 11v2" stroke="#fff" stroke-width="2" stroke-linecap="round"/>',
+ film:'<rect x="4" y="3.5" width="16" height="17" rx="2.5" stroke="#fff" stroke-width="1.8" fill="none"/><path d="M8 3.5v17M16 3.5v17M4 9h4M4 15h4M16 9h4M16 15h4" stroke="#fff" stroke-width="1.5"/>',
+ clap:'<path d="M4 10h16v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 19z" stroke="#fff" stroke-width="1.8" fill="none"/><path d="m4 10-.6-3.3 15.2-2.7.6 3.3zM8.5 6.2l2 3M13.5 5.3l2 3" stroke="#fff" stroke-width="1.6" fill="none"/>',
+ cast:'<circle cx="12" cy="12" r="2.2" fill="#fff"/><path d="M8 8a5.7 5.7 0 0 0 0 8M16 8a5.7 5.7 0 0 1 0 8M5.2 5.2a9.6 9.6 0 0 0 0 13.6M18.8 5.2a9.6 9.6 0 0 1 0 13.6" stroke="#fff" stroke-width="1.8" fill="none" stroke-linecap="round"/>',
+ star:'<path d="m12 3.5 2.6 5.4 5.9.8-4.3 4.1 1 5.8L12 16.8l-5.2 2.8 1-5.8-4.3-4.1 5.9-.8z" stroke="#fff" stroke-width="1.8" fill="none" stroke-linejoin="round"/>'
+};
+const P=window.PalmServiceBridge?"webos":window.GHAndroid?"android":"preview",LG=P==="webos"||(P==="preview"&&location.hash==="#lg");
+const APPS=[
+ {n:"YouTube",k:"youtube",id:"youtube.leanback.v4",pkg:"com.google.android.youtube.tv",g:"play",c:["#ff5a4e","#c4151c"]},
+ {n:"Stremio",k:"stremio",id:"io.strem.tv",pkg:"com.stremio.one",g:"orb",c:["#8b6cff","#4b2bb8"]},
+ {n:"TiviMate",k:"tivimate",id:"",pkg:"ar.tvplayer.tv",g:"tv",c:["#3fa7ff","#1652c9"]},
+ {n:"Spotify",k:"spotify",id:"spotify-beehive",pkg:"com.spotify.tv.android",g:"wave",c:["#3ee07a","#118a3e"]},
+ {n:"Netflix",k:"netflix",id:"netflix",pkg:"com.netflix.ninja",g:"film",c:["#ff3b47","#7d0710"]},
+ {n:"Videoland",k:"videoland",id:"videoland2021",pkg:"nl.rtl.videoland.v2",g:"clap",c:["#ff5fa2","#b31560"]},
+ {n:"NPO Start",k:"npo",id:"npo",pkg:"nl.uitzendinggemist",g:"cast",c:["#ffa63d","#e0560f"]},
+ {n:"Prime Video",k:"prime",id:"amazon",pkg:"com.amazon.amazonvideo.livingroom",g:"star",c:["#4cc9ff","#0b6fb8"]}
+];
+if(LG)APPS[2]={n:"Moonlight",k:"moonlight",id:"com.limelight.webos",g:"pad",c:["#5b6cff","#272f8f"]};
+const TINT={amazon:["#1a8cff","#0457c8"],"com.limelight.webos":["#5a6a8a","#2c3550"],"io.strem.tv":["#2e2670","#15113d"],netflix:["#3a0b0e","#120305"],npo:["#3a44d0","#1e2490"],"spotify-beehive":["#145a32","#08200f"],videoland2021:["#ff4a58","#d92233"],"youtube.leanback.v4":["#3a3a3e","#18181b"]};
+if(P==="android"){let IC={};try{IC=JSON.parse(localStorage.getItem("ghIcons")||"{}")}catch(e){}APPS.forEach(a=>{const t=TINT[a.id];if(t){a.c=[t[0],t[1]];a.lt=t[2]||0;if(IC[a.id]){a.icon=IC[a.id];a.tl=1;a.lg=1;}}});}
+if(P==="webos")APPS.forEach(a=>{const t=TINT[a.id];if(t){a.icon="icons/t2-"+a.id+".png";a.tl=1;a.c=[t[0],t[1]];a.lt=t[2]||0;}});
+const PROV={"Netflix":4,"Amazon Prime Video":7,"Videoland":5,"NPO Start":6,"NPO Plus":6};
+const svg=g=>'<svg viewBox="0 0 24 24">'+G[g]+'</svg>';
+const icon=(a,cls)=>a.icon?'<img class="'+cls+(a.lo?' lo':'')+'" src="'+a.icon+'"'+(a.lo?' onload="ghTint(this)"':'')+(P==="android"&&cls==="ico"&&!a.lo?' onload="if(this.naturalWidth>this.naturalHeight*1.3&&this.parentNode)this.parentNode.classList.add(\'bn\')"':'')+'>':(cls==='ico'?svg(a.g):'<svg class="gl" viewBox="0 0 24 24">'+G[a.g]+'</svg>');
+const ta=(c,al)=>c[0]==='#'?'rgba('+parseInt(c.slice(1,3),16)+','+parseInt(c.slice(3,5),16)+','+parseInt(c.slice(5,7),16)+','+al+')':c.replace('hsl(','hsla(').replace(')',','+al+')');
+const appBg=c=>'linear-gradient(150deg,'+ta(c[0],.82)+','+ta(c[1],.72)+')';const glassBg=c=>'linear-gradient(150deg,'+ta(c[0],.62)+','+ta(c[1],.38)+')';
+const grad=c=>'linear-gradient(145deg,'+c[0]+','+c[1]+')';
+
+
+const RG={
+ home:'<path d="M4 11 12 4l8 7v8.5a1.5 1.5 0 0 1-1.5 1.5H15v-6H9v6H5.5A1.5 1.5 0 0 1 4 19.5z"/>',
+ game:'<path d="M6 9h12a4 4 0 0 1 3.9 4.9l-.8 3.4a2.3 2.3 0 0 1-4 .9L15 16H9l-2.1 2.2a2.3 2.3 0 0 1-4-.9l-.8-3.4A4 4 0 0 1 6 9z"/><path d="M7 12v3M5.5 13.5h3"/>',
+ amb:'<rect x="3" y="4" width="18" height="13" rx="2"/><path d="m3 14 5-4 4 3 3-2 6 4M8 21h8"/>',
+ gear:'<circle cx="12" cy="12" r="3"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M5.3 18.7l2.1-2.1M16.6 7.4l2.1-2.1"/>'};
+const rsvg=g=>'<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">'+RG[g]+'</svg>';
+const $=id=>document.getElementById(id);
+
+// opslag
+const DEF={lite:LG?1:0,theme:1,iv:1,hdmi:1,tmdb:"",omdb:"",youtube:"",claude:"",letterboxd:"",urls:"",recent:[4,0,1,5],seen:{},extra:[],hidden:[],order:[]};
+let PROF;try{PROF=JSON.parse(localStorage.getItem("ghProf")||"null")}catch(e){}if(!PROF||!PROF.list)PROF={list:[{id:"main",n:"Ik"}],cur:"main",pin:""};
+const SKEY=PROF.cur==="main"?"gh3":"gh3_"+PROF.cur,saveProf=()=>{try{localStorage.setItem("ghProf",JSON.stringify(PROF))}catch(e){}};
+let S;try{S=Object.assign({},DEF,JSON.parse(localStorage.getItem(SKEY)||"{}"))}catch(e){S=Object.assign({},DEF)}
+if(!S.mig24){S.mig24=1;S.railOrder=[];S.railHide=[];}
+if(!S.mig180){S.mig180=1;S.theme=1;}if(S.showCont)setTimeout(()=>{$("s-cont").style.display=""},0);S.glass=0;
+const save=()=>{if(window.GH_DEL)return;try{localStorage.setItem(SKEY,JSON.stringify(S))}catch(e){}if(window.ghSyncQ)ghSyncQ();};
+
+// webOS
+const LUNA_KEEP=[];function luna(uri,p,cb){try{const b=new PalmServiceBridge();if(p&&p.subscribe)LUNA_KEEP.push(b);b.onservicecallback=r=>{try{cb&&cb(JSON.parse(r))}catch(e){}};b.call(uri,JSON.stringify(p||{}))}catch(e){cb&&cb(null)}}
+let ALLAPPS=[];
+function syncApps(list){ALLAPPS=list.filter(x=>x.visible!==false&&x.title);if(P==="android"&&list.length){const first=!S.aa1;S.aa1=1;S.seenPk=S.seenPk||[];S.extra=S.extra||[];const skip=/^(com\.android\.|com\.google\.android\.(?!youtube)|com\.custom\.glasshome|com\.tech\.downloader|android)/;list.forEach(x=>{const nw=!S.seenPk.includes(x.id);if(nw)S.seenPk.push(x.id);if(!first&&!nw)return;if(skip.test(x.id)||APPS.some(a=>a.pkg===x.id)||S.extra.some(e=>e.id===x.id)||(S.hidden||[]).includes(x.id))return;if(/youtube|stremio|spotify|netflix|videoland|npo|uitzendinggemist|prime|amazon|tvplayer|tivimate/i.test(x.id+" "+x.title))return;S.extra.push({n:x.title,id:x.id});});save();}setTimeout(drawLive,0);addExtras();APPS.forEach(a=>{const lo=x=>(x.title||"").toLowerCase(),m=list.find(x=>x.id===a.pkg||x.id===a.id)||list.find(x=>lo(x)===a.n.toLowerCase())||list.find(x=>lo(x).includes(a.k)&&!/kids|music/.test(lo(x)));if(!m){if(P==="android"&&list.length)a.missing=1;return;}a.missing=0;
+  if(P==="android"){a.pkg=m.id;if(!a.lg){try{a.icon=(a.x&&GHAndroid.appLogo&&GHAndroid.appLogo(m.id))||GHAndroid.appIcon(m.id)||"";if(a.x&&GHAndroid.appLogo)a.lo=1;}catch(e){}}return;}
+  a.id=m.id;let ic=m.largeIcon||m.icon||"";if(ic&&!/^(\/|file:|https?:|data:)/.test(ic))ic=(m.folderPath||"")+"/"+ic;if(ic&&String(a.icon||"").indexOf("icons/")!==0)a.icon=(ic[0]==="/"?"file://":"")+ic;});
+ drawApps();drawCont();}
+// Glass Home aanmelden als "ingang" (net als HDMI): was hij de laatste ingang, dan start de tv er vanzelf mee op
+if(P==="webos")luna("luna://com.webos.service.eim/addDevice",{appId:"com.custom.glasshome",pigImage:"",mvpdIcon:""},r=>{try{localStorage.setItem("ghEim",JSON.stringify(r))}catch(e){}});
+if(P==="webos")luna("luna://com.webos.applicationManager/listApps",{},r=>{if(r&&r.apps)syncApps(r.apps)});
+if(P==="android")setTimeout(()=>{try{syncApps(JSON.parse(GHAndroid.listApps()))}catch(e){}},50);
+function launchApp(a,uri){stopPreview();pvKey="";if(P==="android"){try{const ok=uri?GHAndroid.openUri(uri,a.pkg||""):GHAndroid.launch(a.pkg||"");if(!ok)toast(a.n+" is niet geïnstalleerd");return ok}catch(e){}return}
+ if(a.id)luna("luna://com.webos.applicationManager/launch",{id:a.id,params:uri?{contentTarget:uri}:{}},r=>{if(!(r&&r.returnValue))toast(a.n+" is niet geïnstalleerd")});}
+function open(i,uri){const a=APPS[i];S.recent=[i].concat(S.recent.filter(x=>x!==i)).slice(0,6);S.seen[i]=Date.now();save();launchApp(a,uri);setTimeout(drawCont,800);}
+
+function search(){if(P==="android"){if(!A("openSearch"))toast("Zoeken via de microfoonknop op je afstandsbediening");return;}
+ if(P==="webos")luna("luna://com.webos.applicationManager/launch",{id:"com.webos.app.searchinput"},r=>{if(!(r&&r.returnValue))luna("luna://com.webos.applicationManager/launch",{id:"com.webos.app.voice"},q=>{if(!(q&&q.returnValue))toast("Houd de microfoonknop ingedrukt om te zoeken")})});else toast("Zoeken");}
+function picture(){const go=t=>P==="webos"?luna("luna://com.webos.applicationManager/launch",{id:"com.palm.app.settings",params:{target:t}}):A("openSettings","display");
+ sheet("Beeld",P==="android"?[{l:"Beeld en scherm",v:()=>"›",ok:()=>go()},{l:"HDR en framerate",v:()=>"›",ok:()=>A("openSettings","display")}]:
+  [{l:"Beeldmodus",v:()=>"›",ok:()=>go("picture")},{l:"Beeldinstellingen",v:()=>"›",ok:()=>go("picture")},{l:"OLED-zorg",v:()=>"›",ok:()=>go("oledcare")}]);}
+function ps(){if(P==="android")return toast("De Streamer heeft zelf geen HDMI-ingangen");luna("luna://com.webos.applicationManager/launch",{id:"com.webos.app.hdmi"+S.hdmi});}
+let tT;function toast(t){const e=$("toast");e.textContent=t;e.classList.add("on");clearTimeout(tT);tT=setTimeout(()=>e.classList.remove("on"),2600);}
+const A=(n,...x)=>{try{return window.GHAndroid&&GHAndroid[n]?GHAndroid[n](...x):null}catch(e){return null}};
+const AJ=(n,...x)=>{try{return JSON.parse(A(n,...x)||"null")}catch(e){return null}};
+let VOL={cur:P==="preview"?12:0,max:P==="preview"?25:100,muted:false,fixed:false,known:P==="preview"},SOUT=P==="preview"?"external_arc":"";
+function volFrom(r){if(!r)return;const v=r.volumeStatus||r;if(v.soundOutput&&!SOUT)SOUT=v.soundOutput;if(v.volume!=null){VOL.cur=+v.volume;VOL.known=true;}if(v.maxVolume)VOL.max=+v.maxVolume;
+ if(v.muteStatus!=null)VOL.muted=!!v.muteStatus;else if(v.muted!=null)VOL.muted=!!v.muted;if(v.soundOutput)SOUT=v.soundOutput;
+ VOL.fixed=v.volume==null&&!!v.soundOutput&&v.soundOutput!=="tv_speaker";if(mode==="panel")drawOpts();}
+if(P==="webos"){luna("luna://com.webos.audio/getVolume",{subscribe:true},volFrom);luna("luna://com.webos.settingsservice/getSystemSettings",{category:"sound",keys:["soundOutput"]},r=>{if(r&&r.settings&&r.settings.soundOutput&&!SOUT)SOUT=r.settings.soundOutput;});
+ luna("luna://com.webos.service.apiadapter/audio/getSoundOutput",{subscribe:true},r=>{if(r&&r.soundOutput){SOUT=r.soundOutput;if(mode==="panel")drawOpts();}});}
+function vol(){if(P==="android"){const v=AJ("getVolume");if(v){VOL=v;VOL.known=true;}}return VOL;}
+setInterval(()=>{if(mode==="panel"&&CUR&&CUR.liveVol){if(P==="android")vol();else if(P==="webos")luna("luna://com.webos.audio/getVolume",{},volFrom);drawOpts();}},1000);
+const vbar=v=>{const pc=Math.round(v.cur/Math.max(1,v.max)*100);return '<span class="vbar"><i style="width:'+pc+'%"></i></span>'+(v.max===100?v.cur:pc+'%')};
+function wl(m,p,okmsg){luna("luna://"+m,p||{},r=>{if(!(r&&r.returnValue))toast("Dit kan Glass Home op deze tv niet. Gebruik de afstandsbediening.");else if(okmsg)toast(okmsg);});}
+function sound(){const outs=P==="android"?(AJ("audioOutputs")||[]):[];
+ const o=[{l:"Volume",v:()=>{const x=vol();return x.muted?"Gedempt":!x.known||x.fixed?"Via "+(SOUT.indexOf("arc")>-1?"receiver":"tv")+" · ◀ ▶":vbar(x)},ch:d=>{
+   if(P==="android"){const r=AJ("adjustVolume",d);if(r){VOL=r;VOL.known=true;}}else if(P==="webos"){wl("com.webos.audio/"+(d>0?"volumeUp":"volumeDown"));setTimeout(()=>luna("luna://com.webos.audio/getVolume",{},volFrom),250);}else VOL.cur=Math.max(0,Math.min(VOL.max,VOL.cur+d));}},
+  {l:"Dempen",v:()=>vol().muted?"Aan":"Uit",ok:()=>{if(P==="android"){const r=AJ("toggleMute");if(r){VOL=r;VOL.known=true;}}else if(P==="webos"){luna("luna://com.webos.audio/getVolume",{},r=>{volFrom(r);wl("com.webos.audio/setMuted",{muted:!VOL.muted});setTimeout(()=>luna("luna://com.webos.audio/getVolume",{},volFrom),300);});}else VOL.muted=!VOL.muted;}}];
+ if(P==="android"||P==="preview"){(P==="preview"?[{name:"HDMI eARC",type:"tv"},{name:"Ingebouwd",type:""}]:outs).slice(0,3).forEach((x,i)=>o.push({l:i?"Ook beschikbaar":"Geluid gaat via",v:()=>esc(x.name)}));
+  o.push({l:"Alle geluidsinstellingen",v:()=>"›",ok:()=>A("openSettings","sound")});}
+ else [["tv_speaker","Tv-luidsprekers"],["external_arc","HDMI ARC / eARC"],["external_optical","Optisch"],["bt_soundbar","Bluetooth"]].forEach(([k,l])=>o.push({l:"Uitvoer: "+l,v:()=>SOUT===k||(k==="external_arc"&&/arc/.test(SOUT))?"✓ Actief":"›",ok:()=>wl("com.webos.service.apiadapter/audio/changeSoundOutput",{output:k},"Geluid via "+l)}));
+ sheet("Geluid",o);CUR.liveVol=true;}
+function inputs(){
+ if(P==="webos"||(P==="preview"&&LG))return lgInputs();
+ const net=P==="android"?(AJ("networkInfo")||{}):{type:"wifi",ssid:"Thuis"},bt=P==="android"?(AJ("bluetoothDevices")||[]):[{name:"Streamer-afstandsbediening"},{name:"DualSense"}];
+ sheet("Apparaten",[{l:"Netwerk",v:()=>net.type==="wifi"?"Wifi"+(net.ssid?" · "+esc(net.ssid):""):net.type==="ethernet"?"Kabel":"Geen verbinding"}]
+  .concat(bt.map(d=>({l:esc(d.name||"Bluetooth-apparaat"),v:()=>"Gekoppeld"})),
+  [{l:"Bluetooth-apparaat toevoegen",v:()=>"›",ok:()=>A("openSettings","bluetooth")},{l:"Beeld en scherm",v:()=>"›",ok:()=>A("openSettings","display")}]));}
+// ---------- LG: live ingangen, netwerk, geluid (wordt bijgewerkt door de tv zelf) ----------
+let LGIN=P==="preview"?[{id:"HDMI_1",label:"HDMI 1",connected:true,dev:"PlayStation 5"},{id:"HDMI_2",label:"HDMI 2",connected:true,dev:"Google TV Streamer"},{id:"HDMI_3",label:"HDMI 3 (eARC)",connected:true,dev:"Denon AVR"},{id:"HDMI_4",label:"HDMI 4",connected:false}]:[],LGNET=P==="preview"?{t:"wifi",ssid:"Thuis",ip:"192.168.1.20"}:null,LGFG="";
+function lgIn(r){const l=r&&(r.devices||r.inputs);if(!l)return;LGIN=l.filter(d=>/HDMI/i.test(d.id||d.inputPort||"")).map(d=>({id:d.id||d.inputPort,label:d.label||d.id,connected:!!(d.connected||d.connectedStatus),dev:d.connectedDeviceName||d.deviceName||d.cecDeviceName||"",app:d.appId}));if(mode==="panel")drawOpts();}
+function lgNet(r){if(!r||r.returnValue===false)return;const w=r.wired||{},f=r.wifi||{};LGNET=w.state==="connected"?{t:"kabel",ip:w.ipAddress}:f.state==="connected"?{t:"wifi",ssid:f.ssid,ip:f.ipAddress}:{t:"geen"};if(mode==="panel")drawOpts();}
+if(P==="webos"){
+ luna("luna://com.webos.service.eim/getAllInputStatus",{subscribe:true},lgIn);
+ luna("luna://com.webos.service.connectionmanager/getStatus",{subscribe:true},lgNet);
+ luna("luna://com.webos.applicationManager/getForegroundAppInfo",{subscribe:true},r=>{if(r&&r.appId)LGFG=r.appId;});}
+const OUTN={tv_speaker:"Tv-luidsprekers",external_arc:"HDMI ARC / eARC",external_optical:"Optisch",bt_soundbar:"Bluetooth",tv_external_speaker:"Tv + extern"};
+function lgInputs(){const o=[];
+ o.push({l:"Netwerk",v:()=>!LGNET?"…":LGNET.t==="wifi"?"Wifi"+(LGNET.ssid?" · "+esc(LGNET.ssid):""):LGNET.t==="kabel"?"Kabel":"Geen verbinding"});
+ if(LGNET&&LGNET.ip)o.push({l:"IP-adres",v:()=>esc(LGNET.ip)});
+ o.push({l:"Geluid",v:()=>(SOUT?esc(OUTN[SOUT]||SOUT)+" · ":"")+(VOL.known?"volume "+VOL.cur:"")+" ›",ok:()=>sound()});
+ (LGIN.length?LGIN:[1,2,3,4].map(n=>({id:"HDMI_"+n,label:"HDMI "+n,connected:null}))).forEach(d=>{const n=+(String(d.id).match(/\d/)||[1])[0];
+  o.push({l:esc(d.label||("HDMI "+n))+(n===S.hdmi?" · PlayStation":""),v:()=>(d.dev?esc(d.dev)+" · ":"")+(d.connected===true?"Aangesloten":d.connected===false?"Leeg":"›")+(LGFG==="com.webos.app.hdmi"+n?" ✓":""),ok:()=>{panel(false);luna("luna://com.webos.applicationManager/launch",{id:"com.webos.app.hdmi"+n})}});});
+ o.push({l:"Live TV",v:()=>LGFG==="com.webos.app.livetv"?"✓":"›",ok:()=>{panel(false);luna("luna://com.webos.applicationManager/launch",{id:"com.webos.app.livetv"})}});
+ sheet("Ingangen en verbinding",o);CUR.liveVol=true;}
+// ---------- updates: haal op de achtergrond de nieuwste versie op (wordt gebruikt bij de volgende start) ----------
+setTimeout(()=>{try{const vv=h=>{const m=/GH_BUILD:([\d.]+)/.exec(h||"");if(!m)return 0;const p=m[1].split(".");return(+p[0]||0)*1e6+(+p[1]||0)*1e3+(+p[2]||0)};
+ const me=vv(document.getElementById("ghv").textContent);const x=new XMLHttpRequest();x.open("GET","https://raw.githubusercontent.com/wesselderksen1234-star/glass-home/main/web/app.html?t="+Date.now());
+ x.onload=()=>{if(x.status===200&&vv(x.responseText)>me){try{localStorage.setItem("ghCode",x.responseText)}catch(e){}}};x.send();}catch(e){}},15000);
+// ---------- slim huis: Google Home-paneel + optioneel Home Assistant ----------
+let HA=null;
+async function haLoad(){const g=window.GH_KEYS||{};if(!g.haUrl||!g.haToken){HA=P==="preview"?[{entity_id:"light.woonkamer",state:"on",attributes:{friendly_name:"Woonkamer"}},{entity_id:"light.keuken",state:"off",attributes:{friendly_name:"Keuken"}},{entity_id:"scene.film_kijken",state:"",attributes:{friendly_name:"Film kijken"}},{entity_id:"climate.thermostaat",state:"heat",attributes:{friendly_name:"Thermostaat",current_temperature:20.5}}]:[];return;}
+ try{const l=await j(g.haUrl.replace(/\/$/,"")+"/api/states",{headers:{Authorization:"Bearer "+g.haToken}}),want=g.haEntities||[];
+  HA=l.filter(e=>want.length?want.includes(e.entity_id):/^(light|switch|scene|script|fan|climate|cover|media_player)\./.test(e.entity_id)).slice(0,14);}catch(e){HA=[];toast("Home Assistant niet bereikbaar");}}
+async function haCall(e){const g=window.GH_KEYS||{},d=e.entity_id.split(".")[0],svc=d==="scene"||d==="script"?"turn_on":d==="cover"?"toggle":"toggle";
+ if(!g.haUrl){e.state=e.state==="on"?"off":"on";return drawOpts();}
+ try{await fetch(g.haUrl.replace(/\/$/,"")+"/api/services/"+d+"/"+svc,{method:"POST",headers:{Authorization:"Bearer "+g.haToken,"Content-Type":"application/json"},body:JSON.stringify({entity_id:e.entity_id})});
+  setTimeout(async()=>{await haLoad();if(mode==="panel"&&$("ptitle").textContent==="Slim huis")smart(true)},700);}catch(x){toast("Lukte niet");}}
+async function smart(keep){if(!keep){sheet("Slim huis",[{l:"Laden…",v:()=>""}]);await haLoad();if(!(mode==="panel"&&$("ptitle").textContent==="Slim huis"))return;}
+ const st=e=>{const d=e.entity_id.split(".")[0];return d==="scene"||d==="script"?"Activeren":d==="climate"?(e.attributes.current_temperature!=null?nl(e.attributes.current_temperature)+"°":e.state):e.state==="on"?"Aan":e.state==="off"?"Uit":esc(e.state)};
+ const o=(HA||[]).map(e=>({l:esc(e.attributes.friendly_name||e.entity_id),v:()=>st(e),ok:()=>haCall(e)}));
+ if(P!=="webos")o.unshift({l:"Google Home-bediening",v:()=>"›",ok:()=>A("openHomePanel")});
+ if(!o.length)o.push({l:"Koppel Home Assistant in config.js (zie KOPPELEN.md)",v:()=>""});
+ const k=oi;CUR=o;if(keep){oi=Math.min(k,o.length-1);drawOpts();}else{oi=0;drawOpts();}}
+
+// klok
+function tick(){const d=new Date(),t=d.toLocaleTimeString("nl-NL",{hour:"2-digit",minute:"2-digit"});
+ $("ctime").textContent=t;$("cdate").textContent=d.toLocaleDateString("nl-NL",{weekday:"long",day:"numeric",month:"long"});$("atime").textContent=t;$("adate").textContent=d.toLocaleDateString("nl-NL",{weekday:"long",day:"numeric",month:"long"});}
+setInterval(tick,1000);tick();
+
+// achtergrond
+const THEMES=["Kleurverloop","Fotografie (4K)","Eigen URL's"],IVS=[1,5,15,30,60];
+let cur="bgA",bgT;const rn=(a,b)=>a+Math.random()*(b-a);
+function mesh(){const h=rn(0,360);let g=[];for(let i=0;i<4;i++){const hh=(h+rn(-70,70)+360)%360;
+ g.push("radial-gradient(circle at "+rn(0,100)+"% "+rn(0,100)+"%,hsla("+hh+","+rn(25,45)+"%,"+rn(26,36)+"%,.7),transparent "+rn(45,70)+"%)");}
+ return g.join(",")+",linear-gradient(135deg,hsl("+h+",55%,16%),hsl("+((h+90)%360)+",65%,9%))";}
+let PEA=null,PEAt=0;
+async function potd(){const p=n=>String(n).padStart(2,"0");
+ try{if(!PEA||Date.now()-PEAt>216e5){const cs=["gb","us","de","fr","jp","au","ca","in","es","it"],l=[];for(const c of cs){try{const r=await j("https://peapix.com/bing/feed?country="+c);(r||[]).forEach(x=>{if(x.imageUrl&&!l.includes(x.imageUrl))l.push(x.imageUrl)})}catch(e){}}if(l.length){PEA=l;PEAt=Date.now();}}
+  if(PEA&&PEA.length)return PEA[Math.floor(Math.random()*PEA.length)];}catch(e){}
+ for(let t=0;t<4;t++){const d=new Date(Date.now()-(1+Math.floor(Math.random()*1800))*864e5);
+  try{const r=await j("https://api.wikimedia.org/feed/v1/wikipedia/en/featured/"+d.getFullYear()+"/"+p(d.getMonth()+1)+"/"+p(d.getDate()));
+   const im=r.image;if(!im||!im.thumbnail||!im.image||im.image.width<im.image.height*1.2||im.image.width<1920)continue;
+   return im.thumbnail.source.replace(/\/\d+px-/,"/"+Math.min(3840,im.image.width)+"px-");}catch(e){}}
+ return "https://picsum.photos/seed/"+Date.now()+"/3840/2160";}
+function applyTheme(){document.body.classList.toggle("th-dark",S.th===1);document.body.classList.toggle("th-light",S.th===2);}
+function applyGlass(){document.body.classList.toggle("reed",S.glass===1);document.body.classList.toggle("reedbg",S.glass===2);}
+function nextBg(){const el=$(cur==="bgA"?"bgB":"bgA");const show=()=>{if(cur===el.id)return;el.classList.add("on");$(cur).classList.remove("on");cur=el.id;};
+ let url="";if(S.theme===1&&P!=="preview"){potd().then(u=>{const tryL=(u,n)=>{const im=new Image();im.onload=()=>{el.style.backgroundImage=cu(u);show()};im.onerror=()=>{const sm=/peapix/.test(u)?u.replace(/(_1920)?\.jpg$/,"_1920.jpg"):u.replace(/\/\d+px-/,"/1920px-");if(n<1&&sm!==u)return tryL(sm,n+1);if(!$(cur).style.backgroundImage){el.style.backgroundImage=mesh();show()}};im.src=u;};tryL(u,0);});return;}
+ if(S.theme===2){const l=S.urls.split(/\s+/).filter(Boolean);if(l.length)url=l[Math.floor(Math.random()*l.length)];}
+ if(!url){el.style.backgroundImage=mesh();return show();}
+ const im=new Image();im.onload=()=>{el.style.backgroundImage="url('"+url+"')";show()};im.onerror=()=>{el.style.backgroundImage=mesh();show()};im.src=url;}
+function sched(){clearInterval(bgT);nextBg();bgT=setInterval(nextBg,IVS[S.iv]*60000);}
+
+// rail
+RG.search='<circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/>';RG.pic='<rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4"/>';
+RG.tv='<rect x="2.5" y="4" width="19" height="13" rx="2.5"/><path d="M8 21h8M12 17v4"/><path d="M10 8.5l4 2-4 2z"/>';
+RG.smart='<path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2V16h5v-.1c0-.8.4-1.5 1-2A6 6 0 0 0 12 3z"/>';RG.hdmi='<rect x="3" y="7" width="18" height="10" rx="2"/><path d="M7 11h10M8 17v2M16 17v2"/>';RG.snd='<path d="M4 10v4h4l5 4V6L8 10z"/><path d="M16.5 9a4 4 0 0 1 0 6M19 6.5a7.5 7.5 0 0 1 0 11"/>';
+const RAILALL=[["user",()=>profName(),()=>profiles()],["search","Zoeken",search],["home","Home",()=>{fr=last.r;fi=last.i;paint()}],["tv",P==="webos"?"Tv en geluid":"Bediening",()=>tvMenu()],["amb","Sfeermodus",()=>amb(true)],["gear","Instellingen",()=>locked(()=>panel(true))]];
+function tvMenu(){sheet(P==="webos"?"Tv en geluid":"Bediening",[{l:P==="webos"?"Ingangen (HDMI, PlayStation)":"Apparaten en verbinding",v:()=>"›",ok:()=>inputs()},{l:"Geluid en volume",v:()=>(VOL.known?(VOL.muted?"Gedempt":"Volume "+VOL.cur)+" ":"")+"›",ok:()=>sound()},{l:"Beeld",v:()=>"›",ok:()=>picture()}].concat(P==="webos"?[]:[{l:"Slim huis",v:()=>"›",ok:()=>smart()},{l:"Alle instellingen van de Streamer",v:()=>"›",ok:()=>{panel(false);A("openSettings","all")}}]));}
+const AVC=[["#7c8cff","#3b45b8"],["#ff7a59","#c2410c"],["#22c55e","#15803d"],["#f472b6","#be185d"],["#facc15","#a16207"],["#38bdf8","#0369a1"],["#a78bfa","#6d28d9"],["#94a3b8","#475569"]];
+function avatar(p,sz){p=p||{};if(p.img)return '<img class="av" src="'+esc(p.img)+'" style="width:'+sz+'px;height:'+sz+'px">';const c=AVC[(p.col||0)%AVC.length];return '<span class="av" style="width:'+sz+'px;height:'+sz+'px;font-size:'+Math.round(sz*.46)+'px;background:linear-gradient(150deg,'+c[0]+','+c[1]+')">'+esc(((p.n||"?").trim()[0]||"?").toUpperCase())+'</span>';}
+const curProf=()=>PROF.list.find(p=>p.id===PROF.cur)||PROF.list[0];
+const RLOCK=["home","gear"],rlab=r=>typeof r[1]==="function"?r[1]():r[1];let RAIL=[];
+function drawRail(){const ord=(S.railOrder||[]).filter(k=>RAILALL.some(r=>r[0]===k));RAILALL.forEach(r=>{if(!ord.includes(r[0]))ord.push(r[0])});S.railOrder=ord;
+ RAIL=ord.map(k=>RAILALL.find(r=>r[0]===k)).filter(r=>RLOCK.includes(r[0])||!(S.railHide||[]).includes(r[0]));
+ $("rail").innerHTML=RAIL.map(r=>'<div class="ri'+(r[0]==="gear"?" last":"")+'">'+(r[0]==="user"?avatar(curProf(),36):rsvg(r[0]))+'<span>'+esc(rlab(r))+'</span></div>').join("");try{if(rows&&rows.length)build()}catch(e){}}
+function railMove(k,d){const o=S.railOrder,i=o.indexOf(k),j=i+d;if(i<0||j<0||j>=o.length)return;[o[i],o[j]]=[o[j],o[i]];save();drawRail();}
+function railToggle(k){if(RLOCK.includes(k))return toast("Dit onderdeel blijft altijd zichtbaar");const h=S.railHide||(S.railHide=[]),i=h.indexOf(k);i<0?h.push(k):h.splice(i,1);save();drawRail();}
+function railOpts(){return (S.railOrder||[]).map(k=>{const r=RAILALL.find(x=>x[0]===k);return{l:rlab(r),v:()=>(RLOCK.includes(k)?"Altijd zichtbaar":(S.railHide||[]).includes(k)?"Verborgen":"Zichtbaar")+" · ◀ ▶",ch:d=>{railMove(k,d);const n=(S.railOrder||[]).indexOf(k);CUR=railOpts();oi=n;},ok:()=>{railToggle(k);CUR=railOpts();}}});}
+function railMenu(k){const r=RAILALL.find(x=>x[0]===k);sheet(rlab(r),[{l:"Omhoog",v:()=>"",ok:()=>railMove(k,-1)},{l:"Omlaag",v:()=>"",ok:()=>railMove(k,1)},{l:(S.railHide||[]).includes(k)?"Tonen":"Verbergen",v:()=>"",ok:()=>{railToggle(k);panel(false);}},{l:"Zijmenu indelen",v:()=>"›",ok:()=>openSettingsAt("__zij")}]);$("msg").textContent=RLOCK.includes(k)?"Dit onderdeel blijft altijd zichtbaar.":"";}
+// profielen
+const profName=()=>(PROF.list.find(p=>p.id===PROF.cur)||{n:"Profiel"}).n;
+function profSwitch(id){if(id===PROF.cur)return panel(false);save();PROF.cur=id;saveProf();toast("Profiel wisselen…");setTimeout(()=>location.reload(),300);}
+function profiles(){const o=PROF.list.map(p=>({l:'<span class="avl">'+avatar(p,40)+esc(p.n)+(p.id==="guest"?" <small>gast</small>":"")+'</span>',v:()=>p.id===PROF.cur?"Actief ✓":"Wisselen ›",ok:()=>p.id==="guest"||!PROF.pin||p.id===PROF.cur?profSwitch(p.id):pinAsk(()=>profSwitch(p.id))}));
+ o.push({l:"Dit profiel aanpassen",v:()=>"Naam, kleur, foto ›",ok:()=>profEdit()});
+ o.push({l:"Nieuw profiel toevoegen",v:()=>"+",ok:()=>locked(()=>{const n=PROF.list.filter(p=>p.id!=="guest").length+1,id="p"+Date.now().toString(36);PROF.list.splice(PROF.list.length-(PROF.list.some(p=>p.id==="guest")?1:0),0,{id,n:"Profiel "+n,col:n%AVC.length});saveProf();profiles();toast("Profiel "+n+" gemaakt");})});
+ if(!PROF.list.some(p=>p.id==="guest"))o.push({l:"Gastprofiel toevoegen",v:()=>"+",ok:()=>{PROF.list.push({id:"guest",n:"Gast",col:7});saveProf();profiles();}});
+ o.push({l:"Kinderslot (pincode)",v:()=>PROF.pin?"Aan":"Uit",ok:()=>PROF.pin?pinAsk(()=>{PROF.pin="";saveProf();toast("Kinderslot uit");profiles();}):pinAsk(p=>{PROF.pin=p;saveProf();toast("Kinderslot aan");profiles();},true)});
+ sheet("Wie kijkt er?",o);$("msg").textContent="Ieder profiel heeft eigen accounts, apps en instellingen. De gast ziet alleen populaire tips.";}
+function profEdit(){const p=curProf();const o=[{l:"Naam",v:()=>esc(p.n)+" ›",ok:()=>{kn="_pname";$("keybox").style.display="block";$("keyin").value=p.n;$("keyin").placeholder="Typ een naam en druk op OK";$("keyin").focus();}},
+  {l:"Kleur",v:()=>avatar(Object.assign({},p,{img:""}),30)+" ◀ ▶",ch:d=>{p.col=((p.col||0)+d+AVC.length)%AVC.length;saveProf();drawRail();}},
+  {l:"Foto kiezen met je telefoon",v:()=>p.img?"Foto ✓ ›":"›",ok:()=>phoneLink({m:"photo"},"<b>Foto kiezen</b><br>1. Scan de code met de camera van je telefoon.<br>2. Kies een foto.<br>3. Druk op <b>Naar de tv sturen</b>.",d=>{if(d.pImg){p.img=d.pImg;delete S.pImg;saveProf();save();drawRail();toast("Foto opgeslagen");profEdit();}})}];
+ if(p.img)o.push({l:"Foto weghalen",v:()=>"",ok:()=>{p.img="";saveProf();drawRail();profEdit();}});
+ if(p.id!=="main")o.push({l:"Dit profiel verwijderen",v:()=>"",ok:()=>locked(()=>{window.GH_DEL=1;const id=p.id;PROF.list=PROF.list.filter(x=>x.id!==id);PROF.cur="main";saveProf();try{localStorage.removeItem("gh3_"+id)}catch(e){}location.reload();})});
+ sheet("Profiel aanpassen",o);$("msg").innerHTML='<span class="avl">'+avatar(p,64)+'<b style="font-size:28px">'+esc(p.n)+'</b></span>';}
+let PIN=[0,0,0,0];function pinAsk(done,setNew){PIN=[0,0,0,0];const o=[0,1,2,3].map(i=>({l:"Cijfer "+(i+1),v:()=>"◀ "+PIN[i]+" ▶",ch:d=>{PIN[i]=(PIN[i]+d+10)%10}}));
+ o.push({l:setNew?"Pincode instellen":"Ontgrendelen",v:()=>"OK",ok:()=>{const p=PIN.join("");if(setNew)return done(p);if(p===PROF.pin)return done(p);$("msg").textContent="Verkeerde pincode.";}});
+ sheet(setNew?"Nieuwe pincode":"Pincode",o);$("msg").textContent="Kies met ◀ ▶ of toets de cijfers op je afstandsbediening.";}
+function locked(f){if(!PROF.pin||window.UNL)return f();pinAsk(()=>{window.UNL=1;setTimeout(()=>window.UNL=0,1500);f()});}
+document.addEventListener("keydown",e=>{const k=e.keyCode,d=k>=48&&k<=57?k-48:k>=96&&k<=105?k-96:-1;if(d<0||mode!=="panel"||!/^Cijfer/.test((CUR[oi]||{}).l||""))return;PIN[oi]=d;if(oi<3)oi++;drawOpts();e.stopImmediatePropagation();e.preventDefault();},true);
+setTimeout(drawRail,0);setTimeout(()=>{if(!LIVE.length)drawLive()},2500);
+
+// apps
+// eigen apps toevoegen / verbergen
+const aid=a=>a.pkg&&P==="android"?a.pkg:a.id||a.n;
+function addExtras(){(S.extra||[]).forEach(e=>{if(APPS.some(a=>a.x&&!a.removed&&a.id===e.id))return;let h=0;for(const ch of e.n)h=(h*31+ch.charCodeAt(0))%360;
+ const na={n:e.n,k:e.n.toLowerCase(),id:e.id,pkg:e.id,x:1,g:"orb",c:["hsl("+h+",45%,42%)","hsl("+((h+30)%360)+",50%,22%)"]};if(P==="android"){try{const u=GHAndroid.appLogo&&GHAndroid.appLogo(e.id);if(u){na.icon=u;na.lo=1;}}catch(x){}}APPS.push(na);});}
+function orderIdx(){const o=S.order||[],pos=a=>{const p=o.indexOf(aid(a));return p<0?1e3+APPS.indexOf(a):p};return APPS.map((a,i)=>i).sort((x,y)=>pos(APPS[x])-pos(APPS[y]));}
+function drawApps(){$("apps").innerHTML=orderIdx().map(i=>[APPS[i],i]).map(([a,i])=>a.removed||a.missing||(S.hidden||[]).includes(aid(a))?'':'<div class="app f'+(a.lt?' lt':'')+'" data-a="'+i+'" style="background:'+appBg(a.c)+'">'+icon(a,a.tl?"ico tl":"ico")+'<b>'+String(a.n).replace(/</g,"&lt;")+'</b></div>').join("");}
+addExtras();drawApps();
+function moveApp(a,d){const vis=orderIdx().map(i=>APPS[i]).filter(x=>!x.removed&&!(S.hidden||[]).includes(aid(x))).map(aid),p=vis.indexOf(aid(a)),q=p+d;
+ if(p<0||q<0||q>=vis.length)return;vis.splice(p,1);vis.splice(q,0,aid(a));S.order=vis;save();drawApps();if(fr===2)fi=q;build();}
+const icoMini=(x,i)=>{if(P!=="android"||i>11)return"";const u=A("appIcon",x.id);return u?'<img class="mini" src="'+u+'">':""};
+function addApp(){const have=APPS.filter(a=>!(S.hidden||[]).includes(aid(a))).map(aid);
+ const src=P==="preview"?[{id:"plex",title:"Plex"},{id:"disney",title:"Disney+"},{id:"kodi",title:"Kodi"},{id:"twitch",title:"Twitch"}]:ALLAPPS;
+ const list=src.filter(x=>!have.includes(x.id)&&!/glass home/i.test(x.title)).sort((a,b)=>a.title.localeCompare(b.title));
+ sheet("App toevoegen",(list.length?list.map((x,i)=>({l:icoMini(x,i)+esc(x.title),v:()=>"＋",ok:()=>{const ex=APPS.find(a=>aid(a)===x.id);
+  if(ex)S.hidden=S.hidden.filter(h=>h!==x.id);else{S.extra.push({n:x.title,id:x.id});addExtras();}
+  save();if(P!=="preview")syncApps(ALLAPPS);else drawApps();build();panel(false);toast(x.title+" staat nu in je apps");}})):[{l:"Alle apps staan er al in",v:()=>""}]).concat(P==="android"?[]:[{l:"Zelf een app-ID invoeren",v:()=>"›",ok:()=>{kn="_addid";$("keybox").style.display="block";$("keyin").value="";$("keyin").placeholder="App-ID, bijv. com.disney.disneyplus-prod — daarna OK";$("keyin").focus();}}]));}
+function manageApps(){sheet("Apps beheren",APPS.filter(a=>!a.removed).map(a=>({l:esc(a.n),v:()=>((S.hidden||[]).includes(aid(a))?"Verborgen":"Zichtbaar")+" ›",ok:()=>appMenu(a)})));}
+function appMenu(a){const id=aid(a),hid=()=>(S.hidden||[]).includes(id);
+ sheet(a.n,[{l:"Positie",v:()=>{if(hid())return"Verborgen";const vis=orderIdx().map(i=>APPS[i]).filter(x=>!x.removed&&!(S.hidden||[]).includes(aid(x)));return "◀ "+(vis.indexOf(a)+1)+" van "+vis.length+" ▶"},ch:d=>moveApp(a,d)},
+  {l:"Openen",v:()=>"›",ok:()=>{panel(false);open(APPS.indexOf(a))}},{l:"Tonen in je apps",v:()=>hid()?"Uit":"Aan",ok:()=>{S.hidden=hid()?S.hidden.filter(h=>h!==id):(S.hidden||[]).concat(id);save();drawApps();build();drawOpts();}}]
+  .concat(a.x?[{l:"Verwijderen uit Glass Home",v:()=>"",ok:()=>{S.extra=S.extra.filter(e=>e.id!==a.id);a.removed=1;save();drawApps();build();toast(a.n+" verwijderd");manageApps();}}]:[])
+  .concat(P==="android"?[{l:"App-info (verwijderen van de tv)",v:()=>"›",ok:()=>{panel(false);A("openAppInfo",a.pkg||"")}}]:[])
+  .concat([{l:"Alle apps beheren",v:()=>"›",ok:manageApps}]));}
+
+// ga verder
+function ago(t){if(!t)return"Onlangs geopend";const m=Math.round((Date.now()-t)/60000);return m<60?m+" min geleden":m<1440?Math.round(m/60)+" uur geleden":(Math.round(m/1440)===1?"1 dag geleden":Math.round(m/1440)+" dagen geleden");}
+let CONT=[];
+
+// Live TV · Nieuws & Sport
+const LIVEDEF=[{n:"Live TV",s:"Tv-zenders",id:"com.webos.app.livetv",pkg:"ar.tvplayer.tv",c:["#3a4a8a","#1a2246"]},{n:"NPO Start",s:"NPO 1, 2 en 3 live",id:"npo",pkg:"nl.uitzendinggemist",c:["#ff6a00","#c2410c"]},{n:"NOS",s:"Nieuws en sport",id:"nl.nos.app",pkg:"nl.nos.app",c:["#e3000f","#8a0009"]},
+ {n:"Ziggo GO",s:"Tv en Ziggo Sport",id:"com.ziggo.tv",pkg:"com.lgi.ziggotv",c:["#f48c00","#a85b00"]},{n:"KPN TV",s:"Live tv",id:"kpn.poc",pkg:"com.kpn.epg.app",c:["#00c300","#007a00"]},{n:"Canal Digitaal",s:"Live tv",id:"tv.solocoo.m7cp",pkg:"tv.solocoo.m7cp",c:["#1c1c1c","#000"]},
+ {n:"Viaplay",s:"F1 en voetbal",id:"viaplay-lg",pkg:"com.viaplay.android.tv",c:["#2f2a7a","#16133d"]},{n:"ESPN",s:"Eredivisie",id:"espn",pkg:"com.espn.score_center",c:["#c00","#600"]},{n:"Pathé Thuis",s:"Films",id:"pathe",pkg:"nl.pathe.thuis",c:["#f5c400","#a88600"]}];
+let LIVE=[];function drawLive(){const ids=new Set(ALLAPPS.map(x=>x.id));LIVE=LIVEDEF.filter(d=>P==="preview"||ids.has(P==="android"?d.pkg:d.id));
+ const hl=S.showLive!==0&&LIVE.length>0;$("s-live").style.display=hl?"":"none";document.body.classList.toggle("haslive",hl);
+ $("live").innerHTML=LIVE.map((d,i)=>{const m=ALLAPPS.find(x=>x.id===(P==="android"?d.pkg:d.id))||{};let ic=P==="webos"?(m.largeIcon||m.icon||""):"";if(ic&&!/^(\/|file:|https?:|data:)/.test(ic))ic=(m.folderPath||"")+"/"+ic;
+  return '<div class="app lv f" data-l="'+i+'" style="background:'+appBg(d.c)+'">'+(ic?'<img class="ico" src="'+esc(ic)+'">':'<span class="ldot">● LIVE</span>')+'<b>'+esc(d.n)+'<small>'+esc(d.s)+'</small></b></div>'}).join("");try{build()}catch(e){}}
+function openLive(i){const d=LIVE[i];if(!d)return;launchApp({n:d.n,id:d.id,pkg:d.pkg});}
+function drawCont(){if(CONT.length){$("conth").textContent="Ga verder";$("cont").innerHTML=CONT.map((c,n)=>'<div class="card f" data-c="'+n+'" style="background-image:'+(c.img?cu(c.img):art(n*53+190))+'"><div class="lab"><div class="tt">'+esc(c.t)+'</div><small>'+esc(c.s)+'</small><div class="bar"><i style="width:'+c.p+'%"></i></div></div></div>').join("");return build();}
+ $("cont").innerHTML=S.recent.filter(i=>APPS[i]&&!APPS[i].removed).map((i,n)=>{const a=APPS[i];
+ return '<div class="card f rc" data-a="'+i+'" style="background:'+grad(a.c)+'">'+icon(a,a.tl?"gi tl":"gi")+'<div class="lab">'+a.n+'<small>'+(S.seen[i]?'Laatst geopend · '+ago(S.seen[i]):'Onlangs geopend')+'</small></div></div>'}).join("");build();}
+
+// aanraders + hero
+const KDEF={traktClientId:"ovjwTlEJ5SzIVrmYHxpDJWWvt9nT0F0lDM7eaY83saU"};
+const key=n=>S[n]||((window.GH_KEYS||{})[n])||KDEF[n]||"";
+const j=async(u,o)=>{const r=await fetch(u,o);if(!r.ok)throw r.status;return r.json()};
+const form=(u,b)=>j(u,{method:"POST",headers:{"content-type":"application/x-www-form-urlencoded"},body:Object.keys(b).map(k=>k+"="+encodeURIComponent(b[k])).join("&")});
+const cu=u=>"url('"+String(u).replace(/['"\\()\s]/g,c=>"%"+c.charCodeAt(0).toString(16))+"')";
+const esc=t=>String(t||"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const cget=(k,ms)=>{try{const c=JSON.parse(localStorage.getItem(k)||"null");if(c&&Date.now()-c.t<ms)return c.l}catch(e){}return null};
+const cset=(k,l)=>{if(!l||!l.length)return;try{localStorage.setItem(k,JSON.stringify({t:Date.now(),l}))}catch(e){}};
+// Letterboxd weegt het zwaarst
+const W={LB:3,IMDb:1.5,RT:1,MC:1,TMDB:.5,SP:1};
+const SRC={LB:"Letterboxd",IMDb:"IMDb",RT:"Rotten Tomatoes",MC:"Metacritic",TMDB:"TMDB",SP:"Spotify-populariteit"};
+const nl=x=>String(x).replace(".",",");
+const shown=(k,v)=>k==="LB"?nl((v/20).toFixed(1))+"/5":k==="RT"?v+"%":k==="MC"||k==="SP"?v+"/100":nl((v/10).toFixed(1));
+const wavg=sc=>{let s=0,w=0;for(const k in sc){s+=sc[k]*W[k];w+=W[k]}return w?s/w:0};
+const sc10=x=>nl((x/10).toFixed(1));
+const EMPTY={0:["Koppel je YouTube-account","YouTube-account"],1:["Koppel je Stremio-account","!Stremio"],2:["Voeg je tv-gids toe","EPG"],3:["Koppel je Spotify-account","Spotify-account"]};
+const EMPTYX=["Maak tips persoonlijk (gratis TMDB-sleutel)","TMDB-sleutel"];
+let ITEMS=[];
+const SAMPLE=[
+ {t:"Noorderlicht",s:"Serie · 2025",a:4,because:["Dark"],sc:{LB:84,IMDb:86,RT:95,MC:84},zeg:"Kijkers roemen de ijzige sfeer en het ingetogen acteerwerk. Het begin is bewust traag, maar de spanning bouwt mooi op.",waarom:"Letterboxd-gebruikers en critici zijn het zelden zo eens: vakmanschap en sfeer worden overal geprezen."},
+ {t:"Zilveren Kust",s:"Film · 2025",a:4,sc:{LB:76,IMDb:77,RT:86,MC:74},zeg:"Een luchtig avontuur met prachtige beelden. Ideaal voor een filmavond, al vinden sommigen het verhaal voorspelbaar.",waarom:"Hoog gewaardeerd om de beelden, iets lager door het bekende verloop."},
+ {t:"Grijs Gebied",s:"Film · 2024",a:4,because:["Prisoners"],sc:{LB:80,IMDb:78,RT:89},zeg:"Een strak geschreven thriller die je bij de les houdt. De hoofdrol wordt vaak als hoogtepunt genoemd.",waarom:"Sterke reviews en een hoge Letterboxd-score."},
+ {t:"De Laatste Haven",s:"Film · 2024",a:5,sc:{LB:78,IMDb:79,RT:91,MC:77},zeg:"Een broeierige Nederlandse thriller met sterke cameravoering. Kijkers waarderen dat niets wordt voorgekauwd.",waarom:"Critici zijn erg positief; het publiek scoort iets lager door het trage begin."},
+ {t:"Stille Wateren",s:"Serie · 2024",a:5,sc:{IMDb:82,RT:90},zeg:"Een misdaadserie met geloofwaardige personages. Vooral de dialogen worden geprezen.",waarom:"Consistent hoge cijfers bij publiek en critici."},
+ {t:"Polderland",s:"Serie · 2023",a:6,sc:{IMDb:81,RT:94},zeg:"Warme, droge humor die herkenbaar Nederlands voelt.",waarom:"Bijna alle critici zijn positief en het publiek volgt."},
+ {t:"Het Archief",s:"Documentaire · 2025",a:6,sc:{IMDb:84,TMDB:80},zeg:"Rustig verteld maar indrukwekkend, met zeldzaam beeldmateriaal.",waarom:"Hoge publieksscores."},
+ {t:"Orbit 9",s:"Serie · 2025",a:7,because:["Severance"],sc:{LB:82,IMDb:83,RT:88,MC:81},zeg:"Slimme sciencefiction met indrukwekkende effecten en een sterk ensemble.",waarom:"Hoge cijfers voor ambitie en uitvoering."},
+ {t:"Koude Bries",s:"Film · 2024",a:7,sc:{LB:74,IMDb:75,RT:83},zeg:"Een sfeervol drama met mooie muziek. Ontroerend, al had het korter gekund.",waarom:"Goede scores, iets gedrukt door de lengte."},
+ {t:"Rode Woestijn",s:"Film · 2023",a:1,sc:{LB:86,IMDb:80,RT:96},zeg:"Een visueel overweldigende film die je op een groot scherm moet zien.",waarom:"Een van de hoogst beoordeelde films op Letterboxd van dat jaar."},
+ {t:"Grensgebied",s:"Serie · 2024",a:1,sc:{IMDb:85,RT:92},zeg:"Spannend en goed geacteerd; kijkers bingen hem in één weekend.",waarom:"Hoge scores, en niet te zien op je huidige diensten."},
+ {sp:1,kind:"playlist",t:"Zondagochtend",c:"Jij",s:"Afspeellijst",a:3,sc:{},because:["Laatst door jou beluisterd"]},
+ {sp:1,kind:"artist",t:"Mira Vos",c:"Artiest",s:"Een van je meest beluisterde artiesten",a:3,sc:{SP:64},genres:["indiepop"],because:["Jouw top-artiest"],zeg:"Dromerige indiepop met warme synths.",waarom:"Je luistert haar de laatste weken het meest."},
+ {tv:1,t:"Eredivisie: Utrecht – Ajax",c:"ESPN 1",s:"20:00 – 22:00",p:35,a:2,sc:{},ov:"Live voetbal uit Stadion Galgenwaard.",zeg:"Live voetbal uit Stadion Galgenwaard.",waarom:"Loopt nu, nog ruim een uur."},
+ {tv:1,t:"Journaal",c:"NPO 1",s:"20:00 – 20:30",p:60,a:2,sc:{},ov:"Het laatste nieuws.",zeg:"Het laatste nieuws.",waarom:"Loopt nu, nog 12 minuten."},
+ {sp:1,t:"Lichtjaren",c:"Mira Vos",s:"Album · 2025",a:3,sc:{SP:72},genres:["indiepop","dreampop"],because:["Je luistert veel naar indiepop"],zeg:"Dromerige indiepop met warme synths en een ingetogen stem.",waarom:"Past bij de artiesten die je de laatste weken het meest luistert."},
+ {sp:1,t:"Nachtbus",c:"De Kade",s:"Single · 2025",a:3,sc:{SP:81},genres:["nederpop"],zeg:"Een pakkend Nederlandstalig nummer met een refrein dat blijft hangen.",waarom:"Populair in Nederland en dicht bij jouw smaak."},
+ {yt:1,t:"Zo bouw je een tiny house in 30 dagen",c:"Bouwlab",vw:"1,4 mln",lr:"5,1",a:0,because:["Nieuw van een kanaal dat je volgt"],zeg:"Kijkers vinden de video inspirerend en goed uitgelegd.",waarom:"Een opvallend hoog aandeel kijkers geeft een like."},
+ {yt:1,t:"Waarom treinen in Japan nooit te laat zijn",c:"Kort Uitgelegd",vw:"3,3 mln",lr:"4,6",a:0,zeg:"Duidelijk uitgelegd met mooie animaties.",waarom:"Veel weergaven én veel likes per kijker."}];
+
+function art(h){return"radial-gradient(circle at 70% 35%,hsl("+h+",70%,55%),transparent 55%),radial-gradient(circle at 30% 80%,hsl("+(h+50)+",70%,35%),transparent 60%),linear-gradient(135deg,hsl("+(h+20)+",50%,22%),hsl("+(h+80)+",60%,8%))";}
+const ago2=t=>{if(!t)return"";const d=(Date.now()-new Date(t))/864e5;return d<1?"Vandaag":d<2?"Gisteren":d<7?Math.floor(d)+" dagen geleden":d<30?Math.floor(d/7)+(d<14?" week":" weken")+" geleden":d<365?Math.floor(d/30)+(d<60?" maand":" maanden")+" geleden":Math.floor(d/365)+" jaar geleden"};
+function card(it,i){if(it.tv)return '<div class="card f" data-k="'+i+'" style="background-image:'+(it.img?"url(\'"+it.img+"\')":art(it.h||i*40))+'"><div class="live">LIVE</div><div class="lab"><div class="tt">'+esc(it.t)+'</div><small>'+esc(it.c)+" · "+it.s+'</small><div class="bar"><i style="width:'+it.p+'%"></i></div></div></div>';
+ const chip=it.act?"":it.yt?(it.du?"▶ "+it.du:""):it.sp?(it.sc.SP!=null?"♫ "+it.sc.SP:"▶ Afspeellijst"):"★ "+sc10(it.avg);
+ const sub=it.because&&it.because[0]?(it.yt||it.sp?"":"Omdat je ")+esc(it.because[0])+(it.yt||it.sp?"":" keek"):it.yt?[esc(it.c),ago2(it.up),it.tr?"Trending":""].filter(Boolean).join(" · "):it.sp?esc(it.c)+" · "+it.s:it.s+(it.sc.LB?" · Letterboxd "+shown("LB",it.sc.LB):"");
+ return '<div class="card f'+(it.sp?" sq":"")+'" data-k="'+i+'" style="background-image:'+(it.img?cu(it.img):art(it.h||i*40))+'">'+(chip?'<div class="score glass">'+chip+'</div>':'')+'<div class="lab"><div class="tt">'+esc(it.t)+(it.sp?' <span class="by">· '+esc(it.c)+'</span>':'')+'</div><small>'+sub+'</small></div></div>';}
+
+// rij met aanraders onder de gekozen app
+let shelfApp=-1;
+function drawShelf(ai){if(ai===shelfApp||isNaN(ai))return;shelfApp=ai;const a=APPS[ai];document.body.classList.add("shelf");
+ let list=ITEMS.map((it,i)=>[it,i]).filter(x=>ai===1?(!x[0].yt&&!x[0].sp&&!x[0].tv&&!x[0].act&&x[0].sc):x[0].a===ai);
+ if(ai===1)list=list.sort((p,q)=>q[0].rs-p[0].rs).slice(0,15);
+ if(!list.length&&a.x){let k=ITEMS.findIndex(x=>x.act==="open"&&x.a===ai);if(k<0){ITEMS.push({act:"open",a:ai,t:a.n+" openen",c:a.n,s:"Door jou toegevoegd",sc:{},h:200,zeg:"Start "+a.n+" direct vanaf je startscherm.",waarom:"Je hebt deze app zelf aan Glass Home toegevoegd. Hieronder je beste tips van je andere diensten."});k=ITEMS.length-1;}
+  list=[[ITEMS[k],k]].concat(ITEMS.map((it,i)=>[it,i]).filter(x=>!x[0].act&&!x[0].yt&&!x[0].sp&&!x[0].tv&&x[0].a>3).sort((p,q)=>q[0].rs-p[0].rs).slice(0,5));}const pers=list.some(x=>x[0].because&&x[0].because.length);
+ $("shtitle").textContent=a.x?"Snel naar "+a.n+" · en je beste tips":ai===1?(S.trRefresh||pers?"Voor jou op Stremio":"Populair op Stremio"):ai===2?(LG?"Snelkoppelingen":"Nu live op tv"):(pers?"Voor jou op ":ai===0?"Trending op ":"Aanraders op ")+a.n;
+ const row=$("shelf");row.classList.remove("in");void row.offsetWidth;
+ const res=ai===1?CONT.slice(0,1).map((c,n)=>'<div class="card f res" data-c="'+n+'" style="background-image:'+(c.img?cu(c.img):art(n*53+190))+'"><div class="score glass">▶ Verder</div><div class="lab"><div class="tt">'+esc(c.t)+'</div><small>'+esc(c.s)+(c.p?' · '+Math.round(c.p)+'% gekeken':'')+'</small><div class="bar"><i style="width:'+c.p+'%"></i></div></div></div>').join(""):(((S.seen&&S.seen[ai])||(S.recent||[]).includes(ai))&&!a.x&&ai!==2?'<div class="card f res" data-a="'+ai+'" style="background:'+grad(a.c)+'">'+icon(a,a.tl?"gi tl":"gi")+'<div class="score glass">▶ Verder</div><div class="lab"><div class="tt">'+(ai===3?"Verder luisteren":"Verder kijken")+'</div><small>'+esc(a.n)+' onthoudt waar je was'+(S.seen&&S.seen[ai]?' · '+ago(S.seen[ai]):'')+'</small></div></div>':"");
+ const lk=list.length?(ai===1&&!S.stAuth?["Koppel je Stremio-account","!Stremio"]:ai===0&&!S.ytRefresh?["Koppel je YouTube-account","!YouTube-account"]:ai===3&&!(S.spRefresh||key("spotifyRefresh"))?["Koppel je Spotify-account","!Spotify-account"]:ai>3&&!S.trRefresh?["Maak tips persoonlijk met Trakt","!Trakt-account"]:null):null;
+ const lkc=lk?'<div class="empty glass f lk" data-go="'+lk[1]+'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></svg><span>'+lk[0]+'</span><b>Koppelen ›</b></div>':"";
+ row.innerHTML=res+lkc+(list.length?list.map(x=>card(x[0],x[1])).join(""):(()=>{const e=EMPTY[ai]||(a.x?["Nog geen aanraders voor "+a.n,"Apps beheren"]:EMPTYX);return '<div class="empty glass f" data-go="'+e[1]+'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></svg><span>'+e[0]+'</span><b>Instellen ›</b></div>'})());
+ row.classList.add("in");row.scrollLeft=0;build();}
+
+// hero
+let HERO=[],hi=0,hT,hc="hA";
+function setHero(){HERO=ITEMS.filter(x=>!x.yt&&!x.sp&&x.a>3).sort((a,b)=>b.rs-a.rs).slice(0,5);document.body.classList.toggle("hasHero",HERO.length>0);$("htxt").style.display="";if(!HERO.length){const h=new Date().getHours();$("htag").innerHTML='<i style="background:#7c8cff"></i>Glass Home';
+ $("htitle").textContent=h<6?"Goedenacht":h<12?"Goedemorgen":h<18?"Goedemiddag":"Goedenavond";$("hmeta").textContent="Koppel je accounts voor films, series en muziek die bij je passen.";$("hbl").textContent="Nu instellen";$("dots").innerHTML="";}
+ $("dots").innerHTML=HERO.map(()=>'<i></i>').join("");hi=-1;nextHero();clearInterval(hT);hT=setInterval(nextHero,12000);}
+function nextHero(){if(!HERO.length)return;hi=(hi+1)%HERO.length;const r=HERO[hi],a=APPS[r.a],el=$(hc==="hA"?"hB":"hA");
+ el.style.backgroundImage=r.big?cu(r.big):art(r.h);el.classList.add("on");if(window.fbH&&r.big&&document.body.classList.contains("fb")){const f=$("fbg");f.style.opacity=0;setTimeout(()=>{f.style.backgroundImage=cu(r.big);f.style.opacity=""},650);}$(hc).classList.remove("on");hc=el.id;
+ $("htag").innerHTML='<i style="background:'+a.c[0]+'"></i>'+(r.because&&r.because[0]?"Omdat je "+esc(r.because[0])+" keek":"Nu op "+a.n)+' · ★ '+sc10(r.avg);$("htitle").textContent=r.t;
+ $("hmeta").textContent=[r.s].concat(r.gen&&r.gen.length?[r.gen.join(", ")]:[],r.len?[r.len]:[]).join("  ·  ");$("hbl").textContent="Openen in "+a.n;
+ [...$("dots").children].forEach((d,q)=>d.classList.toggle("on",q===hi));}
+
+// ---------- jouw smaak: Letterboxd-dagboek + Netflix-kijkgeschiedenis ----------
+async function seeds(B,k){const out=[],lb=key("letterboxd");
+ if(lb){try{const x=await(await fetch("https://letterboxd.com/"+encodeURIComponent(lb)+"/rss/")).text(),doc=new DOMParser().parseFromString(x,"text/xml"),g=(n,t)=>(n.getElementsByTagName(t)[0]||{}).textContent;
+  [...doc.getElementsByTagName("item")].slice(0,40).forEach(n=>{const id=g(n,"tmdb:movieId"),r=parseFloat(g(n,"letterboxd:memberRating")||"3.5");
+   if(id&&r>=3.5)out.push({id:+id,type:"movie",title:g(n,"letterboxd:filmTitle")||"",w:r>=4.5?3:r>=4?2:1});});}catch(e){}}
+ try{const csv=await new Promise((ok,no)=>{const x=new XMLHttpRequest();x.open("GET","netflix.csv");x.onload=()=>ok(x.responseText||"");x.onerror=no;x.send()}),seen=[];
+  csv.split(/\r?\n/).slice(1).forEach(l=>{const m=l.match(/^"(.*)","(.*)"$/);if(!m)return;const t=m[1].split(":")[0].trim();if(t&&!seen.includes(t)&&seen.length<25)seen.push(t);});
+  (await Promise.all(seen.map(t=>j(B+"search/multi?language=nl-NL&query="+encodeURIComponent(t)+"&"+k).then(r=>r.results.find(x=>x.media_type==="movie"||x.media_type==="tv")).catch(()=>null))))
+   .forEach(r=>{if(r)out.push({id:r.id,type:r.media_type,title:r.title||r.name,w:1.5})});}catch(e){}
+ if(S.trRefresh){try{(await tr("sync/history?limit=80")).forEach(h=>{const o=h.movie||h.show,t=h.movie?"movie":"tv";if(o&&o.ids.tmdb&&!out.some(x=>x.id===o.ids.tmdb))out.push({id:o.ids.tmdb,type:t,title:o.title,w:2});});}catch(e){}}
+ return out;}
+async function loadMovies(tk){const c=cget("ghM9"+(S.lang||0),432e5);if(c)return c;
+ const B="https://api.themoviedb.org/3/",k="api_key="+tk,ok=key("omdb"),sd=await seeds(B,k),C=new Map(),own=new Set(sd.map(s=>s.type+s.id));
+ const add=(m,type,why,w)=>{const id=type+m.id;let c=C.get(id);if(!c){c={m,type,n:0,why:[]};C.set(id,c)}c.n+=w;if(why&&c.why.length<2&&!c.why.includes(why))c.why.push(why);};
+ await Promise.all(sd.slice(0,25).map(s=>j(B+s.type+"/"+s.id+"/recommendations?language=nl-NL&"+k).then(r=>r.results.slice(0,12).forEach(m=>add(m,s.type,s.title,s.w))).catch(()=>{})));
+ if(S.trRefresh){for(const t of ["movies","shows"]){try{(await tr("recommendations/"+t+"?limit=20")).forEach(o=>{if(o.ids&&o.ids.tmdb)add({id:o.ids.tmdb,backdrop_path:"x",popularity:0},t==="movies"?"movie":"tv","",2.5)})}catch(e){}}}
+ for(const p of [1,2,3]){try{(await j(B+"trending/all/week?language=nl-NL&page="+p+"&"+k)).results.forEach(m=>{if(m.media_type==="movie"||m.media_type==="tv")add(m,m.media_type,"",.3)})}catch(e){}}
+ const list=[...C.values()].filter(c=>!own.has(c.type+c.m.id)&&c.m.backdrop_path).sort((a,b)=>b.n-a.n||b.m.popularity-a.m.popularity).slice(0,90);
+ const det=async c=>{try{const m=c.m;
+  const d=await j(B+c.type+"/"+m.id+"?language=nl-NL&append_to_response=watch/providers,external_ids,translations&"+k);
+  const tl=((d.translations||{}).translations||[]),en=(tl.find(x=>x.iso_639_1==="en"&&x.iso_3166_1==="US")||tl.find(x=>x.iso_639_1==="en")||{}).data||{},lat=x=>x&&/^[\u0000-\u024F\u2000-\u206F\s]+$/.test(x);
+  const L=S.lang||0,nlT=d.title||d.name,enT=en.title||en.name||(lat(d.original_title||d.original_name)?(d.original_title||d.original_name):nlT);
+  const ttl=L===1?nlT:L===2?enT:(d.original_language==="nl"?nlT:enT);
+  if(L===2&&en.overview)d.overview=en.overview;if(!d.overview)d.overview=en.overview||"";
+  const hit=((((d["watch/providers"]||{}).results||{}).NL||{}).flatrate||[]).find(x=>PROV[x.provider_name]!==undefined);
+  const sc={},imdb=(d.external_ids||{}).imdb_id||d.imdb_id;
+  if(c.type==="movie"){try{const h=await(await fetch("https://letterboxd.com/tmdb/"+m.id+"/")).text();
+   const x=h.match(/twitter:data2"\s+content="([\d.]+) out of 5/);if(x)sc.LB=Math.round(parseFloat(x[1])*20);}catch(e){}}
+  if(ok&&imdb){try{const o=await j("https://www.omdbapi.com/?i="+imdb+"&apikey="+ok);
+   if(o.imdbRating&&o.imdbRating!=="N/A")sc.IMDb=Math.round(parseFloat(o.imdbRating)*10);
+   (o.Ratings||[]).forEach(x=>{if(x.Source==="Rotten Tomatoes")sc.RT=parseInt(x.Value);if(x.Source==="Metacritic")sc.MC=parseInt(x.Value);});}catch(e){}}
+  if(d.vote_count>150)sc.TMDB=Math.round(d.vote_average*10);
+  if(!Object.keys(sc).length)return null;const A=wavg(sc);
+  return{id:m.id,type:c.type,t:ttl,s:(c.type==="tv"?"Serie":"Film")+" · "+(d.release_date||d.first_air_date||"").slice(0,4),
+   a:hit?PROV[hit.provider_name]:1,because:c.why,sc,avg:A,rs:A+Math.min(c.n,4)*4,ov:d.overview||"",imdb,gen:(d.genres||[]).slice(0,2).map(g=>g.name),len:c.type==="tv"?(d.number_of_seasons?d.number_of_seasons+(d.number_of_seasons===1?" seizoen":" seizoenen"):""):(d.runtime?(d.runtime>=60?Math.floor(d.runtime/60)+" u "+(d.runtime%60?d.runtime%60+" min":""):d.runtime+" min").trim():""),
+   img:"https://image.tmdb.org/t/p/w1280"+(d.backdrop_path||m.backdrop_path),big:"https://image.tmdb.org/t/p/original"+(d.backdrop_path||m.backdrop_path),bp:d.backdrop_path};}catch(e){return null}};
+ let res=[];for(let i=0;i<list.length;i+=10)res=res.concat(await Promise.all(list.slice(i,i+10).map(det)));
+ const out=res.filter(x=>x&&x.bp&&x.avg>=68).sort((a,b)=>b.rs-a.rs);
+ cset("ghM9"+(S.lang||0),out);return out;}
+
+// ---------- Spotify: jouw toppers + nieuwe releases die bij je passen ----------
+let spTokenP;async function spToken(){return spTokenP||(spTokenP=_spToken().finally(()=>{spTokenP=null}));}
+async function _spToken(){const cid=key("spotifyClientId"),rt=S.spRefresh||key("spotifyRefresh");if(!cid||!rt)return"";
+ if(S.spTok&&S.spExp>Date.now()+6e4)return S.spTok;
+ const r=await form("https://accounts.spotify.com/api/token",{grant_type:"refresh_token",refresh_token:rt,client_id:cid});
+ S.spTok=r.access_token;S.spExp=Date.now()+r.expires_in*1000;if(r.refresh_token)S.spRefresh=r.refresh_token;save();return S.spTok;}
+async function loadSpotify(){const c=cget("ghSP6",216e5);if(c)return c;const t=await spToken();if(!t)return[];
+ const g=u=>j("https://api.spotify.com/v1/"+u,{headers:{Authorization:"Bearer "+t}});
+ const top=(await g("me/top/artists?limit=15&time_range=short_term")).items,GN={},AL=new Map();
+ top.forEach(a=>a.genres.forEach(x=>GN[x]=(GN[x]||0)+1));
+ const addA=(x,why,gen,b)=>{if(!AL.has(x.id))AL.set(x.id,{x,why,gen,b})};
+ await Promise.all(top.slice(0,10).map(a=>g("artists/"+a.id+"/albums?include_groups=album,single&market=NL&limit=4").then(r=>r.items.forEach(x=>addA(x,"Omdat je veel "+a.name+" luistert",a.genres,15))).catch(()=>{})));
+ try{const nr=(await g("browse/new-releases?country=NL&limit=50")).albums.items,ids=[...new Set(nr.map(x=>x.artists[0].id))];
+  const ar={};(await g("artists?ids="+ids.slice(0,50).join(","))).artists.forEach(a=>{if(a)ar[a.id]=a});
+  nr.forEach(x=>{const a=ar[x.artists[0].id];if(!a)return;const ov=a.genres.filter(q=>GN[q]);if(ov.length)addA(x,"Nieuw en past bij jouw "+ov[0],a.genres,8);});}catch(e){}
+ const yr=Date.now()-3e10,arr=[...AL.values()].filter(v=>new Date(v.x.release_date)>yr).sort((a,b)=>(b.x.release_date>a.x.release_date)?1:-1).slice(0,40),pop={};
+ for(let i=0;i<arr.length;i+=20){try{(await g("albums?market=NL&ids="+arr.slice(i,i+20).map(v=>v.x.id).join(","))).albums.forEach(a=>{if(a)pop[a.id]=a.popularity})}catch(e){}}
+ const extra=[];
+ try{const rp=(await g("me/player/recently-played?limit=50")).items,ctx=[...new Set(rp.map(x=>x.context&&x.context.type==="playlist"?x.context.uri:"").filter(Boolean))].slice(0,6);
+  (await Promise.all(ctx.map(u=>g("playlists/"+u.split(":")[2]+"?fields=name,uri,images,owner(display_name)").catch(()=>null)))).forEach(p=>{if(p)extra.push({sp:1,kind:"playlist",a:3,id:p.uri,uri:p.uri,t:p.name,c:p.owner.display_name,s:"Afspeellijst",img:(p.images&&p.images[0]||{}).url,because:["Laatst door jou beluisterd"],sc:{},avg:0,rs:999,genres:[]})});}catch(e){}
+ top.slice(0,5).forEach(a=>extra.push({sp:1,kind:"artist",a:3,id:a.id,uri:a.uri,t:a.name,c:"Artiest",s:"Een van je meest beluisterde artiesten",img:(a.images[0]||{}).url,genres:a.genres.slice(0,3),because:["Jouw top-artiest"],sc:{SP:a.popularity},avg:a.popularity,rs:60}));
+ const out=arr.map(v=>{const x=v.x,p=pop[x.id]||0;return{sp:1,a:3,id:x.id,uri:x.uri,t:x.name,c:x.artists.map(a=>a.name).join(", "),s:(x.album_type==="single"?"Single":"Album")+" · "+x.release_date.slice(0,4),
+  genres:v.gen.slice(0,3),because:[v.why],sc:{SP:p},avg:p,rs:p+v.b,img:(x.images[0]||{}).url}}).concat(extra).sort((a,b)=>b.rs-a.rs).slice(0,20);
+ cset("ghSP6",out);return out;}
+
+// ---------- YouTube: nieuw van je abonnementen + trending in jouw onderwerpen ----------
+let ytTokenP;async function ytToken(){return ytTokenP||(ytTokenP=_ytToken().finally(()=>{ytTokenP=null}));}
+async function _ytToken(){const cid=key("ytClientId");if(!cid||!S.ytRefresh)return"";
+ if(S.ytTok&&S.ytExp>Date.now()+6e4)return S.ytTok;
+ const r=await form("https://oauth2.googleapis.com/token",{client_id:cid,client_secret:key("ytClientSecret"),refresh_token:S.ytRefresh,grant_type:"refresh_token"});
+ S.ytTok=r.access_token;S.ytExp=Date.now()+r.expires_in*1000;save();return S.ytTok;}
+let ytPoll;
+async function ytLink(){const cid=key("ytClientId"),m=$("msg");if(!cid)return phoneLink({m:"key",h:"google",f:"ytClientId|Google Client ID;ytClientSecret|Google Client Secret"},"<b>YouTube koppelen</b><br>Eerst maak je eenmalig een gratis sleutel bij Google.<br>1. Pak je telefoon en open de camera.<br>2. Richt hem op de code hiernaast en tik op de link.<br>3. Volg de stappen op je telefoon.",()=>ytLink());
+ try{const d=await form("https://oauth2.googleapis.com/device/code",{client_id:cid,scope:"https://www.googleapis.com/auth/youtube.readonly"});
+  m.innerHTML=codeHtml("YouTube koppelen",d.verification_url,d.user_code);
+  clearInterval(ytPoll);const yEnd=Date.now()+(d.expires_in||900)*1000;ytPoll=setInterval(async()=>{if(Date.now()>yEnd){clearInterval(ytPoll);m.textContent="De code is verlopen. Probeer het opnieuw.";return}try{const r=await form("https://oauth2.googleapis.com/token",{client_id:cid,client_secret:key("ytClientSecret"),device_code:d.device_code,grant_type:"urn:ietf:params:oauth:grant-type:device_code"});
+   if(r.refresh_token){clearInterval(ytPoll);S.ytRefresh=r.refresh_token;S.ytTok=r.access_token;S.ytExp=Date.now()+r.expires_in*1000;save();m.textContent="YouTube gekoppeld ✓";try{localStorage.removeItem("ghYT6")}catch(e){}drawOpts();loadAll();}}catch(e){}},(d.interval||5)*1000);
+ }catch(e){m.textContent="Koppelen is niet gelukt. Kijk of je Google-sleutel (Client-ID en Clientgeheim) goed is.";}}
+const fmt=n=>n>=1e6?nl((n/1e6).toFixed(1))+" mln":n>=1e3?Math.round(n/1e3)+"k":String(n);
+async function loadYT(){const c=cget("ghYT7",108e5);if(c)return c;
+ const tok=await ytToken().catch(()=>""),yk=key("youtube");if(!tok&&!yk)return[];
+ const api=u=>j("https://www.googleapis.com/youtube/v3/"+u+(tok?"":"&key="+yk),tok?{headers:{Authorization:"Bearer "+tok}}:{});
+ const why={},cats={};let ids=[];
+ if(tok){try{const subs=(await api("subscriptions?part=snippet&mine=true&maxResults=50&order=relevance")).items.map(s=>s.snippet.resourceId.channelId);
+   const ch=(await api("channels?part=contentDetails&id="+subs.join(","))).items;
+   (await Promise.all(ch.map(c=>api("playlistItems?part=contentDetails&maxResults=2&playlistId="+c.contentDetails.relatedPlaylists.uploads).then(r=>r.items).catch(()=>[])))).flat()
+    .forEach(i=>{const v=i.contentDetails.videoId;ids.push(v);why[v]="Nieuw van een kanaal dat je volgt"});
+   (await api("videos?part=snippet&myRating=like&maxResults=50")).items.forEach(v=>cats[v.snippet.categoryId]=(cats[v.snippet.categoryId]||0)+1);}catch(e){}}
+ const pl=key("ytPlaylist"),keep={};if(pl){try{(await api("playlistItems?part=contentDetails&maxResults=25&playlistId="+encodeURIComponent(pl))).items.forEach(i=>{const v=i.contentDetails.videoId;ids.push(v);why[v]="Uit je afspeellijst";keep[v]=1})}catch(e){}}
+ let vids=[];for(let i=0;i<ids.length;i+=50){try{vids=vids.concat((await api("videos?part=snippet,statistics,contentDetails&id="+ids.slice(i,i+50).join(","))).items)}catch(e){}}
+ vids=vids.filter(v=>keep[v.id]||Date.now()-new Date(v.snippet.publishedAt)<12096e5);
+ try{const hasC=Object.keys(cats).length;(await api("videos?part=snippet,statistics,contentDetails&chart=mostPopular&regionCode=NL&maxResults=50")).items.forEach(v=>{
+   if(why[v.id])return;if(hasC&&!cats[v.snippet.categoryId])return;why[v.id]=hasC?"Trending in een onderwerp dat je vaak liket":"";vids.push(v);});}catch(e){}
+ const dur=d=>{const m=String(d||"").match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/);if(!m)return"";const h=+m[1]||0,mi=+m[2]||0,se=+m[3]||0;return h?h+":"+String(mi).padStart(2,"0")+":"+String(se).padStart(2,"0"):mi+":"+String(se).padStart(2,"0")},trend=new Set();
+ const out=vids.map(v=>{const st=v.statistics||{},vw=+st.viewCount||0,lk=+st.likeCount||0,th=v.snippet.thumbnails;
+  return{yt:1,a:0,v:v.id,t:v.snippet.title,c:v.snippet.channelTitle,vw:fmt(vw),n:vw,lr:"",du:dur((v.contentDetails||{}).duration),up:v.snippet.publishedAt,tr:!keep[v.id]&&!(why[v.id]&&why[v.id][0]==="N"),because:why[v.id]?[why[v.id]]:[],
+   q:(vw?lk/vw*Math.log10(vw):0)+(why[v.id]&&why[v.id][0]==="N"?.12:0)+(keep[v.id]?.2:0),img:(th.maxres||th.high||th.medium||th.default||{}).url}})
+  .filter(x=>x.n>2e3).sort((a,b)=>b.q-a.q).slice(0,18);
+ cset("ghYT7",out);return out;}
+
+// ---------- TiviMate: nu op tv via je EPG (XMLTV) ----------
+const hm=t=>new Date(t).toLocaleTimeString("nl-NL",{hour:"2-digit",minute:"2-digit"});
+function xt(v){const m=(v||"").match(/(\d{4})(\d\d)(\d\d)(\d\d)(\d\d)(\d\d)\s*([+-])?(\d\d)?(\d\d)?/);if(!m)return 0;
+ return Date.UTC(+m[1],m[2]-1,+m[3],+m[4],+m[5],+m[6])-(m[7]?(m[7]==="-"?-1:1)*((+m[8])*60+(+m[9]))*6e4:0);}
+async function loadEPG(){const u=key("epgUrl");if(!u||LG)return[];const c=cget("ghEPG",9e5);if(c)return c;
+ const x=await(await fetch(u)).text(),doc=new DOMParser().parseFromString(x,"text/xml"),names={},want=(window.GH_KEYS||{}).epgChannels||[],now=Date.now(),out=[],tx=(n,t)=>(n.getElementsByTagName(t)[0]||{}).textContent||"";
+ [...doc.getElementsByTagName("channel")].forEach(ch=>names[ch.getAttribute("id")]=tx(ch,"display-name")||ch.getAttribute("id"));
+ [...doc.getElementsByTagName("programme")].forEach(p=>{if(out.length>=24)return;const ch=p.getAttribute("channel");if(want.length&&!want.includes(ch)&&!want.includes(names[ch]))return;
+  const a=xt(p.getAttribute("start")),b=xt(p.getAttribute("stop"));if(!(a<=now&&now<b))return;const ic=p.getElementsByTagName("icon")[0];
+  out.push({tv:1,a:2,t:tx(p,"title"),c:names[ch]||ch,s:hm(a)+" – "+hm(b),p:Math.round((now-a)/(b-a)*100),ov:tx(p,"desc"),img:ic?ic.getAttribute("src"):"",sc:{},avg:0,rs:0,left:Math.round((b-now)/6e4)});});
+ cset("ghEPG",out);return out;}
+const MOON=[{act:"moon",a:2,t:"Games streamen vanaf je pc",c:"Moonlight",s:"Speel je pc-games op de tv",sc:{},zeg:"Opent Moonlight. Zet je pc aan met Sunshine of GeForce Experience en kies daarna je game.",waarom:"Snelkoppeling naar je game-pc."},
+ {act:"ps",a:2,t:"PlayStation",c:"HDMI",s:"Direct naar je PlayStation-ingang",sc:{},zeg:"Schakelt de tv naar de HDMI-ingang van je PlayStation (in te stellen bij Instellingen).",waarom:"Snelkoppeling."}];
+
+// ---------- Trakt: echte kijkgeschiedenis + "Ga verder" ----------
+const TH=()=>({"Content-Type":"application/json","trakt-api-version":"2","trakt-api-key":key("traktClientId")});
+let trTokenP;async function trToken(){return trTokenP||(trTokenP=_trToken().finally(()=>{trTokenP=null}));}
+async function _trToken(){if(!S.trRefresh)return"";if(S.trTok&&S.trExp>Date.now()+6e4)return S.trTok;
+ const r=await j("https://api.trakt.tv/oauth/token",{method:"POST",headers:TH(),body:JSON.stringify({refresh_token:S.trRefresh,client_id:key("traktClientId"),client_secret:key("traktClientSecret")||undefined,redirect_uri:"urn:ietf:wg:oauth:2.0:oob",grant_type:"refresh_token"})});
+ S.trTok=r.access_token;S.trRefresh=r.refresh_token;S.trExp=Date.now()+r.expires_in*1000;save();return S.trTok;}
+const tr=async u=>{const t=await trToken();return j("https://api.trakt.tv/"+u,{headers:Object.assign(TH(),{Authorization:"Bearer "+t})})};
+let trPoll;
+
+// koppelen of invullen via je telefoon (QR) – versleuteld doorgegeven via ntfy.sh
+const PVPG="https://wesselderksen1234-star.github.io/glass-home/yt.html";const LINKPG="https://wesselderksen1234-star.github.io/glass-home/link.html";let phT=null;
+const rndB=n=>{const a=new Uint8Array(n);crypto.getRandomValues(a);return a},b64u=a=>btoa(String.fromCharCode.apply(null,a)).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"");
+
+// sleutels overzetten tussen tv's (via je telefoon, zonder typen)
+const XK=["tmdb","omdb","youtube","gemini","claude","traktClientId","ytClientId","ytClientSecret","spotifyClientId","letterboxd","epgUrl"];
+function startSetup(){sheet("Aan de slag",[{l:"Overnemen van je andere tv (makkelijkst)",v:()=>"›",ok:()=>{openSettingsAt("Sleutels overnemen");xferIn();}},{l:"Zelf instellen",v:()=>"›",ok:()=>openSettingsAt("TMDB-sleutel")}]);$("msg").textContent="Heb je Glass Home al op een andere tv? Dan neem je alles in één keer over met je telefoon.";}
+function xferOut(){const o={};XK.forEach(k=>{const v=key(k);if(v&&v!==KDEF[k])o[k]=v});const d=btoa(unescape(encodeURIComponent(JSON.stringify(o)))).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"");
+ $("msg").innerHTML='<span class="qr">'+ghQR(LINKPG+"#m=xfer&d="+d)+'</span><b>Sleutels overzetten</b><br>1. Scan deze code met je telefoon.<br>2. Open daarna Glass Home op je andere tv.<br>3. Kies daar: Instellingen → Sleutels en bronnen → <b>Sleutels overnemen</b> en scan die code ook.<br><small>Je sleutels gaan alleen via je eigen telefoon.</small>';}
+function xferIn(){phoneLink({m:"key",h:"xfer",f:""},"<b>Sleutels overnemen</b><br>1. Heb je de code op je andere tv al gescand? Dan:<br>2. Scan deze code met je telefoon.<br>3. Druk op <b>Naar de tv sturen</b>. Klaar!",()=>{$("msg").textContent="Sleutels overgenomen ✓";loadAll();});}
+function codeHtml(n,u,c){return '<span class="qr">'+ghQR(LINKPG+"#m=code&n="+encodeURIComponent(n)+"&c="+encodeURIComponent(c)+"&u="+encodeURIComponent(u))+'</span><b>'+esc(n)+'</b><br>1. Pak je telefoon en open de camera.<br>2. Richt hem op de code hiernaast en tik op de link.<br>3. Druk op de grote knop. De code wordt voor je ingevuld.<br><br>Code: <b class="code">'+esc(c)+'</b><br><small>Glass Home wacht hier tot het klaar is.</small>';}
+let phTok=0;async function phoneLink(o,txt,done){clearTimeout(phT);const m=$("msg"),tk=++phTok;
+ if(!window.crypto||!crypto.subtle){m.textContent="Koppelen via je telefoon werkt niet op dit apparaat.";return;}
+ try{const r=await fetch(LINKPG,{method:"HEAD",cache:"no-store"});if(tk!==phTok)return;if(!r.ok)throw 0}catch(e){if(tk!==phTok)return;m.textContent=o.m==="key"&&o.f&&o.f.split(";").length===1?"Je telefoon kan nu niet verbinden. Typ het hieronder met de afstandsbediening.":"Koppelen via je telefoon lukt nu niet. Kijk of de tv internet heeft en probeer het zo nog eens.";return;}
+ const t="gh"+b64u(rndB(15)).replace(/[-_]/g,"x"),kb=rndB(16),url=LINKPG+"#"+Object.entries(Object.assign({t,k:b64u(kb)},o)).map(([a,b])=>a+"="+encodeURIComponent(b)).join("&");
+ m.innerHTML='<span class="qr">'+ghQR(url)+'</span>'+txt+'<br><br><small>Richt de camera van je telefoon op de code en tik op de link. Glass Home wacht hier tot het klaar is.</small>';
+ const ck=await crypto.subtle.importKey("raw",kb,"AES-GCM",false,["decrypt"]),t0=Date.now(),mine=m.innerHTML;
+ const poll=async()=>{if(m.innerHTML!==mine)return;if(Date.now()-t0>9e5){m.textContent="De code is verlopen. Probeer het opnieuw.";return;}
+  try{const tx=await(await fetch("https://ntfy.sh/"+t+"/json?poll=1&since=all")).text();
+   for(const ln of tx.split("\n")){if(!ln)continue;const e=JSON.parse(ln);if(e.event!=="message")continue;
+    const raw=Uint8Array.from(atob(e.message.replace(/-/g,"+").replace(/_/g,"/")),c=>c.charCodeAt(0));
+    const d=JSON.parse(new TextDecoder().decode(await crypto.subtle.decrypt({name:"AES-GCM",iv:raw.slice(0,12)},ck,raw.slice(12))));
+    Object.keys(d).forEach(x=>{if(d[x])S[x]=d[x]});save();["ghM9"+(S.lang||0)].forEach(x=>{try{localStorage.removeItem(x)}catch(e){}});if(done)done(d);else{m.textContent="Opgeslagen ✓";loadAll();}if(mode==="panel")drawOpts();return;}}catch(e){}
+  phT=setTimeout(poll,3000);};phT=setTimeout(poll,3000);}
+function spLink(){phoneLink({m:"spotify",cid:key("spotifyClientId")||""},"<b>Spotify koppelen</b><br>1. Pak je telefoon en open de camera.<br>2. Richt hem op de code hiernaast en tik op de link.<br>3. Volg de stappen op je telefoon. Klaar!",()=>{spTokenP=null;$("msg").textContent="Spotify gekoppeld ✓";try{localStorage.removeItem("ghSP6")}catch(e){}loadAll();});}
+async function trLink(){const cid=key("traktClientId"),m=$("msg");if(!cid)return phoneLink({m:"key",h:"trakt",f:"traktClientId|Trakt Client ID"},"Om Trakt te koppelen is eenmalig een gratis Trakt-sleutel nodig. Je telefoon legt uit hoe.",()=>trLink());
+ try{const d=await j("https://api.trakt.tv/oauth/device/code",{method:"POST",headers:TH(),body:JSON.stringify({client_id:cid})});
+  m.innerHTML=codeHtml("Trakt koppelen",d.verification_url+"/"+d.user_code,d.user_code);
+  clearInterval(trPoll);const tEnd=Date.now()+(d.expires_in||600)*1000;trPoll=setInterval(async()=>{if(Date.now()>tEnd){clearInterval(trPoll);m.textContent="De code is verlopen. Probeer het opnieuw.";return}try{const r=await j("https://api.trakt.tv/oauth/device/token",{method:"POST",headers:TH(),body:JSON.stringify({code:d.device_code,client_id:cid,client_secret:key("traktClientSecret")||undefined})});
+   if(r.refresh_token){clearInterval(trPoll);S.trRefresh=r.refresh_token;S.trTok=r.access_token;S.trExp=Date.now()+r.expires_in*1000;save();m.textContent="Trakt gekoppeld ✓";["ghM9"+(S.lang||0),"ghTR"].forEach(x=>{try{localStorage.removeItem(x)}catch(e){}});drawOpts();loadTrakt();loadAll();}}catch(e){}},(d.interval||5)*1000);
+ }catch(e){m.textContent="Koppelen lukte niet. Controleer je Trakt-gegevens.";}}
+async function loadTrakt(){
+ if(!S.trRefresh){if(P==="preview"){CONT=[{t:"Noorderlicht",s:"S1 · A4 · De ijsvlakte",p:62,type:"series"},{t:"Rode Woestijn",s:"Film · 2023",p:35,type:"movie"},{t:"Grensgebied",s:"S2 · A1 · Terug",p:12,type:"series"}];drawCont();}return;}
+ try{let l=cget("ghTR",6e5);
+  if(!l){const p=await tr("sync/playback?limit=12"),tk=key("tmdb");
+   l=await Promise.all(p.map(async x=>{const mv=x.type==="movie",o=mv?x.movie:x.show;let img="";
+    if(tk&&o.ids.tmdb){try{const d=await j("https://api.themoviedb.org/3/"+(mv?"movie":"tv")+"/"+o.ids.tmdb+"?api_key="+tk);if(d.backdrop_path)img="https://image.tmdb.org/t/p/w1280"+d.backdrop_path}catch(e){}}
+    return{t:o.title,s:mv?"Film · "+o.year:"S"+x.episode.season+" · A"+x.episode.number+(x.episode.title?" · "+x.episode.title:""),p:Math.round(x.progress),img,imdb:o.ids.imdb,type:mv?"movie":"series",se:mv?"":x.episode.season+":"+x.episode.number};}));
+   cset("ghTR",l);}
+  CONT=l;drawCont();}catch(e){}}
+
+// Stremio: verder kijken rechtstreeks uit je Stremio-bibliotheek
+
+// info bij "verder kijken"-kaarten
+async function detailC(n){const c=CONT[n];if(!c){detail(-1);return;}clearTimeout(dT);document.body.classList.add("det");const key_="c"+n;if(dk===key_)return;dk=key_;
+ $("dtitle").textContent=c.t;$("dmeta").textContent=c.s+(c.p?" · "+Math.round(c.p)+"% gekeken":"");
+ const sh=()=>{if(dk!==key_)return;$("dchips").innerHTML='<span class="chip big">▶ Verder vanaf '+Math.round(c.p||0)+'%</span>'+(c.avg?'<span class="chip">★ <b>'+sc10(c.avg)+'</b></span>':'')+(c.year?'<span class="chip">'+c.year+'</span>':'');
+  $("hzeg").textContent="Waar het over gaat";$("dzeg").textContent=c.ov||"Informatie laden…";$("hwhy").style.display=$("dwhy").style.display="none";$("dsrc").textContent=c.ov?"Omschrijving: TMDB":"";};sh();
+ if(c.ov!==undefined||!c.imdb||!key("tmdb"))return;
+ try{const L=S.lang===2?"en-US":"nl-NL",d=await j("https://api.themoviedb.org/3/find/"+c.imdb+"?external_source=imdb_id&language="+L+"&api_key="+key("tmdb")),r=(d.tv_results||[])[0]||(d.movie_results||[])[0]||{};
+  c.ov=r.overview||"";c.avg=(r.vote_average||0)*10;c.year=(r.first_air_date||r.release_date||"").slice(0,4);if(!c.ov&&L!=="en-US"){const e=await j("https://api.themoviedb.org/3/find/"+c.imdb+"?external_source=imdb_id&language=en-US&api_key="+key("tmdb")),q=(e.tv_results||[])[0]||(e.movie_results||[])[0]||{};c.ov=q.overview||"";}sh();}catch(e){c.ov="";sh();}}
+async function loadStremio(){if(!S.stAuth)return;try{
+ const r=await j("https://api.strem.io/api/datastoreGet",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({authKey:S.stAuth,collection:"libraryItem",ids:[],all:true})});
+ const l=(r.result||[]).filter(x=>!x.removed&&x.state&&x.state.timeOffset>0&&x.state.duration>0).sort((a,b)=>new Date(b._mtime)-new Date(a._mtime)).slice(0,12).map(x=>{
+  const vid=String(x.state.video_id||""),pp=vid.split(":"),se=x.type==="series"&&pp.length>=3?pp[1]+":"+pp[2]:"";
+  return{t:x.name,s:x.type==="series"&&se?"S"+pp[1]+" · A"+pp[2]:"Film",p:Math.min(99,Math.round(x.state.timeOffset/x.state.duration*100)),img:"https://images.metahub.space/background/medium/"+x._id+"/img",imdb:x._id,type:x.type,se,st:1};});
+ const have=new Set(CONT.map(c=>c.imdb));CONT=CONT.filter(c=>!c.st).concat(l.filter(c=>!have.has(c.imdb)||c.st));drawCont();if(shelfApp===1){const a=shelfApp;shelfApp=-1;drawShelf(a);}}catch(e){if(e===401||e===403){delete S.stAuth;save();}}}
+async function stLink(){const m=$("msg");m.textContent="Code ophalen…";try{
+ const c=await j("https://link.stremio.com/api/create?type=Create");const code=c.result.code,link=c.result.link||"https://link.stremio.com";
+ const qr=c.result.qrcode||"";m.innerHTML=(qr?'<img src="'+esc(qr)+'" style="float:right;width:230px;height:230px;border-radius:14px;background:#fff;margin-left:18px">':'')+"<b>Stremio koppelen</b><br>1. Pak je telefoon en open de camera.<br>2. Richt hem op de code hiernaast en tik op de link.<br>3. Log in bij Stremio. Klaar!<br><br><small>Geen camera? Ga naar "+esc(link.replace("https://",""))+". Glass Home wacht hier tot het klaar is.</small>";
+ const t0=Date.now();const poll=async()=>{if(Date.now()-t0>6e5){m.textContent="De code is verlopen. Probeer het opnieuw.";return;}
+  try{const r=await j("https://link.stremio.com/api/read?type=Read&code="+encodeURIComponent(code));if(r.result&&r.result.authKey){S.stAuth=r.result.authKey;save();m.textContent="Stremio is gekoppeld ✓";loadStremio();if(mode==="panel")drawOpts();return;}}catch(e){}
+  setTimeout(poll,3000);};setTimeout(poll,3000);
+ }catch(e){m.textContent="Stremio koppelen is niet gelukt. Kijk of de tv internet heeft en probeer het zo nog eens.";}}
+
+// direct naar een titel in Netflix, Prime, Videoland en NPO (via JustWatch)
+const JWP={4:/netflix\.com/,5:/videoland\.com/,6:/npo(start)?\.nl/,7:/primevideo\.com|amazon\./};
+async function jwLink(it){if(it.jw!==undefined)return it.jw;it.jw="";const re=JWP[it.a];if(!re)return "";
+ try{const q='query($c:Country!,$l:Language!,$f:TitleFilter){popularTitles(country:$c,first:5,filter:$f){edges{node{content(country:$c,language:$l){title externalIds{imdbId}} offers(country:$c,platform:WEB){standardWebURL}}}}}';
+  const r=await j("https://apis.justwatch.com/graphql",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({query:q,variables:{c:"NL",l:"nl",f:{searchQuery:it.t}}}),signal:tmo(6000)});
+  const ed=((r.data||{}).popularTitles||{}).edges||[],nd=(ed.find(e=>it.imdb&&e.node.content.externalIds&&e.node.content.externalIds.imdbId===it.imdb)||ed[0]||{}).node;
+  const o=nd&&(nd.offers||[]).find(x=>re.test(x.standardWebURL||""));it.jw=o?o.standardWebURL:"";}catch(e){}return it.jw;}
+async function openTitle(it){const a=APPS[it.a];if(!JWP[it.a])return open(it.a);toast("Openen in "+a.n+"…");const u=await jwLink(it);if(!u)return open(it.a);
+ if(P==="android")return open(it.a,u);let t=u;if(it.a===4){const m=u.match(/title\/(\d+)/);if(m)t="m=https://www.netflix.com/title/"+m[1]+"&source_type=4";}open(it.a,t);}
+function openCont(c){if(!c)return;const u=c.imdb?"stremio:///detail/"+c.type+"/"+c.imdb+"/"+c.imdb+(c.se?":"+c.se:""):"";open(1,u);}
+
+// Automatisch overzetten van koppelingen en sleutels tussen je tv's (versleuteld, alleen apparaten met dezelfde geheime sync-sleutel)
+const SYK=["trTok","trRefresh","trExp","stAuth","ytTok","ytRefresh","ytExp","spTok","spRefresh","spExp"].concat(XK);
+let syncK=null,syncTopic="",syncT=0,syncBusy=false;
+async function syncInit(){const sec=key("sync");if(!sec||SKEY!=="gh3"||!window.crypto||!crypto.subtle)return false;if(S.syncV!==2){S.syncV=2;S.syncSnap="";}if(syncK)return true;
+ const h=async t=>new Uint8Array(await crypto.subtle.digest("SHA-256",new TextEncoder().encode(t)));
+ syncTopic="ghs"+b64u((await h("topic:"+sec)).slice(0,18)).replace(/[-_]/g,"x");syncK=await crypto.subtle.importKey("raw",(await h("key:"+sec)),"AES-GCM",false,["encrypt","decrypt"]);return true;}
+function syncSnap(){const o={};SYK.forEach(k=>{const v=S[k]!=null&&S[k]!==""?S[k]:(typeof GH_KEYS!=="undefined"&&GH_KEYS[k]?GH_KEYS[k]:null);if(v!=null&&v!==""&&v!==KDEF[k])o[k]=v});return JSON.stringify(o);}
+window.ghSyncQ=()=>{if(syncBusy)return;clearTimeout(syncT);syncT=setTimeout(syncPush,4000);};
+async function syncPush(){try{if(!(await syncInit()))return;const snap=syncSnap();if(snap===S.syncSnap||snap==="{}")return;
+ const ts=Date.now(),iv=rndB(12),ct=new Uint8Array(await crypto.subtle.encrypt({name:"AES-GCM",iv},syncK,new TextEncoder().encode(JSON.stringify({ts,d:JSON.parse(snap)}))));
+ const all=new Uint8Array(12+ct.length);all.set(iv);all.set(ct,12);
+ const r=await fetch("https://ntfy.sh/"+syncTopic,{method:"POST",body:b64u(all)});if(!r.ok)return;
+ syncBusy=true;S.syncSnap=snap;S.syncTs=ts;save();syncBusy=false;}catch(e){syncBusy=false}}
+async function syncPull(){try{if(!(await syncInit()))return;const tx=await(await fetch("https://ntfy.sh/"+syncTopic+"/json?poll=1&since=all",{cache:"no-store"})).text();
+ let best=null;for(const ln of tx.split("\n")){if(!ln)continue;let e;try{e=JSON.parse(ln)}catch(x){continue}if(e.event!=="message")continue;
+  try{const raw=Uint8Array.from(atob(e.message.replace(/-/g,"+").replace(/_/g,"/")),c=>c.charCodeAt(0));
+   const m=JSON.parse(new TextDecoder().decode(await crypto.subtle.decrypt({name:"AES-GCM",iv:raw.slice(0,12)},syncK,raw.slice(12))));if(!best||m.ts>best.ts)best=m;}catch(x){}}
+ if(!best||best.ts<=(S.syncTs||0)){if(Date.now()-(S.syncTs||0)>216e5)S.syncSnap="";return syncPush();}
+ let ch=false;Object.keys(best.d||{}).forEach(k=>{if(SYK.includes(k)&&best.d[k]!==""&&best.d[k]!=null&&JSON.stringify(S[k])!==JSON.stringify(best.d[k])){S[k]=best.d[k];ch=true}});
+ const rem={};SYK.forEach(k=>{const v=(best.d||{})[k];if(v!=null&&v!==""&&v!==KDEF[k])rem[k]=v});const mine=syncSnap();syncBusy=true;S.syncTs=best.ts;S.syncSnap=JSON.stringify(rem);save();syncBusy=false;if(mine!==S.syncSnap)syncPush();if(ch){try{loadAll()}catch(x){}try{if(mode==="panel")drawOpts()}catch(x){}}}catch(e){syncBusy=false}}
+setTimeout(syncPull,3000);setInterval(syncPull,6e5);
+
+// Instellingen via startparameters (alleen de tv-brug op je eigen pc kan die meegeven)
+function ghParams(){try{const raw=(window.PalmSystem&&PalmSystem.launchParams)||"";const q=raw?JSON.parse(raw):{};if(q&&q.ghSync&&typeof q.ghSync==="string"&&q.ghSync.length>=16&&!S.sync){S.sync=q.ghSync;save();setTimeout(()=>{try{syncPull()}catch(e){}},500);}}catch(e){}}
+ghParams();document.addEventListener("webOSRelaunch",()=>setTimeout(ghParams,50));
+
+window.ghTint=function(img){try{const c=document.createElement("canvas");c.width=c.height=24;const g=c.getContext("2d");g.drawImage(img,0,0,24,24);const d=g.getImageData(0,0,24,24).data;let r=0,gg=0,b=0,n=0;
+ for(let i=0;i<d.length;i+=4){if(d[i+3]<200)continue;const mx=Math.max(d[i],d[i+1],d[i+2]),mn=Math.min(d[i],d[i+1],d[i+2]);const w=1+(mx-mn)/40;r+=d[i]*w;gg+=d[i+1]*w;b+=d[i+2]*w;n+=w;}
+ if(!n)return;r/=n;gg/=n;b/=n;const k=f=>Math.round(Math.min(255,f));const t=img.parentNode;if(!t)return;
+ t.style.background="linear-gradient(150deg,rgba("+k(r*.75)+","+k(gg*.75)+","+k(b*.75)+",.82),rgba("+k(r*.35)+","+k(gg*.35)+","+k(b*.35)+",.72))";}catch(e){}};
+
+async function loadAll(){const tk=key("tmdb");
+ if(!tk&&!key("youtube")&&!S.ytRefresh&&!key("spotifyRefresh")&&!S.spRefresh&&!S.trRefresh&&!key("epgUrl")){ITEMS=(P==="preview"?SAMPLE:[]).filter(x=>!(LG&&x.tv)).concat(LG?MOON:[]).map((x,i)=>Object.assign({h:i*47+200},x,{avg:x.sp?x.sc.SP:x.sc?wavg(x.sc):0,rs:x.sc?wavg(x.sc):0}));$("note").textContent=P==="preview"?"Voorbeeld":"";}
+ else{$("note").textContent="Laden…";const r=await Promise.all([tk||S.trRefresh?loadMovies(tk).catch(()=>[]):[],loadYT().catch(()=>[]),loadSpotify().catch(()=>[]),loadEPG().catch(()=>[])]);ITEMS=r.flat().concat(LG?MOON:[]);$("note").textContent="";}
+ dk=-1;setHero();if(shelfApp>-1){const x=shelfApp;shelfApp=-1;drawShelf(x);}}
+
+// ---------- infokaart: wat mensen zeggen + waarom (zonder spoilers) ----------
+const PROMPT='Schrijf in het Nederlands over de titel hieronder.\nRegels:\n- ABSOLUUT GEEN SPOILERS: noem geen plotwendingen, onthullingen, het einde, wie sterft of gebeurtenissen voorbij de basisopzet. Bevatten reviews of reacties spoilers, laat die details dan volledig weg.\n- Schrijf in gewone, makkelijke zinnen, zonder moeilijke woorden.\n- Voor "over" mag je de basisopzet noemen. In "zeggen": alleen toon, sfeer, stijl, uitvoering en sterke en zwakke punten.\n- Verzin niets wat niet uit de gegevens of algemeen bekende ontvangst volgt; weet je weinig, beschrijf dan alleen de stijl.\n- "over" is een korte spoilervrije samenvatting van waar de titel over gaat (alleen de basisopzet). "zeggen" vat samen wat kijkers zeggen, gebaseerd op de meest gewaardeerde reacties en reviews.\nAntwoord uitsluitend met JSON: {"over":"max 40 woorden","zeggen":"max 40 woorden"}';
+function why(it){const b=it.because&&it.because[0]?(it.yt||it.sp?it.because[0]+". ":"Omdat je "+it.because[0]+" keek. "):"";
+ if(it.yt)return b+(it.lr?"Ongeveer "+it.lr+" op de 100 kijkers geeft deze video een like.":"");
+ if(it.sp)return b+(it.sc.SP!=null?"Spotify-populariteit: "+it.sc.SP+"/100.":"");
+ const p=[],sc=it.sc;
+ if(sc.LB)p.push("Filmliefhebbers op Letterboxd geven gemiddeld "+shown("LB",sc.LB)+".");
+ if(sc.RT)p.push(sc.RT>=90?"Critici zijn vrijwel unaniem positief ("+sc.RT+"% op Rotten Tomatoes).":sc.RT+"% van de critici is positief.");
+ if(sc.IMDb)p.push("Het publiek op IMDb geeft een "+shown("IMDb",sc.IMDb)+".");
+ if(sc.MC)p.push("Metacritic: "+sc.MC+"/100.");
+ return b+(p.join(" ")||"Gemiddeld ★ "+sc10(it.avg)+".");}
+let dT,dk=-1;
+function detail(k){clearTimeout(dT);if(isNaN(k)||k<0||!ITEMS[k]){document.body.classList.remove("det");dk=-1;return;}
+ document.body.classList.add("det");if(k===dk)return;dk=k;const it=ITEMS[k];
+ $("dtitle").textContent=it.t;$("dmeta").textContent=it.tv?"Nu op "+it.c+" · "+it.s:it.act?it.s:it.yt?it.c+" · "+it.vw+" weergaven":it.sp?it.c+" · "+it.s:it.s;
+ $("dchips").innerHTML=it.tv?'<span class="chip big">● LIVE</span><span class="chip">'+it.p+'% voorbij</span>':it.act?'':(it.because||[]).map(b=>'<span class="chip me">'+esc(it.yt||it.sp?b:"Omdat je "+b+" keek")+'</span>').join("")+
+  (it.yt?(it.du?'<span class="chip big">▶ '+it.du+'</span>':'')+(it.tr?'<span class="chip">Trending</span>':'')+'<span class="chip">'+it.vw+' weergaven</span>'+(it.up?'<span class="chip">'+ago2(it.up)+'</span>':'')
+  :it.sp?(it.sc.SP!=null?'<span class="chip big">♫ Populariteit '+it.sc.SP+'</span>':'')+(it.genres||[]).map(g=>'<span class="chip">'+esc(g)+'</span>').join("")
+  :'<span class="chip big">★ '+sc10(it.avg)+'</span>'+Object.keys(it.sc).sort((a,b)=>W[b]-W[a]).map(s=>'<span class="chip'+(s==="LB"?" lb":"")+'">'+SRC[s]+' <b>'+shown(s,it.sc[s])+'</b></span>').join(""));
+ $("dzeg").textContent=it.zeg||it.ov||"Samenvatting maken…";$("dwhy").textContent=it.waarom||"";$("dsrc").textContent=it.zeg&&!it.id&&!it.v&&!it.act&&!(it.tv&&key("epgUrl"))?"Voorbeeldtekst":"";
+ $("hwhy").textContent=it.tv?"Speeltijd":it.act?"Wat het doet":it.sp?"Wat luisteraars zeggen":"Wat mensen zeggen";$("hzeg").textContent=it.tv?"Waar het over gaat":it.act?"Uitleg":it.sp?"Hoe het klinkt":"Waar het over gaat";$("hwhy").style.display=$("dwhy").style.display=it.waarom&&!it.yt?"":"none";
+ if(!it.zeg)dT=setTimeout(()=>summarize(k),400);}
+const tmo=ms=>{try{const c=new AbortController();setTimeout(()=>c.abort(),ms);return c.signal}catch(e){return undefined}};
+async function summarize(k){const it=ITEMS[k];if(!it||it.busy)return;it.busy=1;try{await summarize0(k)}finally{it.busy=0}}
+async function summarize0(k){const it=ITEMS[k];if(!it)return;if(it.tv){it.zeg=it.ov||"Geen omschrijving in de gids.";it.waarom="Loopt nu, nog "+it.left+(it.left===1?" minuut.":" minuten.");if(dk===k){$("dzeg").textContent=it.zeg;$("dwhy").textContent=it.waarom}return;}
+ const ck="ghS4"+(S.lang===2?"en":"")+"_"+(it.v||(it.sp?"sp":it.type)+it.id);
+ const fill=(z,w,src)=>{src=String(src||"").replace(" · zonder spoilers","");it.zeg=z;it.waarom=w;if(dk===k){$("dzeg").textContent=z;$("dwhy").textContent=w;$("hwhy").style.display=$("dwhy").style.display=w&&!it.yt?"":"none";$("dsrc").textContent=src}};
+ try{const c=JSON.parse(localStorage.getItem(ck)||"null");if(c)return fill(c.z,c.w,c.s)}catch(e){}
+ const fb=()=>fill(it.yt?"Deze video is nu populair bij kijkers.":it.sp?(it.s+" van "+it.c+(it.genres&&it.genres.length?", in de stijl "+it.genres.join(", "):"")+"."):(it.ov||"Geen omschrijving beschikbaar."),it.yt||it.sp?why(it):"",it.yt||it.sp?"":"Omschrijving: TMDB");
+ const ak=key("claude"),gk=key("gemini");if((!ak&&!gk)||it.kind==="playlist")return fb();
+ let ctx="";
+ try{if(it.yt){const tok=await ytToken().catch(()=>"");const d=await j("https://www.googleapis.com/youtube/v3/commentThreads?part=snippet&order=relevance&maxResults=25&videoId="+it.v+(tok?"":"&key="+key("youtube")),tok?{headers:{Authorization:"Bearer "+tok}}:{});
+   ctx=d.items.map(x=>"- "+x.snippet.topLevelComment.snippet.textOriginal.slice(0,200)).join("\n");}
+  else if(!it.sp){const d=await j("https://api.themoviedb.org/3/"+it.type+"/"+it.id+"/reviews?api_key="+key("tmdb"),{signal:tmo(8000)});
+   ctx=(d.results||[]).slice(0,6).map(x=>"- ("+((x.author_details||{}).rating||"?")+"/10) "+x.content.slice(0,700)).join("\n");}}catch(e){}
+ const bec=(it.because||[]).join("; ");
+ const info=it.yt?"YouTube-video: "+it.t+" van kanaal "+it.c+", "+it.vw+" weergaven.\nWaarom aangeraden: "+bec+"\nReacties van kijkers:\n"+ctx
+  :it.sp?"Muziek: "+it.s+" '"+it.t+"' van "+it.c+". Genres van de artiest: "+(it.genres||[]).join(", ")+". Spotify-populariteit "+it.sc.SP+"/100.\nWaarom aangeraden: "+bec
+  :(it.type==="tv"?"Serie":"Film")+": "+it.t+" ("+it.s+").\nScores: "+Object.keys(it.sc).map(s=>SRC[s]+" "+shown(s,it.sc[s])).join(", ")+".\nWaarom aangeraden: "+(bec?"de gebruiker keek "+bec:"populair")+"\nKorte omschrijving: "+it.ov+"\nReviews van kijkers:\n"+ctx;
+ try{let t="";const body=(it.sp?"Dit is muziek: schrijf over luisteraars in plaats van kijkers en verzin geen reviews.\n":"")+(it.yt?"Dit is een YouTube-video: laat \"over\" beschrijven wat er in de video te zien is (onderwerp en opzet), niet wat kijkers ervan vinden.\n":"")+(S.lang===2?"Write the summary and the JSON values in English (ignore the instruction to write in Dutch).\n":"")+PROMPT+"\n\n"+info;
+  if(gk)for(const md of ["gemini-flash-lite-latest","gemini-flash-latest","gemini-3.5-flash"]){for(let tr=0;tr<2&&!t;tr++){try{const r=await j("https://generativelanguage.googleapis.com/v1beta/models/"+md+":generateContent?key="+encodeURIComponent(gk),{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({contents:[{parts:[{text:body}]}],generationConfig:{responseMimeType:"application/json",maxOutputTokens:4096}}),signal:tmo(30000)});t=r.candidates[0].content.parts.map(x=>x.text||"").join("");}catch(x){if(x===404||x===400||x===403)break;await new Promise(z=>setTimeout(z,1500));}}if(t)break;}
+  if(!t&&ak){const r=await j("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"content-type":"application/json","x-api-key":ak,"anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true"},signal:tmo(20000),body:JSON.stringify({model:"claude-haiku-5-5",max_tokens:500,messages:[{role:"user",content:body}]})});t=r.content[0].text;}
+  if(!t)throw "geen antwoord";const m=JSON.parse(t.slice(t.indexOf("{"),t.lastIndexOf("}")+1)),src="Samenvatting door AI";
+  try{localStorage.setItem(ck,JSON.stringify({z:m.over||it.ov||"",w:m.zeggen||"",s:src}))}catch(e){}fill(m.over||it.ov||"",m.zeggen||"",src);}catch(e){fb();if(dk===k)$("dsrc").textContent="Omschrijving: TMDB · AI-samenvatting volgt later";delete it.zeg;it.fail=(it.fail||0)+1;}}
+
+// samenvattingen alvast op de achtergrond maken
+let warmT=null;function warm(){clearTimeout(warmT);warmT=setTimeout(async()=>{if((key("gemini")||key("claude"))&&mode!=="amb"){
+ const cur=shelfApp,c=ITEMS.map((it,i)=>[it,i]).filter(([it])=>!it.zeg&&!it.busy&&(it.fail||0)<2&&!it.tv&&!it.act&&it.kind!=="playlist"&&(it.id||it.v))
+  .sort((a,b)=>((b[0].a===cur)-(a[0].a===cur))||((b[0].rs||0)-(a[0].rs||0)));
+ if(c.length)await summarize(c[0][1]).catch(()=>{});}warm();},4500);}
+setTimeout(warm,8000);
+function remember(i){S.recent=[i].concat(S.recent.filter(x=>x!==i)).slice(0,6);S.seen[i]=Date.now();save();setTimeout(drawCont,800);}
+function openYT(v){remember(0);launchApp(APPS[0],P==="android"?"https://www.youtube.com/watch?v="+v:"v="+v);}
+function openSP(uri){remember(3);launchApp(APPS[3],uri);}
+
+// navigatie: 0 rail, 1 hero, 2 apps, 3 aanraders van gekozen app, 4 ga verder
+let rows=[],fr=1,fi=0,mode="home",last={r:1,i:0};
+function build(){rows=[[...document.querySelectorAll(".ri")],[$("hbtn")],[...document.querySelectorAll("#apps .f")],[...document.querySelectorAll("#shelf .f")],[...(S.showLive!==0&&LIVE.length?document.querySelectorAll("#live .f"):S.showCont?document.querySelectorAll("#cont .f"):[])]];
+ rows.flat().forEach(el=>{if(el.dataset.b)return;el.dataset.b=1;
+  el.addEventListener("mouseenter",()=>{if(mode!=="home")return;rows.forEach((rw,ri)=>{const q=rw.indexOf(el);if(q>-1){fr=ri;fi=q}});paint()});
+  el.addEventListener("click",()=>act());});
+ if(fi>=rows[fr].length)fi=Math.max(0,rows[fr].length-1);paint();}
+let pvKey="",pvT,fbT,pv=null,ytApiP=null;
+function ytApi(){return ytApiP||(ytApiP=new Promise(res=>{if(window.YT&&YT.Player)return res(true);window.onYouTubeIframeAPIReady=()=>res(true);
+ const sc=document.createElement("script");sc.src="https://www.youtube.com/iframe_api";sc.onerror=()=>res(false);document.head.appendChild(sc);setTimeout(()=>res(!!(window.YT&&YT.Player)),8000);}).then(v=>{if(!v)ytApiP=null;return v}));}
+async function trailerFor(it){if(it.yt)return it.v;if(it.tr!==undefined)return it.tr;const tk=key("tmdb");if(!it.id||!tk)return it.tr=null;
+ const pick=r=>((r&&r.results)||[]).filter(v=>v.site==="YouTube").sort((a,b)=>(b.type==="Trailer")-(a.type==="Trailer")||(b.official-a.official))[0];
+ try{const B="https://api.themoviedb.org/3/"+(it.type==="tv"?"tv":"movie")+"/"+it.id+"/videos?api_key="+tk+"&language=";
+  let v=pick(await j(B+"nl-NL"));if(!v)v=pick(await j(B+"en-US"));it.tr=v?v.key:null;}catch(e){it.tr=null}return it.tr;}
+function stopPreview(){clearTimeout(pvT);if(pv){const p=pv;pv=null;p.box.classList.remove("on");setTimeout(()=>{try{p.player.destroy()}catch(e){}p.box.remove()},1500);}
+ document.querySelectorAll(".kb").forEach(e=>e.classList.remove("kb"));}
+async function startPreview(box,it){const vid=await trailerFor(it);const kb=()=>{(box.id==="hero"?$(hc):box).classList.add("kb")};
+ if(!vid)return kb();
+ if(pvKey!==(it.v||it.id||it.t)||!box.isConnected)return;if(pv)stopPreview();
+ const w=document.createElement("div");w.className="pv";const f=document.createElement("iframe");f.setAttribute("allow","autoplay; encrypted-media");f.setAttribute("frameborder","0");
+ f.style.cssText="border:0;pointer-events:none";f.tabIndex=-1;
+ f.src=PVPG+"#v="+encodeURIComponent(vid)+"&s="+(it.yt?0:6)+"&vol=60";w.appendChild(f);box.insertBefore(w,box.firstChild);
+ const me={box:w,player:{destroy:()=>{try{f.contentWindow.postMessage({cmd:"stop"},"*")}catch(e){}f.src="about:blank"}},f};pv=me;
+ const on=e=>{if(!e.data||e.data.gh!=="yt"||e.source!==f.contentWindow)return;if(pv!==me){removeEventListener("message",on);return;}
+  if(e.data.state==="playing")w.classList.add("on");if(e.data.error!=null){removeEventListener("message",on);w.remove();if(pv===me)pv=null;kb();}};
+ addEventListener("message",on);}
+function mediaFocus(el){let it=null,box=null;
+ if(mode==="home"&&el){if(fr===3&&el.dataset.k){it=ITEMS[+el.dataset.k];box=el;}else if(fr===1&&HERO.length){it=HERO[hi];box=$("hero");}}
+ const k=it?(it.v||it.id||it.t):"";if(fr===1&&mode==="home"){if(!window.hpz){clearInterval(hT);window.hpz=1}}else if(window.hpz){window.hpz=0;clearInterval(hT);hT=setInterval(nextHero,12000);}
+ if(k===pvKey&&!(el&&el.dataset.c))return;pvKey=k;stopPreview();
+ clearTimeout(fbT);fbT=setTimeout(()=>{const c=fr===3&&el&&el.dataset.c?CONT[+el.dataset.c]:null;const u0=(it&&fr===3&&(it.big||it.img))||(c&&c.img),u=u0||(mode==="home"&&fr>=2&&HERO.length&&HERO[hi]&&HERO[hi].big);window.fbH=!u0;if(u){$("fbg").style.backgroundImage=cu(u);document.body.classList.add("fb")}else document.body.classList.remove("fb")},420);
+ if(it&&!it.act&&!it.tv&&!it.sp)pvT=setTimeout(()=>startPreview(box,it),fr===1?10000:4000);}
+function paint(){rows.flat().forEach(e=>e.classList.remove("focus"));$("rail").classList.toggle("open",fr===0&&mode==="home");
+ const el=rows[fr][fi];if(!el||mode!=="home"){detail(-1);mediaFocus(null);return;}el.classList.add("focus");
+ const pr=el.parentNode;if(pr.classList.contains("row"))pr.scrollLeft=Math.max(0,el.offsetLeft-200);
+ if(fr===2)drawShelf(+el.dataset.a);
+ if(fr===3&&el.dataset.c)detailC(+el.dataset.c);else detail(fr===3?+el.dataset.k:-1);
+ const bgi=fr>=2&&/url\(/.test(el.style.backgroundImage)?el.style.backgroundImage:"";clearTimeout(window.tiT);window.tiT=setTimeout(()=>{if(bgi){$("tint").style.backgroundImage=bgi;document.body.classList.add("tinted")}else document.body.classList.remove("tinted")},160);
+ mediaFocus(el);
+ if(fr>0){const op=document.body.classList.contains("shelf");$("main").style.transform="translateY(-"+(fr===1?0:document.body.classList.contains("haslive")?(fr===2||fr===4?(op?120:0):750):fr===2?(op?120:0):fr===3?520:(op?500:220))+"px)";}}
+function act(){const el=rows[fr][fi];if(!el){fr=2;fi=0;return paint();}
+ if(fr===0)return RAIL[fi][2]();
+ if(fr===1)return HERO.length?openTitle(HERO[hi]):startSetup();
+ if(fr===3&&el.dataset.go){const g=el.dataset.go;openSettingsAt(g.replace(/^!/,""));if(g[0]==="!"&&CUR&&CUR[oi]&&CUR[oi].ok)CUR[oi].ok();return;}
+ if(fr===3&&el.dataset.c)return openCont(CONT[+el.dataset.c]);if(fr===3&&el.dataset.a&&!el.dataset.k)return open(+el.dataset.a);
+ if(fr===3){const it=ITEMS[+el.dataset.k];if(it.act==='ps')return ps();if(it.act==='open')return open(it.a);return it.yt&&it.v?openYT(it.v):it.sp&&it.uri?openSP(it.uri):(it.a===1||shelfApp===1)&&it.imdb?openCont({imdb:it.imdb,type:it.type==="tv"?"series":"movie",se:it.type==="tv"?"1:1":""}):openTitle(it);}
+ if(el.dataset.l)return openLive(+el.dataset.l);if(el.dataset.c)return openCont(CONT[+el.dataset.c]);open(+el.dataset.a);}
+function move(dr,di){
+ if(fr>0&&!rows[fr][fi]){fr=2;fi=Math.min(fi,rows[2].length-1);return paint();}
+ if(fr===0){if(dr)fi=Math.max(0,Math.min(RAIL.length-1,fi+dr));else if(di>0){fr=last.r;fi=last.i;}return paint();}
+ if(di<0&&fi===0){last={r:fr,i:fi};fr=0;fi=Math.max(0,RAIL.findIndex(r=>r[0]==="home"));return paint();}
+ if(dr){const ORD=document.body.classList.contains("haslive")?[1,2,4,3]:[1,2,3,4];let p=ORD.indexOf(fr)+dr;while(p>=0&&p<ORD.length&&!rows[ORD[p]].length)p+=dr;if(p<0||p>=ORD.length)return;const n=ORD[p];
+  const o=rows[fr][fi],cx=o.getBoundingClientRect().left;fr=n;let b=0,bd=1e9;
+  rows[fr].forEach((e,q)=>{const d=Math.abs(e.getBoundingClientRect().left-cx);if(d<bd){bd=d;b=q}});fi=b;}
+ else fi=Math.max(0,Math.min(rows[fr].length-1,fi+di));paint();}
+let ambT=0,ambI;function amb(on){ambT=Date.now();mode=on?"amb":"home";document.body.classList.toggle("amb",on);paint();clearInterval(ambI);if(on){ambExtra();nextBg();ambI=setInterval(()=>{ambExtra();nextBg()},6e4)}else bump();}
+const WC={0:"Helder",1:"Vrijwel helder",2:"Half bewolkt",3:"Bewolkt",45:"Mist",48:"Mist",51:"Motregen",53:"Motregen",55:"Motregen",61:"Lichte regen",63:"Regen",65:"Zware regen",71:"Lichte sneeuw",73:"Sneeuw",75:"Zware sneeuw",80:"Buien",81:"Buien",82:"Zware buien",95:"Onweer",96:"Onweer",99:"Onweer"};
+async function ambExtra(){const g=window.GH_KEYS||{},place=g.place||"Utrecht";
+ try{const d=await j("https://api.open-meteo.com/v1/forecast?latitude="+(g.lat||52.0907)+"&longitude="+(g.lon||5.1214)+"&current=temperature_2m,weather_code&timezone=Europe%2FAmsterdam");
+  $("aw").textContent=place+" · "+Math.round(d.current.temperature_2m)+"° · "+(WC[d.current.weather_code]||"Wisselvallig");}catch(e){$("aw").textContent=P==="preview"?place+" · 7° · Bewolkt":"";}
+ let np="";try{const t=await spToken();if(t){const r=await fetch("https://api.spotify.com/v1/me/player/currently-playing",{headers:{Authorization:"Bearer "+t}});
+  if(r.status===200){const d=await r.json();if(d.is_playing&&d.item)np="♫ "+d.item.name+" — "+d.item.artists.map(a=>a.name).join(", ");}}}catch(e){}
+ $("anow").textContent=np||(P==="preview"?"♫ Nachtbus — De Kade":"");}
+let idleT;function bump(){clearTimeout(idleT);idleT=setTimeout(()=>{if(mode==="home")amb(true)},18e4);}
+addEventListener("mousemove",bump);bump();
+setInterval(()=>{const r=()=>Math.round(Math.random()*6-3)+"px";const t="translate("+r()+","+r()+")";$("ui").style.transform=t;$("amb").style.transform=t;},3e5);
+window.GH_home=()=>{if(mode==="amb")amb(false);if(mode==="panel")panel(false);fr=1;fi=0;paint();};
+window.GH_back=()=>{if(mode==="amb")return amb(false);if(mode==="panel")return panel(false);if(fr!==1){fr=1;fi=0;paint();}};
+
+// instellingen
+let oi=0,kn="tmdb",CUR;const OPTS=[
+ {l:"Profielen en kinderslot",v:()=>esc(profName())+" ›",ok:()=>profiles()},
+ {l:"Rij 'Live TV · Nieuws & Sport' tonen",v:()=>S.showLive!==0?"Aan":"Uit",ok:()=>{S.showLive=S.showLive===0?1:0;save();drawLive();}},
+ {l:"Rij 'Ga verder' tonen",v:()=>S.showCont?"Aan":"Uit",ok:()=>{S.showCont=S.showCont?0:1;$("s-cont").style.display=S.showCont?"":"none";save();build();}},
+ {l:"Thema",v:()=>["Standaard","Donker","Licht"][S.th||0],ch:d=>{S.th=((S.th||0)+d+3)%3;save();applyTheme();}},
+ {l:"Taal van titels en teksten",v:()=>["Automatisch","Nederlands","Engels"][S.lang||0],ch:d=>{S.lang=((S.lang||0)+d+3)%3;save();loadAll();}},
+  {l:"Snelle modus (minder vervaging)",v:()=>S.lite?"Aan":"Uit",ok:()=>{S.lite=S.lite?0:1;document.body.classList.toggle("lite",!!S.lite)}},
+ {l:"Achtergrond",v:()=>THEMES[S.theme],ch:d=>{S.theme=(S.theme+d+3)%3;sched()}},
+ {l:"Achtergrond wisselen elke",v:()=>IVS[S.iv]+" min",ch:d=>{S.iv=Math.max(0,Math.min(4,S.iv+d));sched()}},
+ ...(P==="android"?[{l:"Glass Home als startscherm",v:()=>{try{return GHAndroid.isHomeOverrideEnabled()?"Aan":"Aanzetten"}catch(e){return""}},ok:()=>{try{GHAndroid.openAccessibilitySettings()}catch(e){}}}]:[{l:"PlayStation-ingang",v:()=>"HDMI "+S.hdmi,ch:d=>{S.hdmi=(S.hdmi-1+d+4)%4+1}}]),
+ {l:"Sleutels overzetten naar ander apparaat",v:()=>"QR ›",ok:()=>xferOut()},
+ {l:"Sleutels overnemen van ander apparaat",v:()=>"QR ›",ok:()=>xferIn()},
+ ...[["letterboxd","Letterboxd-gebruikersnaam"],["tmdb","TMDB-sleutel (films/series)"],["omdb","OMDb-sleutel (IMDb, RT, Metacritic)"],["youtube","YouTube-sleutel"],["gemini","Gemini-sleutel (samenvattingen)"],["claude","Claude-sleutel (samenvattingen, optioneel)"],["ytPlaylist","YouTube-afspeellijst (ID)"],["traktClientId","Trakt Client ID"],["traktClientSecret","Trakt Client Secret"],["ytClientId","Google Client ID (voor YouTube)"],["ytClientSecret","Google Client Secret (voor YouTube)"],["urls","Eigen achtergrond-URL's"]].concat(LG?[]:[["epgUrl","EPG-link voor TiviMate (XMLTV)"]]).map(([n,l])=>({l,v:()=>key(n)?"Ingesteld":"Niet ingesteld",ok:()=>{phoneLink({m:"key",f:n+"|"+l},"<b>"+esc(l)+"</b><br>1. Pak je telefoon en open de camera.<br>2. Richt hem op de code hiernaast en tik op de link.<br>3. Plak of typ het daar en druk op <b>Naar de tv sturen</b>.<br><br>Of typ het hieronder met de afstandsbediening."+(n==="urls"?" Meerdere links scheid je met een spatie.":""));kn=n;$("keybox").style.display="block";$("keyin").value=S[n]||"";$("keyin").placeholder="Typ of plak hier en druk op OK";$("keyin").focus();setTimeout(()=>{const f=$("opts").querySelector(".focus");if(f)f.scrollIntoView({block:"nearest"})},60);}})),
+ {l:"Trakt-account",v:()=>S.trRefresh?"Gekoppeld ✓":"Koppelen",ok:trLink},
+ {l:"YouTube-account",v:()=>S.ytRefresh?"Gekoppeld ✓":"Koppelen",ok:ytLink},
+ {l:"Spotify-account",v:()=>(S.spRefresh||key("spotifyRefresh"))?"Gekoppeld ✓":"Koppelen",ok:spLink},
+ {l:"App toevoegen",v:()=>"＋",ok:addApp},
+ {l:"Apps beheren",v:()=>"›",ok:manageApps},
+ {l:"Nieuwe achtergrond",v:()=>"OK",ok:nextBg}];
+RG.paint='<rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4"/>';RG.grid='<rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/>';RG.user='<circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/>';RG.key='<circle cx="8" cy="15" r="4"/><path d="M11 12l9-9M17 6l3 3M15 8l2 2"/>';RG.info='<circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.5"/>';
+const CATDEF=[["paint","Weergave",/Snelle|Achtergrond|Wissel|achtergrond|Taal|Glas|Ga verder|Thema|Live TV/],["grid","Apps",/App |Apps|PlayStation|startscherm/],["user","Accounts",/account|Letterboxd/],["key","Sleutels en bronnen",/sleutel|Sleutel|afspeellijst|EPG|Client/],["grid","Zijmenu",/^$/],["user","Profielen",/^Profiel/],["info","Over Glass Home",/^$/]];
+function appLink(ap){const tr=S.trRefresh,tm=key("tmdb");
+ if(/moonlight/i.test(ap.n))return["Niet nodig","Moonlight laat je pc-spellen op de tv zien. Hier hoef je niets te koppelen."];
+ if(/stremio/i.test(ap.n))return[S.stAuth?"Gekoppeld ✓":"Koppelen","Druk op OK en scan de code met je telefoon. Daarna zie je wat je in Stremio kijkt."];
+ if(/tivimate|epg/i.test(ap.n))return[key("epgUrl")?"Ingesteld":"Tv-gids","Voeg je tv-gids (EPG) toe onder Sleutels en bronnen."];
+ return[tm?(tr?"Tips op maat ✓":"Populaire tips ✓"):"Tips via TMDB",ap.n+" laat geen andere apps meekijken. Daarom hoef je hier niets te koppelen. Glass Home laat zien wat er nu goed is op "+ap.n+". Koppel Trakt (hierboven) voor tips die bij jou passen."];}
+function buildCats(){const used=new Set();return CATDEF.map(([ic,n,re])=>{const o=OPTS.filter(x=>!used.has(x)&&re.test(x.l));o.forEach(x=>used.add(x));
+ if(n==="Accounts")APPS.forEach(ap=>{if(ap.removed||ap.missing||/youtube|spotify/i.test(ap.n))return;const st=appLink(ap);o.push({l:ap.n,v:()=>appLink(ap)[0],ok:()=>{if(/stremio/i.test(ap.n))return stLink();$("msg").textContent=st[1]}})});
+ if(n==="Zijmenu")o.push(...railOpts());
+ if(n==="Over Glass Home")o.push({l:"Versie",v:()=>((document.documentElement.outerHTML.match(/GH_BUILD:([\d.]+)/)||[,"?"])[1])},{l:"Apparaat",v:()=>P==="webos"?"LG webOS":P==="android"?"Google TV":"Voorbeeld"},{l:"Updates",v:()=>"Automatisch via internet"});
+ return{ic,n,o};});}
+let CATS=null,pc=0,pf="opts",fromSettings=false;
+function drawCats(){$("scrim").classList.toggle("on",mode==="panel");if(!CATS){$("panel").classList.add("single");return;}$("panel").classList.remove("single");
+ $("pcats").innerHTML=CATS.map((c,i)=>'<div class="cat'+(i===pc?(pf==="cats"?" focus":" sel"):"")+'" data-c="'+i+'">'+rsvg(c.ic)+'<span>'+c.n+'</span></div>').join("");
+ $("ctitle").textContent=CATS[pc].n;$("panel").classList.toggle("opts-dim",pf==="cats");}
+function drawOpts(){drawCats();$("opts").innerHTML=CUR.map((o,i)=>'<div class="opt'+(i===oi?" focus":"")+'" data-i="'+i+'"><span>'+o.l+'</span><span class="v">'+o.v()+'</span></div>').join("");const f=$("opts").children[oi];if(f){const b=$("opts");const pad=14,t=f.offsetTop,h=f.offsetHeight;if(t-pad<b.scrollTop)b.scrollTop=Math.max(0,t-pad);else if(t+h+pad>b.scrollTop+b.clientHeight)b.scrollTop=t+h+pad-b.clientHeight;}}
+$("pcats").addEventListener("click",e=>{const c=e.target.closest(".cat");if(!c)return;pc=+c.dataset.c;CUR=CATS[pc].o;oi=0;pf="opts";drawOpts();});
+$("opts").addEventListener("click",e=>{const o=e.target.closest(".opt");if(!o)return;oi=+o.dataset.i;const O=CUR[oi];O.ok?O.ok():O.ch(1);save();drawOpts();});
+$("keyin").addEventListener("keydown",e=>{const kc=e.keyCode;if(kc===461||kc===27||kc===38||kc===40||(kc===37&&!e.target.value)){clrMsg();$("keyin").blur();e.preventDefault();e.stopPropagation();if(kc===38||kc===40){oi=Math.max(0,Math.min(CUR.length-1,oi+(kc===38?-1:1)));drawOpts();}else if(kc===37){pf="cats";drawOpts();}return;}if(e.keyCode===13&&kn==="_pname"){const v=e.target.value.trim();if(v){const p=PROF.list.find(x=>x.id===PROF.cur);if(p)p.n=v.slice(0,20);saveProf();drawRail();}$("keybox").style.display="none";e.target.blur();e.target.placeholder="Plak je API-sleutel en druk op OK";profEdit();e.preventDefault();e.stopPropagation();return;}
+ if(e.keyCode===13&&kn==="_addid"){const v=e.target.value.trim();e.target.placeholder="Plak je API-sleutel en druk op OK";if(v){S.extra.push({n:v.split(".").pop().replace(/[-_]/g," ").replace(/^./,c=>c.toUpperCase()),id:v});addExtras();save();drawApps();build();toast("App toegevoegd");}panel(false);e.stopPropagation();return;}
+ if(e.keyCode===13){S[kn]=e.target.value.trim();save();try{["ghM9"+(S.lang||0),"ghYT6","ghSP6","ghEPG","ghTR"].forEach(x=>localStorage.removeItem(x))}catch(x){}$("keybox").style.display="none";drawOpts();loadAll();}e.stopPropagation();});
+function clrMsg(){phTok++;const m=$("msg");if(m.innerHTML){m.innerHTML="";}clearTimeout(phT);try{clearInterval(trPoll)}catch(e){}$("keybox").style.display="none";}
+function openSettingsAt(lbl){if(PROF.pin&&!CATS&&PROF.cur!=="guest"&&!window.UNL)return pinAsk(()=>{window.UNL=1;setTimeout(()=>window.UNL=0,1500);openSettingsAt(lbl)});panel(true);if(lbl==="__zij"){const ci=CATS.findIndex(c=>c.n==="Zijmenu");pc=ci;CUR=CATS[pc].o;oi=0;pf="opts";$("msg").textContent="◀ ▶ verplaatsen · OK tonen of verbergen";return drawOpts();}const ci=CATS.findIndex(c=>c.o.some(o=>o.l.indexOf(lbl)>-1));if(ci<0)return;pc=ci;CUR=CATS[pc].o;oi=Math.max(0,CUR.findIndex(o=>o.l.indexOf(lbl)>-1));pf="opts";drawOpts();}
+let SST=[];function sheet(t,opts,np){{const pt=$("ptitle").textContent;if(!np&&mode==="panel"&&!CATS&&CUR&&pt!==t&&!/incode/.test(pt))SST.push([pt,CUR]);}fromSettings=fromSettings||(!!CATS&&mode==="panel");CATS=null;CUR=opts;$("ptitle").textContent=t;mode="panel";$("panel").classList.add("open");$("msg").textContent="";$("keybox").style.display="none";oi=0;drawOpts();paint();}
+function panel(o){SST=[];$("scrim").classList.toggle("on",!!o);if(o){CATS=buildCats();if(!fromSettings){pc=0;}pf=fromSettings?"opts":"cats";CUR=CATS[pc].o;$("ptitle").textContent="Instellingen";}fromSettings=false;mode=o?"panel":"home";$("panel").classList.toggle("open",o);$("msg").textContent="";$("keybox").style.display="none";oi=0;drawOpts();paint();}
+document.addEventListener("click",()=>{if(mode==="amb"&&Date.now()-ambT>400)amb(false);});
+
+let lpT=0,lpDone=false;
+document.addEventListener("keyup",e=>{if(e.keyCode!==13||!lpT)return;clearTimeout(lpT);lpT=0;if(!lpDone&&mode==="home"&&(fr===2||fr===0))act();e.preventDefault();});
+document.addEventListener("contextmenu",e=>{const t=e.target.closest&&e.target.closest("#apps .app");if(t){e.preventDefault();appMenu(APPS[+t.dataset.a]);}});
+document.addEventListener("keydown",e=>{const k=e.keyCode;bump();
+ if(mode==="home"&&(k===461||k===27)){window.GH_back();return e.preventDefault();}
+ if(mode==="amb"){amb(false);return e.preventDefault();}
+ if(mode==="home"&&k===13&&(fr===2||fr===0)){if(!lpT&&!e.repeat){lpDone=false;const r0=fr;lpT=setTimeout(()=>{lpDone=true;if(r0===0){const r=RAIL[fi];if(r)railMenu(r[0]);return;}const el=rows[2][fi];if(el)appMenu(APPS[+el.dataset.a]);},2000);}return e.preventDefault();}
+ if(mode==="home"){if(k===37)move(0,-1);else if(k===39)move(0,1);else if(k===38)move(-1,0);else if(k===40)move(1,0);else if(k===13){if(!e.repeat)act()}else return;}
+ else if(CATS&&pf==="cats"){
+  clrMsg();if(k===38)pc=Math.max(0,pc-1);else if(k===40)pc=Math.min(CATS.length-1,pc+1);else if(k===39||k===13){pf="opts";oi=0;}
+  else if(k===461||k===8||k===27||k===37){panel(false);return e.preventDefault();}else return;CUR=CATS[pc].o;drawOpts();}
+ else{const back=k===461||k===8||k===27;if(k===38||k===40||k===37||back)clrMsg();
+  if(k===38)oi=Math.max(0,oi-1);else if(k===40)oi=Math.min(CUR.length-1,oi+1);
+  else if((k===37||k===39)&&CUR[oi]&&CUR[oi].ch)CUR[oi].ch(k===37?-1:1);
+  else if(CATS&&(k===37||back)){pf="cats";}
+  else if(k===13&&CUR[oi]&&CUR[oi].ok)CUR[oi].ok();
+  else if((back||k===37)&&!CATS&&SST.length){const x=SST.pop();sheet(x[0],x[1],1);return e.preventDefault();}
+  else if(back||k===37){if(fromSettings){fromSettings=true;panel(true);pf="opts";drawOpts();}else panel(false);return e.preventDefault();}else return;
+  save();if(mode==="panel")drawOpts();}
+ e.preventDefault();});
+
+addEventListener("resize",window.ghFit);addEventListener("load",window.ghFit);if(window.visualViewport)visualViewport.addEventListener("resize",window.ghFit);window.ghFit();[50,300,1000,2500].forEach(function(t){setTimeout(window.ghFit,t)});
+document.body.classList.toggle("lite",!!S.lite);applyGlass();applyTheme();setTimeout(()=>{const i=$("intro");i.classList.add("out");document.body.classList.remove("boot");setTimeout(()=>{i.remove();document.documentElement.style.background="#05060a"},900);},2300);drawCont();loadAll();loadTrakt().then(loadStremio);sched();try{localStorage.removeItem("ghBoot")}catch(e){}
+addEventListener("online",()=>{loadAll();loadTrakt().then(loadStremio);});
+}
+</script></body></html>
