@@ -1,4 +1,4 @@
-<!DOCTYPE html><!--GH_BUILD:3.3.6-->
+<!DOCTYPE html><!--GH_BUILD:3.4.0-->
 <html lang="nl" style="background:#05060a url(splash5.png) center/cover no-repeat"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,viewport-fit=cover">
 <title>Glass Home</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
@@ -379,6 +379,9 @@ body:not(.det) #det,#panel:not(.open),#toast:not(.on),body:not(.amb) #amb{-webki
 #full .aim.lf{display:block;width:100%!important;max-width:100%;height:auto;max-height:620px;object-fit:cover;border-radius:24px;margin:0 0 26px!important;border:1px solid rgba(255,255,255,.12)}
 #full .aim.pf{float:left;display:block;width:38%!important;max-width:420px;height:auto;max-height:640px;object-fit:cover;border-radius:22px;margin:6px 34px 18px 0!important;border:1px solid rgba(255,255,255,.12);box-shadow:0 14px 40px rgba(0,0,0,.45)}
 #full .aclr{clear:both}
+#dgdot{position:absolute;top:44px;right:430px;z-index:21;font-size:13px;font-weight:700;padding:5px 12px 5px 26px;border-radius:999px;background:rgba(10,12,18,.55);border:1px solid rgba(255,255,255,.18)}#dgdot::before{content:"";position:absolute;left:10px;top:50%;width:9px;height:9px;margin-top:-4.5px;border-radius:50%;background:#4ade80;box-shadow:0 0 8px #4ade80}#dgdot.a::before{background:#fbbf24;box-shadow:0 0 8px #fbbf24}#dgdot.r::before{background:#f87171;box-shadow:0 0 8px #f87171}body.amb #dgdot,body.full #dgdot{display:none!important}
+body.autolite .app,body.autolite .glass:not(#panel){-webkit-backdrop-filter:none!important;backdrop-filter:none!important}body.autolite .kb,body.autolite .wsun,body.autolite .wcl,body.autolite .wrn{animation:none!important}
+#full pre.dglog{white-space:pre-wrap;font:15px/1.5 ui-monospace,Menlo,Consolas,monospace;background:rgba(0,0,0,.35);padding:18px 22px;border-radius:16px;max-height:none}
 </style></head><body class="boot"><script>window.ghFit=function(){var vv=window.visualViewport,de=document.documentElement,w=(vv&&vv.width)||de.clientWidth||innerWidth||1920,h=(vv&&vv.height)||de.clientHeight||innerHeight||1080,s=Math.min(w/1920,h/1080),b=document.body,r=document.documentElement;if(!b)return;var W=Math.round(Math.min(w/s,4000)),H=Math.round(Math.min(h/s,1620));if(h>w){W=1920;H=1080;}r.style.setProperty("--W",W+"px");r.style.setProperty("--H",H+"px");window.GW=W;window.GH=H;b.style.transformOrigin="0 0";b.style.transform="translate("+Math.round((w-W*s)/2)+"px,"+Math.round((h-H*s)/2)+"px) scale("+s+")";b.classList.toggle("portrait",h>w*1.05);};window.ghFit();addEventListener("orientationchange",function(){setTimeout(window.ghFit,300)});</script><div id="rot">Draai je scherm een kwartslag voor het grootste beeld</div><script>(function(){var M={},C={};function R(n){n=n.replace(/^\.\//,"./").replace(/\.js$/,"");if(C[n])return C[n].exports;var m={exports:{}};C[n]=m;M[n](m,m.exports);return m.exports;}
 M["./QRErrorCorrectLevel"]=function(module,exports){module.exports = {
 	L : 1,
@@ -1626,7 +1629,7 @@ module.exports = QRRSBlock;
 
 };
 var Q=R("./index"),E=R("./QRErrorCorrectLevel");window.ghQR=function(t){var q=new Q(-1,E.M);q.addData(t);q.make();var n=q.getModuleCount(),p="";for(var r=0;r<n;r++)for(var c=0;c<n;c++)if(q.isDark(r,c))p+="M"+(c+2)+" "+(r+2)+"h1v1h-1z";return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 '+(n+4)+' '+(n+4)+'" shape-rendering="crispEdges"><rect width="100%" height="100%" fill="#fff"/><path d="'+p+'" fill="#000"/></svg>';};})();</script>
-<script type="text/plain" id="ghv">GH_BUILD:3.3.6</script>
+<script type="text/plain" id="ghv">GH_BUILD:3.4.0</script>
 <div id="intro"><div class="orb"></div><div class="ghw"><svg class="ghl" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
 <defs>
 <linearGradient id="gl" x1="0" y1="0" x2="0.35" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".96"/><stop offset=".55" stop-color="#e9ecf6" stop-opacity=".78"/><stop offset="1" stop-color="#c9cfe6" stop-opacity=".6"/></linearGradient>
@@ -1641,7 +1644,7 @@ var Q=R("./index"),E=R("./QRErrorCorrectLevel");window.ghQR=function(t){var q=ne
 <div id="amb"><b id="atime"></b><span id="adate"></span><div id="aextra"><span id="aw"></span><span id="anow"></span></div></div><div id="toast" class="glass"></div><div id="full"><div class="fin glass" id="fin"></div></div>
 <div id="ui">
  <div id="np"><div class="npa" id="npa"></div><div class="npt"><small class="npl">Nu speelt</small><b id="npt"></b><small id="nps"></small><div class="npb"><i id="npi"></i></div><div class="npc"><span id="npc0">0:00</span><span id="npd">0:00</span></div></div><div class="npk"><span class="nb f" data-np="prev"><svg viewBox="0 0 24 24"><path d="M6 5h2v14H6zM20 5v14L9 12z" fill="currentColor"/></svg></span><span class="nb f big" data-np="toggle"><svg viewBox="0 0 24 24" id="nppi"><path d="M7 5h4v14H7zM13 5h4v14h-4z" fill="currentColor"/></svg></span><span class="nb f" data-np="next"><svg viewBox="0 0 24 24"><path d="M16 5h2v14h-2zM4 5v14l11-7z" fill="currentColor"/></svg></span></div></div>
-<div id="clock"><b id="ctime"></b><span id="cdate"></span><div id="cwx"></div></div>
+<div id="clock"><b id="ctime"></b><span id="cdate"></span><div id="cwx"></div></div><div id="dgdot" style="display:none"></div>
  <div id="det" class="glass"><div><div id="dtitle"></div><div id="dmeta"></div><div id="dchips"></div></div><div><h4 id="hzeg">Wat mensen zeggen</h4><p id="dzeg"></p><h4 id="hwhy">Waarom deze score</h4><p id="dwhy"></p><div id="dsrc"></div></div></div>
  <div id="rail" class="glass"></div>
  <div id="main">
@@ -2065,7 +2068,7 @@ const ARTSRC=[["nos","NOS","https://feeds.nos.nl/nosnieuwsalgemeen"],["nu","NU.n
 const SPORTRSS="https://feeds.nos.nl/nossportalgemeen";let NA=[],SPTAB={},SPX={};
 const strip=h=>{try{const d=document.createElement("div");d.innerHTML=h||"";return(d.textContent||"").replace(/\s+/g," ").trim()}catch(e){return""}};
 async function rss(u){let items=[];
- try{const x=await(await fetch(u)).text();const doc=new DOMParser().parseFromString(x,"text/xml");items=[...doc.getElementsByTagName("item")].map(it=>{const g=t=>(it.getElementsByTagName(t)[0]||{}).textContent||"";const enc=it.getElementsByTagName("enclosure")[0];const ce=it.getElementsByTagNameNS("*","encoded")[0];const html=(ce&&ce.textContent)||g("description");return{t:g("title"),link:g("link"),ts:Date.parse(g("pubDate"))||0,desc:strip(g("description")),html:html.slice(0,20000),img:enc?enc.getAttribute("url"):""}});}catch(e){}
+ try{const rr=await fetch(u);try{fdMark(u,rr.ok?1:0,rr.ok?"":"HTTP "+rr.status)}catch(z){}const x=await rr.text();const doc=new DOMParser().parseFromString(x,"text/xml");items=[...doc.getElementsByTagName("item")].map(it=>{const g=t=>(it.getElementsByTagName(t)[0]||{}).textContent||"";const enc=it.getElementsByTagName("enclosure")[0];const ce=it.getElementsByTagNameNS("*","encoded")[0];const html=(ce&&ce.textContent)||g("description");return{t:g("title"),link:g("link"),ts:Date.parse(g("pubDate"))||0,desc:strip(g("description")),html:html.slice(0,20000),img:enc?enc.getAttribute("url"):""}});}catch(e){}
  if(!items.length){try{const d=await j("https://api.rss2json.com/v1/api.json?rss_url="+encodeURIComponent(u));items=(d.items||[]).map(it=>({t:it.title,link:it.link,ts:Date.parse((it.pubDate||"").replace(" ","T")+"Z")||0,desc:strip(it.description||it.content),html:String(it.content||it.description||"").slice(0,20000),img:(it.enclosure&&it.enclosure.link)||it.thumbnail||""}));}catch(e){}}
  return items.filter(x=>x.t);}
 async function loadArts(force){const c=!force&&cget("ghNA4",3e5);if(c){NA=c;return}const st=NWS(),srcs=ARTSRC.filter(a=>(st.art||["nos","nu"]).includes(a[0])),tops=NEWSTOP.filter(t=>st.top.includes(t[0]));let all=[];
@@ -2138,7 +2141,7 @@ function drawCont(){if(CONT.length){$("conth").textContent="Ga verder";$("cont")
 // aanraders + hero
 const KDEF={traktClientId:"ovjwTlEJ5SzIVrmYHxpDJWWvt9nT0F0lDM7eaY83saU"};
 const key=n=>S[n]||((window.GH_KEYS||{})[n])||KDEF[n]||"";
-const j=async(u,o)=>{const r=await fetch(u,o);if(!r.ok)throw r.status;return r.json()};
+const j=async(u,o)=>{let r;const fm=(a,b)=>{try{fdMark(u,a,b)}catch(x){}};try{r=await fetch(u,o);}catch(e){fm(0,"geen verbinding");throw e}if(!r.ok){fm(0,"HTTP "+r.status);throw r.status}fm(1);return r.json()};
 const form=(u,b)=>j(u,{method:"POST",headers:{"content-type":"application/x-www-form-urlencoded"},body:Object.keys(b).map(k=>k+"="+encodeURIComponent(b[k])).join("&")});
 const cu=u=>"url('"+String(u).replace(/['"\\()\s]/g,c=>"%"+c.charCodeAt(0).toString(16))+"')";
 const esc=t=>String(t||"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
@@ -2490,13 +2493,56 @@ document.addEventListener("visibilitychange",()=>{if(!document.hidden){loadMedia
 // afbeeldingen eerst op de achtergrond laten decoderen, dan pas tonen (voorkomt haperen)
 const PRE=new Map();function preImg(u){if(!u)return Promise.resolve();if(PRE.has(u))return PRE.get(u);
  const p=new Promise(r=>{const i=new Image();i.decoding="async";i.onload=()=>{(i.decode?i.decode():Promise.resolve()).then(r,r)};i.onerror=r;i.src=u;setTimeout(r,2500);});
- PRE.set(u,p);if(PRE.size>80){PRE.delete(PRE.keys().next().value)}return p;}
+ PRE.set(u,p);const mx=(typeof DPROF!=="undefined"?DPROF.pre:80);while(PRE.size>mx){PRE.delete(PRE.keys().next().value)}return p;}
 function preShelf(){clearTimeout(window.psT);const sa=shelfApp;window.psT=setTimeout(()=>{if(shelfApp!==sa)return;const go=()=>{[...document.querySelectorAll("#shelf .card")].slice(0,2).forEach(c=>{const it=ITEMS[+c.dataset.k];if(it&&it.big)preImg(it.big)});};window.requestIdleCallback?requestIdleCallback(go,{timeout:1500}):go();},1200);}
 
 // ---------- prestatiemeting (anoniem, versleuteld, alleen voor jezelf): hoe vloeiend draait Glass Home op deze tv ----------
 const PST={f:0,j:0,big:0,max:0,lt:0,ltms:0,keys:0,t0:Date.now()};let pstOn=0,pstLast=0;
 try{new PerformanceObserver(l=>l.getEntries().forEach(e=>{PST.lt++;PST.ltms+=Math.round(e.duration)})).observe({entryTypes:["longtask"]})}catch(e){}
-document.addEventListener("keydown",()=>{PST.keys++;pstLast=performance.now();if(pstOn)return;pstOn=1;let prev=0;const f=t=>{if(prev){const d=t-prev;PST.f++;if(d>50)PST.j++;if(d>250)PST.big++;if(d>PST.max)PST.max=Math.round(d)}prev=t;if(performance.now()-pstLast<2500)requestAnimationFrame(f);else pstOn=0};requestAnimationFrame(f);},true);
+document.addEventListener("keydown",()=>{PST.keys++;pstLast=performance.now();if(pstOn)return;pstOn=1;let prev=0;const f=t=>{if(prev){const d=t-prev;PST.f++;if(d>50)PST.j++;if(d>250)PST.big++;if(d>PST.max)PST.max=Math.round(d)}prev=t;if(performance.now()-pstLast<2500)requestAnimationFrame(f);else{pstOn=0;dgJank(PST.f-(window.dgF0||0),PST.j-(window.dgJ0||0));window.dgF0=PST.f;window.dgJ0=PST.j;}};requestAnimationFrame(f);},true);
+
+// ---------- Systeem en prestaties: apparaatprofiel, vangnetten en logboek (licht: meet alleen bij fouten, schokken of als het overzicht open is) ----------
+const DG={log:[],act:0,fd:{},auto:0,autoT:0,lastErr:{}};try{DG.log=JSON.parse(localStorage.getItem("ghLog")||"[]").slice(-100)}catch(e){}
+const DGN={"site.api.espn.com":"ESPN (sport)","feeds.nos.nl":"NOS","www.nu.nl":"NU.nl","www.rtlnieuws.nl":"RTL Nieuws","www.googleapis.com":"YouTube","api.spotify.com":"Spotify","api.themoviedb.org":"TMDB","api.open-meteo.com":"Weer","api.energyzero.nl":"Stroomprijs","raw.githubusercontent.com":"KNMI-codes / updates","api.trakt.tv":"Trakt","api.rss2json.com":"RSS-hulp"};
+function dgLog(lv,m){const t=Date.now(),k=lv+m;if(DG.lastErr[k]&&t-DG.lastErr[k]<6e4)return;DG.lastErr[k]=t;DG.log.push({t,lv,m:String(m).slice(0,180)});if(DG.log.length>100)DG.log.splice(0,DG.log.length-100);clearTimeout(DG.sv);DG.sv=setTimeout(()=>{try{localStorage.setItem("ghLog",JSON.stringify(DG.log))}catch(e){}},2000);if(lv==="actie")DG.act++;dgDot();}
+function fdMark(u,ok,err){let h="";try{h=new URL(u).host}catch(e){return}const n=DGN[h];if(!n)return;const f=DG.fd[n]||(DG.fd[n]={});const was=f.ok;f.ok=ok;f.t=Date.now();if(ok){f.err="";if(was===0)dgLog("info",n+" werkt weer");}else{f.err=err||"fout";dgLog("fout",n+": "+f.err);}}
+addEventListener("error",e=>{dgLog("fout",(e.message||"Scriptfout")+(e.lineno?" (regel "+e.lineno+")":""))});
+addEventListener("unhandledrejection",e=>{const r=e.reason;if(typeof r==="number"||r===0)return;dgLog("fout","Onafgehandeld: "+((r&&r.message)||r))});
+const DPROF=(()=>{const t=typeof TOUCH!=="undefined"&&TOUCH;return P==="webos"?{n:"LG-tv",pre:50}:P==="android"?{n:"Google TV Streamer",pre:60}:t?{n:"Telefoon",pre:70}:{n:"Computer",pre:120};})();
+const PREMAX=()=>DPROF.pre;
+// vangnet: zakt het beeld weg tijdens navigeren, dan tijdelijk zware effecten uit (alleen veilige, geteste stijlinstellingen)
+function dgJank(f,j){if(S.dgAuto===0||f<40)return;const r=j/f;if(r>0.35&&!DG.auto){DG.auto=1;document.body.classList.add("autolite");const n=PRE.size;PRE.clear();dgLog("actie","Beeld haperde ("+Math.round(r*100)+"% schokken): zware effecten tijdelijk uit, "+n+" voorgeladen afbeeldingen opgeruimd");}
+ if(DG.auto)DG.autoT=Date.now();}
+setInterval(()=>{if(DG.auto&&Date.now()-DG.autoT>5*6e4){DG.auto=0;document.body.classList.remove("autolite");dgLog("actie","Beeld weer vloeiend: effecten weer aan");}},6e4);
+function dgFps(){return DG.fps||0}
+let dgRaf=0;function dgMeasure(on){if(on&&!dgRaf){let n=0,t0=performance.now();const f=t=>{n++;if(t-t0>=1000){DG.fps=Math.round(n*1000/(t-t0));n=0;t0=t;}dgRaf=requestAnimationFrame(f)};dgRaf=requestAnimationFrame(f);}if(!on&&dgRaf){cancelAnimationFrame(dgRaf);dgRaf=0;}}
+function dgMem(){try{const m=performance.memory;if(m)return Math.round(m.usedJSHeapSize/1048576)+" MB van "+Math.round(m.jsHeapSizeLimit/1048576)+" MB"}catch(e){}return"niet beschikbaar"}
+function dgHealth(){const now=Date.now(),errs=DG.log.filter(x=>x.lv==="fout"&&now-x.t<6e5).length,bad=Object.values(DG.fd).filter(f=>f.ok===0).length;return DG.auto||errs>2||bad>1?"r":errs||bad?"a":"g";}
+function dgDot(){const d=$("dgdot");if(!d)return;const on=!!S.dgDot;d.style.display=on?"":"none";if(!on)return;const h=dgHealth();d.className=h;d.textContent=h==="g"?"Alles goed":h==="a"?"Kleine storing":"Let op";}
+function dgSummary(){const v=((document.documentElement.outerHTML.match(/GH_BUILD:([\d.]+)/)||[,"?"])[1]);const L=[];L.push("Glass Home "+v+" · "+DPROF.n+" ("+P+") · "+innerWidth+"x"+innerHeight+" · "+new Date().toLocaleString("nl-NL"));
+ L.push("Profiel: "+DPROF.n+" · autolite "+(DG.auto?"AAN":"uit")+" · automatisch bijstellen "+(S.dgAuto===0?"uit":"aan")+" · geheugen "+dgMem());
+ L.push("Navigatie: "+PST.f+" frames, "+PST.j+" schokken, max "+PST.max+" ms, lange taken "+PST.lt+"/"+PST.ltms+" ms");
+ L.push("Bronnen: "+Object.entries(DG.fd).map(([n,f])=>n+"="+(f.ok?"ok":"FOUT "+f.err)).join(", "));
+ DG.log.slice(-60).forEach(x=>L.push(new Date(x.t).toLocaleTimeString("nl-NL")+" ["+x.lv+"] "+x.m));return L.join("\n");}
+async function dgSend(){const txt=dgSummary();try{if(await syncInit()){const h=new Uint8Array(await crypto.subtle.digest("SHA-256",new TextEncoder().encode("dbg:"+key("sync"))));const topic="ghd"+b64u(h.slice(0,18)).replace(/[-_]/g,"x");
+  const iv=rndB(12),ct=new Uint8Array(await crypto.subtle.encrypt({name:"AES-GCM",iv},syncK,new TextEncoder().encode(JSON.stringify({log:1,txt}))));const all=new Uint8Array(12+ct.length);all.set(iv);all.set(ct,12);await fetch("https://ntfy.sh/"+topic,{method:"POST",body:b64u(all)});toast("Logboek veilig verstuurd. Zeg tegen Claude: ‘logs gestuurd’");dgLog("info","Logboek verstuurd naar Claude");return;}}catch(e){}
+ fullOpen('<h1>Logboek voor Claude</h1><p>Maak een foto van dit scherm en stuur die naar Claude.</p><pre class="dglog">'+esc(txt)+'</pre>');}
+function dgOpenLog(){const F=["alles","fout","actie","info"],f=F[S.dgF||0];const L=DG.log.filter(x=>f==="alles"||x.lv===f).slice(-100).reverse();
+ fullOpen('<h1>Logboek ('+f+')</h1>'+(L.length?'<pre class="dglog">'+L.map(x=>esc(new Date(x.t).toLocaleString("nl-NL",{day:"numeric",month:"short",hour:"2-digit",minute:"2-digit"})+"  ["+x.lv+"]  "+x.m)).join("\n")+'</pre>':'<p>Nog niets gelogd. Fijn!</p>'));}
+function dgOpts(){const ago3=t=>t?Math.max(0,Math.round((Date.now()-t)/6e4))+" min geleden":"nog niet gebruikt";const o=[
+ {l:"Apparaat en profiel",v:()=>DPROF.n+(DG.auto?" · tijdelijk licht":"")},
+ {l:"Beeldsnelheid (nu)",v:()=>(DG.fps?DG.fps+" fps":"meten…")},
+ {l:"Geheugen",v:()=>dgMem()},
+ {l:"Automatisch bijstellen",v:()=>S.dgAuto===0?"Uit":"Aan",ok:()=>{S.dgAuto=S.dgAuto===0?1:0;if(S.dgAuto===0&&DG.auto){DG.auto=0;document.body.classList.remove("autolite");}save();}},
+ {l:"Automatische acties",v:()=>{const a=DG.log.filter(x=>x.lv==="actie");return a.length?a.length+" · laatste "+ago3(a[a.length-1].t)+" ›":"Nog niets nodig geweest"},ok:()=>{S.dgF=2;dgOpenLog()}},
+ {l:"Status-stip op het hoofdscherm",v:()=>S.dgDot?"Aan":"Uit",ok:()=>{S.dgDot=S.dgDot?0:1;save();dgDot();}},
+ {l:"Logboek filter",v:()=>["Alles","Fouten","Acties","Info"][S.dgF||0]+" ◀ ▶",ch:d=>{S.dgF=((S.dgF||0)+d+4)%4;}},
+ {l:"Logboek bekijken",v:()=>DG.log.length+" regels ›",ok:dgOpenLog},
+ {l:"Logs naar Claude sturen",v:()=>"OK",ok:dgSend},
+ {l:"Logboek wissen",v:()=>"OK",ok:()=>{DG.log=[];try{localStorage.removeItem("ghLog")}catch(e){}toast("Logboek gewist")}}];
+ Object.keys(DGN).map(h=>DGN[h]).filter((n,i,a)=>a.indexOf(n)===i).forEach(n=>{o.push({l:"Bron: "+n,v:()=>{const f=DG.fd[n];return !f?"niet gebruikt":f.ok?"✓ werkt · "+ago3(f.t):"✗ "+f.err+" · "+ago3(f.t)}})});
+ [["YouTube",()=>S.ytRefresh],["Spotify",()=>S.spRefresh||key("spotifyRefresh")],["Stremio",()=>S.stAuth],["Trakt",()=>S.trRefresh]].forEach(([n,g])=>o.push({l:"Koppeling: "+n,v:()=>g()?"✓ gekoppeld":"niet gekoppeld"}));return o;}
+setTimeout(dgDot,2500);setInterval(()=>{const on=mode==="panel"&&CATS&&CATS[pc]&&CATS[pc].n==="Systeem en prestaties";dgMeasure(on);if(on&&pf!=="cats"&&document.activeElement!==$("keyin"))try{drawOpts()}catch(e){}},1000);
 async function pstSend(){try{if(PST.keys<5||!(await syncInit()))return;const h=new Uint8Array(await crypto.subtle.digest("SHA-256",new TextEncoder().encode("dbg:"+key("sync"))));const topic="ghd"+b64u(h.slice(0,18)).replace(/[-_]/g,"x");
  const d={v:(document.getElementById("ghv")||{}).textContent,p:P,ua:navigator.userAgent.slice(0,120),w:innerWidth,dpr:devicePixelRatio,min:Math.round((Date.now()-PST.t0)/60000)};Object.assign(d,PST);
  const iv=rndB(12),ct=new Uint8Array(await crypto.subtle.encrypt({name:"AES-GCM",iv},syncK,new TextEncoder().encode(JSON.stringify(d))));const all=new Uint8Array(12+ct.length);all.set(iv);all.set(ct,12);
@@ -2694,7 +2740,7 @@ let oi=0,kn="tmdb",CUR;const OPTS=[
  {l:"Apps beheren",v:()=>"›",ok:manageApps},
  {l:"Nieuwe achtergrond",v:()=>"OK",ok:nextBg}];
 RG.sun='<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>';RG.sleep='<path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/>';RG.paint='<rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4"/>';RG.grid='<rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/>';RG.user='<circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/>';RG.key='<circle cx="8" cy="15" r="4"/><path d="M11 12l9-9M17 6l3 3M15 8l2 2"/>';RG.info='<circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.5"/>';
-const CATDEF=[["paint","Weergave",/Snelle|Achtergrond|Wissel|achtergrond|Taal|Glas|Rij onder de aanbevelingen|Thema|Live TV/],["grid","Apps",/App |Apps|PlayStation|startscherm/],["user","Accounts",/account|Letterboxd/],["key","Sleutels en bronnen",/sleutel|Sleutel|afspeellijst|EPG|Client/],["sun","Klok en weer",/^Weer|^Zon op|^Stroomprijs|^Woonplaats/],["tv","Nieuws en sport",/^Nieuws|^Sport/],["grid","Zijmenu",/^$/],["user","Profielen",/^Profiel/],["info","Over Glass Home",/^$/]];
+const CATDEF=[["paint","Weergave",/Snelle|Achtergrond|Wissel|achtergrond|Taal|Glas|Rij onder de aanbevelingen|Thema|Live TV/],["grid","Apps",/App |Apps|PlayStation|startscherm/],["user","Accounts",/account|Letterboxd/],["key","Sleutels en bronnen",/sleutel|Sleutel|afspeellijst|EPG|Client/],["sun","Klok en weer",/^Weer|^Zon op|^Stroomprijs|^Woonplaats/],["tv","Nieuws en sport",/^Nieuws|^Sport/],["grid","Zijmenu",/^$/],["user","Profielen",/^Profiel/],["info","Systeem en prestaties",/^$/]];
 function appLink(ap){const tr=S.trRefresh,tm=key("tmdb");
  if(/moonlight/i.test(ap.n))return["Niet nodig","Moonlight laat je pc-spellen op de tv zien. Hier hoef je niets te koppelen."];
  if(/stremio/i.test(ap.n))return[S.stAuth?"Gekoppeld ✓":"Koppelen","Druk op OK en scan de code met je telefoon. Daarna zie je wat je in Stremio kijkt."];
@@ -2703,7 +2749,8 @@ function appLink(ap){const tr=S.trRefresh,tm=key("tmdb");
 function buildCats(){const used=new Set();return CATDEF.map(([ic,n,re])=>{const o=OPTS.filter(x=>!used.has(x)&&re.test(x.l));o.forEach(x=>used.add(x));
  if(n==="Accounts")APPS.forEach(ap=>{if(ap.removed||ap.missing||/youtube|spotify/i.test(ap.n))return;const st=appLink(ap);o.push({l:ap.n,v:()=>appLink(ap)[0],ok:()=>{if(/stremio/i.test(ap.n))return stLink();$("msg").textContent=st[1]}})});
  if(n==="Zijmenu")o.push(...railOpts());
- if(n==="Over Glass Home")o.push({l:"Versie",v:()=>((document.documentElement.outerHTML.match(/GH_BUILD:([\d.]+)/)||[,"?"])[1])},{l:"Apparaat",v:()=>P==="webos"?"LG webOS":P==="android"?"Google TV":"Voorbeeld"},{l:"Updates",v:()=>"Automatisch via internet"});
+ if(n==="Systeem en prestaties")o.splice(0,0,...dgOpts().slice(0,1));if(n==="Systeem en prestaties")o.push(...dgOpts().slice(1));
+ if(n==="Systeem en prestaties")o.push({l:"Versie",v:()=>((document.documentElement.outerHTML.match(/GH_BUILD:([\d.]+)/)||[,"?"])[1])},{l:"Updates",v:()=>"Automatisch via internet"});
  return{ic,n,o};});}
 let CATS=null,pc=0,pf="opts",fromSettings=false;
 function drawCats(){$("scrim").classList.toggle("on",mode==="panel");if(!CATS){$("panel").classList.add("single");return;}$("panel").classList.remove("single");
