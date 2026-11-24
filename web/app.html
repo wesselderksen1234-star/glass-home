@@ -1,4 +1,4 @@
-<!DOCTYPE html><!--GH_BUILD:3.2.2-->
+<!DOCTYPE html><!--GH_BUILD:3.2.3-->
 <html lang="nl" style="background:#05060a url(splash5.png) center/cover no-repeat"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,viewport-fit=cover">
 <title>Glass Home</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
@@ -1607,7 +1607,7 @@ module.exports = QRRSBlock;
 
 };
 var Q=R("./index"),E=R("./QRErrorCorrectLevel");window.ghQR=function(t){var q=new Q(-1,E.M);q.addData(t);q.make();var n=q.getModuleCount(),p="";for(var r=0;r<n;r++)for(var c=0;c<n;c++)if(q.isDark(r,c))p+="M"+(c+2)+" "+(r+2)+"h1v1h-1z";return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 '+(n+4)+' '+(n+4)+'" shape-rendering="crispEdges"><rect width="100%" height="100%" fill="#fff"/><path d="'+p+'" fill="#000"/></svg>';};})();</script>
-<script type="text/plain" id="ghv">GH_BUILD:3.2.2</script>
+<script type="text/plain" id="ghv">GH_BUILD:3.2.3</script>
 <div id="intro"><div class="orb"></div><div class="ghw"><svg class="ghl" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
 <defs>
 <linearGradient id="gl" x1="0" y1="0" x2="0.35" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".96"/><stop offset=".55" stop-color="#e9ecf6" stop-opacity=".78"/><stop offset="1" stop-color="#c9cfe6" stop-opacity=".6"/></linearGradient>
@@ -2015,10 +2015,10 @@ async function rss(u){let items=[];
  try{const x=await(await fetch(u)).text();const doc=new DOMParser().parseFromString(x,"text/xml");items=[...doc.getElementsByTagName("item")].map(it=>{const g=t=>(it.getElementsByTagName(t)[0]||{}).textContent||"";const enc=it.getElementsByTagName("enclosure")[0];const ce=it.getElementsByTagNameNS("*","encoded")[0];const html=(ce&&ce.textContent)||g("description");return{t:g("title"),link:g("link"),ts:Date.parse(g("pubDate"))||0,desc:strip(g("description")),html:html.slice(0,20000),img:enc?enc.getAttribute("url"):""}});}catch(e){}
  if(!items.length){try{const d=await j("https://api.rss2json.com/v1/api.json?rss_url="+encodeURIComponent(u));items=(d.items||[]).map(it=>({t:it.title,link:it.link,ts:Date.parse((it.pubDate||"").replace(" ","T")+"Z")||0,desc:strip(it.description||it.content),html:String(it.content||it.description||"").slice(0,20000),img:(it.enclosure&&it.enclosure.link)||it.thumbnail||""}));}catch(e){}}
  return items.filter(x=>x.t);}
-async function loadArts(force){const c=!force&&cget("ghNA3",9e5);if(c){NA=c;return}const st=NWS(),srcs=ARTSRC.filter(a=>(st.art||["nos","nu"]).includes(a[0])),tops=NEWSTOP.filter(t=>st.top.includes(t[0]));let all=[];
+async function loadArts(force){const c=!force&&cget("ghNA4",9e5);if(c){NA=c;return}const st=NWS(),srcs=ARTSRC.filter(a=>(st.art||["nos","nu"]).includes(a[0])),tops=NEWSTOP.filter(t=>st.top.includes(t[0]));let all=[];
  for(const a of srcs){try{all=all.concat((await rss(a[2])).map(x=>Object.assign(x,{src:a[1]})))}catch(e){}}
- all.sort((a,b)=>b.ts-a.ts);let hit=all.filter(x=>!tops.length||tops.some(t=>t[1].test(x.t+" "+x.desc)));if(hit.length<5)hit=hit.concat(all.filter(x=>!hit.includes(x))).slice(0,10);
- NA=hit.slice(0,12).map(x=>({k:"art",t:x.t,src:x.src,s:ago(x.ts),ts:x.ts,img:x.img,desc:x.desc,html:x.html||"",link:x.link}));if(NA.length)cset("ghNA3",NA);}
+ all=all.filter(x=>!/\/(sport|voetbal|formule-1|tennis|wielrennen|schaatsen|darts|hockey|golf|motorsport|olympische-spelen|f1)\//i.test(x.link||""));all.sort((a,b)=>b.ts-a.ts);let hit=all.filter(x=>!tops.length||tops.some(t=>t[1].test(x.t+" "+x.desc)));if(hit.length<5)hit=hit.concat(all.filter(x=>!hit.includes(x))).slice(0,10);
+ NA=hit.slice(0,12).map(x=>({k:"art",t:x.t,src:x.src,s:ago(x.ts),ts:x.ts,img:x.img,desc:x.desc,html:x.html||"",link:x.link}));if(NA.length)cset("ghNA4",NA);}
 function fullOpen(h){if(!/fbtn/.test(h))window.fullLink="";if(!/class="pa"|Geen tekst/.test(h))window.fullArt=0;$("fin").scrollTop=0;$("fin").innerHTML=h+'<div class="hint">'+(window.fullArt?"▲▼ scrollen · ":"")+'Terug om te sluiten</div>';document.body.classList.add("full");window.fullPrev=mode;mode="full";stopPreview();}
 function fullClose(){try{stopPreview()}catch(e){}pvKey="";document.body.classList.remove("full");mode=window.fullPrev&&window.fullPrev!=="full"?window.fullPrev:"home";paint();}
 function paras(t){const z=(t||"").match(/[^.!?]+[.!?]+["”’]?|[^.!?]+$/g)||[];const out=[];let cur="";z.forEach(q=>{cur+=q;if(cur.length>170){out.push(cur.trim());cur=""}});if(cur.trim())out.push(cur.trim());return out.slice(0,5);}
@@ -2539,9 +2539,9 @@ function stopPreview(){clearTimeout(pvT);if(pv){const p=pv;pv=null;p.box.classLi
  if(p.persist){const n=p.n;try{PVF.contentWindow.postMessage({cmd:"mute"},"*");PVF.contentWindow.postMessage({cmd:"stop"},"*")}catch(e){}setTimeout(()=>{if(PVN!==n||pv)return;pvPark()},700);}
  else{try{p.f&&p.f.contentWindow.postMessage({cmd:"mute"},"*")}catch(e){}setTimeout(()=>{try{p.player.destroy()}catch(e){}p.box.remove()},700);}}
  document.querySelectorAll(".kb").forEach(e=>e.classList.remove("kb"));}
-async function startPreview(box,it){const vid=await trailerFor(it);const kb=()=>{(box.id==="hero"?$(hc):box).classList.add("kb")};
+async function startPreview(box,it){const k0=it.v||it.id||it.t;const vid=await trailerFor(it);const kb=()=>{(box.id==="hero"?$(hc):box).classList.add("kb")};
  if(!vid)return kb();
- if(pvKey!==(it.v||it.id||it.t)||!box.isConnected)return;if(pv)stopPreview();
+ if((pvKey!==k0&&pvKey!==(it.v||it.id||it.t))||!box.isConnected)return;if(pv)stopPreview();
  if(PVM){if(!PVW||!PVW.isConnected)pvMake();const n=++PVN,msg={cmd:"load",v:vid,s:it.yt?0:6,vol:60,n};PVW.classList.remove("on");PVW.classList.toggle("vert",isShort(it));pvMove(box,box.firstChild);
   const me={persist:1,box:PVW,n,msg};pv=me;try{PVF.contentWindow.postMessage(msg,"*")}catch(e){}
   const on=e=>{if(!e.data||e.data.gh!=="yt"||!PVF||e.source!==PVF.contentWindow)return;if(pv!==me){removeEventListener("message",on);return;}if(e.data.n!==n)return;
@@ -2621,7 +2621,7 @@ if(P==="preview"){try{history.pushState({gh:1},"");addEventListener("popstate",(
 let oi=0,kn="tmdb",CUR;const OPTS=[
  {l:"Profielen en kinderslot",v:()=>esc(profName())+" ›",ok:()=>profiles()},
  {l:"Rij onder de aanbevelingen",v:()=>BOTN[botMode()]+" · ◀ ▶",ch:d=>{const b=BOTS(),i=b.indexOf(botMode());S.bot=b[(i+d+b.length)%b.length];S.showLive=S.bot==="off"?0:1;save();if(S.bot==="watch")loadWL();drawLive();loadBot();},ok:()=>{const b=BOTS(),i=b.indexOf(botMode());S.bot=b[(i+1)%b.length];S.showLive=S.bot==="off"?0:1;save();if(S.bot==="watch")loadWL();drawLive();loadBot();}},
- {l:"Nieuwsbronnen",v:()=>NWS().src.length+" gekozen ›",ok:()=>newsSrc()},{l:"Nieuws: artikelbronnen",v:()=>((NWS().art||["nos","nu"]).length)+" gekozen ›",ok:()=>{const st=NWS();if(!st.art)st.art=["nos","nu"];togList("Artikelbronnen",ARTSRC.map(a=>[a[0],a[1]]),st.art,()=>{try{localStorage.removeItem("ghNA3")}catch(e){}loadBot(1)});}},{l:"Nieuws-onderwerpen",v:()=>(NWS().top.length?NWS().top.length+" gekozen":"Alles")+" ›",ok:()=>newsTop()},
+ {l:"Nieuwsbronnen",v:()=>NWS().src.length+" gekozen ›",ok:()=>newsSrc()},{l:"Nieuws: artikelbronnen",v:()=>((NWS().art||["nos","nu"]).length)+" gekozen ›",ok:()=>{const st=NWS();if(!st.art)st.art=["nos","nu"];togList("Artikelbronnen",ARTSRC.map(a=>[a[0],a[1]]),st.art,()=>{try{localStorage.removeItem("ghNA4")}catch(e){}loadBot(1)});}},{l:"Nieuws-onderwerpen",v:()=>(NWS().top.length?NWS().top.length+" gekozen":"Alles")+" ›",ok:()=>newsTop()},
  {l:"Sportrij tonen",v:()=>S.spRow!==0?"Aan":"Uit",ok:()=>{S.spRow=S.spRow===0?1:0;save();drawSport();build();loadBot();}},{l:"Sport: competities",v:()=>(SPS().lg.length?SPS().lg.length+" gekozen":"Nog niets")+" ›",ok:()=>spLeagues()},{l:"Sport: clubs",v:()=>(SPS().club.length?SPS().club.length+" gekozen":"Alle")+" ›",ok:()=>spClubs()},
  {l:"Thema",v:()=>["Standaard","Donker","Licht"][S.th||0],ch:d=>{S.th=((S.th||0)+d+3)%3;save();applyTheme();}},
  {l:"Taal van titels en teksten",v:()=>["Automatisch","Nederlands","Engels"][S.lang||0],ch:d=>{S.lang=((S.lang||0)+d+3)%3;save();loadAll();}},
