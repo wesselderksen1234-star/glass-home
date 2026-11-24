@@ -1,4 +1,4 @@
-<!DOCTYPE html><!--GH_BUILD:3.3.3-->
+<!DOCTYPE html><!--GH_BUILD:3.3.4-->
 <html lang="nl" style="background:#05060a url(splash5.png) center/cover no-repeat"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,viewport-fit=cover">
 <title>Glass Home</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
@@ -375,6 +375,10 @@ body:not(.det) #det,#panel:not(.open),#toast:not(.on),body:not(.amb) #amb{-webki
 .card .score{-webkit-backdrop-filter:none!important;backdrop-filter:none!important;background:rgba(16,18,26,.8)!important}
 #cwx .wxw span.k3{background:rgba(255,120,20,.25);border-color:rgba(255,120,20,.7);color:#ffc48a}#cwx .wxw span.k4{background:rgba(239,40,40,.28);border-color:rgba(239,40,40,.75);color:#ffb0b0}#cwx .wxw span.k2 svg{color:#ffb020}#cwx .wxw span.k3 svg{color:#ff7a1a}#cwx .wxw span.k4 svg{color:#ef2828}
 #cwx .wxs1{font-size:13px;opacity:.75}
+#full .aim{transition:opacity .3s}#full .aim:not(.pf):not(.lf){opacity:0}
+#full .aim.lf{display:block;width:100%!important;max-width:100%;height:auto;max-height:620px;object-fit:cover;border-radius:24px;margin:0 0 26px!important;border:1px solid rgba(255,255,255,.12)}
+#full .aim.pf{float:left;display:block;width:38%!important;max-width:420px;height:auto;max-height:640px;object-fit:cover;border-radius:22px;margin:6px 34px 18px 0!important;border:1px solid rgba(255,255,255,.12);box-shadow:0 14px 40px rgba(0,0,0,.45)}
+#full .aclr{clear:both}
 </style></head><body class="boot"><script>window.ghFit=function(){var vv=window.visualViewport,de=document.documentElement,w=(vv&&vv.width)||de.clientWidth||innerWidth||1920,h=(vv&&vv.height)||de.clientHeight||innerHeight||1080,s=Math.min(w/1920,h/1080),b=document.body,r=document.documentElement;if(!b)return;var W=Math.round(Math.min(w/s,4000)),H=Math.round(Math.min(h/s,1620));if(h>w){W=1920;H=1080;}r.style.setProperty("--W",W+"px");r.style.setProperty("--H",H+"px");window.GW=W;window.GH=H;b.style.transformOrigin="0 0";b.style.transform="translate("+Math.round((w-W*s)/2)+"px,"+Math.round((h-H*s)/2)+"px) scale("+s+")";b.classList.toggle("portrait",h>w*1.05);};window.ghFit();addEventListener("orientationchange",function(){setTimeout(window.ghFit,300)});</script><div id="rot">Draai je scherm een kwartslag voor het grootste beeld</div><script>(function(){var M={},C={};function R(n){n=n.replace(/^\.\//,"./").replace(/\.js$/,"");if(C[n])return C[n].exports;var m={exports:{}};C[n]=m;M[n](m,m.exports);return m.exports;}
 M["./QRErrorCorrectLevel"]=function(module,exports){module.exports = {
 	L : 1,
@@ -1622,7 +1626,7 @@ module.exports = QRRSBlock;
 
 };
 var Q=R("./index"),E=R("./QRErrorCorrectLevel");window.ghQR=function(t){var q=new Q(-1,E.M);q.addData(t);q.make();var n=q.getModuleCount(),p="";for(var r=0;r<n;r++)for(var c=0;c<n;c++)if(q.isDark(r,c))p+="M"+(c+2)+" "+(r+2)+"h1v1h-1z";return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 '+(n+4)+' '+(n+4)+'" shape-rendering="crispEdges"><rect width="100%" height="100%" fill="#fff"/><path d="'+p+'" fill="#000"/></svg>';};})();</script>
-<script type="text/plain" id="ghv">GH_BUILD:3.3.3</script>
+<script type="text/plain" id="ghv">GH_BUILD:3.3.4</script>
 <div id="intro"><div class="orb"></div><div class="ghw"><svg class="ghl" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
 <defs>
 <linearGradient id="gl" x1="0" y1="0" x2="0.35" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".96"/><stop offset=".55" stop-color="#e9ecf6" stop-opacity=".78"/><stop offset="1" stop-color="#c9cfe6" stop-opacity=".6"/></linearGradient>
@@ -1658,6 +1662,7 @@ var Q=R("./index"),E=R("./QRErrorCorrectLevel");window.ghQR=function(t){var q=ne
  <div class="hint">OK kiezen · ◀ ▶ wijzigen · Terug gaat terug</div></div>
 <script src="config.js"></script>
 <script>
+window.aimFit=function(i){var w=i.naturalWidth,h=i.naturalHeight;if(!w||!h)return;i.classList.add(h>w*0.9?"pf":"lf");var f=document.getElementById("fin");if(f&&!f.querySelector(".aclr")){var c=document.createElement("div");c.className="aclr";f.appendChild(c);}};
 {
 window.__gh=function(c){return eval(c)};
 const G={
@@ -2078,7 +2083,7 @@ function artVideo(x){let v="";try{const m=/(?:youtube\.com\/(?:watch\?v=|embed\/
   NW.concat(SP.filter(y=>y.k==="yt")).forEach(y=>{const b=w(y.t);let n=0;b.forEach(q=>{if(a.has(q))n++});if(n>best&&n>=2){best=n;v=y.v;window.artVT=y.t}});}
  return v;}
 function artVidCheck(){const b=$("fin").querySelector(".avid");if(!b||b.dataset.on)return;const f=$("fin").getBoundingClientRect(),r=b.getBoundingClientRect();if(r.top<f.bottom-120&&r.bottom>f.top+60){b.dataset.on=1;pvKey=b.dataset.v;startPreview(b.querySelector(".vth"),{yt:1,v:b.dataset.v,t:""});}}
-function openArt(x){if(!x)return;window.fullLink=x.link||"";window.fullArt=1;const body=artBody(x);window.artVT="";const av=artVideo(x);const ps=body?[]:paras(x.desc);fullOpen((x.img?'<img class="aim" src="'+esc(x.img)+'">':'')+'<div class="meta"><span class="srcb" style="position:static;margin-right:12px">'+esc(x.src||"Nieuws")+'</span>'+esc(x.s||"")+'</div><h1>'+esc(x.t)+'</h1>'+(body||(ps.length?ps.map(q=>'<p class="pa">'+esc(q)+'</p>').join(""):'<p>Geen tekst beschikbaar.</p>'))+(av?'<h3 class="ah">Video bij dit artikel</h3><div class="avid" data-v="'+esc(av)+'"><div class="vth" style="background-image:url(\'https://i.ytimg.com/vi/'+esc(av)+'/hqdefault.jpg\')"></div>'+(window.artVT?'<small>'+esc(window.artVT)+'</small>':'')+'</div>':''));setTimeout(artVidCheck,600);if(!av)artVidSearch(x);}
+function openArt(x){if(!x)return;window.fullLink=x.link||"";window.fullArt=1;const body=artBody(x);window.artVT="";const av=artVideo(x);const ps=body?[]:paras(x.desc);fullOpen((x.img?'<img class="aim" src="'+esc(x.img)+'" onload="aimFit(this)">':'')+'<div class="meta"><span class="srcb" style="position:static;margin-right:12px">'+esc(x.src||"Nieuws")+'</span>'+esc(x.s||"")+'</div><h1>'+esc(x.t)+'</h1>'+(body||(ps.length?ps.map(q=>'<p class="pa">'+esc(q)+'</p>').join(""):'<p>Geen tekst beschikbaar.</p>'))+(av?'<h3 class="ah">Video bij dit artikel</h3><div class="avid" data-v="'+esc(av)+'"><div class="vth" style="background-image:url(\'https://i.ytimg.com/vi/'+esc(av)+'/hqdefault.jpg\')"></div>'+(window.artVT?'<small>'+esc(window.artVT)+'</small>':'')+'</div>':''));setTimeout(artVidCheck,600);if(!av)artVidSearch(x);}
 async function artVidSearch(x){const ck="ghAV_"+(x.t||"").slice(0,60);let v="",t="";try{const c=JSON.parse(localStorage.getItem(ck)||"null");if(c){v=c.v;t=c.t}}catch(e){}
  if(!v){try{const after=new Date((x.ts||Date.now())-3*864e5).toISOString();const d=await ytData("search?part=snippet&type=video&maxResults=3&relevanceLanguage=nl&regionCode=NL&order=relevance&publishedAfter="+encodeURIComponent(after)+"&q="+encodeURIComponent(x.t));
   let it=(d.items||[]).find(i=>i.id&&i.id.videoId);if(!it){const kw=(x.t||"").replace(/[^\wÀ-ÿ ]/g," ").split(/\s+/).filter(w=>w.length>3).slice(0,6).join(" ");const d2=await ytData("search?part=snippet&type=video&maxResults=3&relevanceLanguage=nl&regionCode=NL&order=relevance&q="+encodeURIComponent(kw+" nieuws"));it=(d2.items||[]).find(i=>i.id&&i.id.videoId);}if(it){v=it.id.videoId;t=(it.snippet||{}).title||"";try{localStorage.setItem(ck,JSON.stringify({v,t}))}catch(e){}}}catch(e){console.log("artVid",e)}}
