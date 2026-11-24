@@ -23,8 +23,8 @@ addEventListener("message",function(e){var d=e.data||{};try{
  if(d.cmd==="load"){cur={v:clean(d.v),s:parseInt(d.s||0,10)||0,vol:Math.min(100,parseInt(d.vol||60,10)||60),n:d.n||0};play();}
  if(d.cmd==="ping"){up({state:"pong",ready:ready,on:on,v:cur.v,api:!!window.YT,ps:pl&&pl.getPlayerState?pl.getPlayerState():-9});return;}
  if(!pl)return;
- if(d.cmd==="stop"){clearInterval(ft);clearTimeout(to);cur.v="";on=0;pl.stopVideo();}
- if(d.cmd==="mute")pl.mute();}catch(x){}});
+ if(d.cmd==="stop"){clearInterval(ft);clearTimeout(to);cur.v="";on=0;try{pl.mute();pl.pauseVideo()}catch(x){}pl.stopVideo();}
+ if(d.cmd==="mute"){clearInterval(ft);pl.mute();}}catch(x){}});
 if(!cur.v&&!q.warm)up({error:"novid"});
 var s=document.createElement("script");s.src="https://www.youtube.com/iframe_api";s.onerror=function(){up({error:"api"})};document.head.appendChild(s);
 if(cur.v)arm();
