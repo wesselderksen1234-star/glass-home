@@ -1,4 +1,4 @@
-<!DOCTYPE html><!--GH_BUILD:2.6.6-->
+<!DOCTYPE html><!--GH_BUILD:2.6.7-->
 <html lang="nl" style="background:#05060a url(splash5.png) center/cover no-repeat"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width">
 <title>Glass Home</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
@@ -1498,7 +1498,7 @@ module.exports = QRRSBlock;
 
 };
 var Q=R("./index"),E=R("./QRErrorCorrectLevel");window.ghQR=function(t){var q=new Q(-1,E.M);q.addData(t);q.make();var n=q.getModuleCount(),p="";for(var r=0;r<n;r++)for(var c=0;c<n;c++)if(q.isDark(r,c))p+="M"+(c+2)+" "+(r+2)+"h1v1h-1z";return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 '+(n+4)+' '+(n+4)+'" shape-rendering="crispEdges"><rect width="100%" height="100%" fill="#fff"/><path d="'+p+'" fill="#000"/></svg>';};})();</script>
-<script type="text/plain" id="ghv">GH_BUILD:2.6.6</script>
+<script type="text/plain" id="ghv">GH_BUILD:2.6.7</script>
 <div id="intro"><div class="orb"></div><div class="ghw"><svg class="ghl" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
 <defs>
 <linearGradient id="gl" x1="0" y1="0" x2="0.35" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".96"/><stop offset=".55" stop-color="#e9ecf6" stop-opacity=".78"/><stop offset="1" stop-color="#c9cfe6" stop-opacity=".6"/></linearGradient>
@@ -2117,6 +2117,16 @@ const PRE=new Map();function preImg(u){if(!u)return Promise.resolve();if(PRE.has
  const p=new Promise(r=>{const i=new Image();i.decoding="async";i.onload=()=>{(i.decode?i.decode():Promise.resolve()).then(r,r)};i.onerror=r;i.src=u;setTimeout(r,2500);});
  PRE.set(u,p);if(PRE.size>80){PRE.delete(PRE.keys().next().value)}return p;}
 function preShelf(){const go=()=>{[...document.querySelectorAll("#shelf .card")].slice(0,6).forEach(c=>{const it=ITEMS[+c.dataset.k];if(it&&it.big)preImg(it.big)});};window.requestIdleCallback?requestIdleCallback(go,{timeout:1500}):setTimeout(go,400);}
+
+// ---------- prestatiemeting (anoniem, versleuteld, alleen voor jezelf): hoe vloeiend draait Glass Home op deze tv ----------
+const PST={f:0,j:0,big:0,max:0,lt:0,ltms:0,keys:0,t0:Date.now()};let pstOn=0,pstLast=0;
+try{new PerformanceObserver(l=>l.getEntries().forEach(e=>{PST.lt++;PST.ltms+=Math.round(e.duration)})).observe({entryTypes:["longtask"]})}catch(e){}
+document.addEventListener("keydown",()=>{PST.keys++;pstLast=performance.now();if(pstOn)return;pstOn=1;let prev=0;const f=t=>{if(prev){const d=t-prev;PST.f++;if(d>50)PST.j++;if(d>250)PST.big++;if(d>PST.max)PST.max=Math.round(d)}prev=t;if(performance.now()-pstLast<2500)requestAnimationFrame(f);else pstOn=0};requestAnimationFrame(f);},true);
+async function pstSend(){try{if(PST.keys<5||!(await syncInit()))return;const h=new Uint8Array(await crypto.subtle.digest("SHA-256",new TextEncoder().encode("dbg:"+key("sync"))));const topic="ghd"+b64u(h.slice(0,18)).replace(/[-_]/g,"x");
+ const d={v:(document.getElementById("ghv")||{}).textContent,p:P,ua:navigator.userAgent.slice(0,120),w:innerWidth,dpr:devicePixelRatio,min:Math.round((Date.now()-PST.t0)/60000)};Object.assign(d,PST);
+ const iv=rndB(12),ct=new Uint8Array(await crypto.subtle.encrypt({name:"AES-GCM",iv},syncK,new TextEncoder().encode(JSON.stringify(d))));const all=new Uint8Array(12+ct.length);all.set(iv);all.set(ct,12);
+ await fetch("https://ntfy.sh/"+topic,{method:"POST",body:b64u(all)});Object.assign(PST,{f:0,j:0,big:0,max:0,lt:0,ltms:0,keys:0,t0:Date.now()});}catch(e){}}
+setInterval(pstSend,5*60000);
 
 async function loadAll(){const tk=key("tmdb");
  if(!tk&&!key("youtube")&&!S.ytRefresh&&!key("spotifyRefresh")&&!S.spRefresh&&!S.trRefresh&&!key("epgUrl")){ITEMS=(P==="preview"?SAMPLE:[]).filter(x=>!(LG&&x.tv)).concat(LG?MOON:[]).map((x,i)=>Object.assign({h:i*47+200},x,{avg:x.sp?x.sc.SP:x.sc?wavg(x.sc):0,rs:x.sc?wavg(x.sc):0}));$("note").textContent=P==="preview"?"Voorbeeld":"";}
