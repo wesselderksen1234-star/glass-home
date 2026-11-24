@@ -176,7 +176,8 @@ public class Bridge {
     public boolean openUri(String uri, String pkg) {
         try {
             Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
-            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            // ook als de app al open staat: altijd naar de gekozen video/film gaan
+            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             if (pkg != null && !pkg.isEmpty()) {
                 i.setPackage(pkg);
                 try {
@@ -191,6 +192,34 @@ public class Bridge {
         } catch (Exception e) {
             return false;
         }
+    }
+
+    @JavascriptInterface
+    public String lastPlayed() {
+        return MediaWatch.all(ctx);
+    }
+
+    @JavascriptInterface
+    public boolean mediaAccess() {
+        try {
+            String l = Settings.Secure.getString(ctx.getContentResolver(), "enabled_notification_listeners");
+            return l != null && l.contains(ctx.getPackageName());
+        } catch (Throwable t) {
+            return false;
+        }
+    }
+
+    @JavascriptInterface
+    public boolean resumeApp(final String pkg) {
+        boolean ok = launch(pkg);
+        new android.os.Handler(android.os.Looper.getMainLooper()).postDelayed(() -> {
+            try {
+                android.media.session.MediaController c = MediaWatch.controllerFor(pkg);
+                if (c != null) c.getTransportControls().play();
+            } catch (Throwable ignored) {
+            }
+        }, 2500);
+        return ok;
     }
 
     @JavascriptInterface

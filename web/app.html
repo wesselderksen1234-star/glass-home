@@ -1,4 +1,4 @@
-<!DOCTYPE html><!--GH_BUILD:2.6.4-->
+<!DOCTYPE html><!--GH_BUILD:2.6.5-->
 <html lang="nl" style="background:#05060a url(splash5.png) center/cover no-repeat"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width">
 <title>Glass Home</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
@@ -1498,7 +1498,7 @@ module.exports = QRRSBlock;
 
 };
 var Q=R("./index"),E=R("./QRErrorCorrectLevel");window.ghQR=function(t){var q=new Q(-1,E.M);q.addData(t);q.make();var n=q.getModuleCount(),p="";for(var r=0;r<n;r++)for(var c=0;c<n;c++)if(q.isDark(r,c))p+="M"+(c+2)+" "+(r+2)+"h1v1h-1z";return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 '+(n+4)+' '+(n+4)+'" shape-rendering="crispEdges"><rect width="100%" height="100%" fill="#fff"/><path d="'+p+'" fill="#000"/></svg>';};})();</script>
-<script type="text/plain" id="ghv">GH_BUILD:2.6.4</script>
+<script type="text/plain" id="ghv">GH_BUILD:2.6.5</script>
 <div id="intro"><div class="orb"></div><div class="ghw"><svg class="ghl" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
 <defs>
 <linearGradient id="gl" x1="0" y1="0" x2="0.35" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".96"/><stop offset=".55" stop-color="#e9ecf6" stop-opacity=".78"/><stop offset="1" stop-color="#c9cfe6" stop-opacity=".6"/></linearGradient>
@@ -1769,7 +1769,7 @@ function appMenu(a){const id=aid(a),hid=()=>(S.hidden||[]).includes(id);
   .concat([{l:"Alle apps beheren",v:()=>"›",ok:manageApps}]));}
 
 // ga verder
-function ago(t){if(!t)return"Onlangs geopend";const m=Math.round((Date.now()-t)/60000);return m<60?m+" min geleden":m<1440?Math.round(m/60)+" uur geleden":(Math.round(m/1440)===1?"1 dag geleden":Math.round(m/1440)+" dagen geleden");}
+function ago(t){if(!t)return"Onlangs geopend";const m=Math.round((Date.now()-t)/60000);return m<1?"Zojuist":m<60?m+" min geleden":m<1440?Math.round(m/60)+" uur geleden":(Math.round(m/1440)===1?"1 dag geleden":Math.round(m/1440)+" dagen geleden");}
 let CONT=[];
 
 // Live TV · Nieuws & Sport
@@ -1841,7 +1841,7 @@ function drawShelf(ai){if(ai===shelfApp||isNaN(ai))return;shelfApp=ai;const a=AP
   list=[[ITEMS[k],k]].concat(ITEMS.map((it,i)=>[it,i]).filter(x=>!x[0].act&&!x[0].yt&&!x[0].sp&&!x[0].tv&&x[0].a>3).sort((p,q)=>q[0].rs-p[0].rs).slice(0,5));}const pers=list.some(x=>x[0].because&&x[0].because.length);
  $("shtitle").textContent=a.x?"Snel naar "+a.n+" · en je beste tips":ai===1?(S.trRefresh||pers?"Voor jou op Stremio":"Populair op Stremio"):ai===2?(LG?"Snelkoppelingen":"Nu live op tv"):(pers?"Voor jou op ":ai===0?"Trending op ":"Aanraders op ")+a.n;
  const row=$("shelf");row.classList.remove("in");void row.offsetWidth;
- const res=ai===1?CONT.slice(0,1).map((c,n)=>'<div class="card f res" data-c="'+n+'" style="background-image:'+(c.img?cu(c.img):art(n*53+190))+'"><div class="score glass">▶ Verder</div><div class="lab"><div class="tt">'+esc(c.t)+'</div><small>'+esc(c.s)+(c.p?' · '+Math.round(c.p)+'% gekeken':'')+'</small><div class="bar"><i style="width:'+c.p+'%"></i></div></div></div>').join(""):(!list.length&&((S.seen&&S.seen[ai])||(S.recent||[]).includes(ai))&&!a.x&&ai!==2?'<div class="card f res" data-a="'+ai+'" style="background:'+grad(a.c)+'">'+icon(a,a.tl?"gi tl":"gi")+'<div class="score glass">▶ Verder</div><div class="lab"><div class="tt">'+(ai===3?"Verder luisteren":"Verder kijken")+'</div><small>'+esc(a.n)+' onthoudt waar je was'+(S.seen&&S.seen[ai]?' · '+ago(S.seen[ai]):'')+'</small></div></div>':"");
+ loadMedia();const res=ai===1&&!CONT.length&&lastFor(1)?lastCard(1):ai!==1&&ai!==2&&lastFor(ai)?lastCard(ai):ai===1?CONT.slice(0,1).map((c,n)=>'<div class="card f res" data-c="'+n+'" style="background-image:'+(c.img?cu(c.img):art(n*53+190))+'"><div class="score glass">▶ Verder</div><div class="lab"><div class="tt">'+esc(c.t)+'</div><small>'+esc(c.s)+(c.p?' · '+Math.round(c.p)+'% gekeken':'')+'</small><div class="bar"><i style="width:'+c.p+'%"></i></div></div></div>').join(""):(!list.length&&((S.seen&&S.seen[ai])||(S.recent||[]).includes(ai))&&!a.x&&ai!==2?'<div class="card f res" data-a="'+ai+'" style="background:'+grad(a.c)+'">'+icon(a,a.tl?"gi tl":"gi")+'<div class="score glass">▶ Verder</div><div class="lab"><div class="tt">'+(ai===3?"Verder luisteren":"Verder kijken")+'</div><small>'+esc(a.n)+' onthoudt waar je was'+(S.seen&&S.seen[ai]?' · '+ago(S.seen[ai]):'')+'</small></div></div>':"");
  const lk=list.length?(ai===1&&!S.stAuth?["Koppel je Stremio-account","!Stremio"]:ai===0&&!S.ytRefresh?["Koppel je YouTube-account","!YouTube-account"]:ai===3&&!(S.spRefresh||key("spotifyRefresh"))?["Koppel je Spotify-account","!Spotify-account"]:ai>3&&!S.trRefresh?["Maak tips persoonlijk met Trakt","!Trakt-account"]:null):null;
  const lkc=lk?'<div class="empty glass f lk" data-go="'+lk[1]+'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></svg><span>'+lk[0]+'</span><b>Koppelen ›</b></div>':"";
  row.innerHTML=res+lkc+(list.length?list.map(x=>card(x[0],x[1])).join(""):(()=>{const e=EMPTY[ai]||(a.x?["Nog geen aanraders voor "+a.n,"Apps beheren"]:EMPTYX);return '<div class="empty glass f" data-go="'+e[1]+'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></svg><span>'+e[0]+'</span><b>Instellen ›</b></div>'})());
@@ -2055,7 +2055,7 @@ async function jwLink(it){if(it.jw!==undefined)return it.jw;it.jw="";const re=JW
   const o=nd&&(nd.offers||[]).find(x=>re.test(x.standardWebURL||""));it.jw=o?o.standardWebURL:"";}catch(e){}return it.jw;}
 async function openTitle(it){const a=APPS[it.a];if(!JWP[it.a])return open(it.a);toast("Openen in "+a.n+"…");const u=await jwLink(it);if(!u)return open(it.a);
  if(P==="android")return open(it.a,u);let t=u;if(it.a===4){const m=u.match(/title\/(\d+)/);if(m)t="m=https://www.netflix.com/title/"+m[1]+"&source_type=4";}open(it.a,t);}
-function openCont(c){if(!c)return;const u=c.imdb?"stremio:///detail/"+c.type+"/"+c.imdb+"/"+c.imdb+(c.se?":"+c.se:""):"";open(1,u);}
+function openCont(c){if(!c)return;recLast(1,{t:c.t,s:c.s,img:c.img,go:{k:"cont",c}});const u=c.imdb?"stremio:///detail/"+c.type+"/"+c.imdb+"/"+c.imdb+(c.se?":"+c.se:""):"";open(1,u);}
 
 // Automatisch overzetten van koppelingen en sleutels tussen je tv's (versleuteld, alleen apparaten met dezelfde geheime sync-sleutel)
 const SYK=["trTok","trRefresh","trExp","stAuth","ytTok","ytRefresh","ytExp","spTok","spRefresh","spExp"].concat(XK);
@@ -2090,6 +2090,27 @@ window.ghTint=function(img){try{const c=document.createElement("canvas");c.width
 
 // YouTube-speler alvast opwarmen, zodat voorbeelden snel starten
 if(P!=="preview")setTimeout(()=>{try{const f=document.createElement("iframe");f.style.cssText="position:absolute;width:2px;height:2px;left:-10px;top:-10px;opacity:0;border:0;pointer-events:none";f.src=PVPG+"#warm=1";document.body.appendChild(f);setTimeout(()=>f.remove(),25000);}catch(e){}},6000);
+
+// ---------- "Verder kijken" per app: wat je als laatste afspeelde ----------
+let MEDIA={};
+function loadMedia(){if(P!=="android")return;try{MEDIA=JSON.parse(GHAndroid.lastPlayed()||"{}")}catch(e){MEDIA={}}}
+function recLast(ai,d){if(ai==null||isNaN(ai))return;S.lastPlay=S.lastPlay||{};d.ts=Date.now();S.lastPlay[ai]=d;save();}
+function recItem(it){try{const ai=it.yt?0:it.sp?3:(it.a!=null?it.a:shelfApp);
+ if(it.yt&&it.v)return recLast(0,{t:it.t,s:it.c,img:it.img,go:{k:"yt",v:it.v}});
+ if(it.sp&&it.uri)return recLast(3,{t:it.t,s:it.c||it.s,img:it.img,go:{k:"sp",uri:it.uri}});
+ if((it.a===1||shelfApp===1)&&it.imdb){const c={t:it.t,s:it.s,img:it.big||it.img,imdb:it.imdb,type:it.type==="tv"?"series":"movie",se:it.type==="tv"?"1:1":""};return recLast(1,{t:it.t,s:it.s,img:c.img,go:{k:"cont",c}});}
+ const keep={};["t","s","a","type","tv","id","tmdb","imdb","img","big","c"].forEach(k=>{if(it[k]!=null&&typeof it[k]!=="object")keep[k]=it[k]});
+ recLast(ai,{t:it.t,s:it.s,img:it.big||it.img,go:{k:"title",it:keep}});}catch(e){}}
+function lastFor(ai){const a=APPS[ai];if(!a)return null;const r=(S.lastPlay||{})[ai];const m=a.pkg&&MEDIA[a.pkg];
+ const mm=m?{t:m.t,s:m.s||"",img:m.img||"",ts:m.ts||0,p:m.dur?Math.min(99,Math.round((m.pos||0)/m.dur*100)):0,media:1}:null;
+ if(r&&mm)return(mm.ts>r.ts+60000&&mm.t!==r.t)?mm:Object.assign({},r,{p:r.p||mm.p});return r||mm;}
+function playLast(ai){const L=lastFor(ai);if(!L)return open(ai);const g=L.go;
+ if(g&&g.k==="yt")return openYT(g.v);if(g&&g.k==="sp")return openSP(g.uri);if(g&&g.k==="cont")return openCont(g.c);if(g&&g.k==="title")return openTitle(g.it);
+ if(L.media&&P==="android"){S.recent=[ai].concat(S.recent.filter(x=>x!==ai)).slice(0,6);S.seen[ai]=Date.now();save();stopPreview();try{if(GHAndroid.resumeApp(APPS[ai].pkg))return}catch(e){}}
+ open(ai);}
+function lastCard(ai){const L=lastFor(ai);if(!L||!L.t)return"";const a=APPS[ai];
+ return '<div class="card f res" data-lp="'+ai+'" style="background-image:'+(L.img?cu(L.img):grad(a.c))+'"><div class="score glass">▶ Verder</div><div class="lab"><div class="tt">'+esc(L.t)+'</div><small>'+esc(a.n+(L.s?" · "+L.s:""))+(L.ts?" · "+ago(L.ts):"")+'</small>'+(L.p?'<div class="bar"><i style="width:'+L.p+'%"></i></div>':'')+'</div></div>';}
+document.addEventListener("visibilitychange",()=>{if(!document.hidden){loadMedia();const k=shelfApp;shelfApp=-1;if(k>=0)try{drawShelf(k)}catch(e){}}});
 
 async function loadAll(){const tk=key("tmdb");
  if(!tk&&!key("youtube")&&!S.ytRefresh&&!key("spotifyRefresh")&&!S.spRefresh&&!S.trRefresh&&!key("epgUrl")){ITEMS=(P==="preview"?SAMPLE:[]).filter(x=>!(LG&&x.tv)).concat(LG?MOON:[]).map((x,i)=>Object.assign({h:i*47+200},x,{avg:x.sp?x.sc.SP:x.sc?wavg(x.sc):0,rs:x.sc?wavg(x.sc):0}));$("note").textContent=P==="preview"?"Voorbeeld":"";}
@@ -2196,7 +2217,8 @@ function act(){const el=rows[fr][fi];if(!el){fr=2;fi=0;return paint();}
  if(fr===1)return HERO.length?openTitle(HERO[hi]):startSetup();
  if(fr===3&&el.dataset.go){const g=el.dataset.go;openSettingsAt(g.replace(/^!/,""));if(g[0]==="!"&&CUR&&CUR[oi]&&CUR[oi].ok)CUR[oi].ok();return;}
  if(fr===3&&el.dataset.c)return openCont(CONT[+el.dataset.c]);if(fr===3&&el.dataset.a&&!el.dataset.k)return open(+el.dataset.a);
- if(fr===3){const it=ITEMS[+el.dataset.k];if(it.act==='ps')return ps();if(it.act==='open')return open(it.a);return it.yt&&it.v?openYT(it.v):it.sp&&it.uri?openSP(it.uri):(it.a===1||shelfApp===1)&&it.imdb?openCont({imdb:it.imdb,type:it.type==="tv"?"series":"movie",se:it.type==="tv"?"1:1":""}):openTitle(it);}
+ if(fr===3&&el.dataset.lp!=null)return playLast(+el.dataset.lp);
+ if(fr===3){const it=ITEMS[+el.dataset.k];if(it.act==='ps')return ps();if(it.act==='open')return open(it.a);recItem(it);return it.yt&&it.v?openYT(it.v):it.sp&&it.uri?openSP(it.uri):(it.a===1||shelfApp===1)&&it.imdb?openCont({imdb:it.imdb,type:it.type==="tv"?"series":"movie",se:it.type==="tv"?"1:1":""}):openTitle(it);}
  if(el.dataset.l)return openLive(+el.dataset.l);if(el.dataset.c)return openCont(CONT[+el.dataset.c]);open(+el.dataset.a);}
 function move(dr,di){
  if(fr>0&&!rows[fr][fi]){fr=2;fi=Math.min(fi,rows[2].length-1);return paint();}
