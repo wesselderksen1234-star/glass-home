@@ -84,6 +84,23 @@ public class Bridge {
     }
 
     @JavascriptInterface
+    public String appLogo(String pkg) {
+        try {
+            Drawable d = ctx.getPackageManager().getApplicationIcon(pkg);
+            int w = 160, h = 160;
+            Bitmap bmp = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
+            Canvas c = new Canvas(bmp);
+            d.setBounds(0, 0, w, h);
+            d.draw(c);
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            bmp.compress(Bitmap.CompressFormat.PNG, 100, bos);
+            return "data:image/png;base64," + Base64.encodeToString(bos.toByteArray(), Base64.NO_WRAP);
+        } catch (Throwable t) {
+            return "";
+        }
+    }
+
+    @JavascriptInterface
     public String appIcon(String pkg) {
         if (pkg == null) return "";
         String hit = iconCache.get(pkg);
