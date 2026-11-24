@@ -29,6 +29,9 @@ public class MainActivity extends Activity {
         webView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
         WebSettings s = webView.getSettings();
         if (Build.VERSION.SDK_INT >= 26) webView.setDefaultFocusHighlightEnabled(false);
+        webView.setVerticalScrollBarEnabled(false);
+        webView.setHorizontalScrollBarEnabled(false);
+        webView.setOverScrollMode(View.OVER_SCROLL_NEVER);
         s.setTextZoom(100); s.setSupportZoom(false); s.setUseWideViewPort(false);
         s.setJavaScriptEnabled(true);
         s.setDomStorageEnabled(true);
