@@ -1,4 +1,4 @@
-<!DOCTYPE html><!--GH_BUILD:2.8.3-->
+<!DOCTYPE html><!--GH_BUILD:2.8.4-->
 <html lang="nl" style="background:#05060a url(splash5.png) center/cover no-repeat"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,viewport-fit=cover">
 <title>Glass Home</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
@@ -254,6 +254,7 @@ html,body{overflow:hidden!important;overscroll-behavior:none}
 
 body.night{}
 body.night #bgwrap,body.night #fbg,body.night #hero .hi,body.night #tint{opacity:.55!important}body.night #amb{opacity:.75}
+#live .spc .spl{position:absolute;top:22px;left:22px;display:flex;gap:12px}#live .spc .spl img{width:58px;height:58px;object-fit:contain;filter:drop-shadow(0 3px 8px rgba(0,0,0,.35))}#live .spc .live{position:absolute;top:18px;right:18px;left:auto;width:auto;display:inline-block}
 /* app-tegels: logo mooi gecentreerd, zonder vakje-in-een-vakje */
 .app{align-items:center;justify-content:center;text-align:center;gap:10px;padding:16px 14px}
 .app b{font-size:19px;line-height:1.15}
@@ -1509,7 +1510,7 @@ module.exports = QRRSBlock;
 
 };
 var Q=R("./index"),E=R("./QRErrorCorrectLevel");window.ghQR=function(t){var q=new Q(-1,E.M);q.addData(t);q.make();var n=q.getModuleCount(),p="";for(var r=0;r<n;r++)for(var c=0;c<n;c++)if(q.isDark(r,c))p+="M"+(c+2)+" "+(r+2)+"h1v1h-1z";return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 '+(n+4)+' '+(n+4)+'" shape-rendering="crispEdges"><rect width="100%" height="100%" fill="#fff"/><path d="'+p+'" fill="#000"/></svg>';};})();</script>
-<script type="text/plain" id="ghv">GH_BUILD:2.8.3</script>
+<script type="text/plain" id="ghv">GH_BUILD:2.8.4</script>
 <div id="intro"><div class="orb"></div><div class="ghw"><svg class="ghl" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
 <defs>
 <linearGradient id="gl" x1="0" y1="0" x2="0.35" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".96"/><stop offset=".55" stop-color="#e9ecf6" stop-opacity=".78"/><stop offset="1" stop-color="#c9cfe6" stop-opacity=".6"/></linearGradient>
@@ -1802,19 +1803,61 @@ let CONT=[];
 const LIVEDEF=[{n:"Live TV",s:"Tv-zenders",id:"com.webos.app.livetv",pkg:"ar.tvplayer.tv",c:["#3a4a8a","#1a2246"]},{n:"NPO Start",s:"NPO 1, 2 en 3 live",id:"npo",pkg:"nl.uitzendinggemist",c:["#ff6a00","#c2410c"]},{n:"NOS",s:"Nieuws en sport",id:"nl.nos.app",pkg:"nl.nos.app",c:["#e3000f","#8a0009"]},
  {n:"Ziggo GO",s:"Tv en Ziggo Sport",id:"com.ziggo.tv",pkg:"com.lgi.ziggotv",c:["#f48c00","#a85b00"]},{n:"KPN TV",s:"Live tv",id:"kpn.poc",pkg:"com.kpn.epg.app",c:["#00c300","#007a00"]},{n:"Canal Digitaal",s:"Live tv",id:"tv.solocoo.m7cp",pkg:"tv.solocoo.m7cp",c:["#1c1c1c","#000"]},
  {n:"Viaplay",s:"F1 en voetbal",id:"viaplay-lg",pkg:"com.viaplay.android.tv",c:["#2f2a7a","#16133d"]},{n:"ESPN",s:"Eredivisie",id:"espn",pkg:"com.espn.score_center",c:["#c00","#600"]},{n:"Pathé Thuis",s:"Films",id:"pathe",pkg:"nl.pathe.thuis",c:["#f5c400","#a88600"]}];
-let LIVE=[],WL=[];const BOTN={live:"Live TV · Nieuws & Sport",watch:"Je kijklijst",quick:"Snelstart · ingangen",off:"Uit"};
-const BOTS=()=>LG?["live","watch","quick","off"]:["live","watch","off"];
-function botMode(){const m=S.bot||(S.showLive===0?"off":"live");return BOTS().includes(m)?m:"live";}
-function drawLive(){const ids=new Set(ALLAPPS.map(x=>x.id));LIVE=LIVEDEF.filter(d=>P==="preview"||ids.has(P==="android"?d.pkg:d.id));const bm=botMode();
+let LIVE=[],WL=[];const BOTN={news:"Nieuws & video",sport:"Sport",live:"Live TV-apps",watch:"Je kijklijst",quick:"Snelstart · ingangen",off:"Uit"};
+const BOTS=()=>LG?["news","sport","watch","quick","live","off"]:["news","sport","watch","live","off"];
+function botMode(){const m=S.bot||(S.showLive===0?"off":"news");return BOTS().includes(m)?m:"live";}
+function drawLive(){if(!S.bmig){S.bmig=1;if(!S.bot||S.bot==="live")S.bot="news";try{save()}catch(e){}}const ids=new Set(ALLAPPS.map(x=>x.id));LIVE=LIVEDEF.filter(d=>P==="preview"||ids.has(P==="android"?d.pkg:d.id));const bm=botMode();
  if(bm!=="live"){let h="";
+  if(bm==="news"||bm==="sport"){BOTX=bm==="news"?NW:SP;h=BOTX.length?BOTX.map(botCard).join(""):bm==="news"?emptyCard(NWS().src.length?"Nog geen nieuwe video's van je bronnen":"Kies je nieuwsbronnen","!Nieuwsbronnen",NWS().src.length?"Bronnen ›":"Instellen ›"):emptyCard(SPS().lg.length?"Geen wedstrijden deze week":"Kies welke sport je volgt","!Sport: competities");}
   if(bm==="watch")h=WL.length?WL.map((w,i)=>'<div class="card f" data-w="'+i+'" style="background-image:'+(w.img?cu(w.img):art(i*37+90))+'"><div class="lab"><div class="tt">'+esc(w.t)+'</div><small>'+esc(w.s)+'</small></div></div>').join(""):'<div class="empty glass f" data-go="!Trakt-account"><span>'+(S.trRefresh?"Je kijklijst is leeg. Zet films en series op je Trakt-kijklijst.":"Koppel Trakt om hier je kijklijst te zien")+'</span>'+(S.trRefresh?"":"<b>Koppelen ›</b>")+'</div>';
   if(bm==="quick")h=(LGIN.length?LGIN:[1,2,3,4].map(n=>({id:"HDMI_"+n,label:"HDMI "+n}))).filter(d=>d.connected!==false).map(d=>{const n=+(String(d.id).match(/\d/)||[1])[0];return '<div class="app lv f" data-q="'+n+'" style="background:'+appBg(["#3a4a8a","#1a2246"])+'"><span class="ldot">'+esc(d.label||("HDMI "+n))+'</span><b>'+esc(d.dev||(n===S.hdmi?"PlayStation":"Ingang"))+'<small>Direct openen</small></b></div>'}).join("")+'<div class="app lv f" data-q="tv" style="background:'+appBg(["#e3000f","#8a0009"])+'"><span class="ldot">● LIVE</span><b>Live TV<small>Tv-zenders</small></b></div>';
-  $("liveh").textContent=BOTN[bm];$("s-live").style.display="";document.body.classList.add("haslive");$("live").innerHTML=h;try{build()}catch(e){}return;}
+  $("liveh").textContent=bm==="news"?"Nieuws & video":bm==="sport"?"Sport":BOTN[bm];$("s-live").style.display="";document.body.classList.add("haslive");$("live").innerHTML=h;try{build()}catch(e){}return;}
  $("liveh").textContent=BOTN.live;
  const hl=bm!=="off"&&LIVE.length>0;$("s-live").style.display=hl?"":"none";document.body.classList.toggle("haslive",hl);
  $("live").innerHTML=LIVE.map((d,i)=>{const m=ALLAPPS.find(x=>x.id===(P==="android"?d.pkg:d.id))||{};let ic=P==="webos"?(m.largeIcon||m.icon||""):"";if(ic&&!/^(\/|file:|https?:|data:)/.test(ic))ic=(m.folderPath||"")+"/"+ic;
   return '<div class="app lv f" data-l="'+i+'" style="background:'+appBg(d.c)+'">'+(ic?'<img class="ico" src="'+esc(ic)+'">':'<span class="ldot">● LIVE</span>')+'<b>'+esc(d.n)+'<small>'+esc(d.s)+'</small></b></div>'}).join("");try{build()}catch(e){}}
 function openLive(i){const d=LIVE[i];if(!d)return;launchApp({n:d.n,id:d.id,pkg:d.pkg});}
+// ---------- Nieuws & Video en Sport voor de onderste rij ----------
+const NEWSSRC=[["@NOS","NOS"],["@Nieuwsuur","Nieuwsuur"],["@RTLnieuws","RTL Nieuws"],["@NOSop3","NOS op 3"],["@EenVandaag","EenVandaag"],["@zondagmetlubach","Zondag met Lubach"],["@vpro","VPRO"],["@BNNVARA","BNNVARA"]];
+const NEWSTOP=[["Binnenland",/nederland|kabinet|gemeente|provincie|politie|rechter|amsterdam|rotterdam|utrecht|den haag|nederlander/i],["Buitenland",/oekraïne|rusland|vs |amerika|trump|china|israël|gaza|europa|eu |duitsland|frankrijk|navo/i],["Politiek",/kabinet|kamer|minister|verkiezing|partij|premier|politiek|coalitie/i],["Economie",/economie|geld|prijzen|inflatie|huizen|woning|bedrijf|banen|belasting|bank/i],["Tech & wetenschap",/tech|ai |kunstmatige|computer|internet|onderzoek|wetenschap|ruimte|klimaat|app /i],["Cultuur & media",/film|serie|muziek|kunst|boek|festival|tv-|cultuur/i],["Sport",/voetbal|sport|wedstrijd|ajax|psv|feyenoord|oranje|formule|f1|wielren|schaats/i]];
+const LEAGUES=[["soccer/ned.1","Eredivisie"],["soccer/ned.2","Keuken Kampioen Divisie"],["soccer/eng.1","Premier League"],["soccer/uefa.champions","Champions League"],["soccer/uefa.europa","Europa League"],["soccer/esp.1","La Liga"],["soccer/ger.1","Bundesliga"],["soccer/ita.1","Serie A"],["racing/f1","Formule 1"],["basketball/nba","NBA"],["football/nfl","NFL"]];
+const SPORTYT=[["@ESPNNL","ESPN"],["@ZiggoSport","Ziggo Sport"],["@NOSSport","NOS Sport"]];
+let NW=[],SP=[];const NWS=()=>S.nw||(S.nw={src:["@NOS","@Nieuwsuur"],top:[]}),SPS=()=>S.sp||(S.sp={lg:[],club:[]});
+async function ytData(u){const tok=await ytToken().catch(()=>""),yk=key("youtube");if(!tok&&!yk)throw 0;return j("https://www.googleapis.com/youtube/v3/"+u+(tok?"":"&key="+yk),tok?{headers:{Authorization:"Bearer "+tok}}:{});}
+async function ytUploads(h){S.chU=S.chU||{};if(S.chU[h])return S.chU[h];const d=await ytData("channels?part=contentDetails&forHandle="+encodeURIComponent(h));const u=d.items&&d.items[0]&&d.items[0].contentDetails.relatedPlaylists.uploads;S.chU[h]=u||"-";save();return S.chU[h];}
+async function ytLatest(h,n){const u=await ytUploads(h);if(!u||u==="-")return[];const d=await ytData("playlistItems?part=snippet&maxResults="+(n||8)+"&playlistId="+u);
+ return(d.items||[]).map(x=>{const sn=x.snippet||{},th=sn.thumbnails||{};return{t:sn.title,c:sn.channelTitle,v:(sn.resourceId||{}).videoId,ts:Date.parse(sn.publishedAt)||0,img:(th.high||th.medium||th.default||{}).url||""}}).filter(x=>x.v&&!/private video|deleted video/i.test(x.t));}
+async function loadNews(force){const c=!force&&cget("ghNW",18e5);if(c){NW=c;return}const st=NWS(),tops=NEWSTOP.filter(t=>st.top.includes(t[0])),now=Date.now();let all=[];
+ for(const h of st.src){try{all=all.concat(await ytLatest(h,10))}catch(e){if(e===0)break}}
+ all=all.filter(x=>now-x.ts<4*864e5&&(!tops.length||tops.some(t=>t[1].test(x.t)))).sort((a,b)=>b.ts-a.ts).slice(0,16);NW=all.map(x=>({k:"yt",v:x.v,t:x.t,s:x.c+" · "+ago(x.ts),img:x.img}));cset("ghNW",NW);}
+const ymd=d=>d.toISOString().slice(0,10).replace(/-/g,"");
+const spDay=t=>{const d=new Date(t),n=new Date(),dd=Math.round((new Date(d.toDateString())-new Date(n.toDateString()))/864e5);return(dd===0?"Vandaag":dd===1?"Morgen":dd===-1?"Gisteren":d.toLocaleDateString("nl-NL",{weekday:"short",day:"numeric",month:"short"}))+" "+d.toLocaleTimeString("nl-NL",{hour:"2-digit",minute:"2-digit"})};
+async function loadSport(force){const c=!force&&cget("ghSP",3e5);if(c){SP=c;return}const st=SPS();if(!st.lg.length){SP=[];return}const now=new Date(),fr=new Date(now-864e5),to=new Date(+now+6*864e5),out=[],cl=st.club.map(x=>x.toLowerCase()),B="https://site.api.espn.com/apis/";
+ for(const lg of st.lg){const nm=(LEAGUES.find(x=>x[0]===lg)||[0,lg])[1];
+  try{const d=await j(B+"site/v2/sports/"+lg+"/scoreboard?dates="+ymd(fr)+"-"+ymd(to));(d.events||[]).forEach(ev=>{const cp=(ev.competitions||[])[0]||{},ts=(cp.competitors||[]),stt=(ev.status||{}).type||{};
+   const nmz=ts.map(t=>(t.team||t.athlete||{}).displayName||"");if(cl.length&&ts.length===2&&!nmz.some(n=>cl.includes(n.toLowerCase())))return;
+   const h=ts.find(t=>t.homeAway==="home")||ts[0],a=ts.find(t=>t.homeAway==="away")||ts[1];const live=stt.state==="in",done=stt.state==="post";
+   const two=h&&a&&ts.length===2;const T=two?(h.team.shortDisplayName||h.team.displayName)+(live||done?" "+h.score+" – "+a.score+" ":" – ")+(a.team.shortDisplayName||a.team.displayName):ev.name;
+   out.push({k:"sp",live,ord:live?0:done?2:1,ts:Date.parse(ev.date)||0,t:T,s:nm+" · "+(live?"LIVE "+(stt.shortDetail||""):done?"Afgelopen":spDay(ev.date)),logos:two?[h.team.logo,a.team.logo]:[]});});}catch(e){}
+  if(cl.length&&/^soccer|basketball|football/.test(lg)){try{const d=await j(B+"v2/sports/"+lg+"/standings");const ents=[];(d.children||[d]).forEach(ch=>((ch.standings||{}).entries||[]).forEach(e=>ents.push(e)));
+   ents.forEach(e=>{const n=(e.team||{}).displayName||"";if(!cl.includes(n.toLowerCase()))return;const g=k=>((e.stats||[]).find(x=>x.name===k)||{}).displayValue||"";
+    out.push({k:"sp",ord:-1,ts:0,t:n+" staat "+g("rank")+"e",s:nm+" · "+g("points")+" punten uit "+g("gamesPlayed")+" wedstrijden",logos:[((e.team.logos||[])[0]||{}).href||""]});});}catch(e){}}}
+ out.sort((a,b)=>a.ord-b.ord||(a.ord===2?b.ts-a.ts:a.ts-b.ts));let vids=[];const kw=cl.concat(st.lg.map(l=>((LEAGUES.find(x=>x[0]===l)||[0,""])[1]).toLowerCase())).filter(Boolean);
+ for(const h of SPORTYT){try{vids=vids.concat((await ytLatest(h[0],8)).filter(x=>Date.now()-x.ts<3*864e5&&kw.some(k=>x.t.toLowerCase().includes(k.split(" ")[0]))))}catch(e){if(e===0)break}}
+ SP=out.slice(0,14).concat(vids.sort((a,b)=>b.ts-a.ts).slice(0,6).map(x=>({k:"yt",v:x.v,t:x.t,s:x.c+" · "+ago(x.ts),img:x.img})));cset("ghSP",SP);}
+function botCard(x,i){if(x.k==="sp"&&!x.img)return '<div class="card f spc'+(x.live?' live':'')+'" data-x="'+i+'" style="background:linear-gradient(150deg,#2a3150,#121522)"><div class="spl">'+x.logos.filter(Boolean).map(u=>'<img src="'+esc(u)+'" loading="lazy">').join('')+'</div>'+(x.live?'<div class="live">LIVE</div>':'')+'<div class="lab"><div class="tt">'+esc(x.t)+'</div><small>'+esc(x.s)+'</small></div></div>';
+ return '<div class="card f" data-x="'+i+'" style="background-image:'+(x.img?cu(x.img):art(i*37+90))+'"><div class="lab"><div class="tt">'+esc(x.t)+'</div><small>'+esc(x.s)+'</small></div></div>';}
+function emptyCard(t,go,b){return '<div class="empty glass f" data-go="'+go+'"><span>'+t+'</span><b>'+(b||"Instellen ›")+'</b></div>';}
+let BOTX=[];function openBot(i){const x=BOTX[i];if(!x)return;if(x.k==="yt")return openYT(x.v);toast(x.t+" · "+x.s);}
+async function loadBot(force){const m=botMode();try{if(m==="news")await loadNews(force);if(m==="sport")await loadSport(force);}catch(e){}if(m==="news"||m==="sport")drawLive();}
+setTimeout(()=>loadBot(),3500);setInterval(()=>loadBot(),5*60000);
+function togList(title,list,arr,after){const o=list.map(([id,n])=>({l:n,v:()=>arr.includes(id)?"Aan ✓":"Uit",ok:()=>{const i=arr.indexOf(id);i<0?arr.push(id):arr.splice(i,1);save();after&&after();}}));sheet(title,o);}
+function newsSrc(){togList("Nieuwsbronnen",NEWSSRC,NWS().src,()=>{try{localStorage.removeItem("ghNW")}catch(e){}loadBot(1)});$("msg").textContent="Kies van welke kanalen je de nieuwste video's wilt zien.";}
+function newsTop(){togList("Onderwerpen",NEWSTOP.map(t=>[t[0],t[0]]),NWS().top,()=>{try{localStorage.removeItem("ghNW")}catch(e){}loadBot(1)});$("msg").textContent="Niets aangevinkt = alle onderwerpen.";}
+function spLeagues(){togList("Sport: competities",LEAGUES,SPS().lg,()=>{try{localStorage.removeItem("ghSP")}catch(e){}loadBot(1)});}
+async function spClubs(){const st=SPS();if(!st.lg.length){toast("Kies eerst een competitie");return spLeagues();}sheet("Sport: clubs",[{l:"Clubs laden…",v:()=>""}]);const names=[];
+ for(const lg of st.lg){if(!/^soccer|basketball|football/.test(lg))continue;try{const d=await j("https://site.api.espn.com/apis/site/v2/sports/"+lg+"/teams");((((d.sports||[])[0]||{}).leagues||[])[0]||{teams:[]}).teams.forEach(t=>{const n=t.team.displayName;if(!names.includes(n))names.push(n)})}catch(e){}}
+ st.club.forEach(n=>{if(!names.includes(n))names.unshift(n)});if(mode!=="panel")return;togList("Sport: clubs",names.sort((a,b)=>(st.club.includes(b)-st.club.includes(a))||a.localeCompare(b)).map(n=>[n,n]),st.club,()=>{try{localStorage.removeItem("ghSP")}catch(e){}loadBot(1)});$("msg").textContent="Geen club gekozen = alle wedstrijden van je competities.";}
 function openQuick(q){if(q==="tv")return luna("luna://com.webos.applicationManager/launch",{id:"com.webos.app.livetv"});luna("luna://com.webos.applicationManager/launch",{id:"com.webos.app.hdmi"+q});}
 function openWL(i){const w=WL[i];if(!w)return;if(w.imdb)return openCont(w);open(1);}
 async function loadWL(force){if(!S.trRefresh){WL=[];if(botMode()==="watch")drawLive();return}const c=!force&&cget("ghWL",18e5);if(c){WL=c;if(botMode()==="watch")drawLive();return}
@@ -2316,7 +2359,7 @@ function act(){const el=rows[fr][fi];if(!el){fr=2;fi=0;return paint();}
  if(fr===3&&el.dataset.c)return openCont(CONT[+el.dataset.c]);if(fr===3&&el.dataset.a&&!el.dataset.k)return open(+el.dataset.a);
  if(fr===3&&el.dataset.lp!=null)return playLast(+el.dataset.lp);
  if(fr===3){const it=ITEMS[+el.dataset.k];if(it.act==='ps')return ps();if(it.act==='open')return open(it.a);recItem(it);return it.yt&&it.v?openYT(it.v):it.sp&&it.uri?openSP(it.uri):(it.a===1||shelfApp===1)&&it.imdb?openCont({imdb:it.imdb,type:it.type==="tv"?"series":"movie",se:it.type==="tv"?"1:1":""}):openTitle(it);}
- if(fr===4&&el.dataset.go){openSettingsAt(el.dataset.go.replace(/^!/,""));return;}if(el.dataset.w)return openWL(+el.dataset.w);if(el.dataset.q)return openQuick(el.dataset.q);
+ if(fr===4&&el.dataset.go){openSettingsAt(el.dataset.go.replace(/^!/,""));return;}if(el.dataset.w)return openWL(+el.dataset.w);if(el.dataset.x)return openBot(+el.dataset.x);if(el.dataset.q)return openQuick(el.dataset.q);
  if(el.dataset.l)return openLive(+el.dataset.l);if(el.dataset.c)return openCont(CONT[+el.dataset.c]);open(+el.dataset.a);}
 function move(dr,di){
  if(window.dsT&&fr===2&&dr>0&&rows[2][fi]){clearTimeout(window.dsT);window.dsT=0;drawShelf(+rows[2][fi].dataset.a);}
@@ -2351,7 +2394,9 @@ if(P==="preview"){try{history.pushState({gh:1},"");addEventListener("popstate",(
 // instellingen
 let oi=0,kn="tmdb",CUR;const OPTS=[
  {l:"Profielen en kinderslot",v:()=>esc(profName())+" ›",ok:()=>profiles()},
- {l:"Onderste rij",v:()=>BOTN[botMode()]+" · ◀ ▶",ch:d=>{const b=BOTS(),i=b.indexOf(botMode());S.bot=b[(i+d+b.length)%b.length];S.showLive=S.bot==="off"?0:1;save();if(S.bot==="watch")loadWL();drawLive();},ok:()=>{const b=BOTS(),i=b.indexOf(botMode());S.bot=b[(i+1)%b.length];S.showLive=S.bot==="off"?0:1;save();if(S.bot==="watch")loadWL();drawLive();}},
+ {l:"Onderste rij",v:()=>BOTN[botMode()]+" · ◀ ▶",ch:d=>{const b=BOTS(),i=b.indexOf(botMode());S.bot=b[(i+d+b.length)%b.length];S.showLive=S.bot==="off"?0:1;save();if(S.bot==="watch")loadWL();drawLive();loadBot();},ok:()=>{const b=BOTS(),i=b.indexOf(botMode());S.bot=b[(i+1)%b.length];S.showLive=S.bot==="off"?0:1;save();if(S.bot==="watch")loadWL();drawLive();loadBot();}},
+ {l:"Nieuwsbronnen",v:()=>NWS().src.length+" gekozen ›",ok:()=>newsSrc()},{l:"Nieuws-onderwerpen",v:()=>(NWS().top.length?NWS().top.length+" gekozen":"Alles")+" ›",ok:()=>newsTop()},
+ {l:"Sport: competities",v:()=>(SPS().lg.length?SPS().lg.length+" gekozen":"Nog niets")+" ›",ok:()=>spLeagues()},{l:"Sport: clubs",v:()=>(SPS().club.length?SPS().club.length+" gekozen":"Alle")+" ›",ok:()=>spClubs()},
  {l:"Thema",v:()=>["Standaard","Donker","Licht"][S.th||0],ch:d=>{S.th=((S.th||0)+d+3)%3;save();applyTheme();}},
  {l:"Taal van titels en teksten",v:()=>["Automatisch","Nederlands","Engels"][S.lang||0],ch:d=>{S.lang=((S.lang||0)+d+3)%3;save();loadAll();}},
   {l:"Snelle modus (minder vervaging)",v:()=>S.lite?"Aan":"Uit",ok:()=>{S.lite=S.lite?0:1;document.body.classList.toggle("lite",!!S.lite);document.body.classList.toggle("perf",P!=="preview"||/[?&]perf/.test(location.search))}},
@@ -2368,7 +2413,7 @@ let oi=0,kn="tmdb",CUR;const OPTS=[
  {l:"Apps beheren",v:()=>"›",ok:manageApps},
  {l:"Nieuwe achtergrond",v:()=>"OK",ok:nextBg}];
 RG.paint='<rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4"/>';RG.grid='<rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/>';RG.user='<circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/>';RG.key='<circle cx="8" cy="15" r="4"/><path d="M11 12l9-9M17 6l3 3M15 8l2 2"/>';RG.info='<circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.5"/>';
-const CATDEF=[["paint","Weergave",/Snelle|Achtergrond|Wissel|achtergrond|Taal|Glas|Onderste rij|Thema|Live TV/],["grid","Apps",/App |Apps|PlayStation|startscherm/],["user","Accounts",/account|Letterboxd/],["key","Sleutels en bronnen",/sleutel|Sleutel|afspeellijst|EPG|Client/],["grid","Zijmenu",/^$/],["user","Profielen",/^Profiel/],["info","Over Glass Home",/^$/]];
+const CATDEF=[["paint","Weergave",/Snelle|Achtergrond|Wissel|achtergrond|Taal|Glas|Onderste rij|Thema|Live TV/],["grid","Apps",/App |Apps|PlayStation|startscherm/],["user","Accounts",/account|Letterboxd/],["key","Sleutels en bronnen",/sleutel|Sleutel|afspeellijst|EPG|Client/],["tv","Nieuws en sport",/^Nieuws|^Sport/],["grid","Zijmenu",/^$/],["user","Profielen",/^Profiel/],["info","Over Glass Home",/^$/]];
 function appLink(ap){const tr=S.trRefresh,tm=key("tmdb");
  if(/moonlight/i.test(ap.n))return["Niet nodig","Moonlight laat je pc-spellen op de tv zien. Hier hoef je niets te koppelen."];
  if(/stremio/i.test(ap.n))return[S.stAuth?"Gekoppeld ✓":"Koppelen","Druk op OK en scan de code met je telefoon. Daarna zie je wat je in Stremio kijkt."];
