@@ -1,4 +1,4 @@
-<!DOCTYPE html><!--GH_BUILD:2.7.7-->
+<!DOCTYPE html><!--GH_BUILD:2.7.8-->
 <html lang="nl" style="background:#05060a url(splash5.png) center/cover no-repeat"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,viewport-fit=cover">
 <title>Glass Home</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
@@ -78,7 +78,7 @@ body.amb #ui{opacity:0;pointer-events:none}
 .sec{pointer-events:none}.sec .f{pointer-events:auto}
 #s-apps{top:610px}#s-shelf{top:830px;opacity:0;transition:opacity .4s}body.shelf #s-shelf{opacity:1}
 #s-cont{top:830px;transition:top .5s cubic-bezier(.2,.9,.25,1),opacity .4s}body.shelf #s-cont{top:1160px}body.det #s-cont{opacity:0}
-@keyframes slin{from{opacity:0;transform:translateX(60px)}}.row.in>*{animation:slin .45s cubic-bezier(.2,.9,.25,1) both}
+@keyframes slin{from{opacity:0;transform:translateX(60px)}}.row.in>*{animation:slin .45s cubic-bezier(.2,.9,.25,1) backwards}
 .row.in>*:nth-child(2){animation-delay:.04s}.row.in>*:nth-child(3){animation-delay:.08s}.row.in>*:nth-child(4){animation-delay:.12s}
 .empty{flex:none;height:110px;padding:0 34px;border-radius:30px;display:flex;align-items:center;gap:20px;font-size:24px;font-weight:600;text-shadow:0 1px 10px rgba(0,0,0,.35)}
 .empty svg{width:34px;height:34px;flex:none;opacity:.9}.empty b{margin-left:18px;font-size:19px;font-weight:700;padding:9px 18px;border-radius:20px;background:rgba(255,255,255,.18)}
@@ -235,7 +235,7 @@ body.perf #clock{-webkit-backdrop-filter:none!important;backdrop-filter:none!imp
 body.perf #amb{background:linear-gradient(160deg,rgba(60,64,80,.55),rgba(14,16,24,.66))!important}
 body.perf #panel{-webkit-backdrop-filter:none!important;backdrop-filter:none!important;background:linear-gradient(160deg,rgba(52,56,72,.94),rgba(18,20,30,.96))!important}
 body.perf #det{-webkit-backdrop-filter:none!important;backdrop-filter:none!important;background:linear-gradient(160deg,rgba(44,48,62,.9),rgba(16,18,26,.94))!important}
-body.perf #rail{-webkit-backdrop-filter:blur(14px)!important;backdrop-filter:blur(14px)!important}
+body.perf #rail{-webkit-backdrop-filter:blur(14px)!important;backdrop-filter:blur(14px)!important}body.perf #rail:not(.open){-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
 body.perf #bgwrap{inset:auto;left:0;top:0;width:calc(var(--W,1920px)/8);height:calc(var(--H,1080px)/8);transform:scale(8);transform-origin:0 0;filter:blur(7px) brightness(.45) saturate(1.3)!important}
 body.perf .f{will-change:auto;transition:transform .2s ease-out!important}
 body.perf .card.kb,body.perf .hi.kb,body.perf .bg.on{animation:none!important}
@@ -1498,7 +1498,7 @@ module.exports = QRRSBlock;
 
 };
 var Q=R("./index"),E=R("./QRErrorCorrectLevel");window.ghQR=function(t){var q=new Q(-1,E.M);q.addData(t);q.make();var n=q.getModuleCount(),p="";for(var r=0;r<n;r++)for(var c=0;c<n;c++)if(q.isDark(r,c))p+="M"+(c+2)+" "+(r+2)+"h1v1h-1z";return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 '+(n+4)+' '+(n+4)+'" shape-rendering="crispEdges"><rect width="100%" height="100%" fill="#fff"/><path d="'+p+'" fill="#000"/></svg>';};})();</script>
-<script type="text/plain" id="ghv">GH_BUILD:2.7.7</script>
+<script type="text/plain" id="ghv">GH_BUILD:2.7.8</script>
 <div id="intro"><div class="orb"></div><div class="ghw"><svg class="ghl" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
 <defs>
 <linearGradient id="gl" x1="0" y1="0" x2="0.35" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".96"/><stop offset=".55" stop-color="#e9ecf6" stop-opacity=".78"/><stop offset="1" stop-color="#c9cfe6" stop-opacity=".6"/></linearGradient>
@@ -1545,7 +1545,7 @@ const G={
  cast:'<circle cx="12" cy="12" r="2.2" fill="#fff"/><path d="M8 8a5.7 5.7 0 0 0 0 8M16 8a5.7 5.7 0 0 1 0 8M5.2 5.2a9.6 9.6 0 0 0 0 13.6M18.8 5.2a9.6 9.6 0 0 1 0 13.6" stroke="#fff" stroke-width="1.8" fill="none" stroke-linecap="round"/>',
  star:'<path d="m12 3.5 2.6 5.4 5.9.8-4.3 4.1 1 5.8L12 16.8l-5.2 2.8 1-5.8-4.3-4.1 5.9-.8z" stroke="#fff" stroke-width="1.8" fill="none" stroke-linejoin="round"/>'
 };
-const TOUCH=!!(window.matchMedia&&matchMedia("(pointer:coarse)").matches);
+const TOUCH=!window.PalmServiceBridge&&(!!(window.matchMedia&&matchMedia("(pointer:coarse)").matches)||(navigator.maxTouchPoints||0)>0);
 const P=window.PalmServiceBridge?"webos":window.GHAndroid?"android":"preview",LG=P==="webos"||(P==="preview"&&location.hash==="#lg");
 const APPS=[
  {n:"YouTube",k:"youtube",id:"youtube.leanback.v4",pkg:"com.google.android.youtube.tv",g:"play",c:["#ff5a4e","#c4151c"]},
