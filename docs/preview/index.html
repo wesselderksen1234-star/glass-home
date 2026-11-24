@@ -1,4 +1,4 @@
-<!DOCTYPE html><!--GH_BUILD:2.9.5-->
+<!DOCTYPE html><!--GH_BUILD:2.9.6-->
 <html lang="nl" style="background:#05060a url(splash5.png) center/cover no-repeat"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,viewport-fit=cover">
 <title>Glass Home</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
@@ -309,6 +309,14 @@ body.night #bgwrap,body.night #fbg,body.night #hero .hi,body.night #tint{opacity
 #capsh{max-width:900px}#capsh b{font-size:28px}#capsh small{font-size:18px}#capsh .cds{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin-top:8px;font-style:normal;font-size:19px;line-height:1.4;opacity:.85}
 #s-sport{top:1700px}body.shelf #s-sport{top:2120px}body:not(.haslive) #s-sport{top:830px}body:not(.haslive).shelf #s-sport{top:1250px}
 body.haslive.shelf #s-live{top:1330px}body.shelf #s-sport{top:2200px}body:not(.haslive).shelf #s-sport{top:1330px}#capsh .cds{margin-top:0}
+/* leesbare samenvatting die rustig meescrollt, detailpaneel onder de rij, nieuwe wedstrijdkaarten */
+.ac .sum{padding:22px 24px 30px;display:flex;flex-direction:column}.ac .sum .sw{flex:1;overflow:hidden;-webkit-mask-image:linear-gradient(180deg,#000 82%,transparent);mask-image:linear-gradient(180deg,#000 82%,transparent)}.ac .sum .sw p{display:block;-webkit-line-clamp:unset;padding-bottom:22px;will-change:transform}
+#det{display:grid!important;top:600px!important;bottom:auto!important;left:200px!important;right:200px!important;max-height:440px!important}#capsh{display:none!important}
+.mc{position:relative;width:520px;height:196px;border-radius:24px;padding:18px 22px;background:linear-gradient(160deg,rgba(60,64,84,.66),rgba(20,22,32,.82));border:1px solid rgba(255,255,255,.14);display:flex;flex-direction:column;justify-content:space-between}
+.mc .mg{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:10px}.mc .mtm{width:170px;display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center;font-size:19px;font-weight:700;line-height:1.15}.mc .mtm img,.mc .mph{width:60px;height:60px;object-fit:contain}.mc .mph{display:flex;align-items:center;justify-content:center;border-radius:50%;background:rgba(255,255,255,.12);font-size:26px;font-weight:800}
+.mc .mmid b{font-size:40px;font-weight:800;letter-spacing:-1px}.mc .mg.one{justify-content:center;flex:1}.mc .mg.one b{font-size:26px;text-align:center}.mc .mft{text-align:center;font-size:16px;opacity:.72}
+.mc .mlive{position:absolute;top:14px;left:16px;font-size:13px;font-weight:800;padding:3px 10px;border-radius:999px;background:#e5243b}.mc.live{border-color:rgba(229,36,59,.55)}
+body.det.shelf #s-live,body.det.shelf #s-sport{opacity:0!important;pointer-events:none!important;transition:opacity .3s}.ac.grow .srcb{opacity:0}
 /* app-tegels: logo mooi gecentreerd, zonder vakje-in-een-vakje */
 .app{align-items:center;justify-content:center;text-align:center;gap:10px;padding:16px 14px}
 .app b{font-size:19px;line-height:1.15}
@@ -1564,7 +1572,7 @@ module.exports = QRRSBlock;
 
 };
 var Q=R("./index"),E=R("./QRErrorCorrectLevel");window.ghQR=function(t){var q=new Q(-1,E.M);q.addData(t);q.make();var n=q.getModuleCount(),p="";for(var r=0;r<n;r++)for(var c=0;c<n;c++)if(q.isDark(r,c))p+="M"+(c+2)+" "+(r+2)+"h1v1h-1z";return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 '+(n+4)+' '+(n+4)+'" shape-rendering="crispEdges"><rect width="100%" height="100%" fill="#fff"/><path d="'+p+'" fill="#000"/></svg>';};})();</script>
-<script type="text/plain" id="ghv">GH_BUILD:2.9.5</script>
+<script type="text/plain" id="ghv">GH_BUILD:2.9.6</script>
 <div id="intro"><div class="orb"></div><div class="ghw"><svg class="ghl" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
 <defs>
 <linearGradient id="gl" x1="0" y1="0" x2="0.35" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".96"/><stop offset=".55" stop-color="#e9ecf6" stop-opacity=".78"/><stop offset="1" stop-color="#c9cfe6" stop-opacity=".6"/></linearGradient>
@@ -1916,8 +1924,9 @@ function botCard(x,i,at){at=at||"x";if(x.k==="sp"&&!x.img){const two=x.logos.len
  return '<div class="card f" data-'+at+'="'+i+'" style="background-image:'+(x.img?cu(x.img):art(i*37+90))+'">'+(x.src?'<div class="srcb">'+esc(x.src)+'</div>':'')+'<div class="lab"><div class="tt">'+esc(x.t)+'</div><small>'+esc(x.s)+'</small></div></div>';}
 function vTile(x,i,at){return '<div class="vt bi f" data-'+at+'="'+i+'"><div class="vth" style="background-image:'+(x.img?cu(x.img):art(i*37+90))+'">'+(x.src?'<div class="srcb">'+esc(x.src)+'</div>':'')+'</div><div class="vtx"><b>'+esc(x.t)+'</b><small>'+esc(x.s||"")+'</small></div></div>';}
 function aRow(x,i,at){return '<div class="ar bi f" data-'+at+'="'+i+'"><div class="th" style="background-image:'+(x.img?cu(x.img):art(i*29+40))+'"></div><div class="atx"><b>'+esc(x.t)+'</b><small>'+esc([x.src,x.s].filter(Boolean).join(" · "))+'</small></div>'+(x.desc?'<div class="sum">'+esc(x.desc.slice(0,220))+(x.desc.length>220?"…":"")+'</div>':'')+'</div>';}
-function aCard(x,i,at){return '<div class="ac bi f" data-'+at+'="'+i+'"><div class="th" style="background-image:'+(x.img?cu(x.img):art(i*29+40))+'">'+(x.src?'<div class="srcb">'+esc(x.src)+'</div>':'')+'</div><div class="atx"><b>'+esc(x.t)+'</b><small>'+esc(x.s||"")+'</small></div>'+(x.desc?'<div class="sum"><b>'+esc(x.t)+'</b><p>'+esc(x.desc.slice(0,520))+(x.desc.length>520?"…":"")+'</p></div>':'')+'</div>';}
-function mRow(x,i){const L=x.logos||[],two=L.length===2;return '<div class="mr bi f" data-y="'+i+'">'+(x.live?'<span class="mlive">LIVE</span>':'')+(two?'<div class="mt">'+(L[0]?'<img src="'+esc(L[0])+'" loading="lazy">':'<i></i>')+'<span class="tn">'+esc(x.h||"")+'</span><span class="ms">'+esc(x.sc||"–")+'</span><span class="tn r">'+esc(x.a||"")+'</span>'+(L[1]?'<img src="'+esc(L[1])+'" loading="lazy">':'<i></i>')+'</div>':'<div class="mt"><span class="tn">'+esc(x.t)+'</span></div>')+'<small>'+esc(x.s)+'</small></div>';}
+function aCard(x,i,at){return '<div class="ac bi f" data-'+at+'="'+i+'"><div class="th" style="background-image:'+(x.img?cu(x.img):art(i*29+40))+'">'+(x.src?'<div class="srcb">'+esc(x.src)+'</div>':'')+'</div><div class="atx"><b>'+esc(x.t)+'</b><small>'+esc(x.s||"")+'</small></div>'+(x.desc?'<div class="sum"><b>'+esc(x.t)+'</b><div class="sw"><p>'+esc(x.desc.slice(0,1400))+'</p></div></div>':'')+'</div>';}
+function mRow(x,i){const L=x.logos||[],two=L.length===2,tm=(u,n)=>'<div class="mtm">'+(u?'<img src="'+esc(u)+'" loading="lazy">':'<span class="mph">'+esc((n||"?").slice(0,1))+'</span>')+'<span>'+esc(n||"")+'</span></div>';
+ return '<div class="mc bi f'+(x.live?' live':'')+'" data-y="'+i+'">'+(x.live?'<span class="mlive">● LIVE</span>':'')+(two?'<div class="mg">'+tm(L[0],x.h)+'<div class="mmid"><b>'+esc(x.sc||"–")+'</b></div>'+tm(L[1],x.a)+'</div>':'<div class="mg one"><b>'+esc(x.t)+'</b></div>')+'<div class="mft">'+esc(x.s)+'</div></div>';}
 function drawSport(){const on=S.spRow!==0;$("s-sport").style.display=on?"":"none";if(!on){$("sport").innerHTML="";return;}
  $("sport").className="board nb";const st=SP.filter(x=>x.k==="st"),mt=SP.filter(x=>x.k==="sp"),nw=SP.filter(x=>x.k!=="st"&&x.k!=="sp");
  if(!SP.length){$("sport").innerHTML='<div class="srow"><div class="bempty f" data-go="!Sport: competities" style="width:760px">'+(SPS().lg.length?"Nog geen sportgegevens deze week":"Kies welke sport en clubs je volgt")+' ›</div></div>';return;}
@@ -1972,8 +1981,8 @@ const glbl=t=>'<div class="glbl">'+t+'</div>';
 function capFor(el){let x=null;if(el.dataset.x)x=NW[+el.dataset.x];else if(el.dataset.n)x=NA[+el.dataset.n];else if(el.dataset.y&&el.dataset.y!=="st")x=SP[+el.dataset.y];return x;}
 function capPaint(el){["capa","capsh"].forEach(id=>{const c=$(id);if(c)c.classList.remove("on")});if(mode==="home"&&el&&fr===3){let t="";let meta="",ds="";if(fr===3){const it=el.dataset.k!=null?ITEMS[+el.dataset.k]:el.dataset.c!=null?CONT[+el.dataset.c]:null;const lab=el.querySelector(".lab .tt"),sm=el.querySelector(".lab small");t=it?it.t:lab?lab.textContent:"";meta=sm?sm.textContent:"";ds=it?(it.zeg||it.ov||""):"";}
   const c=$(fr===2?"capa":"capsh"),row=el.parentNode;if(c&&t&&row){if(!ds)return;c.innerHTML='<em class="cds">'+esc(ds)+'</em>';c.style.left=Math.max(0,el.offsetLeft-row.scrollLeft+(fr===2?el.offsetWidth/2:0))+"px";c.style.top=((el.offsetParent===row?row.offsetTop:0)+el.offsetTop+el.offsetHeight+(fr===2?12:14))+"px";c.classList.add("on");}}
- ["capl","caps"].forEach(id=>{const c=$(id);if(c)c.classList.remove("on","grow")});clearTimeout(window.grT);document.querySelectorAll(".grow").forEach(e=>e.classList.remove("grow"));
- if(mode!=="home"||!el||(fr!==3&&fr!==4&&fr!==5))return;window.grT=setTimeout(()=>{if(el.classList.contains("focus")){el.classList.add("grow");const c2=fr>3&&$(fr===4?"capl":"caps");if(c2)c2.classList.add("grow")}},fr===3?1600:700);
+ ["capl","caps"].forEach(id=>{const c=$(id);if(c)c.classList.remove("on","grow")});clearTimeout(window.grT);document.querySelectorAll(".grow").forEach(e=>{e.classList.remove("grow");const sp=e.querySelector(".sum .sw p");if(sp){sp.style.transition="none";sp.style.transform="";}});
+ if(mode!=="home"||!el||(fr!==3&&fr!==4&&fr!==5))return;window.grT=setTimeout(()=>{if(el.classList.contains("focus")){el.classList.add("grow");const sw=el.querySelector(".sum .sw"),sp=sw&&sw.firstChild;if(sp){const ov=sp.scrollHeight-sw.clientHeight;if(ov>4){sp.style.transition="transform "+Math.max(4,ov/16).toFixed(1)+"s linear 2.5s";sp.style.transform="translateY(-"+ov+"px)";}}const c2=fr>3&&$(fr===4?"capl":"caps");if(c2)c2.classList.add("grow")}},fr===3?1600:700);
  const x=capFor(el);if(!x||!el.classList.contains("card"))return;const row=el.parentNode,c=$(fr===4?"capl":"caps");if(!c)return;
  c.innerHTML='<b>'+esc(x.t)+'</b><small>'+esc([x.src,x.s].filter(Boolean).join(" · "))+'</small>'+(x.k==="art"&&x.desc?'<em class="sum">'+esc(x.desc.slice(0,180))+(x.desc.length>180?"…":"")+'</em>':'');c.style.left=Math.max(0,el.offsetLeft-row.scrollLeft)+"px";c.style.top=((el.offsetParent===row?row.offsetTop:0)+el.offsetTop+el.offsetHeight+16)+"px";c.classList.add("on");}
 function openQuick(q){if(q==="tv")return luna("luna://com.webos.applicationManager/launch",{id:"com.webos.app.livetv"});luna("luna://com.webos.applicationManager/launch",{id:"com.webos.app.hdmi"+q});}
@@ -2378,7 +2387,7 @@ function detail(k){clearTimeout(dT);if(isNaN(k)||k<0||!ITEMS[k]){document.body.c
  $("dchips").innerHTML=it.tv?'<span class="chip big">● LIVE</span><span class="chip">'+it.p+'% voorbij</span>':it.act?'':(it.because||[]).map(b=>'<span class="chip me">'+esc(it.yt||it.sp?b:"Omdat je "+b+" keek")+'</span>').join("")+
   (it.yt?(it.du?'<span class="chip big">▶ '+it.du+'</span>':'')+(it.tr?'<span class="chip">Trending</span>':'')+'<span class="chip">'+it.vw+' weergaven</span>'+(it.up?'<span class="chip">'+ago2(it.up)+'</span>':'')
   :it.sp?(it.sc.SP!=null?'<span class="chip big">♫ Populariteit '+it.sc.SP+'</span>':'')+(it.genres||[]).map(g=>'<span class="chip">'+esc(g)+'</span>').join("")
-  :'<span class="chip big">★ '+sc10(it.avg)+'</span>'+Object.keys(it.sc).sort((a,b)=>W[b]-W[a]).map(s=>'<span class="chip'+(s==="LB"?" lb":"")+'">'+SRC[s]+' <b>'+shown(s,it.sc[s])+'</b></span>').join(""));
+  :(it.avg?'<span class="chip big">★ '+sc10(it.avg)+'</span>':'')+(it.gen||[]).map(g=>'<span class="chip">'+esc(g)+'</span>').join("")+(it.len?'<span class="chip">'+esc(it.len)+'</span>':'')+(Object.keys(it.sc||{}).length>1?'<span class="chip">'+Object.keys(it.sc).length+' bronnen</span>':''));
  $("dzeg").textContent=it.zeg||it.ov||"Samenvatting maken…";$("dwhy").textContent=it.waarom||"";$("dsrc").textContent=it.zeg&&!it.id&&!it.v&&!it.act&&!(it.tv&&key("epgUrl"))?"Voorbeeldtekst":"";
  $("hwhy").textContent=it.tv?"Speeltijd":it.act?"Wat het doet":it.sp?"Wat luisteraars zeggen":"Wat mensen zeggen";$("hzeg").textContent=it.tv?"Waar het over gaat":it.act?"Uitleg":it.sp?"Hoe het klinkt":"Waar het over gaat";$("hwhy").style.display=$("dwhy").style.display=it.waarom&&!it.yt?"":"none";
  if(!it.zeg)dT=setTimeout(()=>summarize(k),400);}
@@ -2471,7 +2480,7 @@ function paint(){rows.flat().forEach(e=>e.classList.remove("focus"));$("rail").c
  const bgi=fr>=2&&/url\(/.test(el.style.backgroundImage)?el.style.backgroundImage:"";clearTimeout(window.tiT);window.tiT=setTimeout(()=>{if(bgi){$("tint").style.backgroundImage=bgi;document.body.classList.add("tinted")}else document.body.classList.remove("tinted")},160);
  mediaFocus(el);capPaint(el);
  if(fr===4||fr===5){const m=$("main"),mr=m.getBoundingClientRect(),sc=mr.width/(m.offsetWidth||1)||1,er=el.getBoundingClientRect(),cur=+((m.style.transform.match(/-?([\d.]+)px/)||[0,0])[1]);const rel=(er.top-mr.top)/sc;m.style.transform="translateY(-"+Math.max(0,Math.round(rel-330))+"px)";return;}
- if(fr>0){const op=document.body.classList.contains("shelf");$("main").style.transform="translateY(-"+(fr===1?0:document.body.classList.contains("haslive")?(fr===2?(op?160:0):fr===3?(op?320:0):fr===4?(op?1130:710):fr===5?(op?1830:1410):750):fr===2?(op?160:0):fr===3?(op?320:0):(op?1130:710))+"px)";}}
+ if(fr>0){const op=document.body.classList.contains("shelf");$("main").style.transform="translateY(-"+(fr===1?0:document.body.classList.contains("haslive")?(fr===2?(op?160:0):fr===3?(op?620:0):fr===4?(op?1130:710):fr===5?(op?1830:1410):750):fr===2?(op?160:0):fr===3?(op?620:0):(op?1130:710))+"px)";}}
 function act(){const el=rows[fr][fi];if(!el){fr=2;fi=0;return paint();}
  if(fr===0)return RAIL[fi][2]();
  if(fr===1)return HERO.length?openTitle(HERO[hi]):startSetup();
