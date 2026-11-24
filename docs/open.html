@@ -1,0 +1,13 @@
+<!DOCTYPE html><html lang="nl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="referrer" content="no-referrer"><title>Glass Home op je telefoon</title>
+<style>body{margin:0;font-family:system-ui,sans-serif;background:#0b0d14;color:#fff;display:flex;min-height:100vh;align-items:center;justify-content:center}main{max-width:420px;padding:28px}h1{font-size:24px}p{color:#b8bccb;line-height:1.5}a{display:block;margin:14px 0;padding:16px;border-radius:16px;text-align:center;font-weight:700;text-decoration:none;font-size:17px}.a{background:#fff;color:#111}.b{background:#2a2f44;color:#fff}</style></head>
+<body><main><h1>Glass Home op je telefoon</h1>
+<p>Kies hoe je wilt testen. Je accounts en instellingen van je tv worden automatisch (versleuteld) overgenomen.</p>
+<a class="a" id="app" href="#">Open in de Glass Home-app</a>
+<a class="b" id="web" href="#">Bekijk in de browser</a>
+<p style="font-size:13px">Heb je de app nog niet? Installeer eerst <b>GlassHome-GoogleTV.apk</b> en tik daarna nog een keer op deze link.</p>
+<a class="b" href="https://github.com/wesselderksen1234-star/glass-home/raw/builds/GlassHome-GoogleTV.apk">App downloaden (APK)</a>
+</main><script>
+var k=(/[#&]k=([A-Za-z0-9_-]{16,})/.exec(location.hash)||[])[1]||"";
+document.getElementById("app").href="intent://sync?k="+k+"#Intent;scheme=glasshome;package=com.custom.glasshome;end";
+document.getElementById("web").href="preview/#k="+k;
+</script></body></html>

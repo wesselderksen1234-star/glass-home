@@ -54,6 +54,13 @@ public class Bridge {
     }
 
     @JavascriptInterface
+    public String launchUri() {
+        String u = MainActivity.lastUri;
+        MainActivity.lastUri = "";
+        return u == null ? "" : u;
+    }
+
+    @JavascriptInterface
     public String listApps() {
         JSONArray arr = new JSONArray();
         try {

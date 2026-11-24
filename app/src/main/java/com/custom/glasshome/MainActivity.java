@@ -17,11 +17,19 @@ import android.webkit.WebViewClient;
 
 public class MainActivity extends Activity {
     private WebView webView;
+    static volatile String lastUri = "";
+
+    private void grabUri(Intent i) {
+        try {
+            if (i != null && i.getData() != null && "glasshome".equals(i.getData().getScheme())) lastUri = i.getDataString();
+        } catch (Throwable ignored) { }
+    }
 
     @Override
     @SuppressWarnings("SetJavaScriptEnabled")
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        grabUri(getIntent());
         webView = new WebView(this);
         webView.setBackgroundColor(Color.BLACK);
         webView.setFocusable(true);
@@ -91,6 +99,8 @@ public class MainActivity extends Activity {
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         setIntent(intent);
+        grabUri(intent);
+        if (webView != null && lastUri.length() > 0) webView.evaluateJavascript("window.ghParams && window.ghParams()", null);
         if (webView != null) {
             // Home pressed again: let the web app reset to its home screen if it wants.
             webView.evaluateJavascript("window.GH_home && window.GH_home()", null);

@@ -1,4 +1,4 @@
-<!DOCTYPE html><!--GH_BUILD:2.7.0-->
+<!DOCTYPE html><!--GH_BUILD:2.7.1-->
 <html lang="nl" style="background:#05060a url(splash5.png) center/cover no-repeat"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width">
 <title>Glass Home</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
@@ -1498,7 +1498,7 @@ module.exports = QRRSBlock;
 
 };
 var Q=R("./index"),E=R("./QRErrorCorrectLevel");window.ghQR=function(t){var q=new Q(-1,E.M);q.addData(t);q.make();var n=q.getModuleCount(),p="";for(var r=0;r<n;r++)for(var c=0;c<n;c++)if(q.isDark(r,c))p+="M"+(c+2)+" "+(r+2)+"h1v1h-1z";return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 '+(n+4)+' '+(n+4)+'" shape-rendering="crispEdges"><rect width="100%" height="100%" fill="#fff"/><path d="'+p+'" fill="#000"/></svg>';};})();</script>
-<script type="text/plain" id="ghv">GH_BUILD:2.7.0</script>
+<script type="text/plain" id="ghv">GH_BUILD:2.7.1</script>
 <div id="intro"><div class="orb"></div><div class="ghw"><svg class="ghl" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
 <defs>
 <linearGradient id="gl" x1="0" y1="0" x2="0.35" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".96"/><stop offset=".55" stop-color="#e9ecf6" stop-opacity=".78"/><stop offset="1" stop-color="#c9cfe6" stop-opacity=".6"/></linearGradient>
@@ -2083,7 +2083,12 @@ async function syncPull(){try{if(!(await syncInit()))return;const tx=await(await
 setTimeout(syncPull,3000);setInterval(syncPull,6e5);
 
 // Instellingen via startparameters (alleen de tv-brug op je eigen pc kan die meegeven)
-function ghParams(){try{const raw=(window.PalmSystem&&PalmSystem.launchParams)||"";const q=raw?JSON.parse(raw):{};if(q&&q.ghSync&&typeof q.ghSync==="string"&&q.ghSync.length>=16&&!S.sync){S.sync=q.ghSync;save();setTimeout(()=>{try{syncPull()}catch(e){}},500);}}catch(e){}}
+function ghParams(){try{let q={};const raw=(window.PalmSystem&&PalmSystem.launchParams)||"";if(raw)q=JSON.parse(raw);
+ const kv=t=>{const m=/(?:^|[?#&])k=([A-Za-z0-9_-]{16,})/.exec(t||"");return m?m[1]:""};
+ try{if(P==="android"&&GHAndroid.launchUri){const k=kv(GHAndroid.launchUri());if(k){q.ghSync=k;if(S.sync!==k){S.sync="";syncK=null;}}}}catch(e){}
+ if(P==="preview"&&/[#&]k=/.test(location.hash)){const k=kv(location.hash);if(k){q.ghSync=k;if(S.sync!==k){S.sync="";syncK=null;}}try{history.replaceState(null,"",location.pathname)}catch(e){}}
+if(q&&q.ghSync&&typeof q.ghSync==="string"&&q.ghSync.length>=16&&!S.sync){S.sync=q.ghSync;save();setTimeout(()=>{try{syncPull()}catch(e){}},500);if(P!=="webos")toast("Gekoppeld aan je Glass Home ✓");}}catch(e){}}
+window.ghParams=ghParams;
 ghParams();document.addEventListener("webOSRelaunch",()=>setTimeout(ghParams,50));
 
 window.ghTint=function(img){try{const c=document.createElement("canvas");c.width=c.height=24;const g=c.getContext("2d");g.drawImage(img,0,0,24,24);const d=g.getImageData(0,0,24,24).data;let r=0,gg=0,b=0,n=0;
