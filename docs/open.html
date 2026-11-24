@@ -11,5 +11,5 @@ var k=(/[#&]k=([A-Za-z0-9_-]{16,})/.exec(location.hash)||[])[1]||"";
 try{if(k)sessionStorage.setItem("ghk",k);else k=sessionStorage.getItem("ghk")||"";history.replaceState(null,"",location.pathname)}catch(e){}
 if(!k){document.querySelector("main").innerHTML="<h1>Deze link werkt niet</h1><p>De koppelsleutel ontbreekt of is onvolledig. Vraag een nieuwe koppellink aan.</p>";}
 document.getElementById("app").href="intent://sync?k="+k+"#Intent;scheme=glasshome;package=com.custom.glasshome;end";
-document.getElementById("web").href="preview/#k="+k;
+document.getElementById("web").href="preview/?t="+Date.now()+"#k="+k;
 </script></body></html>
