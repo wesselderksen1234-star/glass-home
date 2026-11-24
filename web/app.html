@@ -1835,7 +1835,7 @@ function card(it,i){if(it.tv)return '<div class="card f" data-k="'+i+'" style="b
 
 // rij met aanraders onder de gekozen app
 let shelfApp=-1;
-function drawShelf(ai){if(ai===shelfApp||isNaN(ai))return;shelfApp=ai;const a=APPS[ai];document.body.classList.add("shelf");
+function drawShelf(ai){if(ai===shelfApp||isNaN(ai))return;shelfApp=ai;if(PVW&&PVW.isConnected&&$("shelf").contains(PVW)){if(pv&&pv.persist)stopPreview();pvPark();}const a=APPS[ai];document.body.classList.add("shelf");
  let list=ITEMS.map((it,i)=>[it,i]).filter(x=>ai===1?(!x[0].yt&&!x[0].sp&&!x[0].tv&&!x[0].act&&x[0].sc):x[0].a===ai);
  if(ai===1)list=list.sort((p,q)=>q[0].rs-p[0].rs).slice(0,15);
  if(!list.length&&a.x){let k=ITEMS.findIndex(x=>x.act==="open"&&x.a===ai);if(k<0){ITEMS.push({act:"open",a:ai,t:a.n+" openen",c:a.n,s:"Door jou toegevoegd",sc:{},h:200,zeg:"Start "+a.n+" direct vanaf je startscherm.",waarom:"Je hebt deze app zelf aan Glass Home toegevoegd. Hieronder je beste tips van je andere diensten."});k=ITEMS.length-1;}
@@ -2092,7 +2092,7 @@ window.ghTint=function(img){try{const c=document.createElement("canvas");c.width
  t.style.background="linear-gradient(150deg,rgba("+k(r*.75)+","+k(gg*.75)+","+k(b*.75)+",.82),rgba("+k(r*.35)+","+k(gg*.35)+","+k(b*.35)+",.72))";}catch(e){}};
 
 // YouTube-speler alvast opwarmen, zodat voorbeelden snel starten
-if(P!=="preview")setTimeout(()=>{try{const f=document.createElement("iframe");f.style.cssText="position:absolute;width:2px;height:2px;left:-10px;top:-10px;opacity:0;border:0;pointer-events:none";f.src=PVPG+"#warm=1";document.body.appendChild(f);setTimeout(()=>f.remove(),25000);}catch(e){}},6000);
+if(P!=="preview")setTimeout(()=>{try{if(PVM){if(!PVW)pvMake();return;}const f=document.createElement("iframe");f.style.cssText="position:absolute;width:2px;height:2px;left:-10px;top:-10px;opacity:0;border:0;pointer-events:none";f.src=PVPG+"#warm=1";document.body.appendChild(f);setTimeout(()=>f.remove(),25000);}catch(e){}},6000);
 
 // ---------- "Verder kijken" per app: wat je als laatste afspeelde ----------
 let MEDIA={};
@@ -2205,11 +2205,25 @@ async function trailerFor(it){if(it.yt)return it.v;if(it.tr!==undefined)return i
  const pick=r=>((r&&r.results)||[]).filter(v=>v.site==="YouTube").sort((a,b)=>(b.type==="Trailer")-(a.type==="Trailer")||(b.official-a.official))[0];
  try{const B="https://api.themoviedb.org/3/"+(it.type==="tv"?"tv":"movie")+"/"+it.id+"/videos?api_key="+tk+"&language=";
   let v=pick(await j(B+"nl-NL"));if(!v)v=pick(await j(B+"en-US"));it.tr=v?v.key:null;}catch(e){it.tr=null}return it.tr;}
-function stopPreview(){clearTimeout(pvT);if(pv){const p=pv;pv=null;p.box.classList.remove("on");setTimeout(()=>{try{p.player.destroy()}catch(e){}p.box.remove()},1500);}
+// één blijvende voorbeeldspeler (snel, geen herladen van YouTube) als de browser elementen kan verplaatsen zonder herladen
+var PVM=!!(window.Element&&Element.prototype.moveBefore),PVW=null,PVF=null,PVN=0;
+function pvHold(){let h=$("pvhold");if(!h){h=document.createElement("div");h.id="pvhold";h.style.cssText="position:fixed;left:-4000px;top:0;width:440px;height:248px;overflow:hidden;pointer-events:none";document.body.appendChild(h);}return h;}
+function pvMake(){PVW=document.createElement("div");PVW.className="pv";PVF=document.createElement("iframe");PVF.setAttribute("allow","autoplay; encrypted-media");PVF.setAttribute("frameborder","0");PVF.style.cssText="border:0;pointer-events:none";PVF.tabIndex=-1;
+ PVF.addEventListener("load",()=>{if(pv&&pv.persist&&pv.msg)try{PVF.contentWindow.postMessage(pv.msg,"*")}catch(e){}});PVF.src=PVPG+"#warm=1";PVW.appendChild(PVF);pvHold().appendChild(PVW);}
+function pvMove(par,ref){try{par.moveBefore(PVW,ref)}catch(e){par.insertBefore(PVW,ref)}}
+function pvPark(){if(!PVW)return;if(!PVW.isConnected){PVW=PVF=null;return;}PVW.classList.remove("on");if(PVW.parentNode!==$("pvhold"))pvMove(pvHold(),null);}
+function stopPreview(){clearTimeout(pvT);if(pv){const p=pv;pv=null;p.box.classList.remove("on");
+ if(p.persist){const n=p.n;try{PVF.contentWindow.postMessage({cmd:"mute"},"*")}catch(e){}setTimeout(()=>{if(PVN!==n||pv)return;try{PVF.contentWindow.postMessage({cmd:"stop"},"*")}catch(e){}pvPark()},1500);}
+ else setTimeout(()=>{try{p.player.destroy()}catch(e){}p.box.remove()},1500);}
  document.querySelectorAll(".kb").forEach(e=>e.classList.remove("kb"));}
 async function startPreview(box,it){const vid=await trailerFor(it);const kb=()=>{(box.id==="hero"?$(hc):box).classList.add("kb")};
  if(!vid)return kb();
  if(pvKey!==(it.v||it.id||it.t)||!box.isConnected)return;if(pv)stopPreview();
+ if(PVM){if(!PVW||!PVW.isConnected)pvMake();const n=++PVN,msg={cmd:"load",v:vid,s:it.yt?0:6,vol:60,n};PVW.classList.remove("on");pvMove(box,box.firstChild);
+  const me={persist:1,box:PVW,n,msg};pv=me;try{PVF.contentWindow.postMessage(msg,"*")}catch(e){}
+  const on=e=>{if(!e.data||e.data.gh!=="yt"||!PVF||e.source!==PVF.contentWindow)return;if(pv!==me){removeEventListener("message",on);return;}if(e.data.n!==n)return;
+   if(e.data.state==="playing")PVW.classList.add("on");if(e.data.error!=null){removeEventListener("message",on);pv=null;pvPark();kb();}};
+  addEventListener("message",on);return;}
  const w=document.createElement("div");w.className="pv";const f=document.createElement("iframe");f.setAttribute("allow","autoplay; encrypted-media");f.setAttribute("frameborder","0");
  f.style.cssText="border:0;pointer-events:none";f.tabIndex=-1;
  f.src=PVPG+"#v="+encodeURIComponent(vid)+"&s="+(it.yt?0:6)+"&vol=60";w.appendChild(f);box.insertBefore(w,box.firstChild);
