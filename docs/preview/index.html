@@ -1,4 +1,4 @@
-<!DOCTYPE html><!--GH_BUILD:2.9.2-->
+<!DOCTYPE html><!--GH_BUILD:2.9.3-->
 <html lang="nl" style="background:#05060a url(splash5.png) center/cover no-repeat"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,viewport-fit=cover">
 <title>Glass Home</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
@@ -1552,7 +1552,7 @@ module.exports = QRRSBlock;
 
 };
 var Q=R("./index"),E=R("./QRErrorCorrectLevel");window.ghQR=function(t){var q=new Q(-1,E.M);q.addData(t);q.make();var n=q.getModuleCount(),p="";for(var r=0;r<n;r++)for(var c=0;c<n;c++)if(q.isDark(r,c))p+="M"+(c+2)+" "+(r+2)+"h1v1h-1z";return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 '+(n+4)+' '+(n+4)+'" shape-rendering="crispEdges"><rect width="100%" height="100%" fill="#fff"/><path d="'+p+'" fill="#000"/></svg>';};})();</script>
-<script type="text/plain" id="ghv">GH_BUILD:2.9.2</script>
+<script type="text/plain" id="ghv">GH_BUILD:2.9.3</script>
 <div id="intro"><div class="orb"></div><div class="ghw"><svg class="ghl" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
 <defs>
 <linearGradient id="gl" x1="0" y1="0" x2="0.35" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".96"/><stop offset=".55" stop-color="#e9ecf6" stop-opacity=".78"/><stop offset="1" stop-color="#c9cfe6" stop-opacity=".6"/></linearGradient>
@@ -1853,8 +1853,8 @@ function botMode(){let m=S.bot||(S.showLive===0?"off":"news");if(m==="sport")m="
 function drawLive(){if(!S.bmig){S.bmig=1;if(!S.bot||S.bot==="live")S.bot="news";try{save()}catch(e){}}const ids=new Set(ALLAPPS.map(x=>x.id));LIVE=LIVEDEF.filter(d=>P==="preview"||ids.has(P==="android"?d.pkg:d.id));const bm=botMode();
  if(bm!=="live"){let h="";
   if(bm==="news"){$("live").className="board";$("liveh").textContent="Nieuws";
-   const vids=NW.slice(0,4).map((x,i)=>vTile(x,i,"x")).join("")||'<div class="bempty f" data-go="!Nieuwsbronnen">'+(NWS().src.length?"Nog geen nieuwe video's":"Kies je videobronnen")+' ›</div>';
-   const arts=NA.slice(0,5).map((x,i)=>aRow(x,i,"n")).join("")||'<div class="bempty f" data-go="!Nieuws: artikelbronnen">Artikelen laden… of kies je bronnen ›</div>';
+   const pick=[],cnt={};NW.forEach((x,i)=>{if(pick.length<4&&(cnt[x.src]||0)<2){cnt[x.src]=(cnt[x.src]||0)+1;pick.push(i)}});NW.forEach((x,i)=>{if(pick.length<4&&!pick.includes(i))pick.push(i)});const vids=pick.map(i=>vTile(NW[i],i,"x")).join("")||'<div class="bempty f" data-go="!Nieuwsbronnen">'+(NWS().src.length?"Nog geen nieuwe video's":"Kies je videobronnen")+' ›</div>';
+   const pa=[],ca={};NA.forEach((x,i)=>{if(pa.length<5&&(ca[x.src]||0)<2){ca[x.src]=(ca[x.src]||0)+1;pa.push(i)}});NA.forEach((x,i)=>{if(pa.length<5&&!pa.includes(i))pa.push(i)});const arts=pa.map(i=>aRow(NA[i],i,"n")).join("")||'<div class="bempty f" data-go="!Nieuws: artikelbronnen">Artikelen laden… of kies je bronnen ›</div>';
    $("s-live").style.display="";document.body.classList.add("haslive");$("live").innerHTML='<div class="bcol"><h3>Video\'s</h3><div class="vgrid">'+vids+'</div></div><div class="bcol"><h3>Artikelen</h3><div class="alist">'+arts+'</div></div>';drawSport();try{build()}catch(e){}return;}
   $("live").className="row in";
   if(bm==="watch")h=WL.length?WL.map((w,i)=>'<div class="card f" data-w="'+i+'" style="background-image:'+(w.img?cu(w.img):art(i*37+90))+'"><div class="lab"><div class="tt">'+esc(w.t)+'</div><small>'+esc(w.s)+'</small></div></div>').join(""):'<div class="empty glass f" data-go="!Trakt-account"><span>'+(S.trRefresh?"Je kijklijst is leeg. Zet films en series op je Trakt-kijklijst.":"Koppel Trakt om hier je kijklijst te zien")+'</span>'+(S.trRefresh?"":"<b>Koppelen ›</b>")+'</div>';
@@ -1870,17 +1870,17 @@ const NEWSSRC=[["@NOS","NOS"],["@Nieuwsuur","Nieuwsuur"],["@RTLnieuws","RTL Nieu
 const NEWSTOP=[["Binnenland",/nederland|kabinet|gemeente|provincie|politie|rechter|amsterdam|rotterdam|utrecht|den haag|nederlander/i],["Buitenland",/oekraïne|rusland|vs |amerika|trump|china|israël|gaza|europa|eu |duitsland|frankrijk|navo/i],["Politiek",/kabinet|kamer|minister|verkiezing|partij|premier|politiek|coalitie/i],["Economie",/economie|geld|prijzen|inflatie|huizen|woning|bedrijf|banen|belasting|bank/i],["Tech & wetenschap",/tech|ai |kunstmatige|computer|internet|onderzoek|wetenschap|ruimte|klimaat|app /i],["Cultuur & media",/film|serie|muziek|kunst|boek|festival|tv-|cultuur/i],["Sport",/voetbal|sport|wedstrijd|ajax|psv|feyenoord|oranje|formule|f1|wielren|schaats/i]];
 const LEAGUES=[["soccer/ned.1","Eredivisie"],["soccer/ned.2","Keuken Kampioen Divisie"],["soccer/eng.1","Premier League"],["soccer/uefa.champions","Champions League"],["soccer/uefa.europa","Europa League"],["soccer/esp.1","La Liga"],["soccer/ger.1","Bundesliga"],["soccer/ita.1","Serie A"],["racing/f1","Formule 1"],["basketball/nba","NBA"],["football/nfl","NFL"]];
 const SPORTYT=[["@ESPNNL","ESPN"],["@ZiggoSport","Ziggo Sport"],["@NOSSport","NOS Sport"]];
-let NW=[],SP=[];const NWS=()=>S.nw||(S.nw={src:["@NOS","@Nieuwsuur"],top:[]}),SPS=()=>S.sp||(S.sp={lg:[],club:[]});
+let NW=[],SP=[];const NWS=()=>{const n=S.nw||(S.nw={src:["@NOS","@Nieuwsuur","@zondagmetlubach","@NOSop3"],top:[],art:["nos","nu","rtl"]});if(!S.nwmig){S.nwmig=1;["@zondagmetlubach","@NOSop3"].forEach(h=>{if(!n.src.includes(h))n.src.push(h)});n.art=n.art||["nos","nu"];if(!n.art.includes("rtl"))n.art.push("rtl");}return n;},SPS=()=>S.sp||(S.sp={lg:[],club:[]});
 async function ytData(u){const tok=await ytToken().catch(()=>""),yk=key("youtube");if(!tok&&!yk)throw 0;return j("https://www.googleapis.com/youtube/v3/"+u+(tok?"":"&key="+yk),tok?{headers:{Authorization:"Bearer "+tok}}:{});}
 async function ytUploads(h){S.chU=S.chU||{};if(S.chU[h])return S.chU[h];const d=await ytData("channels?part=contentDetails&forHandle="+encodeURIComponent(h));const u=d.items&&d.items[0]&&d.items[0].contentDetails.relatedPlaylists.uploads;S.chU[h]=u||"-";save();return S.chU[h];}
 async function ytLatest(h,n){const u=await ytUploads(h);if(!u||u==="-")return[];const d=await ytData("playlistItems?part=snippet&maxResults="+(n||8)+"&playlistId="+u);
  return(d.items||[]).map(x=>{const sn=x.snippet||{},th=sn.thumbnails||{};return{t:sn.title,c:sn.channelTitle,v:(sn.resourceId||{}).videoId,ts:Date.parse(sn.publishedAt)||0,img:(th.high||th.medium||th.default||{}).url||""}}).filter(x=>x.v&&!/private video|deleted video/i.test(x.t));}
-async function loadNews(force){const c=!force&&cget("ghNW3",18e5);if(c){NW=c;return}const st=NWS(),tops=NEWSTOP.filter(t=>st.top.includes(t[0])),now=Date.now();let all=[];
+async function loadNews(force){const c=!force&&cget("ghNW4",18e5);if(c){NW=c;return}const st=NWS(),tops=NEWSTOP.filter(t=>st.top.includes(t[0])),now=Date.now();let all=[];
  for(const h of st.src){try{all=all.concat(await ytLatest(h,10))}catch(e){if(e===0)break}}
  all.sort((a,b)=>b.ts-a.ts);const fresh=all.filter(x=>now-x.ts<4*864e5),hit=fresh.filter(x=>!tops.length||tops.some(t=>t[1].test(x.t)));
  // te weinig over je onderwerpen? Vul aan met het nieuwste van je bronnen (en anders iets oudere video's), zodat de rij nooit leeg voelt
  let list=hit.slice(0,16);if(list.length<6){const ids=new Set(list.map(x=>x.v));(fresh.length>=6?fresh:all).forEach(x=>{if(list.length<10&&!ids.has(x.v)){ids.add(x.v);list.push(Object.assign({more:1},x))}});}
- NW=list.map(x=>({k:"yt",v:x.v,t:x.t,src:x.c,s:ago(x.ts)+(x.more&&tops.length?" · ook nieuw":""),img:x.img}));if(NW.length)cset("ghNW3",NW);}
+ NW=list.map(x=>({k:"yt",v:x.v,t:x.t,src:x.c,s:ago(x.ts)+(x.more&&tops.length?" · ook nieuw":""),img:x.img}));if(NW.length)cset("ghNW4",NW);}
 const ymd=d=>d.toISOString().slice(0,10).replace(/-/g,"");
 const spDay=t=>{const d=new Date(t),n=new Date(),dd=Math.round((new Date(d.toDateString())-new Date(n.toDateString()))/864e5);return(dd===0?"Vandaag":dd===1?"Morgen":dd===-1?"Gisteren":d.toLocaleDateString("nl-NL",{weekday:"short",day:"numeric",month:"short"}))+" "+d.toLocaleTimeString("nl-NL",{hour:"2-digit",minute:"2-digit"})};
 async function loadSport(force){const c=!force&&cget("ghSP4",S.spHot?2e5:18e5);if(c){SP=c;return}const st=SPS();if(!st.lg.length){SP=[];return}const now=new Date(),fr=new Date(now-864e5),to=new Date(+now+6*864e5),out=[],cl=st.club.map(x=>x.toLowerCase()),B="https://site.api.espn.com/apis/";
@@ -1924,8 +1924,8 @@ const DEMO_SP=[{k:"st",n:"PSV",rank:"1",pts:"29",logo:""},{k:"st",n:"Feyenoord",
 async function loadBot(force){const m=botMode();try{if(m==="news"){await loadNews(force);await loadArts(force);}}catch(e){}if(P==="preview"&&!NW.length)NW=DEMO_NW;if(P==="preview"&&!NA.length)NA=[{k:"art",t:"Tweede Kamer stemt in met nieuwe woningwet",src:"NOS",s:"2 uur geleden",desc:"De Tweede Kamer heeft ingestemd met een wet die het bouwen van betaalbare woningen moet versnellen. Gemeenten krijgen meer mogelijkheden om sneller vergunningen te geven.",img:""},{k:"art",t:"Storm Bert: code oranje voor het noorden",src:"NU.nl",s:"4 uur geleden",desc:"Het KNMI waarschuwt voor zware windstoten in de noordelijke provincies.",img:""}];if(P==="preview"&&!Object.keys(SPTAB).length)SPTAB={Eredivisie:[{rank:"1",n:"PSV",pts:"29",gp:"13",me:1},{rank:"2",n:"AZ",pts:"27",gp:"13"},{rank:"3",n:"Ajax",pts:"26",gp:"13"},{rank:"4",n:"FC Twente",pts:"25",gp:"13"},{rank:"5",n:"Feyenoord",pts:"25",gp:"13",me:1}]};if(m==="news")drawLive();try{if(S.spRow!==0)await loadSport(force);}catch(e){}if(P==="preview"&&!SP.length)SP=DEMO_SP;drawSport();try{build()}catch(e){}}
 setTimeout(()=>loadBot(),3500);setInterval(()=>{if(!document.hidden)loadBot()},S.spHot?2e5:5*60000);setInterval(()=>{if(!document.hidden&&S.spHot&&S.spRow!==0)loadBot()},2e5);
 function togList(title,list,arr,after){const o=list.map(([id,n])=>({l:n,v:()=>(S.chU&&S.chU[id]==="-"&&arr.includes(id)?"Kanaal niet gevonden · ":"")+(arr.includes(id)?"Aan ✓":"Uit"),ok:()=>{const i=arr.indexOf(id);i<0?arr.push(id):arr.splice(i,1);save();after&&after();}}));sheet(title,o);}
-function newsSrc(){togList("Nieuwsbronnen",NEWSSRC,NWS().src,()=>{try{localStorage.removeItem("ghNW3")}catch(e){}loadBot(1)});$("msg").textContent="Kies van welke kanalen je de nieuwste video's wilt zien.";}
-function newsTop(){togList("Onderwerpen",NEWSTOP.map(t=>[t[0],t[0]]),NWS().top,()=>{try{localStorage.removeItem("ghNW3")}catch(e){}loadBot(1)});$("msg").textContent="Niets aangevinkt = alle onderwerpen.";}
+function newsSrc(){togList("Nieuwsbronnen",NEWSSRC,NWS().src,()=>{try{localStorage.removeItem("ghNW4")}catch(e){}loadBot(1)});$("msg").textContent="Kies van welke kanalen je de nieuwste video's wilt zien.";}
+function newsTop(){togList("Onderwerpen",NEWSTOP.map(t=>[t[0],t[0]]),NWS().top,()=>{try{localStorage.removeItem("ghNW4")}catch(e){}loadBot(1)});$("msg").textContent="Niets aangevinkt = alle onderwerpen.";}
 function spLeagues(){togList("Sport: competities",LEAGUES,SPS().lg,()=>{try{localStorage.removeItem("ghSP4")}catch(e){}loadBot(1)});}
 async function spClubs(){const st=SPS();if(!st.lg.length){toast("Kies eerst een competitie");return spLeagues();}sheet("Sport: clubs",[{l:"Clubs laden…",v:()=>""}]);const names=[];
  for(const lg of st.lg){if(!/^soccer|basketball|football/.test(lg))continue;try{const d=await j("https://site.api.espn.com/apis/site/v2/sports/"+lg+"/teams");((((d.sports||[])[0]||{}).leagues||[])[0]||{teams:[]}).teams.forEach(t=>{const n=t.team.displayName;if(!names.includes(n))names.push(n)})}catch(e){}}
@@ -1938,10 +1938,10 @@ async function rss(u){let items=[];
  try{const x=await(await fetch(u)).text();const doc=new DOMParser().parseFromString(x,"text/xml");items=[...doc.getElementsByTagName("item")].map(it=>{const g=t=>(it.getElementsByTagName(t)[0]||{}).textContent||"";const enc=it.getElementsByTagName("enclosure")[0];const ce=it.getElementsByTagNameNS("*","encoded")[0];const html=(ce&&ce.textContent)||g("description");return{t:g("title"),link:g("link"),ts:Date.parse(g("pubDate"))||0,desc:strip(g("description")),html:html.slice(0,20000),img:enc?enc.getAttribute("url"):""}});}catch(e){}
  if(!items.length){try{const d=await j("https://api.rss2json.com/v1/api.json?rss_url="+encodeURIComponent(u));items=(d.items||[]).map(it=>({t:it.title,link:it.link,ts:Date.parse((it.pubDate||"").replace(" ","T")+"Z")||0,desc:strip(it.description||it.content),html:String(it.content||it.description||"").slice(0,20000),img:(it.enclosure&&it.enclosure.link)||it.thumbnail||""}));}catch(e){}}
  return items.filter(x=>x.t);}
-async function loadArts(force){const c=!force&&cget("ghNA2",9e5);if(c){NA=c;return}const st=NWS(),srcs=ARTSRC.filter(a=>(st.art||["nos","nu"]).includes(a[0])),tops=NEWSTOP.filter(t=>st.top.includes(t[0]));let all=[];
+async function loadArts(force){const c=!force&&cget("ghNA3",9e5);if(c){NA=c;return}const st=NWS(),srcs=ARTSRC.filter(a=>(st.art||["nos","nu"]).includes(a[0])),tops=NEWSTOP.filter(t=>st.top.includes(t[0]));let all=[];
  for(const a of srcs){try{all=all.concat((await rss(a[2])).map(x=>Object.assign(x,{src:a[1]})))}catch(e){}}
  all.sort((a,b)=>b.ts-a.ts);let hit=all.filter(x=>!tops.length||tops.some(t=>t[1].test(x.t+" "+x.desc)));if(hit.length<5)hit=hit.concat(all.filter(x=>!hit.includes(x))).slice(0,10);
- NA=hit.slice(0,12).map(x=>({k:"art",t:x.t,src:x.src,s:ago(x.ts),ts:x.ts,img:x.img,desc:x.desc,html:x.html||"",link:x.link}));if(NA.length)cset("ghNA2",NA);}
+ NA=hit.slice(0,12).map(x=>({k:"art",t:x.t,src:x.src,s:ago(x.ts),ts:x.ts,img:x.img,desc:x.desc,html:x.html||"",link:x.link}));if(NA.length)cset("ghNA3",NA);}
 function fullOpen(h){if(!/fbtn/.test(h))window.fullLink="";if(!/class="pa"|Geen tekst/.test(h))window.fullArt=0;$("fin").scrollTop=0;$("fin").innerHTML=h+'<div class="hint">'+(window.fullArt?"▲▼ scrollen · ":"")+(window.fullLink?"OK opent het volledige artikel · ":"")+'Terug om te sluiten</div>';document.body.classList.add("full");window.fullPrev=mode;mode="full";stopPreview();}
 function fullClose(){document.body.classList.remove("full");mode=window.fullPrev&&window.fullPrev!=="full"?window.fullPrev:"home";paint();}
 function paras(t){const z=(t||"").match(/[^.!?]+[.!?]+["”’]?|[^.!?]+$/g)||[];const out=[];let cur="";z.forEach(q=>{cur+=q;if(cur.length>170){out.push(cur.trim());cur=""}});if(cur.trim())out.push(cur.trim());return out.slice(0,5);}
@@ -2448,7 +2448,7 @@ function mediaFocus(el){let it=null,box=null;
  const k=it?(it.v||it.id||it.t):"";if(fr===1&&mode==="home"){if(!window.hpz){clearInterval(hT);window.hpz=1}}else if(window.hpz){window.hpz=0;clearInterval(hT);hT=setInterval(nextHero,12000);}
  if(k===pvKey&&!(el&&el.dataset.c))return;pvKey=k;stopPreview();
  clearTimeout(fbT);fbT=setTimeout(()=>{const c=fr===3&&el&&el.dataset.c?CONT[+el.dataset.c]:null;const u0=(it&&fr===3&&(it.big||it.img))||(c&&c.img),u=u0||(mode==="home"&&fr>=2&&HERO.length&&HERO[hi]&&HERO[hi].big);window.fbH=!u0;if(u){const tk=window.fbTok=(window.fbTok||0)+1;preImg(u).then(()=>{if(window.fbTok!==tk)return;$("fbg").style.backgroundImage=cu(u);document.body.classList.add("fb")})}else document.body.classList.remove("fb")},300);
- if(it&&!it.act&&!it.tv&&!it.sp)pvT=setTimeout(()=>startPreview(box,it),fr===1?8000:2500);}
+ if(it&&!it.act&&!it.tv&&!it.sp)pvT=setTimeout(()=>startPreview(box,it),fr===1?6000:1400);}
 function paint(){rows.flat().forEach(e=>e.classList.remove("focus"));$("rail").classList.toggle("open",fr===0&&mode==="home");
  const el=rows[fr][fi];if(!el||mode!=="home"){detail(-1);mediaFocus(null);capPaint(null);return;}el.classList.add("focus");
  const pr=el.parentNode;if(pr.classList.contains("row"))pr.scrollLeft=Math.max(0,el.offsetLeft-200);
@@ -2472,7 +2472,7 @@ function move(dr,di){
  if(fr===0){if(dr)fi=Math.max(0,Math.min(RAIL.length-1,fi+dr));else if(di>0){fr=last.r;fi=last.i;}return paint();}
  if((fr===4||fr===5)&&rows[fr][fi]&&rows[fr][fi].classList.contains("bi")||((fr===4||fr===5)&&rows[fr][fi]&&rows[fr][fi].closest&&rows[fr][fi].closest(".board"))){const cur=rows[fr][fi],r0=cur.getBoundingClientRect(),cx=r0.left+r0.width/2,cy=r0.top+r0.height/2;let best=-1,bs=1e9;
   rows[fr].forEach((e,q)=>{if(q===fi)return;const r=e.getBoundingClientRect(),dx=r.left+r.width/2-cx,dy=r.top+r.height/2-cy;let p,sec;
-   if(di>0){if(r.left<r0.right-8)return;p=dx;sec=Math.abs(dy)}else if(di<0){if(r.right>r0.left+8)return;p=-dx;sec=Math.abs(dy)}else if(dr>0){if(r.top<r0.bottom-8)return;p=dy;sec=Math.abs(dx)}else{if(r.bottom>r0.top+8)return;p=-dy;sec=Math.abs(dx)}
+   if(di>0){if(r.left<r0.right-8)return;p=dx;sec=Math.abs(r.top-r0.top)}else if(di<0){if(r.right>r0.left+8)return;p=-dx;sec=Math.abs(r.top-r0.top)}else if(dr>0){if(r.top<r0.bottom-8)return;p=dy;sec=Math.abs(dx)}else{if(r.bottom>r0.top+8)return;p=-dy;sec=Math.abs(dx)}
    const sc=p+sec*2;if(sc<bs){bs=sc;best=q}});
   if(best>=0){fi=best;return paint();}if(di>0)return;if(di<0){last={r:fr,i:fi};fr=0;fi=Math.max(0,RAIL.findIndex(r=>r[0]==="home"));return paint();}}
  if(di<0&&fi===0){last={r:fr,i:fi};fr=0;fi=Math.max(0,RAIL.findIndex(r=>r[0]==="home"));return paint();}
@@ -2505,7 +2505,7 @@ if(P==="preview"){try{history.pushState({gh:1},"");addEventListener("popstate",(
 let oi=0,kn="tmdb",CUR;const OPTS=[
  {l:"Profielen en kinderslot",v:()=>esc(profName())+" ›",ok:()=>profiles()},
  {l:"Rij onder de aanbevelingen",v:()=>BOTN[botMode()]+" · ◀ ▶",ch:d=>{const b=BOTS(),i=b.indexOf(botMode());S.bot=b[(i+d+b.length)%b.length];S.showLive=S.bot==="off"?0:1;save();if(S.bot==="watch")loadWL();drawLive();loadBot();},ok:()=>{const b=BOTS(),i=b.indexOf(botMode());S.bot=b[(i+1)%b.length];S.showLive=S.bot==="off"?0:1;save();if(S.bot==="watch")loadWL();drawLive();loadBot();}},
- {l:"Nieuwsbronnen",v:()=>NWS().src.length+" gekozen ›",ok:()=>newsSrc()},{l:"Nieuws: artikelbronnen",v:()=>((NWS().art||["nos","nu"]).length)+" gekozen ›",ok:()=>{const st=NWS();if(!st.art)st.art=["nos","nu"];togList("Artikelbronnen",ARTSRC.map(a=>[a[0],a[1]]),st.art,()=>{try{localStorage.removeItem("ghNA2")}catch(e){}loadBot(1)});}},{l:"Nieuws-onderwerpen",v:()=>(NWS().top.length?NWS().top.length+" gekozen":"Alles")+" ›",ok:()=>newsTop()},
+ {l:"Nieuwsbronnen",v:()=>NWS().src.length+" gekozen ›",ok:()=>newsSrc()},{l:"Nieuws: artikelbronnen",v:()=>((NWS().art||["nos","nu"]).length)+" gekozen ›",ok:()=>{const st=NWS();if(!st.art)st.art=["nos","nu"];togList("Artikelbronnen",ARTSRC.map(a=>[a[0],a[1]]),st.art,()=>{try{localStorage.removeItem("ghNA3")}catch(e){}loadBot(1)});}},{l:"Nieuws-onderwerpen",v:()=>(NWS().top.length?NWS().top.length+" gekozen":"Alles")+" ›",ok:()=>newsTop()},
  {l:"Sportrij tonen",v:()=>S.spRow!==0?"Aan":"Uit",ok:()=>{S.spRow=S.spRow===0?1:0;save();drawSport();build();loadBot();}},{l:"Sport: competities",v:()=>(SPS().lg.length?SPS().lg.length+" gekozen":"Nog niets")+" ›",ok:()=>spLeagues()},{l:"Sport: clubs",v:()=>(SPS().club.length?SPS().club.length+" gekozen":"Alle")+" ›",ok:()=>spClubs()},
  {l:"Thema",v:()=>["Standaard","Donker","Licht"][S.th||0],ch:d=>{S.th=((S.th||0)+d+3)%3;save();applyTheme();}},
  {l:"Taal van titels en teksten",v:()=>["Automatisch","Nederlands","Engels"][S.lang||0],ch:d=>{S.lang=((S.lang||0)+d+3)%3;save();loadAll();}},
