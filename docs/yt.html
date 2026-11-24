@@ -10,7 +10,7 @@ var clean=function(v){return (v||"").replace(/[^\w-]/g,"")};
 var boot=0,cur={v:clean(q.v),s:parseInt(q.s||"0",10)||0,vol:Math.min(100,parseInt(q.vol||"60",10)||60),n:q.n||0,af:q.af==="0"?0:1},pl,ready=0,on=0,ft,to;
 function up(m){try{m.n=cur.n;parent.postMessage(Object.assign({gh:"yt"},m),"*")}catch(e){}}
 function arm(){clearTimeout(to);on=0;to=setTimeout(function(){if(!on&&cur.v)up({error:"timeout"})},20000)}
-function fade(p){clearInterval(ft);try{p.unMute();p.setVolume(0)}catch(x){}var v=0;ft=setInterval(function(){v+=4;try{p.setVolume(Math.min(cur.vol,v))}catch(x){}if(v>=cur.vol)clearInterval(ft)},120)}
+function fade(p){clearInterval(ft);try{p.unMute();p.setVolume(0)}catch(x){}var v=Math.round(cur.vol*.5);try{p.setVolume(v)}catch(x){}ft=setInterval(function(){v+=10;try{p.setVolume(Math.min(cur.vol,v))}catch(x){}if(v>=cur.vol)clearInterval(ft)},60)}
 function play(){if(!ready||!cur.v)return;arm();try{pl.mute();pl.loadVideoById({videoId:cur.v,startSeconds:cur.s})}catch(x){up({error:"load"})}}
 window.onYouTubeIframeAPIReady=function(){
  boot=!!cur.v;var pv={autoplay:cur.v?1:0,mute:1,controls:0,rel:0,modestbranding:1,playsinline:1,iv_load_policy:3,disablekb:1,fs:0,origin:location.origin};if(cur.v)pv.start=cur.s;

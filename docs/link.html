@@ -97,7 +97,16 @@ var HELP={
   ["Maak de sleutel.",link("https://console.cloud.google.com/auth/clients/create","Open Clients")+"<small>Kies bij <b>Type applicatie</b>: <b>Tv's en apparaten met beperkte invoer</b>. Naam:</small>"+cp("Glass Home")+"<small>Druk op <b>Maken</b>. Je ziet nu een <b>Client-ID</b> en een <b>Clientgeheim</b>.</small>"],
   ["Kopieer ze één voor één en plak ze hieronder.",""]],
  tmdb:[["Maak een gratis account of log in.",link("https://www.themoviedb.org/settings/api","Open TMDB")],["Vraag een sleutel aan (kies <b>Developer</b>) en kopieer de <b>API Key</b>.",""],["Plak hem hieronder.",""]],
- gemini:[["Log in met je Google-account.",link("https://aistudio.google.com/apikey","Open Google AI Studio")],["Druk op <b>Create API key</b> en kopieer de sleutel.",""],["Plak hem hieronder.",""]]};
+ gemini:[["Log in met je Google-account.",link("https://aistudio.google.com/apikey","Open Google AI Studio")],["Druk op <b>Create API key</b> en kopieer de sleutel.",""],["Plak hem hieronder.",""]],
+ omdb:[["Vraag een gratis sleutel aan (kies <b>FREE</b>) en vul je e-mailadres in.",link("https://www.omdbapi.com/apikey.aspx","Open OMDb")],["Open de mail van OMDb, klik op de activatielink en kopieer de sleutel.",""],["Plak hem hieronder.",""]],
+ youtube:[["Log in bij Google Cloud.",link("https://console.cloud.google.com/apis/library/youtube.googleapis.com","Zet YouTube Data API aan")+"<small>Druk op <b>Inschakelen</b>.</small>"],["Maak een API-sleutel.",link("https://console.cloud.google.com/apis/credentials","Open Inloggegevens")+"<small>Druk op <b>Inloggegevens maken</b> → <b>API-sleutel</b> en kopieer hem.</small>"],["Plak hem hieronder.",""]],
+ claude:[["Log in bij Anthropic.",link("https://console.anthropic.com/settings/keys","Open Claude Console")],["Druk op <b>Create Key</b> en kopieer de sleutel.",""],["Plak hem hieronder.",""]],
+ traktClientId:[["Log in bij Trakt en maak een app.",link("https://trakt.tv/oauth/applications/new","Open Trakt")+"<small>Naam: Glass Home. Redirect uri:</small>"+cp("urn:ietf:wg:oauth:2.0:oob")],["Kopieer de <b>Client ID</b>.",""],["Plak hem hieronder.",""]],
+ traktClientSecret:[["Open je Trakt-app.",link("https://trakt.tv/oauth/applications","Open Trakt")],["Kopieer het <b>Client Secret</b>.",""],["Plak het hieronder.",""]],
+ letterboxd:[["Je gebruikersnaam staat in je profiel.",link("https://letterboxd.com/settings/","Open Letterboxd")],["Typ of plak hem hieronder.",""]],
+ ytPlaylist:[["Open de afspeellijst op YouTube.",link("https://www.youtube.com/feed/playlists","Open je afspeellijsten")],["Kopieer de link; het stuk na <b>list=</b> is de ID.",""],["Plak hem hieronder.",""]],
+ epgUrl:[["Je tv-gidslink (XMLTV) krijg je van je IPTV-aanbieder, vaak in de welkomstmail of in hun app.",""],["Plak hem hieronder.",""]],
+ urls:[["Zoek mooie foto's, bijvoorbeeld op Unsplash.",link("https://unsplash.com","Open Unsplash")],["Kopieer de link van een foto (rechtsklik → afbeeldingsadres). Meerdere links scheid je met een spatie.",""],["Plak ze hieronder.",""]]};
 if(H.m==="key"){
  var f=(H.f||"").split(";").filter(Boolean).map(function(x){var p=x.split("|");return{n:p[0],l:p[1]||p[0]}});
  H1.textContent=H.h==="google"?"YouTube koppelen":"Invullen voor je tv";SUB.textContent=H.h==="google"?"Eenmalig, duurt ongeveer 5 minuten":"Plakken op je telefoon is makkelijker dan typen met de afstandsbediening";
