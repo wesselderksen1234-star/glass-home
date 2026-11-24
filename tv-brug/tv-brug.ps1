@@ -1,4 +1,4 @@
-# Glass Home tv-brug: verbindt je pc met de LG-tv (officiële LG-netwerkbediening)
+﻿# Glass Home tv-brug: verbindt je pc met de LG-tv (officiële LG-netwerkbediening)
 # en zet Glass Home automatisch aan als de tv aangaat.
 param([switch]$Setup)
 $ErrorActionPreference = "Continue"
@@ -31,7 +31,7 @@ if ($Setup) {
 }
 
 # maar één exemplaar tegelijk
-$mutex = New-Object Threading.Mutex($false, "GlassHomeTvBrug2")
+$mutex = New-Object Threading.Mutex($false, "GlassHomeTvBrug3")
 if (-not $mutex.WaitOne(0)) { Write-Host "De tv-brug draait al."; exit }
 
 # de tv gebruikt een eigen (zelf-ondertekend) certificaat: accepteer dat alleen in deze brug
@@ -127,7 +127,9 @@ function Handle-Event($o) {
 function Start-GlassHome {
   $cfg = Join-Path $Dir "autostart-uit.txt"
   if (Test-Path $cfg) { return }
-  Start-Sleep -Milliseconds 1500
+  Start-Sleep -Seconds 5
+  try { $fg = Req "ssap://com.webos.applicationManager/getForegroundAppInfo" "{}"; $fid = "$($fg.payload.appId)" } catch { $fid = "" }
+  if ($fid -match "hdmi|externalinput|com.custom.glasshome") { Log ("Glass Home niet gestart: tv staat op " + $fid); return }
   $r = Req "ssap://system.launcher/launch" ('{"id":"' + $AppId + '"}')
   Log ("Glass Home gestart: " + ($r.type))
 }
@@ -145,7 +147,7 @@ function Connect-Tv {
   $end = (Get-Date).AddSeconds(90)
   while ((Get-Date) -lt $end) {
     $m = Poll-Ws $script:ws 1000
-    if ($m -eq $null) { continue }
+    if ($m -eq $null) { Run-Commands; continue }
     $o = $m | ConvertFrom-Json
     if ($o.type -eq "registered") {
       Set-Content -Path $keyFile -Value $o.payload."client-key" -Encoding ASCII
@@ -181,6 +183,7 @@ function Run-Commands {
         "fetch"  { $f = [IO.Path]::GetFullPath((Join-Path $Dir $c.file)); if (-not $f.StartsWith($Dir)) { throw "pad niet toegestaan" }; New-Item -ItemType Directory -Force -Path (Split-Path $f) | Out-Null; $wc = New-Object Net.WebClient; $wc.Headers.Add("User-Agent", "GlassHome/1.0 (persoonlijke tv-launcher)"); $wc.DownloadFile($c.url, $f); $res = "ok" }
         "unzip"  { $z = [IO.Path]::GetFullPath((Join-Path $Dir $c.file)); $t = [IO.Path]::GetFullPath((Join-Path $Dir $c.to)); if (-not $z.StartsWith($Dir) -or -not $t.StartsWith($Dir)) { throw "pad niet toegestaan" }; Expand-Archive -Path $z -DestinationPath $t -Force; $res = "ok" }
         "adb"    { $exe = Join-Path $Dir "platform-tools\adb.exe"; $pi = New-Object Diagnostics.ProcessStartInfo; $pi.FileName = $exe; $pi.Arguments = (($c.args | ForEach-Object { if ($_ -match '\s') { '"' + $_ + '"' } else { $_ } }) -join ' '); $pi.UseShellExecute = $false; $pi.RedirectStandardOutput = $true; $pi.RedirectStandardError = $true; $pi.CreateNoWindow = $true; $pr = [Diagnostics.Process]::Start($pi); $so = $pr.StandardOutput.ReadToEndAsync(); $se = $pr.StandardError.ReadToEndAsync(); $tm = if ($c.timeout) { [int]$c.timeout } else { 60 }; if (-not $pr.WaitForExit($tm * 1000)) { $pr.Kill(); $res = "timeout" } else { $res = ($so.Result + $se.Result) } }
+        "cdp"    { if ($c.dev) { $exe = Join-Path $Dir "platform-tools\adb.exe"; $pid2 = (& $exe -s $c.dev shell pidof com.custom.glasshome | Out-String).Trim().Split(" ")[0]; & $exe -s $c.dev forward ("tcp:" + $c.port) ("localabstract:webview_devtools_remote_" + $pid2) | Out-Null }; $lst = (New-Object Net.WebClient).DownloadString("http://127.0.0.1:" + $c.port + "/json") | ConvertFrom-Json; $pg = @($lst | Where-Object { $_.type -eq "page" })[0]; $cw = New-Object Net.WebSockets.ClientWebSocket; $cw.ConnectAsync([Uri]$pg.webSocketDebuggerUrl, [Threading.CancellationToken]::None).Wait(8000) | Out-Null; $msg = '{"id":1,"method":"Runtime.evaluate","params":{"expression":' + ($c.js | ConvertTo-Json -Compress) + ',"returnByValue":true,"awaitPromise":true}}'; $bb = [Text.Encoding]::UTF8.GetBytes($msg); $cw.SendAsync((New-Object ArraySegment[byte] -ArgumentList @(,$bb)), [Net.WebSockets.WebSocketMessageType]::Text, $true, [Threading.CancellationToken]::None).Wait(5000) | Out-Null; $buf = New-Object byte[] 1048576; $ms = New-Object IO.MemoryStream; $dl = (Get-Date).AddSeconds(20); do { $rr = $cw.ReceiveAsync((New-Object ArraySegment[byte] -ArgumentList @(,$buf)), [Threading.CancellationToken]::None); if (-not $rr.Wait(20000)) { break }; $ms.Write($buf, 0, $rr.Result.Count); if ($rr.Result.EndOfMessage) { $t = [Text.Encoding]::UTF8.GetString($ms.ToArray()); if ($t -match '"id":1') { break }; $ms.SetLength(0) } } while ((Get-Date) -lt $dl); $res = [pscustomobject]@{ raw = [Text.Encoding]::UTF8.GetString($ms.ToArray()) }; try { $cw.Abort() } catch {} }
         "autostart" { $af = Join-Path $Dir "autostart-uit.txt"; if ($c.on) { Remove-Item $af -ErrorAction SilentlyContinue } else { Set-Content $af "uit" }; $res = "ok" }
         default  { $res = "onbekend" }
       }
@@ -194,6 +197,7 @@ function Run-Commands {
 }
 
 Log "Tv-brug gestart."
+$script:nextTry = Get-Date
 $self = Join-Path $Dir "tv-brug.ps1"; $selfTime = (Get-Item $self).LastWriteTime
 while ($true) {
   try {
@@ -203,9 +207,12 @@ while ($true) {
       Start-Process powershell -ArgumentList ('-NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File "' + $self + '"') -WindowStyle Hidden
       exit
     }
+    Run-Commands
     if (-not $script:ws -or $script:ws.State -ne "Open") {
+      if ((Get-Date) -lt $script:nextTry) { Start-Sleep -Seconds 1; continue }
+      $script:nextTry = (Get-Date).AddSeconds(30)
       $ok = Connect-Tv
-      if (-not $ok) { Run-Commands; Start-Sleep -Seconds 3; continue }
+      if (-not $ok) { continue }
     }
     $m = Poll-Ws $script:ws 1000
     if ($m) { Handle-Event ($m | ConvertFrom-Json) }
