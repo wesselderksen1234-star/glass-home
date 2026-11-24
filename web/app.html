@@ -1,4 +1,4 @@
-<!DOCTYPE html><!--GH_BUILD:2.9.9-->
+<!DOCTYPE html><!--GH_BUILD:3.0.0-->
 <html lang="nl" style="background:#05060a url(splash5.png) center/cover no-repeat"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,viewport-fit=cover">
 <title>Glass Home</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
@@ -326,6 +326,8 @@ body.det.shelf #s-live,body.det.shelf #s-sport{opacity:0!important;pointer-event
 #np b{display:block;font-size:21px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}#np #nps{display:block;font-size:16px;opacity:.75;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 #np .npb{height:5px;border-radius:3px;background:rgba(255,255,255,.2);margin-top:9px;overflow:hidden}#np .npb i{display:block;height:100%;background:#fff;transform-origin:0 50%;transition:transform 1s linear}#np .npc{display:flex;justify-content:space-between;font-size:13px;opacity:.65;margin-top:4px;font-variant-numeric:tabular-nums}
 #np .npk{display:flex;gap:8px;align-items:center}#np .nb{width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.1)}#np .nb.big{width:56px;height:56px;background:#fff;color:#111}#np .nb svg{width:24px;height:24px}#np .nb.focus{transform:scale(1.12)}
+.pv iframe{width:116%!important;height:116%!important;left:-8%!important;top:-8%!important}.pv.vert iframe{width:auto!important;height:100%!important;left:50%!important;top:0!important}.pv.on~.srcb{opacity:0;transition:opacity .3s}
+.vt,.ac{isolation:isolate;-webkit-mask-image:-webkit-radial-gradient(white,black)}
 /* app-tegels: logo mooi gecentreerd, zonder vakje-in-een-vakje */
 .app{align-items:center;justify-content:center;text-align:center;gap:10px;padding:16px 14px}
 .app b{font-size:19px;line-height:1.15}
@@ -1581,7 +1583,7 @@ module.exports = QRRSBlock;
 
 };
 var Q=R("./index"),E=R("./QRErrorCorrectLevel");window.ghQR=function(t){var q=new Q(-1,E.M);q.addData(t);q.make();var n=q.getModuleCount(),p="";for(var r=0;r<n;r++)for(var c=0;c<n;c++)if(q.isDark(r,c))p+="M"+(c+2)+" "+(r+2)+"h1v1h-1z";return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 '+(n+4)+' '+(n+4)+'" shape-rendering="crispEdges"><rect width="100%" height="100%" fill="#fff"/><path d="'+p+'" fill="#000"/></svg>';};})();</script>
-<script type="text/plain" id="ghv">GH_BUILD:2.9.9</script>
+<script type="text/plain" id="ghv">GH_BUILD:3.0.0</script>
 <div id="intro"><div class="orb"></div><div class="ghw"><svg class="ghl" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
 <defs>
 <linearGradient id="gl" x1="0" y1="0" x2="0.35" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".96"/><stop offset=".55" stop-color="#e9ecf6" stop-opacity=".78"/><stop offset="1" stop-color="#c9cfe6" stop-opacity=".6"/></linearGradient>
@@ -1988,7 +1990,13 @@ function artVideo(x){let v="";try{const m=/(?:youtube\.com\/(?:watch\?v=|embed\/
   NW.concat(SP.filter(y=>y.k==="yt")).forEach(y=>{const b=w(y.t);let n=0;b.forEach(q=>{if(a.has(q))n++});if(n>best&&n>=2){best=n;v=y.v;window.artVT=y.t}});}
  return v;}
 function artVidCheck(){const b=$("fin").querySelector(".avid");if(!b||b.dataset.on)return;const f=$("fin").getBoundingClientRect(),r=b.getBoundingClientRect();if(r.top<f.bottom-120&&r.bottom>f.top+60){b.dataset.on=1;pvKey=b.dataset.v;startPreview(b.querySelector(".vth"),{yt:1,v:b.dataset.v,t:""});}}
-function openArt(x){if(!x)return;window.fullLink=x.link||"";window.fullArt=1;const body=artBody(x);window.artVT="";const av=artVideo(x);const ps=body?[]:paras(x.desc);fullOpen((x.img?'<img class="aim" src="'+esc(x.img)+'">':'')+'<div class="meta"><span class="srcb" style="position:static;margin-right:12px">'+esc(x.src||"Nieuws")+'</span>'+esc(x.s||"")+'</div><h1>'+esc(x.t)+'</h1>'+(body||(ps.length?ps.map(q=>'<p class="pa">'+esc(q)+'</p>').join(""):'<p>Geen tekst beschikbaar.</p>'))+(av?'<h3 class="ah">Video bij dit artikel</h3><div class="avid" data-v="'+esc(av)+'"><div class="vth" style="background-image:url(\'https://i.ytimg.com/vi/'+esc(av)+'/hqdefault.jpg\')"></div>'+(window.artVT?'<small>'+esc(window.artVT)+'</small>':'')+'</div>':''));setTimeout(artVidCheck,600);}
+function openArt(x){if(!x)return;window.fullLink=x.link||"";window.fullArt=1;const body=artBody(x);window.artVT="";const av=artVideo(x);const ps=body?[]:paras(x.desc);fullOpen((x.img?'<img class="aim" src="'+esc(x.img)+'">':'')+'<div class="meta"><span class="srcb" style="position:static;margin-right:12px">'+esc(x.src||"Nieuws")+'</span>'+esc(x.s||"")+'</div><h1>'+esc(x.t)+'</h1>'+(body||(ps.length?ps.map(q=>'<p class="pa">'+esc(q)+'</p>').join(""):'<p>Geen tekst beschikbaar.</p>'))+(av?'<h3 class="ah">Video bij dit artikel</h3><div class="avid" data-v="'+esc(av)+'"><div class="vth" style="background-image:url(\'https://i.ytimg.com/vi/'+esc(av)+'/hqdefault.jpg\')"></div>'+(window.artVT?'<small>'+esc(window.artVT)+'</small>':'')+'</div>':''));setTimeout(artVidCheck,600);if(!av)artVidSearch(x);}
+async function artVidSearch(x){const ck="ghAV_"+(x.t||"").slice(0,60);let v="",t="";try{const c=JSON.parse(localStorage.getItem(ck)||"null");if(c){v=c.v;t=c.t}}catch(e){}
+ if(!v){try{const after=new Date((x.ts||Date.now())-3*864e5).toISOString();const d=await ytData("search?part=snippet&type=video&maxResults=3&relevanceLanguage=nl&regionCode=NL&order=relevance&publishedAfter="+encodeURIComponent(after)+"&q="+encodeURIComponent(x.t));
+  const it=(d.items||[]).find(i=>i.id&&i.id.videoId);if(it){v=it.id.videoId;t=(it.snippet||{}).title||"";}try{localStorage.setItem(ck,JSON.stringify({v,t}))}catch(e){}}catch(e){}}
+ if(!v||mode!=="full"||!window.fullArt||$("fin").querySelector(".avid"))return;const h=$("fin").querySelector(".hint");const d2=document.createElement("div");
+ d2.innerHTML='<h3 class="ah">Video bij dit artikel</h3><div class="avid" data-v="'+esc(v)+'"><div class="vth" style="background-image:url(\'https://i.ytimg.com/vi/'+esc(v)+'/hqdefault.jpg\')"></div>'+(t?'<small>'+esc(strip(t))+'</small>':'')+'</div>';
+ while(d2.firstChild)$("fin").insertBefore(d2.firstChild,h);setTimeout(artVidCheck,300);}
 function openMatch(x){const L=x.logos||[];fullOpen('<div class="meta">'+esc(x.s)+'</div>'+(L.length===2?'<div class="vs"><div class="t">'+(L[0]?'<img src="'+esc(L[0])+'">':'')+esc(x.h||"")+'</div><div class="sc">'+esc(x.sc||"–")+'</div><div class="t">'+(L[1]?'<img src="'+esc(L[1])+'">':'')+esc(x.a||"")+'</div></div>':'<h1>'+esc(x.t)+'</h1>')+(x.venue?'<div class="meta">'+esc(x.venue)+'</div>':'')+(x.when?'<div class="meta">'+esc(x.when)+'</div>':''));}
 function openTable(){const st=SPS(),cl=st.club.map(c=>c.toLowerCase());const k=Object.keys(SPTAB);if(!k.length)return openSettingsAt("Sport: clubs");
  const nm=k.find(n=>SPTAB[n].some(e=>e.me))||k[0];const T=SPTAB[nm];fullOpen('<h1>Stand '+esc(nm)+'</h1><table class="tab">'+T.slice(0,18).map(e=>'<tr'+(e.me?' class="me"':'')+'><td>'+esc(e.rank)+'</td><td>'+(e.logo?'<img src="'+esc(e.logo)+'">':'')+esc(e.n)+'</td><td class="n">'+esc(e.gp)+' gesp.</td><td class="n">'+esc(e.pts)+' pt</td></tr>').join("")+'</table>');}
@@ -2490,7 +2498,7 @@ async function startPreview(box,it){const vid=await trailerFor(it);const kb=()=>
  if(PVM){if(!PVW||!PVW.isConnected)pvMake();const n=++PVN,msg={cmd:"load",v:vid,s:it.yt?0:6,vol:60,n};PVW.classList.remove("on");PVW.classList.toggle("vert",isShort(it));pvMove(box,box.firstChild);
   const me={persist:1,box:PVW,n,msg};pv=me;try{PVF.contentWindow.postMessage(msg,"*")}catch(e){}
   const on=e=>{if(!e.data||e.data.gh!=="yt"||!PVF||e.source!==PVF.contentWindow)return;if(pv!==me){removeEventListener("message",on);return;}if(e.data.n!==n)return;
-   if(e.data.state==="playing")setTimeout(()=>{if(pv===me&&PVW)PVW.classList.add("on")},600);if(e.data.error!=null){removeEventListener("message",on);pv=null;pvPark();kb();}};
+   if(e.data.state==="playing")setTimeout(()=>{if(pv===me&&PVW)PVW.classList.add("on")},2000);if(e.data.error!=null){removeEventListener("message",on);pv=null;pvPark();kb();}};
   addEventListener("message",on);return;}
  const w=document.createElement("div");w.className="pv"+(isShort(it)?" vert":"");const f=document.createElement("iframe");f.setAttribute("allow","autoplay; encrypted-media");f.setAttribute("frameborder","0");
  f.style.cssText="border:0;pointer-events:none";f.tabIndex=-1;
