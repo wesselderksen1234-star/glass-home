@@ -1,4 +1,4 @@
-<!DOCTYPE html><!--GH_BUILD:2.5.3-->
+<!DOCTYPE html><!--GH_BUILD:2.5.4-->
 <html lang="nl" style="background:#05060a url(splash5.png) center/cover no-repeat"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width">
 <title>Glass Home</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
@@ -1470,7 +1470,7 @@ module.exports = QRRSBlock;
 
 };
 var Q=R("./index"),E=R("./QRErrorCorrectLevel");window.ghQR=function(t){var q=new Q(-1,E.M);q.addData(t);q.make();var n=q.getModuleCount(),p="";for(var r=0;r<n;r++)for(var c=0;c<n;c++)if(q.isDark(r,c))p+="M"+(c+2)+" "+(r+2)+"h1v1h-1z";return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 '+(n+4)+' '+(n+4)+'" shape-rendering="crispEdges"><rect width="100%" height="100%" fill="#fff"/><path d="'+p+'" fill="#000"/></svg>';};})();</script>
-<script type="text/plain" id="ghv">GH_BUILD:2.5.3</script>
+<script type="text/plain" id="ghv">GH_BUILD:2.5.4</script>
 <div id="intro"><div class="orb"></div><div class="ghw"><svg class="ghl" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
 <defs>
 <linearGradient id="gl" x1="0" y1="0" x2="0.35" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".96"/><stop offset=".55" stop-color="#e9ecf6" stop-opacity=".78"/><stop offset="1" stop-color="#c9cfe6" stop-opacity=".6"/></linearGradient>
@@ -1821,7 +1821,7 @@ function setHero(){HERO=ITEMS.filter(x=>!x.yt&&!x.sp&&x.a>3).sort((a,b)=>b.rs-a.
 function nextHero(){if(!HERO.length)return;hi=(hi+1)%HERO.length;const r=HERO[hi],a=APPS[r.a],el=$(hc==="hA"?"hB":"hA");
  el.style.backgroundImage=r.big?cu(r.big):art(r.h);el.classList.add("on");if(window.fbH&&r.big&&document.body.classList.contains("fb")){const f=$("fbg");f.style.opacity=0;setTimeout(()=>{f.style.backgroundImage=cu(r.big);f.style.opacity=""},650);}$(hc).classList.remove("on");hc=el.id;
  $("htag").innerHTML='<i style="background:'+a.c[0]+'"></i>'+(r.because&&r.because[0]?"Omdat je "+esc(r.because[0])+" keek":"Nu op "+a.n)+' · ★ '+sc10(r.avg);$("htitle").textContent=r.t;
- $("hmeta").textContent=r.s+"  ·  "+Object.keys(r.sc).sort((x,y)=>W[y]-W[x]).map(s=>SRC[s]+" "+shown(s,r.sc[s])).join(" · ");$("hbl").textContent="Openen in "+a.n;
+ $("hmeta").textContent=[r.s].concat(r.gen&&r.gen.length?[r.gen.join(", ")]:[],r.len?[r.len]:[]).join("  ·  ");$("hbl").textContent="Openen in "+a.n;
  [...$("dots").children].forEach((d,q)=>d.classList.toggle("on",q===hi));}
 
 // ---------- jouw smaak: Letterboxd-dagboek + Netflix-kijkgeschiedenis ----------
@@ -1835,7 +1835,7 @@ async function seeds(B,k){const out=[],lb=key("letterboxd");
    .forEach(r=>{if(r)out.push({id:r.id,type:r.media_type,title:r.title||r.name,w:1.5})});}catch(e){}
  if(S.trRefresh){try{(await tr("sync/history?limit=80")).forEach(h=>{const o=h.movie||h.show,t=h.movie?"movie":"tv";if(o&&o.ids.tmdb&&!out.some(x=>x.id===o.ids.tmdb))out.push({id:o.ids.tmdb,type:t,title:o.title,w:2});});}catch(e){}}
  return out;}
-async function loadMovies(tk){const c=cget("ghM8"+(S.lang||0),432e5);if(c)return c;
+async function loadMovies(tk){const c=cget("ghM9"+(S.lang||0),432e5);if(c)return c;
  const B="https://api.themoviedb.org/3/",k="api_key="+tk,ok=key("omdb"),sd=await seeds(B,k),C=new Map(),own=new Set(sd.map(s=>s.type+s.id));
  const add=(m,type,why,w)=>{const id=type+m.id;let c=C.get(id);if(!c){c={m,type,n:0,why:[]};C.set(id,c)}c.n+=w;if(why&&c.why.length<2&&!c.why.includes(why))c.why.push(why);};
  await Promise.all(sd.slice(0,25).map(s=>j(B+s.type+"/"+s.id+"/recommendations?language=nl-NL&"+k).then(r=>r.results.slice(0,12).forEach(m=>add(m,s.type,s.title,s.w))).catch(()=>{})));
@@ -1858,11 +1858,11 @@ async function loadMovies(tk){const c=cget("ghM8"+(S.lang||0),432e5);if(c)return
   if(d.vote_count>150)sc.TMDB=Math.round(d.vote_average*10);
   if(!Object.keys(sc).length)return null;const A=wavg(sc);
   return{id:m.id,type:c.type,t:ttl,s:(c.type==="tv"?"Serie":"Film")+" · "+(d.release_date||d.first_air_date||"").slice(0,4),
-   a:hit?PROV[hit.provider_name]:1,because:c.why,sc,avg:A,rs:A+Math.min(c.n,4)*4,ov:d.overview||"",imdb,
+   a:hit?PROV[hit.provider_name]:1,because:c.why,sc,avg:A,rs:A+Math.min(c.n,4)*4,ov:d.overview||"",imdb,gen:(d.genres||[]).slice(0,2).map(g=>g.name),len:c.type==="tv"?(d.number_of_seasons?d.number_of_seasons+(d.number_of_seasons===1?" seizoen":" seizoenen"):""):(d.runtime?(d.runtime>=60?Math.floor(d.runtime/60)+" u "+(d.runtime%60?d.runtime%60+" min":""):d.runtime+" min").trim():""),
    img:"https://image.tmdb.org/t/p/w1280"+(d.backdrop_path||m.backdrop_path),big:"https://image.tmdb.org/t/p/original"+(d.backdrop_path||m.backdrop_path),bp:d.backdrop_path};}catch(e){return null}};
  let res=[];for(let i=0;i<list.length;i+=10)res=res.concat(await Promise.all(list.slice(i,i+10).map(det)));
  const out=res.filter(x=>x&&x.bp&&x.avg>=68).sort((a,b)=>b.rs-a.rs);
- cset("ghM8"+(S.lang||0),out);return out;}
+ cset("ghM9"+(S.lang||0),out);return out;}
 
 // ---------- Spotify: jouw toppers + nieuwe releases die bij je passen ----------
 let spTokenP;async function spToken(){return spTokenP||(spTokenP=_spToken().finally(()=>{spTokenP=null}));}
@@ -1969,14 +1969,14 @@ let phTok=0;async function phoneLink(o,txt,done){clearTimeout(phT);const m=$("ms
    for(const ln of tx.split("\n")){if(!ln)continue;const e=JSON.parse(ln);if(e.event!=="message")continue;
     const raw=Uint8Array.from(atob(e.message.replace(/-/g,"+").replace(/_/g,"/")),c=>c.charCodeAt(0));
     const d=JSON.parse(new TextDecoder().decode(await crypto.subtle.decrypt({name:"AES-GCM",iv:raw.slice(0,12)},ck,raw.slice(12))));
-    Object.keys(d).forEach(x=>{if(d[x])S[x]=d[x]});save();["ghM8"+(S.lang||0)].forEach(x=>{try{localStorage.removeItem(x)}catch(e){}});if(done)done(d);else{m.textContent="Opgeslagen ✓";loadAll();}if(mode==="panel")drawOpts();return;}}catch(e){}
+    Object.keys(d).forEach(x=>{if(d[x])S[x]=d[x]});save();["ghM9"+(S.lang||0)].forEach(x=>{try{localStorage.removeItem(x)}catch(e){}});if(done)done(d);else{m.textContent="Opgeslagen ✓";loadAll();}if(mode==="panel")drawOpts();return;}}catch(e){}
   phT=setTimeout(poll,3000);};phT=setTimeout(poll,3000);}
 function spLink(){phoneLink({m:"spotify",cid:key("spotifyClientId")||""},"<b>Spotify koppelen</b><br>1. Pak je telefoon en open de camera.<br>2. Richt hem op de code hiernaast en tik op de link.<br>3. Volg de stappen op je telefoon. Klaar!",()=>{spTokenP=null;$("msg").textContent="Spotify gekoppeld ✓";try{localStorage.removeItem("ghSP6")}catch(e){}loadAll();});}
 async function trLink(){const cid=key("traktClientId"),m=$("msg");if(!cid)return phoneLink({m:"key",h:"trakt",f:"traktClientId|Trakt Client ID"},"Om Trakt te koppelen is eenmalig een gratis Trakt-sleutel nodig. Je telefoon legt uit hoe.",()=>trLink());
  try{const d=await j("https://api.trakt.tv/oauth/device/code",{method:"POST",headers:TH(),body:JSON.stringify({client_id:cid})});
   m.innerHTML=codeHtml("Trakt koppelen",d.verification_url+"/"+d.user_code,d.user_code);
   clearInterval(trPoll);const tEnd=Date.now()+(d.expires_in||600)*1000;trPoll=setInterval(async()=>{if(Date.now()>tEnd){clearInterval(trPoll);m.textContent="De code is verlopen. Probeer het opnieuw.";return}try{const r=await j("https://api.trakt.tv/oauth/device/token",{method:"POST",headers:TH(),body:JSON.stringify({code:d.device_code,client_id:cid,client_secret:key("traktClientSecret")||undefined})});
-   if(r.refresh_token){clearInterval(trPoll);S.trRefresh=r.refresh_token;S.trTok=r.access_token;S.trExp=Date.now()+r.expires_in*1000;save();m.textContent="Trakt gekoppeld ✓";["ghM8"+(S.lang||0),"ghTR"].forEach(x=>{try{localStorage.removeItem(x)}catch(e){}});drawOpts();loadTrakt();loadAll();}}catch(e){}},(d.interval||5)*1000);
+   if(r.refresh_token){clearInterval(trPoll);S.trRefresh=r.refresh_token;S.trTok=r.access_token;S.trExp=Date.now()+r.expires_in*1000;save();m.textContent="Trakt gekoppeld ✓";["ghM9"+(S.lang||0),"ghTR"].forEach(x=>{try{localStorage.removeItem(x)}catch(e){}});drawOpts();loadTrakt();loadAll();}}catch(e){}},(d.interval||5)*1000);
  }catch(e){m.textContent="Koppelen lukte niet. Controleer je Trakt-gegevens.";}}
 async function loadTrakt(){
  if(!S.trRefresh){if(P==="preview"){CONT=[{t:"Noorderlicht",s:"S1 · A4 · De ijsvlakte",p:62,type:"series"},{t:"Rode Woestijn",s:"Film · 2023",p:35,type:"movie"},{t:"Grensgebied",s:"S2 · A1 · Terug",p:12,type:"series"}];drawCont();}return;}
@@ -2223,7 +2223,7 @@ $("pcats").addEventListener("click",e=>{const c=e.target.closest(".cat");if(!c)r
 $("opts").addEventListener("click",e=>{const o=e.target.closest(".opt");if(!o)return;oi=+o.dataset.i;const O=CUR[oi];O.ok?O.ok():O.ch(1);save();drawOpts();});
 $("keyin").addEventListener("keydown",e=>{const kc=e.keyCode;if(kc===461||kc===27||kc===38||kc===40||(kc===37&&!e.target.value)){clrMsg();$("keyin").blur();e.preventDefault();e.stopPropagation();if(kc===38||kc===40){oi=Math.max(0,Math.min(CUR.length-1,oi+(kc===38?-1:1)));drawOpts();}else if(kc===37){pf="cats";drawOpts();}return;}if(e.keyCode===13&&kn==="_pname"){const v=e.target.value.trim();if(v){const p=PROF.list.find(x=>x.id===PROF.cur);if(p)p.n=v.slice(0,20);saveProf();drawRail();}$("keybox").style.display="none";e.target.blur();e.target.placeholder="Plak je API-sleutel en druk op OK";profEdit();e.preventDefault();e.stopPropagation();return;}
  if(e.keyCode===13&&kn==="_addid"){const v=e.target.value.trim();e.target.placeholder="Plak je API-sleutel en druk op OK";if(v){S.extra.push({n:v.split(".").pop().replace(/[-_]/g," ").replace(/^./,c=>c.toUpperCase()),id:v});addExtras();save();drawApps();build();toast("App toegevoegd");}panel(false);e.stopPropagation();return;}
- if(e.keyCode===13){S[kn]=e.target.value.trim();save();try{["ghM8"+(S.lang||0),"ghYT6","ghSP6","ghEPG","ghTR"].forEach(x=>localStorage.removeItem(x))}catch(x){}$("keybox").style.display="none";drawOpts();loadAll();}e.stopPropagation();});
+ if(e.keyCode===13){S[kn]=e.target.value.trim();save();try{["ghM9"+(S.lang||0),"ghYT6","ghSP6","ghEPG","ghTR"].forEach(x=>localStorage.removeItem(x))}catch(x){}$("keybox").style.display="none";drawOpts();loadAll();}e.stopPropagation();});
 function clrMsg(){phTok++;const m=$("msg");if(m.innerHTML){m.innerHTML="";}clearTimeout(phT);try{clearInterval(trPoll)}catch(e){}$("keybox").style.display="none";}
 function openSettingsAt(lbl){if(PROF.pin&&!CATS&&PROF.cur!=="guest"&&!window.UNL)return pinAsk(()=>{window.UNL=1;setTimeout(()=>window.UNL=0,1500);openSettingsAt(lbl)});panel(true);if(lbl==="__zij"){const ci=CATS.findIndex(c=>c.n==="Zijmenu");pc=ci;CUR=CATS[pc].o;oi=0;pf="opts";$("msg").textContent="◀ ▶ verplaatsen · OK tonen of verbergen";return drawOpts();}const ci=CATS.findIndex(c=>c.o.some(o=>o.l.indexOf(lbl)>-1));if(ci<0)return;pc=ci;CUR=CATS[pc].o;oi=Math.max(0,CUR.findIndex(o=>o.l.indexOf(lbl)>-1));pf="opts";drawOpts();}
 let SST=[];function sheet(t,opts,np){{const pt=$("ptitle").textContent;if(!np&&mode==="panel"&&!CATS&&CUR&&pt!==t&&!/incode/.test(pt))SST.push([pt,CUR]);}fromSettings=fromSettings||(!!CATS&&mode==="panel");CATS=null;CUR=opts;$("ptitle").textContent=t;mode="panel";$("panel").classList.add("open");$("msg").textContent="";$("keybox").style.display="none";oi=0;drawOpts();paint();}
