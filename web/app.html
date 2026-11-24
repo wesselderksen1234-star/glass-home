@@ -1,4 +1,4 @@
-<!DOCTYPE html><!--GH_BUILD:2.6.9-->
+<!DOCTYPE html><!--GH_BUILD:2.7.0-->
 <html lang="nl" style="background:#05060a url(splash5.png) center/cover no-repeat"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width">
 <title>Glass Home</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
@@ -1498,7 +1498,7 @@ module.exports = QRRSBlock;
 
 };
 var Q=R("./index"),E=R("./QRErrorCorrectLevel");window.ghQR=function(t){var q=new Q(-1,E.M);q.addData(t);q.make();var n=q.getModuleCount(),p="";for(var r=0;r<n;r++)for(var c=0;c<n;c++)if(q.isDark(r,c))p+="M"+(c+2)+" "+(r+2)+"h1v1h-1z";return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 '+(n+4)+' '+(n+4)+'" shape-rendering="crispEdges"><rect width="100%" height="100%" fill="#fff"/><path d="'+p+'" fill="#000"/></svg>';};})();</script>
-<script type="text/plain" id="ghv">GH_BUILD:2.6.9</script>
+<script type="text/plain" id="ghv">GH_BUILD:2.7.0</script>
 <div id="intro"><div class="orb"></div><div class="ghw"><svg class="ghl" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
 <defs>
 <linearGradient id="gl" x1="0" y1="0" x2="0.35" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".96"/><stop offset=".55" stop-color="#e9ecf6" stop-opacity=".78"/><stop offset="1" stop-color="#c9cfe6" stop-opacity=".6"/></linearGradient>
@@ -2105,10 +2105,17 @@ function recItem(it){try{const ai=it.yt?0:it.sp?3:(it.a!=null?it.a:shelfApp);
  const keep={};["t","s","a","type","tv","id","tmdb","imdb","img","big","c"].forEach(k=>{if(it[k]!=null&&typeof it[k]!=="object")keep[k]=it[k]});
  recLast(ai,{t:it.t,s:it.s,img:it.big||it.img,go:{k:"title",it:keep}});}catch(e){}}
 function lastFor(ai){const a=APPS[ai];if(!a)return null;const r=(S.lastPlay||{})[ai];const m=a.pkg&&MEDIA[a.pkg];
- const mm=m?{t:m.t,s:m.s||"",img:m.img||"",ts:m.ts||0,p:m.dur?Math.min(99,Math.round((m.pos||0)/m.dur*100)):0,media:1}:null;
+ const mm=m?{t:m.t,s:m.s||"",img:m.img||"",ts:m.ts||0,p:m.dur?Math.min(99,Math.round((m.pos||0)/m.dur*100)):0,pos:m.pos||0,media:1}:null;
  if(r&&mm)return(mm.ts>r.ts+60000&&mm.t!==r.t)?mm:Object.assign({},r,{p:r.p||mm.p});return r||mm;}
 function playLast(ai){const L=lastFor(ai);if(!L)return open(ai);const g=L.go;
  if(g&&g.k==="yt")return openYT(g.v);if(g&&g.k==="sp")return openSP(g.uri);if(g&&g.k==="cont")return openCont(g.c);if(g&&g.k==="title")return openTitle(g.it);
+ if(L.media&&!L.tried){const nm=x=>(x||"").toLowerCase().replace(/[^a-z0-9]+/g," ").trim(),t=nm(L.t);
+  if(ai===0){const hit=ITEMS.find(x=>x.yt&&x.v&&nm(x.t)===t);if(hit)return openYT(hit.v,(L.pos||0)/1000);
+   const yk=key("youtube");if(yk&&navigator.onLine!==false){const go=v=>{if(v)openYT(v,(L.pos||0)/1000);else{L.tried=1;playLast2(ai,L)}};
+    fetch("https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&maxResults=3&q="+encodeURIComponent(L.t+(L.s?" "+L.s:""))+"&key="+encodeURIComponent(yk)).then(r=>r.json()).then(d=>{const it=(d.items||[]);const b=it.find(x=>nm(x.snippet&&x.snippet.title)===t)||it[0];go(b&&b.id&&b.id.videoId)}).catch(()=>go(null));return;}}
+  if(ai===1){const c=CONT.find(x=>nm(x.t)===t||(nm(x.t)&&t.indexOf(nm(x.t))===0));if(c)return openCont(c);}}
+ return playLast2(ai,L);}
+function playLast2(ai,L){
  if(L.media&&P==="android"){S.recent=[ai].concat(S.recent.filter(x=>x!==ai)).slice(0,6);S.seen[ai]=Date.now();save();stopPreview();try{if(GHAndroid.resumeApp(APPS[ai].pkg))return}catch(e){}}
  open(ai);}
 function lastCard(ai){const L=lastFor(ai);if(!L||!L.t)return"";const a=APPS[ai];
@@ -2188,7 +2195,7 @@ let warmT=null;function warm(){clearTimeout(warmT);warmT=setTimeout(async()=>{if
  if(c.length)await summarize(c[0][1]).catch(()=>{});}warm();},4500);}
 setTimeout(warm,8000);
 function remember(i){S.recent=[i].concat(S.recent.filter(x=>x!==i)).slice(0,6);S.seen[i]=Date.now();save();setTimeout(drawCont,800);}
-function openYT(v){remember(0);launchApp(APPS[0],P==="android"?"https://www.youtube.com/watch?v="+v:"v="+v);}
+function openYT(v,t){remember(0);launchApp(APPS[0],P==="android"?"https://www.youtube.com/watch?v="+v+(t>5?"&t="+Math.floor(t)+"s":""):"v="+v);}
 function openSP(uri){remember(3);launchApp(APPS[3],uri);}
 
 // navigatie: 0 rail, 1 hero, 2 apps, 3 aanraders van gekozen app, 4 ga verder
