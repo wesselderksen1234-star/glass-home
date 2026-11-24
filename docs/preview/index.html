@@ -1,4 +1,4 @@
-<!DOCTYPE html><!--GH_BUILD:3.3.0-->
+<!DOCTYPE html><!--GH_BUILD:3.3.1-->
 <html lang="nl" style="background:#05060a url(splash5.png) center/cover no-repeat"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,viewport-fit=cover">
 <title>Glass Home</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
@@ -362,15 +362,17 @@ body.det.shelf #det{max-height:none!important;overflow:visible!important;grid-te
 .board.sb .ac{width:400px}
 #cwx{display:flex;flex-direction:column;align-items:flex-end;gap:6px;margin-top:6px;max-width:300px}#cwx:empty{display:none}
 #cwx .wxr{display:flex;align-items:center;gap:8px;font-size:16px}#cwx .wxr b{font-size:20px}#cwx .wxr span{opacity:.8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:200px}
-.wic{width:30px;height:30px;overflow:visible}.wsun{transform-origin:12px 12px;animation:wspin 40s linear infinite}.wcl{animation:wdrift 7s ease-in-out infinite alternate}.wrn{animation:wdrop 1.6s linear infinite}
+.wic{width:30px;height:30px;overflow:visible}.wsun{transform-origin:12px 12px;animation:wspin 40s linear infinite}.wcl{animation:wdrift 7s ease-in-out infinite alternate}.wrn{animation:wdrop 2.4s linear infinite;will-change:transform,opacity}
 @keyframes wspin{to{transform:rotate(360deg)}}@keyframes wdrift{from{transform:translateX(-.6px)}to{transform:translateX(.8px)}}@keyframes wdrop{0%{transform:translateY(-1px);opacity:0}30%{opacity:1}100%{transform:translateY(2px);opacity:0}}
-#cwx .wxw{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}#cwx .wxw span{display:flex;align-items:center;gap:6px;font-size:14px;font-weight:700;padding:4px 10px;border-radius:999px;background:rgba(255,176,32,.2);border:1px solid rgba(255,176,32,.55);color:#ffd68a;animation:wpulse 3s ease-in-out infinite}#cwx .wxw svg{width:16px;height:16px}
+#cwx .wxw{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}#cwx .wxw span{display:flex;align-items:center;gap:6px;font-size:14px;font-weight:700;padding:4px 10px;border-radius:999px;background:rgba(255,176,32,.2);border:1px solid rgba(255,176,32,.55);color:#ffd68a;}#cwx .wxw svg{width:16px;height:16px}
 @keyframes wpulse{50%{border-color:rgba(255,176,32,.25)}}
 #cwx .wxs{display:grid;grid-template-columns:1fr 1fr;width:170px;font-size:12px;opacity:.85}#cwx .wxs svg{grid-column:1/3;width:170px;height:42px}#cwx .wxs small:last-child{text-align:right}
 #cwx .wxp{display:flex;flex-direction:column;align-items:flex-end;gap:4px;font-size:14px}#cwx .pb{display:flex;align-items:flex-end;gap:2px;height:22px;width:170px}#cwx .pb i{flex:1;border-radius:2px 2px 0 0;opacity:.45}#cwx .pb i.g{background:#4ade80}#cwx .pb i.a{background:#fbbf24}#cwx .pb i.r{background:#f87171}#cwx .pb i.on{opacity:1;box-shadow:0 0 6px currentColor}
 #cwx em{font-style:normal;font-weight:700}#cwx em.g{color:#6ee7a0}#cwx em.a{color:#fcd34d}#cwx em.r{color:#fca5a5}
 body.perf .wsun,body.perf .wcl,body.perf .wrn,body.perf #cwx .wxw span{animation:none}
 body.th-light #cwx em.g{color:#15803d}body.th-light #cwx em.a{color:#a16207}body.th-light #cwx em.r{color:#b91c1c}
+body:not(.det) #det,#panel:not(.open),#toast:not(.on),body:not(.amb) #amb{-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+.card .score{-webkit-backdrop-filter:none!important;backdrop-filter:none!important;background:rgba(16,18,26,.8)!important}
 </style></head><body class="boot"><script>window.ghFit=function(){var vv=window.visualViewport,de=document.documentElement,w=(vv&&vv.width)||de.clientWidth||innerWidth||1920,h=(vv&&vv.height)||de.clientHeight||innerHeight||1080,s=Math.min(w/1920,h/1080),b=document.body,r=document.documentElement;if(!b)return;var W=Math.round(Math.min(w/s,4000)),H=Math.round(Math.min(h/s,1620));if(h>w){W=1920;H=1080;}r.style.setProperty("--W",W+"px");r.style.setProperty("--H",H+"px");window.GW=W;window.GH=H;b.style.transformOrigin="0 0";b.style.transform="translate("+Math.round((w-W*s)/2)+"px,"+Math.round((h-H*s)/2)+"px) scale("+s+")";b.classList.toggle("portrait",h>w*1.05);};window.ghFit();addEventListener("orientationchange",function(){setTimeout(window.ghFit,300)});</script><div id="rot">Draai je scherm een kwartslag voor het grootste beeld</div><script>(function(){var M={},C={};function R(n){n=n.replace(/^\.\//,"./").replace(/\.js$/,"");if(C[n])return C[n].exports;var m={exports:{}};C[n]=m;M[n](m,m.exports);return m.exports;}
 M["./QRErrorCorrectLevel"]=function(module,exports){module.exports = {
 	L : 1,
@@ -1618,7 +1620,7 @@ module.exports = QRRSBlock;
 
 };
 var Q=R("./index"),E=R("./QRErrorCorrectLevel");window.ghQR=function(t){var q=new Q(-1,E.M);q.addData(t);q.make();var n=q.getModuleCount(),p="";for(var r=0;r<n;r++)for(var c=0;c<n;c++)if(q.isDark(r,c))p+="M"+(c+2)+" "+(r+2)+"h1v1h-1z";return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 '+(n+4)+' '+(n+4)+'" shape-rendering="crispEdges"><rect width="100%" height="100%" fill="#fff"/><path d="'+p+'" fill="#000"/></svg>';};})();</script>
-<script type="text/plain" id="ghv">GH_BUILD:3.3.0</script>
+<script type="text/plain" id="ghv">GH_BUILD:3.3.1</script>
 <div id="intro"><div class="orb"></div><div class="ghw"><svg class="ghl" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
 <defs>
 <linearGradient id="gl" x1="0" y1="0" x2="0.35" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".96"/><stop offset=".55" stop-color="#e9ecf6" stop-opacity=".78"/><stop offset="1" stop-color="#c9cfe6" stop-opacity=".6"/></linearGradient>
@@ -1814,7 +1816,7 @@ async function smart(keep){if(!keep){sheet("Slim huis",[{l:"Laden…",v:()=>""}]
  const k=oi;CUR=o;if(keep){oi=Math.min(k,o.length-1);drawOpts();}else{oi=0;drawOpts();}}
 
 // klok
-function tick(){const d=new Date(),t=d.toLocaleTimeString("nl-NL",{hour:"2-digit",minute:"2-digit"});
+function tick(){const d=new Date(),t=d.toLocaleTimeString("nl-NL",{hour:"2-digit",minute:"2-digit"});if(t===window.lastT)return;window.lastT=t;
  $("ctime").textContent=t;$("cdate").textContent=d.toLocaleDateString("nl-NL",{weekday:"long",day:"numeric",month:"long"});$("atime").textContent=t;$("adate").textContent=d.toLocaleDateString("nl-NL",{weekday:"long",day:"numeric",month:"long"});}
 setInterval(tick,1000);tick();
 // klokwidget: weer, waarschuwingen, zon en stroomprijs
@@ -2176,7 +2178,7 @@ function drawShelf(ai){if(ai===shelfApp||isNaN(ai))return;shelfApp=ai;if(PVW&&PV
  if(!list.length&&a.x){let k=ITEMS.findIndex(x=>x.act==="open"&&x.a===ai);if(k<0){ITEMS.push({act:"open",a:ai,t:a.n+" openen",c:a.n,s:"Door jou toegevoegd",sc:{},h:200,zeg:"Start "+a.n+" direct vanaf je startscherm.",waarom:"Je hebt deze app zelf aan Glass Home toegevoegd. Hieronder je beste tips van je andere diensten."});k=ITEMS.length-1;}
   list=[[ITEMS[k],k]].concat(ITEMS.map((it,i)=>[it,i]).filter(x=>!x[0].act&&!x[0].yt&&!x[0].sp&&!x[0].tv&&x[0].a>3).sort((p,q)=>q[0].rs-p[0].rs).slice(0,5));}const pers=list.some(x=>x[0].because&&x[0].because.length);
  $("shtitle").textContent=a.x?"Snel naar "+a.n+" · en je beste tips":ai===1?(S.trRefresh||pers?"Voor jou op Stremio":"Populair op Stremio"):ai===2?(LG?"Snelkoppelingen":"Nu live op tv"):(pers?"Voor jou op ":ai===0?"Trending op ":"Aanraders op ")+a.n;
- const row=$("shelf");if(row.scrollLeft)row.scrollLeft=0;
+ const row=$("shelf");row.scrollLeft=0;row._sl=0;
  loadMedia();const res=ai===1&&!CONT.length&&lastFor(1)?lastCard(1):ai!==1&&ai!==2&&lastFor(ai)?lastCard(ai):ai===1?CONT.slice(0,1).map((c,n)=>'<div class="card f res" data-c="'+n+'" style="background-image:'+(c.img?cu(c.img):art(n*53+190))+'"><div class="score glass">▶ Verder</div><div class="lab"><div class="tt">'+esc(c.t)+'</div><small>'+esc(c.s)+(c.p?' · '+Math.round(c.p)+'% gekeken':'')+'</small><div class="bar"><i style="width:'+c.p+'%"></i></div></div></div>').join(""):(!list.length&&((S.seen&&S.seen[ai])||(S.recent||[]).includes(ai))&&!a.x&&ai!==2?'<div class="card f res" data-a="'+ai+'" style="background:'+grad(a.c)+'">'+icon(a,a.tl?"gi tl":"gi")+'<div class="score glass">▶ Verder</div><div class="lab"><div class="tt">'+(ai===3?"Verder luisteren":"Verder kijken")+'</div><small>'+esc(a.n)+' onthoudt waar je was'+(S.seen&&S.seen[ai]?' · '+ago(S.seen[ai]):'')+'</small></div></div>':"");
  const lk=list.length?(ai===1&&!S.stAuth?["Koppel je Stremio-account","!Stremio"]:ai===0&&!S.ytRefresh?["Koppel je YouTube-account","!YouTube-account"]:ai===3&&!(S.spRefresh||key("spotifyRefresh"))?["Koppel je Spotify-account","!Spotify-account"]:ai>3&&!S.trRefresh?["Maak tips persoonlijk met Trakt","!Trakt-account"]:null):null;
  const lkc=lk?'<div class="empty glass f lk" data-go="'+lk[1]+'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></svg><span>'+lk[0]+'</span><b>Koppelen ›</b></div>':"";
@@ -2551,7 +2553,8 @@ function openSP(uri){remember(3);launchApp(APPS[3],uri);}
 
 // navigatie: 0 rail, 1 hero, 2 apps, 3 aanraders van gekozen app, 4 ga verder
 let rows=[],fr=1,fi=0,mode="home",last={r:1,i:0};
-function build(){rows=[[...document.querySelectorAll(".ri")],[$("hbtn")],[...document.querySelectorAll("#apps .f")],[...document.querySelectorAll("#shelf .f")],[...($("s-live").style.display!=="none"?document.querySelectorAll("#live .f"):[])],[...($("s-sport").style.display!=="none"?document.querySelectorAll("#sport .f"):[])],[...document.querySelectorAll("#np.on .nb")]];
+function olPre(){const go=()=>{try{rows.forEach(r=>r.forEach(e=>{if(e._ol==null)e._ol=e.offsetLeft}))}catch(x){}};window.requestIdleCallback?requestIdleCallback(go,{timeout:2000}):setTimeout(go,300);}
+function build(){setTimeout(olPre,0);rows=[[...document.querySelectorAll(".ri")],[$("hbtn")],[...document.querySelectorAll("#apps .f")],[...document.querySelectorAll("#shelf .f")],[...($("s-live").style.display!=="none"?document.querySelectorAll("#live .f"):[])],[...($("s-sport").style.display!=="none"?document.querySelectorAll("#sport .f"):[])],[...document.querySelectorAll("#np.on .nb")]];
  rows.flat().forEach(el=>{if(el.dataset.b)return;el.dataset.b=1;
   const pick=()=>{let hit=false;rows.forEach((rw,ri)=>{const q=rw.indexOf(el);if(q>-1){hit=hit||(fr===ri&&fi===q);fr=ri;fi=q}});return hit};
   if(!TOUCH)el.addEventListener("mouseenter",()=>{if(mode!=="home")return;pick();paint()});
@@ -2598,10 +2601,10 @@ function mediaFocus(el){let it=null,box=null;
  const k=it?(it.v||it.id||it.t):"";if(fr===1&&mode==="home"){if(!window.hpz){clearInterval(hT);window.hpz=1}}else if(window.hpz){window.hpz=0;clearInterval(hT);hT=setInterval(nextHero,12000);}
  if(k===pvKey&&!(el&&el.dataset.c))return;pvKey=k;stopPreview();
  clearTimeout(fbT);fbT=setTimeout(()=>{const c=fr===3&&el&&el.dataset.c?CONT[+el.dataset.c]:null;const u0=(it&&fr===3&&(it.big||it.img))||(c&&c.img),u=u0||(mode==="home"&&fr>=2&&HERO.length&&HERO[hi]&&HERO[hi].big);window.fbH=!u0;if(u){const tk=window.fbTok=(window.fbTok||0)+1;preImg(u).then(()=>{if(window.fbTok!==tk)return;$("fbg").style.backgroundImage=cu(u);document.body.classList.add("fb")})}else document.body.classList.remove("fb")},300);
- if(it&&!it.act&&!it.tv&&!it.sp)pvT=setTimeout(()=>startPreview(box,it),fr===1?6000:300);}
-function paint(){rows.flat().forEach(e=>e.classList.remove("focus"));$("rail").classList.toggle("open",(fr===0||fr===6)&&mode==="home");
+ if(it&&!it.act&&!it.tv&&!it.sp)pvT=setTimeout(()=>startPreview(box,it),fr===1?6000:650);}
+function paint(){const nf=(rows[fr]||[])[fi];rows.forEach(r=>r.forEach(e=>{if(e!==nf&&e.classList.contains("focus"))e.classList.remove("focus")}));$("rail").classList.toggle("open",(fr===0||fr===6)&&mode==="home");
  const el=rows[fr][fi];if(!el||mode!=="home"){detail(-1);mediaFocus(null);capPaint(null);return;}el.classList.add("focus");
- const pr=el.parentNode;if(pr.classList.contains("row")||pr.classList.contains("srow"))pr.scrollLeft=Math.max(0,el.offsetLeft-200);
+ const pr=el.parentNode;if(pr.classList.contains("row")||pr.classList.contains("srow")){const sl=Math.max(0,(el._ol!=null?el._ol:(el._ol=el.offsetLeft))-200);if(pr._sl!==sl){pr._sl=sl;pr.scrollLeft=sl;}}
  if(fr===2){clearTimeout(window.dsT);const ai=+el.dataset.a;if(shelfApp<0||!document.body.classList.contains("shelf"))drawShelf(ai);else window.dsT=setTimeout(()=>{if(fr===2&&rows[2][fi]===el)drawShelf(ai)},450);}
  if(fr===3&&el.dataset.c)detailC(+el.dataset.c);else detail(fr===3?+el.dataset.k:-1);
  const bgi=fr>=2&&/url\(/.test(el.style.backgroundImage)?el.style.backgroundImage:"";clearTimeout(window.tiT);window.tiT=setTimeout(()=>{if(bgi){$("tint").style.backgroundImage=bgi;document.body.classList.add("tinted")}else document.body.classList.remove("tinted")},160);
@@ -2628,12 +2631,12 @@ function move(dr,di){
   rows[fr].forEach((e,q)=>{if(q===fi)return;const r=e.getBoundingClientRect(),dx=r.left+r.width/2-cx,dy=r.top+r.height/2-cy;let p,sec;
    if(di>0){if(r.left<r0.right-8)return;p=dx;sec=Math.abs(r.top-r0.top)}else if(di<0){if(r.right>r0.left+8)return;p=-dx;sec=Math.abs(r.top-r0.top)}else if(dr>0){if(r.top<r0.bottom-8)return;p=dy;sec=Math.abs(dx)}else{if(r.bottom>r0.top+8)return;p=-dy;sec=Math.abs(dx)}
    const sc=p+sec*2;if(sc<bs){bs=sc;best=q}});
-  if(best>=0){if(dr){const nr=rows[fr][best].parentNode;if(nr!==cur.parentNode&&nr.classList.contains("srow")){window.SM=window.SM||new WeakMap();SM.set(cur.parentNode,cur);const sm=SM.get(nr);if(sm&&sm.isConnected&&rows[fr].includes(sm))best=rows[fr].indexOf(sm);else{const f0=[...nr.children].find(e=>e.classList.contains("f"));if(f0){nr.scrollLeft=0;best=rows[fr].indexOf(f0);}}}}fi=best;return paint();}if(di>0)return;if(di<0){last={r:fr,i:fi};fr=0;fi=Math.max(0,RAIL.findIndex(r=>r[0]==="home"));return paint();}}
+  if(best>=0){if(dr){const nr=rows[fr][best].parentNode;if(nr!==cur.parentNode&&nr.classList.contains("srow")){window.SM=window.SM||new WeakMap();SM.set(cur.parentNode,cur);const sm=SM.get(nr);if(sm&&sm.isConnected&&rows[fr].includes(sm))best=rows[fr].indexOf(sm);else{const f0=[...nr.children].find(e=>e.classList.contains("f"));if(f0){nr.scrollLeft=0;nr._sl=0;best=rows[fr].indexOf(f0);}}}}fi=best;return paint();}if(di>0)return;if(di<0){last={r:fr,i:fi};fr=0;fi=Math.max(0,RAIL.findIndex(r=>r[0]==="home"));return paint();}}
  if(di<0&&fi===0){last={r:fr,i:fi};fr=0;fi=Math.max(0,RAIL.findIndex(r=>r[0]==="home"));return paint();}
  if(dr){const ORD=[1,2,3,4,5];let p=ORD.indexOf(fr)+dr;while(p>=0&&p<ORD.length&&!rows[ORD[p]].length)p+=dr;if(p<0||p>=ORD.length)return;const n=ORD[p];
   const o=rows[fr][fi],cx=o.getBoundingClientRect().left;window.RM=window.RM||{};RM[fr]=o;fr=n;let b=0,bd=1e9;const mm=RM[n];
-  if(mm&&mm.isConnected&&rows[n].includes(mm)){fi=rows[n].indexOf(mm);return paint();}else if(n===3){fi=0;$("shelf").scrollLeft=0;}else rows[fr].forEach((e,q)=>{const R=e.getBoundingClientRect(),d=Math.abs(R.left-cx)+((n===4||n===5)&&e.closest&&e.closest(".board")?(dr>0?R.top:-R.bottom)*3:0);if(d<bd){bd=d;b=q}});fi=b;
-  const tg=rows[fr][fi];if(tg&&tg.parentNode&&tg.parentNode.classList.contains("srow")){const nr=tg.parentNode,f0=[...nr.children].find(e=>e.classList.contains("f"));if(f0){nr.scrollLeft=0;fi=rows[fr].indexOf(f0);}}}
+  if(mm&&mm.isConnected&&rows[n].includes(mm)){fi=rows[n].indexOf(mm);return paint();}else if(n===3){fi=0;$("shelf").scrollLeft=0;$("shelf")._sl=0;}else rows[fr].forEach((e,q)=>{const R=e.getBoundingClientRect(),d=Math.abs(R.left-cx)+((n===4||n===5)&&e.closest&&e.closest(".board")?(dr>0?R.top:-R.bottom)*3:0);if(d<bd){bd=d;b=q}});fi=b;
+  const tg=rows[fr][fi];if(tg&&tg.parentNode&&tg.parentNode.classList.contains("srow")){const nr=tg.parentNode,f0=[...nr.children].find(e=>e.classList.contains("f"));if(f0){nr.scrollLeft=0;nr._sl=0;fi=rows[fr].indexOf(f0);}}}
  else fi=Math.max(0,Math.min(rows[fr].length-1,fi+di));paint();}
 let ambT=0,ambI;function amb(on){ambT=Date.now();mode=on?"amb":"home";document.body.classList.toggle("amb",on);paint();clearInterval(ambI);if(on){ambExtra();nextBg();ambI=setInterval(()=>{ambExtra();nextBg()},6e4)}else bump();}
 const WC={0:"Helder",1:"Vrijwel helder",2:"Half bewolkt",3:"Bewolkt",45:"Mist",48:"Mist",51:"Motregen",53:"Motregen",55:"Motregen",61:"Lichte regen",63:"Regen",65:"Zware regen",71:"Lichte sneeuw",73:"Sneeuw",75:"Zware sneeuw",80:"Buien",81:"Buien",82:"Zware buien",95:"Onweer",96:"Onweer",99:"Onweer"};
