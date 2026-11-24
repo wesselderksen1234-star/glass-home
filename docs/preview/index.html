@@ -1,4 +1,4 @@
-<!DOCTYPE html><!--GH_BUILD:3.4.2-->
+<!DOCTYPE html><!--GH_BUILD:3.4.3-->
 <html lang="nl" style="background:#05060a url(splash5.png) center/cover no-repeat"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,viewport-fit=cover">
 <title>Glass Home</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
@@ -1628,7 +1628,7 @@ module.exports = QRRSBlock;
 
 };
 var Q=R("./index"),E=R("./QRErrorCorrectLevel");window.ghQR=function(t){var q=new Q(-1,E.M);q.addData(t);q.make();var n=q.getModuleCount(),p="";for(var r=0;r<n;r++)for(var c=0;c<n;c++)if(q.isDark(r,c))p+="M"+(c+2)+" "+(r+2)+"h1v1h-1z";return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 '+(n+4)+' '+(n+4)+'" shape-rendering="crispEdges"><rect width="100%" height="100%" fill="#fff"/><path d="'+p+'" fill="#000"/></svg>';};})();</script>
-<script type="text/plain" id="ghv">GH_BUILD:3.4.2</script>
+<script type="text/plain" id="ghv">GH_BUILD:3.4.3</script>
 <div id="intro"><div class="orb"></div><div class="ghw"><svg class="ghl" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
 <defs>
 <linearGradient id="gl" x1="0" y1="0" x2="0.35" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".96"/><stop offset=".55" stop-color="#e9ecf6" stop-opacity=".78"/><stop offset="1" stop-color="#c9cfe6" stop-opacity=".6"/></linearGradient>
@@ -1654,7 +1654,7 @@ var Q=R("./index"),E=R("./QRErrorCorrectLevel");window.ghQR=function(t){var q=ne
   <div class="sec" id="s-apps"><h2>Apps</h2><div class="row" id="apps"></div><div class="capt ca" id="capa"></div></div>
     <div class="sec" id="s-cont" style="display:none!important"><h2 id="conth"></h2><div class="row" id="cont"></div></div>
   <div class="sec" id="s-shelf"><h2><span id="shtitle"></span> <small id="note"></small></h2><div class="row" id="shelf"></div><div class="capt" id="capsh"></div></div>
-  <div class="sec" id="s-live" style="display:none"><h2 id="liveh">Live TV · Nieuws &amp; Sport</h2><div class="row" id="live"></div><div class="capt" id="capl"></div></div>
+  <div class="sec" id="s-live" style="display:none"><h2 id="liveh">Nieuws &amp; video</h2><div class="row" id="live"></div><div class="capt" id="capl"></div></div>
   <div class="sec" id="s-sport" style="display:none"><h2>Sport</h2><div class="row" id="sport"></div><div class="capt" id="caps"></div></div>
 </div>
 </div>
@@ -1963,7 +1963,7 @@ const BOTS=()=>LG?["news","watch","quick","live","off"]:["news","watch","live","
 function botMode(){let m=S.bot||(S.showLive===0?"off":"news");if(m==="sport")m="news";return BOTS().includes(m)?m:"live";}
 function drawLive(){if(!S.bmig){S.bmig=1;if(!S.bot||S.bot==="live")S.bot="news";try{save()}catch(e){}}const ids=new Set(ALLAPPS.map(x=>x.id));LIVE=LIVEDEF.filter(d=>P==="preview"||ids.has(P==="android"?d.pkg:d.id));const bm=botMode();
  if(bm!=="live"){let h="";
-  if(bm==="news"){$("live").className="board nb";$("liveh").textContent="Nieuws";
+  if(bm==="news"){$("live").className="board nb";$("liveh").textContent="Nieuws & video";
    const pick=[],cnt={};NW.forEach((x,i)=>{if(pick.length<4&&(cnt[x.src]||0)<2){cnt[x.src]=(cnt[x.src]||0)+1;pick.push(i)}});NW.forEach((x,i)=>{if(pick.length<4&&!pick.includes(i))pick.push(i)});const vids=pick.map(i=>vTile(NW[i],i,"x")).join("")||'<div class="bempty f" data-go="!Nieuwsbronnen">'+(NWS().src.length?"Nog geen nieuwe video's":"Kies je videobronnen")+' ›</div>';
    const pa=[],ca={};NA.forEach((x,i)=>{if(pa.length<5&&(ca[x.src]||0)<2){ca[x.src]=(ca[x.src]||0)+1;pa.push(i)}});NA.forEach((x,i)=>{if(pa.length<5&&!pa.includes(i))pa.push(i)});const arts=pa.map(i=>aRow(NA[i],i,"n")).join("")||'<div class="bempty f" data-go="!Nieuws: artikelbronnen">Artikelen laden… of kies je bronnen ›</div>';
    const V=NW.slice(0,18).map((x,i)=>vTile(x,i,"x")).join("")||vids,A=NA.slice(0,18).map((x,i)=>aCard(x,i,"n")).join("")||arts;
@@ -2458,7 +2458,7 @@ window.ghTint=function(img){try{const c=document.createElement("canvas");c.width
  t.style.background="linear-gradient(150deg,rgba("+k(r*.75)+","+k(gg*.75)+","+k(b*.75)+",.82),rgba("+k(r*.35)+","+k(gg*.35)+","+k(b*.35)+",.72))";}catch(e){}};
 
 // YouTube-speler alvast opwarmen, zodat voorbeelden snel starten
-if(P!=="preview")setTimeout(()=>{try{if(PVM){if(!PVW)pvMake();return;}const f=document.createElement("iframe");f.style.cssText="position:absolute;width:2px;height:2px;left:-10px;top:-10px;opacity:0;border:0;pointer-events:none";f.src=PVPG+"#warm=1";document.body.appendChild(f);setTimeout(()=>f.remove(),25000);}catch(e){}},6000);
+if(P!=="preview")setTimeout(()=>{try{if(PVM){if(!PVW){pvMake();setTimeout(()=>{if(!pv)pvPark()},2e4);}return;}const f=document.createElement("iframe");f.style.cssText="position:absolute;width:2px;height:2px;left:-10px;top:-10px;opacity:0;border:0;pointer-events:none";f.src=PVPG+"#warm=1";document.body.appendChild(f);setTimeout(()=>f.remove(),25000);}catch(e){}},6000);
 
 // ---------- "Verder kijken" per app: wat je als laatste afspeelde ----------
 let MEDIA={};
@@ -2503,11 +2503,11 @@ document.addEventListener("keydown",()=>{PST.keys++;pstLast=performance.now();if
 // ---------- Systeem en prestaties: apparaatprofiel, vangnetten en logboek (licht: meet alleen bij fouten, schokken of als het overzicht open is) ----------
 const DG={log:[],act:0,fd:{},auto:0,autoT:0,lastErr:{}};try{DG.log=JSON.parse(localStorage.getItem("ghLog")||"[]").slice(-100)}catch(e){}
 const DGN={"site.api.espn.com":"ESPN (sport)","feeds.nos.nl":"NOS","www.nu.nl":"NU.nl","www.rtlnieuws.nl":"RTL Nieuws","www.googleapis.com":"YouTube","api.spotify.com":"Spotify","api.themoviedb.org":"TMDB","api.open-meteo.com":"Weer","api.energyzero.nl":"Stroomprijs","raw.githubusercontent.com":"KNMI-codes / updates","api.trakt.tv":"Trakt","api.rss2json.com":"RSS-hulp"};
-function dgLog(lv,m){const t=Date.now(),k=lv+m;if(DG.lastErr[k]&&t-DG.lastErr[k]<6e4)return;DG.lastErr[k]=t;DG.log.push({t,lv,m:String(m).slice(0,180)});if(DG.log.length>100)DG.log.splice(0,DG.log.length-100);clearTimeout(DG.sv);DG.sv=setTimeout(()=>{try{localStorage.setItem("ghLog",JSON.stringify(DG.log))}catch(e){}},2000);if(lv==="actie")DG.act++;dgDot();}
+function dgLog(lv,m){const t=Date.now(),k=lv+m;const ks=Object.keys(DG.lastErr);if(ks.length>60)ks.forEach(x=>{if(t-DG.lastErr[x]>6e4)delete DG.lastErr[x]});if(DG.lastErr[k]&&t-DG.lastErr[k]<6e4)return;DG.lastErr[k]=t;DG.log.push({t,lv,m:String(m).slice(0,180)});if(DG.log.length>100)DG.log.splice(0,DG.log.length-100);clearTimeout(DG.sv);DG.sv=setTimeout(()=>{try{localStorage.setItem("ghLog",JSON.stringify(DG.log))}catch(e){}},2000);if(lv==="actie")DG.act++;dgDot();}
 function fdMark(u,ok,err){let h="";try{h=new URL(u).host}catch(e){return}const n=DGN[h];if(!n)return;const f=DG.fd[n]||(DG.fd[n]={});const was=f.ok;f.ok=ok;f.t=Date.now();if(ok){f.err="";if(was===0)dgLog("info",n+" werkt weer");}else{f.err=err||"fout";dgLog("fout",n+": "+f.err);}}
 addEventListener("error",e=>{dgLog("fout",(e.message||"Scriptfout")+(e.lineno?" (regel "+e.lineno+")":""))});
 addEventListener("unhandledrejection",e=>{const r=e.reason;if(typeof r==="number"||r===0)return;dgLog("fout","Onafgehandeld: "+((r&&r.message)||r))});
-const DPROF=(()=>{const t=typeof TOUCH!=="undefined"&&TOUCH;return P==="webos"?{n:"LG-tv",pre:50}:P==="android"?{n:"Google TV Streamer",pre:60}:t?{n:"Telefoon",pre:70}:{n:"Computer",pre:120};})();
+const DPROF=(()=>{const t=!!TOUCH||/Android|iPhone|iPad|Mobile/i.test(navigator.userAgent);return P==="webos"?{n:"LG-tv",pre:50}:P==="android"?{n:"Google TV Streamer",pre:60}:t?{n:"Telefoon",pre:70}:{n:"Computer",pre:120};})();
 const PREMAX=()=>DPROF.pre;
 // vangnet: zakt het beeld weg tijdens navigeren, dan tijdelijk zware effecten uit (alleen veilige, geteste stijlinstellingen)
 function dgJank(f,j){if(S.dgAuto===0||f<40)return;const r=j/f;if(r>0.35&&!DG.auto){DG.auto=1;const n=PRE.size;PRE.clear();dgLog("actie","Beeld haperde ("+Math.round(r*100)+"% schokken, "+f+" frames): "+n+" opgeslagen afbeeldingen opgeruimd en voorladen even gepauzeerd");}
@@ -2523,9 +2523,10 @@ function dgSummary(){const v=((document.documentElement.outerHTML.match(/GH_BUIL
  L.push("Navigatie: "+PST.f+" frames, "+PST.j+" schokken, max "+PST.max+" ms, lange taken "+PST.lt+"/"+PST.ltms+" ms");
  L.push("Bronnen: "+Object.entries(DG.fd).map(([n,f])=>n+"="+(f.ok?"ok":"FOUT "+f.err)).join(", "));
  DG.log.slice(-60).forEach(x=>L.push(new Date(x.t).toLocaleTimeString("nl-NL")+" ["+x.lv+"] "+x.m));return L.join("\n");}
-async function dgSend(){const txt=dgSummary();try{if(await syncInit()){const h=new Uint8Array(await crypto.subtle.digest("SHA-256",new TextEncoder().encode("dbg:"+key("sync"))));const topic="ghd"+b64u(h.slice(0,18)).replace(/[-_]/g,"x");
+function dgCopy(txt){let ok=false;try{const a=document.createElement("textarea");a.value=txt;a.setAttribute("readonly","");a.style.cssText="position:fixed;left:-9999px;top:0";document.body.appendChild(a);a.select();ok=document.execCommand("copy");a.remove();}catch(e){}try{if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(()=>toast("Gekopieerd"),()=>{if(ok)toast("Gekopieerd")});return true;}}catch(e){}if(ok)toast("Gekopieerd");return ok;}
+async function dgSend(){const txt=dgSummary();const cp=dgCopy(txt);try{if(await syncInit()){const h=new Uint8Array(await crypto.subtle.digest("SHA-256",new TextEncoder().encode("dbg:"+key("sync"))));const topic="ghd"+b64u(h.slice(0,18)).replace(/[-_]/g,"x");
   const iv=rndB(12),ct=new Uint8Array(await crypto.subtle.encrypt({name:"AES-GCM",iv},syncK,new TextEncoder().encode(JSON.stringify({log:1,txt}))));const all=new Uint8Array(12+ct.length);all.set(iv);all.set(ct,12);await fetch("https://ntfy.sh/"+topic,{method:"POST",body:b64u(all)});toast("Logboek veilig verstuurd. Zeg tegen Claude: ‘logs gestuurd’");dgLog("info","Logboek verstuurd naar Claude");return;}}catch(e){}
- fullOpen('<h1>Logboek voor Claude</h1><p>Maak een foto van dit scherm en stuur die naar Claude.</p><pre class="dglog">'+esc(txt)+'</pre>');}
+ fullOpen('<h1>Logboek voor Claude</h1><p>'+(cp?'Gekopieerd: plak het bij Claude of Gemini.':'Maak een foto van dit scherm en stuur die naar Claude.')+'</p><pre class="dglog">'+esc(txt)+'</pre>');}
 function dgOpenLog(){const F=["alles","fout","actie","info"],f=F[S.dgF||0];const L=DG.log.filter(x=>f==="alles"||x.lv===f).slice(-100).reverse();
  fullOpen('<h1>Logboek ('+f+')</h1>'+(L.length?'<pre class="dglog">'+L.map(x=>esc(new Date(x.t).toLocaleString("nl-NL",{day:"numeric",month:"short",hour:"2-digit",minute:"2-digit"})+"  ["+x.lv+"]  "+x.m)).join("\n")+'</pre>':'<p>Nog niets gelogd. Fijn!</p>'));}
 function dgOpts(){const ago3=t=>t?Math.max(0,Math.round((Date.now()-t)/6e4))+" min geleden":"nog niet gebruikt";const o=[
@@ -2537,7 +2538,7 @@ function dgOpts(){const ago3=t=>t?Math.max(0,Math.round((Date.now()-t)/6e4))+" m
  {l:"Status-stip op het hoofdscherm",v:()=>S.dgDot?"Aan":"Uit",ok:()=>{S.dgDot=S.dgDot?0:1;save();dgDot();}},
  {l:"Logboek filter",v:()=>["Alles","Fouten","Acties","Info"][S.dgF||0]+" ◀ ▶",ch:d=>{S.dgF=((S.dgF||0)+d+4)%4;}},
  {l:"Logboek bekijken",v:()=>DG.log.length+" regels ›",ok:dgOpenLog},
- {l:"Logs naar Claude sturen",v:()=>"OK",ok:dgSend},
+ {l:"Logs kopiëren en naar Claude sturen",v:()=>"OK",ok:dgSend},
  {l:"Logboek wissen",v:()=>"OK",ok:()=>{DG.log=[];try{localStorage.removeItem("ghLog")}catch(e){}toast("Logboek gewist")}}];
  Object.keys(DGN).map(h=>DGN[h]).filter((n,i,a)=>a.indexOf(n)===i).forEach(n=>{o.push({l:"Bron: "+n,v:()=>{const f=DG.fd[n];return !f?"niet gebruikt":f.ok?"✓ werkt · "+ago3(f.t):"✗ "+f.err+" · "+ago3(f.t)}})});
  [["YouTube",()=>S.ytRefresh],["Spotify",()=>S.spRefresh||key("spotifyRefresh")],["Stremio",()=>S.stAuth],["Trakt",()=>S.trRefresh]].forEach(([n,g])=>o.push({l:"Koppeling: "+n,v:()=>g()?"✓ gekoppeld":"niet gekoppeld"}));return o;}
@@ -2631,7 +2632,7 @@ function pvHold(){let h=$("pvhold");if(!h){h=document.createElement("div");h.id=
 function pvMake(){PVW=document.createElement("div");PVW.className="pv";PVF=document.createElement("iframe");PVF.setAttribute("allow","autoplay; encrypted-media");PVF.setAttribute("frameborder","0");PVF.style.cssText="border:0;pointer-events:none";PVF.tabIndex=-1;
  PVF.addEventListener("load",()=>{if(pv&&pv.persist&&pv.msg)try{PVF.contentWindow.postMessage(pv.msg,"*")}catch(e){}});PVF.src=PVPG+"?p=6#warm=1";PVW.appendChild(PVF);pvHold().appendChild(PVW);}
 function pvMove(par,ref){try{par.moveBefore(PVW,ref)}catch(e){par.insertBefore(PVW,ref)}}
-function pvPark(){if(!PVW)return;if(!PVW.isConnected){PVW=PVF=null;return;}PVW.classList.remove("on");if(PVW.parentNode!==$("pvhold"))pvMove(pvHold(),null);}
+function pvPark(){if(!PVW)return;if(!PVW.isConnected){PVW=PVF=null;return;}PVW.classList.remove("on");if(PVW.parentNode!==$("pvhold"))pvMove(pvHold(),null);clearTimeout(window.pvIdle);window.pvIdle=setTimeout(()=>{if(pv||!PVW||PVW.parentNode!==$("pvhold"))return;try{PVF.src="about:blank"}catch(e){}PVW.remove();PVW=PVF=null;},9e4);}
 function isShort(it){if(!it||!it.yt)return false;if(it.vt===0||it.vt===1)return!!it.vt;if(/#shorts?\b/i.test(it.t||""))return true;const m=/^(?:(\d+):)?(\d+):(\d+)$/.exec(String(it.du||"").replace(/[^\d:]/g,""));if(m){const sec=(+(m[1]||0))*3600+(+m[2])*60+(+m[3]);return sec>0&&sec<=60;}return false;}
 document.addEventListener("visibilitychange",()=>{if(document.hidden){try{stopPreview()}catch(e){}}});
 function stopPreview(){clearTimeout(pvT);if(pv){const p=pv;pv=null;p.box.classList.remove("on");
@@ -2641,7 +2642,7 @@ function stopPreview(){clearTimeout(pvT);if(pv){const p=pv;pv=null;p.box.classLi
 async function startPreview(box,it){const k0=it.v||it.id||it.t;const vid=await trailerFor(it);const kb=()=>{(box.id==="hero"?$(hc):box).classList.add("kb")};
  if(!vid)return kb();
  if((pvKey!==k0&&pvKey!==(it.v||it.id||it.t))||!box.isConnected)return;if(pv)stopPreview();
- if(PVM){if(!PVW||!PVW.isConnected)pvMake();const n=++PVN,msg={cmd:"load",v:vid,s:it.yt?0:6,vol:60,n,af:0};PVW.classList.remove("on");PVW.classList.toggle("vert",isShort(it));pvMove(box,box.firstChild);
+ if(PVM){clearTimeout(window.pvIdle);if(!PVW||!PVW.isConnected)pvMake();const n=++PVN,msg={cmd:"load",v:vid,s:it.yt?0:6,vol:60,n,af:0};PVW.classList.remove("on");PVW.classList.toggle("vert",isShort(it));pvMove(box,box.firstChild);
   const me={persist:1,box:PVW,n,msg};pv=me;try{PVF.contentWindow.postMessage(msg,"*")}catch(e){}
   const on=e=>{if(!e.data||e.data.gh!=="yt"||!PVF||e.source!==PVF.contentWindow)return;if(pv!==me){removeEventListener("message",on);return;}if(e.data.n!==n)return;
    if(e.data.state==="playing")setTimeout(()=>{if(pv!==me||!PVW)return;PVW.classList.add("on");setTimeout(()=>{if(pv===me)try{PVF.contentWindow.postMessage({cmd:"fade"},"*")}catch(x){}},450)},300);if(e.data.error!=null){removeEventListener("message",on);pv=null;pvPark();kb();}};
