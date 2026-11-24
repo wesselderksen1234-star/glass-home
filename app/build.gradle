@@ -10,8 +10,8 @@ android {
         applicationId 'com.custom.glasshome'
         minSdk 28
         targetSdk 34
-        versionCode 249
-        versionName '2.4.9'
+        versionCode 250
+        versionName '2.5.0'
     }
 
     signingConfigs {
