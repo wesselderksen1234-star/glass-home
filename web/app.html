@@ -1,4 +1,4 @@
-<!DOCTYPE html><!--GH_BUILD:3.4.1-->
+<!DOCTYPE html><!--GH_BUILD:3.4.2-->
 <html lang="nl" style="background:#05060a url(splash5.png) center/cover no-repeat"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,viewport-fit=cover">
 <title>Glass Home</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
@@ -381,7 +381,7 @@ body:not(.det) #det,#panel:not(.open),#toast:not(.on),body:not(.amb) #amb{-webki
 #full .aclr{clear:both}
 #dgdot{position:absolute;top:44px;right:430px;z-index:21;font-size:13px;font-weight:700;padding:5px 12px 5px 26px;border-radius:999px;background:rgba(10,12,18,.55);border:1px solid rgba(255,255,255,.18)}#dgdot::before{content:"";position:absolute;left:10px;top:50%;width:9px;height:9px;margin-top:-4.5px;border-radius:50%;background:#4ade80;box-shadow:0 0 8px #4ade80}#dgdot.a::before{background:#fbbf24;box-shadow:0 0 8px #fbbf24}#dgdot.r::before{background:#f87171;box-shadow:0 0 8px #f87171}body.amb #dgdot,body.full #dgdot{display:none!important}
 #full pre.dglog{white-space:pre-wrap;font:15px/1.5 ui-monospace,Menlo,Consolas,monospace;background:rgba(0,0,0,.35);padding:18px 22px;border-radius:16px;max-height:none}
-</style></head><body class="boot"><script>window.ghFit=function(){var vv=window.visualViewport,de=document.documentElement,w=(vv&&vv.width)||de.clientWidth||innerWidth||1920,h=(vv&&vv.height)||de.clientHeight||innerHeight||1080,s=Math.min(w/1920,h/1080),b=document.body,r=document.documentElement;if(!b)return;var W=Math.round(Math.min(w/s,4000)),H=Math.round(Math.min(h/s,1620));if(h>w){W=1920;H=1080;}r.style.setProperty("--W",W+"px");r.style.setProperty("--H",H+"px");window.GW=W;window.GH=H;b.style.transformOrigin="0 0";b.style.transform="translate("+Math.round((w-W*s)/2)+"px,"+Math.round((h-H*s)/2)+"px) scale("+s+")";b.classList.toggle("portrait",h>w*1.05);};window.ghFit();addEventListener("orientationchange",function(){setTimeout(window.ghFit,300)});</script><div id="rot">Draai je scherm een kwartslag voor het grootste beeld</div><script>(function(){var M={},C={};function R(n){n=n.replace(/^\.\//,"./").replace(/\.js$/,"");if(C[n])return C[n].exports;var m={exports:{}};C[n]=m;M[n](m,m.exports);return m.exports;}
+</style></head><body class="boot"><script>window.ghFit=function(){var vv=window.visualViewport,de=document.documentElement,w=(vv&&vv.width)||de.clientWidth||innerWidth||1920,h=(vv&&vv.height)||de.clientHeight||innerHeight||1080,s=Math.min(w/1920,h/1080),b=document.body,r=document.documentElement;if(!b)return;var W=Math.round(Math.min(w/s,4000)),H=Math.round(Math.min(h/s,1620));if(h>w){W=1920;H=1080;}var tf="translate("+Math.round((w-W*s)/2)+"px,"+Math.round((h-H*s)/2)+"px) scale("+s+")";if(window.GW===W&&window.GH===H&&window.ghTF===tf)return;r.style.setProperty("--W",W+"px");r.style.setProperty("--H",H+"px");window.GW=W;window.GH=H;window.ghTF=tf;b.style.transformOrigin="0 0";b.style.transform=tf;b.classList.toggle("portrait",h>w*1.05);};window.ghFit();addEventListener("orientationchange",function(){setTimeout(window.ghFit,300)});</script><div id="rot">Draai je scherm een kwartslag voor het grootste beeld</div><script>(function(){var M={},C={};function R(n){n=n.replace(/^\.\//,"./").replace(/\.js$/,"");if(C[n])return C[n].exports;var m={exports:{}};C[n]=m;M[n](m,m.exports);return m.exports;}
 M["./QRErrorCorrectLevel"]=function(module,exports){module.exports = {
 	L : 1,
 	M : 0,
@@ -1628,7 +1628,7 @@ module.exports = QRRSBlock;
 
 };
 var Q=R("./index"),E=R("./QRErrorCorrectLevel");window.ghQR=function(t){var q=new Q(-1,E.M);q.addData(t);q.make();var n=q.getModuleCount(),p="";for(var r=0;r<n;r++)for(var c=0;c<n;c++)if(q.isDark(r,c))p+="M"+(c+2)+" "+(r+2)+"h1v1h-1z";return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 '+(n+4)+' '+(n+4)+'" shape-rendering="crispEdges"><rect width="100%" height="100%" fill="#fff"/><path d="'+p+'" fill="#000"/></svg>';};})();</script>
-<script type="text/plain" id="ghv">GH_BUILD:3.4.1</script>
+<script type="text/plain" id="ghv">GH_BUILD:3.4.2</script>
 <div id="intro"><div class="orb"></div><div class="ghw"><svg class="ghl" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
 <defs>
 <linearGradient id="gl" x1="0" y1="0" x2="0.35" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".96"/><stop offset=".55" stop-color="#e9ecf6" stop-opacity=".78"/><stop offset="1" stop-color="#c9cfe6" stop-opacity=".6"/></linearGradient>
@@ -1825,7 +1825,7 @@ async function smart(keep){if(!keep){sheet("Slim huis",[{l:"Laden…",v:()=>""}]
  const k=oi;CUR=o;if(keep){oi=Math.min(k,o.length-1);drawOpts();}else{oi=0;drawOpts();}}
 
 // klok
-function tick(){const d=new Date(),t=d.toLocaleTimeString("nl-NL",{hour:"2-digit",minute:"2-digit"});if(t===window.lastT)return;window.lastT=t;
+function tick(){const d=new Date(),mk=d.getHours()*60+d.getMinutes();if(mk===window.lastMK)return;window.lastMK=mk;const t=d.toLocaleTimeString("nl-NL",{hour:"2-digit",minute:"2-digit"});
  $("ctime").textContent=t;$("cdate").textContent=d.toLocaleDateString("nl-NL",{weekday:"long",day:"numeric",month:"long"});$("atime").textContent=t;$("adate").textContent=d.toLocaleDateString("nl-NL",{weekday:"long",day:"numeric",month:"long"});}
 setInterval(tick,1000);tick();
 // klokwidget: weer, waarschuwingen, zon en stroomprijs
@@ -2629,7 +2629,7 @@ async function trailerFor(it){if(it.yt)return it.v;if(it.tr!==undefined)return i
 var PVM=!!(window.Element&&Element.prototype.moveBefore),PVW=null,PVF=null,PVN=0;
 function pvHold(){let h=$("pvhold");if(!h){h=document.createElement("div");h.id="pvhold";h.style.cssText="position:fixed;left:-4000px;top:0;width:440px;height:248px;overflow:hidden;pointer-events:none";document.body.appendChild(h);}return h;}
 function pvMake(){PVW=document.createElement("div");PVW.className="pv";PVF=document.createElement("iframe");PVF.setAttribute("allow","autoplay; encrypted-media");PVF.setAttribute("frameborder","0");PVF.style.cssText="border:0;pointer-events:none";PVF.tabIndex=-1;
- PVF.addEventListener("load",()=>{if(pv&&pv.persist&&pv.msg)try{PVF.contentWindow.postMessage(pv.msg,"*")}catch(e){}});PVF.src=PVPG+"?p=5#warm=1";PVW.appendChild(PVF);pvHold().appendChild(PVW);}
+ PVF.addEventListener("load",()=>{if(pv&&pv.persist&&pv.msg)try{PVF.contentWindow.postMessage(pv.msg,"*")}catch(e){}});PVF.src=PVPG+"?p=6#warm=1";PVW.appendChild(PVF);pvHold().appendChild(PVW);}
 function pvMove(par,ref){try{par.moveBefore(PVW,ref)}catch(e){par.insertBefore(PVW,ref)}}
 function pvPark(){if(!PVW)return;if(!PVW.isConnected){PVW=PVF=null;return;}PVW.classList.remove("on");if(PVW.parentNode!==$("pvhold"))pvMove(pvHold(),null);}
 function isShort(it){if(!it||!it.yt)return false;if(it.vt===0||it.vt===1)return!!it.vt;if(/#shorts?\b/i.test(it.t||""))return true;const m=/^(?:(\d+):)?(\d+):(\d+)$/.exec(String(it.du||"").replace(/[^\d:]/g,""));if(m){const sec=(+(m[1]||0))*3600+(+m[2])*60+(+m[3]);return sec>0&&sec<=60;}return false;}
@@ -2641,17 +2641,17 @@ function stopPreview(){clearTimeout(pvT);if(pv){const p=pv;pv=null;p.box.classLi
 async function startPreview(box,it){const k0=it.v||it.id||it.t;const vid=await trailerFor(it);const kb=()=>{(box.id==="hero"?$(hc):box).classList.add("kb")};
  if(!vid)return kb();
  if((pvKey!==k0&&pvKey!==(it.v||it.id||it.t))||!box.isConnected)return;if(pv)stopPreview();
- if(PVM){if(!PVW||!PVW.isConnected)pvMake();const n=++PVN,msg={cmd:"load",v:vid,s:it.yt?0:6,vol:60,n};PVW.classList.remove("on");PVW.classList.toggle("vert",isShort(it));pvMove(box,box.firstChild);
+ if(PVM){if(!PVW||!PVW.isConnected)pvMake();const n=++PVN,msg={cmd:"load",v:vid,s:it.yt?0:6,vol:60,n,af:0};PVW.classList.remove("on");PVW.classList.toggle("vert",isShort(it));pvMove(box,box.firstChild);
   const me={persist:1,box:PVW,n,msg};pv=me;try{PVF.contentWindow.postMessage(msg,"*")}catch(e){}
   const on=e=>{if(!e.data||e.data.gh!=="yt"||!PVF||e.source!==PVF.contentWindow)return;if(pv!==me){removeEventListener("message",on);return;}if(e.data.n!==n)return;
-   if(e.data.state==="playing")setTimeout(()=>{if(pv===me&&PVW)PVW.classList.add("on")},300);if(e.data.error!=null){removeEventListener("message",on);pv=null;pvPark();kb();}};
+   if(e.data.state==="playing")setTimeout(()=>{if(pv!==me||!PVW)return;PVW.classList.add("on");setTimeout(()=>{if(pv===me)try{PVF.contentWindow.postMessage({cmd:"fade"},"*")}catch(x){}},450)},300);if(e.data.error!=null){removeEventListener("message",on);pv=null;pvPark();kb();}};
   addEventListener("message",on);return;}
  const w=document.createElement("div");w.className="pv"+(isShort(it)?" vert":"");const f=document.createElement("iframe");f.setAttribute("allow","autoplay; encrypted-media");f.setAttribute("frameborder","0");
  f.style.cssText="border:0;pointer-events:none";f.tabIndex=-1;
- f.src=PVPG+"#v="+encodeURIComponent(vid)+"&s="+(it.yt?0:6)+"&vol=60";w.appendChild(f);box.insertBefore(w,box.firstChild);
+ f.src=PVPG+"?p=6#v="+encodeURIComponent(vid)+"&s="+(it.yt?0:6)+"&vol=60&af=0";w.appendChild(f);box.insertBefore(w,box.firstChild);
  const me={box:w,player:{destroy:()=>{try{f.contentWindow.postMessage({cmd:"stop"},"*")}catch(e){}f.src="about:blank"}},f};pv=me;
  const on=e=>{if(!e.data||e.data.gh!=="yt"||e.source!==f.contentWindow)return;if(pv!==me){removeEventListener("message",on);return;}
-  if(e.data.state==="playing")w.classList.add("on");if(e.data.error!=null){removeEventListener("message",on);w.remove();if(pv===me)pv=null;kb();}};
+  if(e.data.state==="playing"){w.classList.add("on");setTimeout(()=>{if(pv===me)try{f.contentWindow.postMessage({cmd:"fade"},"*")}catch(x){}},550);}if(e.data.error!=null){removeEventListener("message",on);w.remove();if(pv===me)pv=null;kb();}};
  addEventListener("message",on);}
 function mediaFocus(el){let it=null,box=null;
  if(mode==="home"&&el){if((fr===4||fr===5)&&(el.dataset.x||(el.dataset.y&&!/^(st|ld)/.test(el.dataset.y)))){const x=el.dataset.x?NW[+el.dataset.x]:SP[+el.dataset.y];if(x&&x.k==="yt"){it={yt:1,v:x.v,t:x.t,du:x.du,vt:x.vt};box=el.querySelector(".vth")||el;}}else if(fr===3&&el.dataset.k){it=ITEMS[+el.dataset.k];box=el;}else if(fr===3&&el.dataset.c){const c=CONT[+el.dataset.c];if(c){it=c._pit||(c._pit={t:c.t,_c:c,type:c.type==="series"?"tv":c.type});box=el;}}else if(fr===3&&el.dataset.lp){const L=lastFor(+el.dataset.lp),g=L&&L.go;if(g&&g.k==="yt"&&g.v){const h=ITEMS.find(x=>x.yt&&x.v===g.v);it=h||{yt:1,v:g.v,t:L.t};box=el;}}else if(fr===1&&HERO.length){it=HERO[hi];box=$("hero");}}
