@@ -1,4 +1,4 @@
-<!DOCTYPE html><!--GH_BUILD:2.8.5-->
+<!DOCTYPE html><!--GH_BUILD:2.8.6-->
 <html lang="nl" style="background:#05060a url(splash5.png) center/cover no-repeat"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,viewport-fit=cover">
 <title>Glass Home</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
@@ -1510,7 +1510,7 @@ module.exports = QRRSBlock;
 
 };
 var Q=R("./index"),E=R("./QRErrorCorrectLevel");window.ghQR=function(t){var q=new Q(-1,E.M);q.addData(t);q.make();var n=q.getModuleCount(),p="";for(var r=0;r<n;r++)for(var c=0;c<n;c++)if(q.isDark(r,c))p+="M"+(c+2)+" "+(r+2)+"h1v1h-1z";return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 '+(n+4)+' '+(n+4)+'" shape-rendering="crispEdges"><rect width="100%" height="100%" fill="#fff"/><path d="'+p+'" fill="#000"/></svg>';};})();</script>
-<script type="text/plain" id="ghv">GH_BUILD:2.8.5</script>
+<script type="text/plain" id="ghv">GH_BUILD:2.8.6</script>
 <div id="intro"><div class="orb"></div><div class="ghw"><svg class="ghl" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
 <defs>
 <linearGradient id="gl" x1="0" y1="0" x2="0.35" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".96"/><stop offset=".55" stop-color="#e9ecf6" stop-opacity=".78"/><stop offset="1" stop-color="#c9cfe6" stop-opacity=".6"/></linearGradient>
@@ -1685,7 +1685,8 @@ const GH_T0=Date.now();document.addEventListener("pointerdown",()=>{window.ghLas
 function ghApplyUpd(){if(!window.GHUPD||mode==="panel"||document.body.classList.contains("amb"))return;try{save()}catch(e){}location.reload();}
 setTimeout(ghCheckUpd,P==="preview"?15000:2500);setInterval(ghCheckUpd,20*60000);
 document.addEventListener("visibilitychange",()=>{if(!document.hidden)setTimeout(ghApplyUpd,300)});
-setInterval(()=>{if(window.GHUPD&&Date.now()-window.ghLastKey>60000)ghApplyUpd()},15000);
+// geen automatische herstart meer terwijl iemand kijkt: alleen bij openen of als je terugkomt uit een andere app (of na 30 min niets doen)
+setInterval(()=>{if(window.GHUPD&&Date.now()-window.ghLastKey>18e5)ghApplyUpd()},6e4);
 // ---------- slim huis: Google Home-paneel + optioneel Home Assistant ----------
 let HA=null;
 async function haLoad(){const g=window.GH_KEYS||{};if(!g.haUrl||!g.haToken){HA=P==="preview"?[{entity_id:"light.woonkamer",state:"on",attributes:{friendly_name:"Woonkamer"}},{entity_id:"light.keuken",state:"off",attributes:{friendly_name:"Keuken"}},{entity_id:"scene.film_kijken",state:"",attributes:{friendly_name:"Film kijken"}},{entity_id:"climate.thermostaat",state:"heat",attributes:{friendly_name:"Thermostaat",current_temperature:20.5}}]:[];return;}
