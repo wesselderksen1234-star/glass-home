@@ -16,7 +16,7 @@ window.onYouTubeIframeAPIReady=function(){
  boot=!!cur.v;var pv={autoplay:cur.v?1:0,mute:1,controls:0,rel:0,modestbranding:1,playsinline:1,iv_load_policy:3,disablekb:1,fs:0,origin:location.origin};if(cur.v)pv.start=cur.s;
  pl=new YT.Player("p",{videoId:cur.v||"M7lc1UVf-VE",playerVars:pv,
   events:{onReady:function(e){ready=1;if(cur.v){if(boot){arm();e.target.mute();e.target.playVideo();}else play();}},
-   onStateChange:function(e){if(e.data===1&&!on&&cur.v){on=1;clearTimeout(to);up({state:"playing"});fade(e.target);}
+   onStateChange:function(e){if((e.data===1||e.data===3)&&!cur.v&&ready){try{e.target.stopVideo()}catch(x){}return;}if(e.data===1&&!on&&cur.v){on=1;clearTimeout(to);up({state:"playing"});fade(e.target);}
     if(e.data===0&&cur.v){try{e.target.seekTo(cur.s,true);e.target.playVideo()}catch(x){}}},
    onError:function(e){up({error:e.data})}}});};
 addEventListener("message",function(e){var d=e.data||{};try{

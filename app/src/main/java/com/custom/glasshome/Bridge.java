@@ -66,6 +66,7 @@ public class Bridge {
         try {
             PackageManager pm = ctx.getPackageManager();
             Map<String, String> found = new LinkedHashMap<>();
+            java.util.Set<String> tvApps = new java.util.HashSet<>();
             Intent[] intents = new Intent[]{
                     new Intent(Intent.ACTION_MAIN).addCategory(LEANBACK),
                     new Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_LAUNCHER)
@@ -74,6 +75,7 @@ public class Bridge {
                 List<ResolveInfo> list = pm.queryIntentActivities(in, 0);
                 for (ResolveInfo ri : list) {
                     String pkg = ri.activityInfo.packageName;
+                    if (in.hasCategory(LEANBACK)) tvApps.add(pkg);
                     if (found.containsKey(pkg)) continue;
                     CharSequence label = ri.loadLabel(pm);
                     found.put(pkg, label != null ? label.toString() : pkg);
@@ -83,6 +85,11 @@ public class Bridge {
                 JSONObject o = new JSONObject();
                 o.put("id", e.getKey());
                 o.put("title", e.getValue());
+                o.put("tv", tvApps.contains(e.getKey()));
+                try {
+                    if (android.os.Build.VERSION.SDK_INT >= 26) o.put("cat", pm.getApplicationInfo(e.getKey(), 0).category);
+                } catch (Exception ignored2) {
+                }
                 arr.put(o);
             }
         } catch (Exception ignored) {
