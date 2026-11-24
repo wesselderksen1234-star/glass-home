@@ -1,4 +1,4 @@
-<!DOCTYPE html><!--GH_BUILD:3.5.0-->
+<!DOCTYPE html><!--GH_BUILD:3.5.1-->
 <html lang="nl" style="background:#05060a url(splash5.png) center/cover no-repeat"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,viewport-fit=cover">
 <title>Glass Home</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
@@ -384,7 +384,7 @@ body:not(.det) #det,#panel:not(.open),#toast:not(.on),body:not(.amb) #amb{-webki
 #shelf .card .lab{transition:opacity .35s ease}body.det #shelf .card.focus .lab{opacity:0}
 #apps .app.sq{flex-direction:row!important;align-items:center!important;justify-content:center!important;gap:12px;padding:0 14px!important}
 #apps .app.sq>img{position:static!important;width:50px!important;height:50px!important;max-width:none!important;flex:none;margin:0!important;object-fit:contain!important;transform:none!important}
-#apps .app.sq b{display:block!important;font-size:22px!important;line-height:1.1;font-weight:800;letter-spacing:-.3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:110px;position:static!important}
+#apps .app.sq b{display:-webkit-box!important;-webkit-line-clamp:2;-webkit-box-orient:vertical;font-size:19px!important;line-height:1.12;font-weight:800;letter-spacing:-.3px;white-space:normal;overflow:hidden;max-width:104px;word-break:break-word;position:static!important}
 #full .avid .vth{width:min(100%,1100px)!important;max-height:none!important;aspect-ratio:16/9;margin:0 auto}
 .board.sb .stp,.board.sb .ac,.board.sb .vt,.board.sb .bempty{background:linear-gradient(160deg,rgba(46,50,68,.96),rgba(14,16,24,.98))!important;border-color:rgba(255,255,255,.16)!important}
 .board.sb .mc,.board.sb .stp,.board.sb .ac,.board.sb .vt{clip-path:inset(0 round 24px);overflow:hidden;backface-visibility:hidden}
@@ -1636,7 +1636,7 @@ module.exports = QRRSBlock;
 
 };
 var Q=R("./index"),E=R("./QRErrorCorrectLevel");window.ghQR=function(t){var q=new Q(-1,E.M);q.addData(t);q.make();var n=q.getModuleCount(),p="";for(var r=0;r<n;r++)for(var c=0;c<n;c++)if(q.isDark(r,c))p+="M"+(c+2)+" "+(r+2)+"h1v1h-1z";return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 '+(n+4)+' '+(n+4)+'" shape-rendering="crispEdges"><rect width="100%" height="100%" fill="#fff"/><path d="'+p+'" fill="#000"/></svg>';};})();</script>
-<script type="text/plain" id="ghv">GH_BUILD:3.5.0</script>
+<script type="text/plain" id="ghv">GH_BUILD:3.5.1</script>
 <div id="intro"><div class="orb"></div><div class="ghw"><svg class="ghl" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
 <defs>
 <linearGradient id="gl" x1="0" y1="0" x2="0.35" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".96"/><stop offset=".55" stop-color="#e9ecf6" stop-opacity=".78"/><stop offset="1" stop-color="#c9cfe6" stop-opacity=".6"/></linearGradient>
@@ -1673,7 +1673,7 @@ var Q=R("./index"),E=R("./QRErrorCorrectLevel");window.ghQR=function(t){var q=ne
 <script src="config.js"></script>
 <script>
 addEventListener("scroll",function(e){var t=e.target;if(t===document||t===document.body||t===document.documentElement){if(window.scrollX||window.scrollY)window.scrollTo(0,0);if(document.body&&document.body.scrollTop)document.body.scrollTop=0;if(document.documentElement.scrollTop)document.documentElement.scrollTop=0;}},true);
-window.ghSq=function(i){var p=i.parentNode;if(!p||!p.classList.contains("app"))return;var w=i.naturalWidth,h=i.naturalHeight;if(!w||!h)return;var sq=w<h*1.45&&!p.classList.contains("bn");p.classList.toggle("sq",sq);};
+window.ghSq=function(i){var p=i.parentNode;if(!p||!p.classList.contains("app"))return;var w=i.naturalWidth,h=i.naturalHeight;if(!w||!h)return;var tl=i.classList.contains("tl"),sq=w<h*(tl?1.12:1.45)&&!p.classList.contains("bn");p.classList.toggle("sq",sq);};
 window.aimFit=function(i){var w=i.naturalWidth,h=i.naturalHeight;if(!w||!h)return;i.classList.add(h>w*0.9?"pf":"lf");var f=document.getElementById("fin");if(f&&!f.querySelector(".aclr")){var c=document.createElement("div");c.className="aclr";f.appendChild(c);}};
 {
 window.__gh=function(c){return eval(c)};
@@ -1736,7 +1736,7 @@ const PHONE=P==="android"&&TOUCH;
 function isMedia(x){if(!PHONE)return true;if(x.tv||x.cat===1||x.cat===2)return true;return /youtube|stremio|spotify|netflix|videoland|npo|uitzendinggemist|prime|amazon|tvplayer|tivimate|plex|kodi|vlc|jellyfin|emby|disney|hbo|max|apple ?tv|crunchyroll|ziggo|kpn|viaplay|espn|nlziet|pathe|skyshowtime|twitch|dazn|tv|film|movie|video|stream|player|media|music|podcast|radio|moonlight|geforce|steam|parsec/i.test((x.id||"")+" "+(x.title||""));}
 function syncApps(list){ALLAPPS=list.filter(x=>x.visible!==false&&x.title);if(P==="android"&&list.length){const first=!S.aa1;S.aa1=1;S.seenPk=S.seenPk||[];S.extra=S.extra||[];const skip=/^(com\.android\.|com\.google\.android\.(?!youtube)|com\.custom\.glasshome|com\.tech\.downloader|android)/;list.forEach(x=>{const nw=!S.seenPk.includes(x.id);if(nw)S.seenPk.push(x.id);if(!first&&!nw)return;if(skip.test(x.id)||APPS.some(a=>a.pkg===x.id)||S.extra.some(e=>e.id===x.id)||(S.hidden||[]).includes(x.id))return;if(/youtube|stremio|spotify|netflix|videoland|npo|uitzendinggemist|prime|amazon|tvplayer|tivimate/i.test(x.id+" "+x.title))return;if(!isMedia(x))return;S.extra.push({n:x.title,id:x.id});});
   if(PHONE&&!S.phx){S.phx=1;S.extra=S.extra.filter(e=>{const x=list.find(y=>y.id===e.id);return !x||isMedia(x)});}save();}setTimeout(drawLive,0);addExtras();APPS.forEach(a=>{const lo=x=>(x.title||"").toLowerCase(),m=list.find(x=>x.id===a.pkg||x.id===a.id)||list.find(x=>lo(x)===a.n.toLowerCase())||list.find(x=>lo(x).includes(a.k)&&!/kids|music/.test(lo(x)));if(!m){if(P==="android"&&list.length)a.missing=1;return;}a.missing=0;
-  if(P==="android"){a.pkg=m.id;if(!a.lg){try{a.icon=(GHAndroid.appLogo&&GHAndroid.appLogo(m.id))||GHAndroid.appIcon(m.id)||"";if(GHAndroid.appLogo)a.lo=1;}catch(e){}}return;}
+  if(P==="android"){a.pkg=m.id;if(!a.lg){try{const bn=GHAndroid.appBanner&&GHAndroid.appBanner(m.id);if(bn){a.icon=bn;a.lo=0;}else{a.icon=(GHAndroid.appLogo&&GHAndroid.appLogo(m.id))||GHAndroid.appIcon(m.id)||"";if(GHAndroid.appLogo)a.lo=1;}}catch(e){}}return;}
   a.id=m.id;let ic=m.largeIcon||m.icon||"";if(ic&&!/^(\/|file:|https?:|data:)/.test(ic))ic=(m.folderPath||"")+"/"+ic;if(ic&&String(a.icon||"").indexOf("icons/")!==0)a.icon=(ic[0]==="/"?"file://":"")+ic;});
  drawApps();drawCont();}
 // Glass Home aanmelden als "ingang" (net als HDMI): was hij de laatste ingang, dan start de tv er vanzelf mee op
@@ -1940,7 +1940,7 @@ setTimeout(drawRail,0);setTimeout(()=>{if(!LIVE.length)drawLive()},2500);
 // eigen apps toevoegen / verbergen
 const aid=a=>a.pkg&&P==="android"?a.pkg:a.id||a.n;
 function addExtras(){(S.extra||[]).forEach(e=>{if(APPS.some(a=>a.x&&!a.removed&&a.id===e.id))return;let h=0;for(const ch of e.n)h=(h*31+ch.charCodeAt(0))%360;
- const na={n:e.n,k:e.n.toLowerCase(),id:e.id,pkg:e.id,x:1,g:"orb",c:["hsl("+h+",45%,42%)","hsl("+((h+30)%360)+",50%,22%)"]};if(P==="android"){try{const u=GHAndroid.appLogo&&GHAndroid.appLogo(e.id);if(u){na.icon=u;na.lo=1;}}catch(x){}}APPS.push(na);});}
+ const na={n:e.n,k:e.n.toLowerCase(),id:e.id,pkg:e.id,x:1,g:"orb",c:["hsl("+h+",45%,42%)","hsl("+((h+30)%360)+",50%,22%)"]};if(P==="android"){try{const bn=GHAndroid.appBanner&&GHAndroid.appBanner(e.id);if(bn){na.icon=bn;}else{const u=GHAndroid.appLogo&&GHAndroid.appLogo(e.id);if(u){na.icon=u;na.lo=1;}}}catch(x){}}APPS.push(na);});}
 function orderIdx(){const o=S.order||[],pos=a=>{const p=o.indexOf(aid(a));return p<0?1e3+APPS.indexOf(a):p};return APPS.map((a,i)=>i).sort((x,y)=>pos(APPS[x])-pos(APPS[y]));}
 function drawApps(){$("apps").innerHTML=orderIdx().map(i=>[APPS[i],i]).map(([a,i])=>a.removed||a.missing||(S.hidden||[]).includes(aid(a))?'':'<div class="app f'+(a.lt?' lt':'')+(a.tl&&a.icon?' logo':'')+'" data-a="'+i+'" style="background:'+appBg(a.c)+'">'+icon(a,a.tl?"ico tl":"ico")+'<b>'+String(a.n).replace(/</g,"&lt;")+'</b></div>').join("");}
 addExtras();drawApps();
@@ -2047,8 +2047,8 @@ function drawSport(){const on=S.spRow!==0;$("s-sport").style.display=on?"":"none
  $("sport").className="board nb sb";const lgs=spLgs();let h="";
  lgs.forEach((nm,li)=>{const T=SPTAB[nm]||[],mt=SP.filter(x=>x.k==="sp"&&x.lg===nm),nw=SP.filter(x=>(x.k==="yt"||x.k==="art")&&x.lg===nm),X=SPX[nm]||{};
   const ms=mt.filter(x=>x.live).concat(mt.filter(x=>!x.live&&x.ord!==2),mt.filter(x=>x.ord===2));let c="";
-  if(T.length)c+=standCard(nm,T,li);c+=ms.slice(0,10).map(x=>mRow(x,SP.indexOf(x))).join("");
-  c+=nw.slice(0,8).map(x=>x.k==="yt"?vTile(x,SP.indexOf(x),"y"):aCard(x,SP.indexOf(x),"y")).join("");
+  if(T.length)c+=standCard(nm,T,li);c+=ms.slice(0,6).map(x=>mRow(x,SP.indexOf(x))).join("");
+  c+=nw.slice(0,6).map(x=>x.k==="yt"?vTile(x,SP.indexOf(x),"y"):aCard(x,SP.indexOf(x),"y")).join("");
   if(X.g&&X.g.length)c+=leadCard(li,"g",X.g);if(X.a&&X.a.length)c+=leadCard(li,"a",X.a);
   if(c)h+='<h3>'+esc(nm)+'</h3><div class="srow">'+c+'</div>';});
  const rest=SP.filter(x=>(x.k==="yt"||x.k==="art")&&!lgs.includes(x.lg));

@@ -125,6 +125,26 @@ public class Bridge {
     }
 
     @JavascriptInterface
+    public String appBanner(String pkg) {
+        try {
+            PackageManager pm = ctx.getPackageManager();
+            Drawable d = null;
+            try { d = pm.getActivityBanner(leanbackIntent(pkg)); } catch (Exception ignored) { }
+            if (d == null) { try { d = pm.getApplicationBanner(pkg); } catch (Exception ignored) { } }
+            if (d == null) return "";
+            Bitmap bmp = Bitmap.createBitmap(320, 180, Bitmap.Config.ARGB_8888);
+            Canvas c = new Canvas(bmp);
+            d.setBounds(0, 0, 320, 180);
+            d.draw(c);
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            bmp.compress(Bitmap.CompressFormat.PNG, 100, bos);
+            return "data:image/png;base64," + Base64.encodeToString(bos.toByteArray(), Base64.NO_WRAP);
+        } catch (Throwable t) {
+            return "";
+        }
+    }
+
+    @JavascriptInterface
     public String appIcon(String pkg) {
         if (pkg == null) return "";
         String hit = iconCache.get(pkg);
