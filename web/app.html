@@ -1,4 +1,4 @@
-<!DOCTYPE html><!--GH_BUILD:2.5.5-->
+<!DOCTYPE html><!--GH_BUILD:2.5.6-->
 <html lang="nl" style="background:#05060a url(splash5.png) center/cover no-repeat"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width">
 <title>Glass Home</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
@@ -1474,7 +1474,7 @@ module.exports = QRRSBlock;
 
 };
 var Q=R("./index"),E=R("./QRErrorCorrectLevel");window.ghQR=function(t){var q=new Q(-1,E.M);q.addData(t);q.make();var n=q.getModuleCount(),p="";for(var r=0;r<n;r++)for(var c=0;c<n;c++)if(q.isDark(r,c))p+="M"+(c+2)+" "+(r+2)+"h1v1h-1z";return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 '+(n+4)+' '+(n+4)+'" shape-rendering="crispEdges"><rect width="100%" height="100%" fill="#fff"/><path d="'+p+'" fill="#000"/></svg>';};})();</script>
-<script type="text/plain" id="ghv">GH_BUILD:2.5.5</script>
+<script type="text/plain" id="ghv">GH_BUILD:2.5.6</script>
 <div id="intro"><div class="orb"></div><div class="ghw"><svg class="ghl" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
 <defs>
 <linearGradient id="gl" x1="0" y1="0" x2="0.35" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".96"/><stop offset=".55" stop-color="#e9ecf6" stop-opacity=".78"/><stop offset="1" stop-color="#c9cfe6" stop-opacity=".6"/></linearGradient>
@@ -2046,7 +2046,7 @@ async function syncPull(){try{if(!(await syncInit()))return;const tx=await(await
    const m=JSON.parse(new TextDecoder().decode(await crypto.subtle.decrypt({name:"AES-GCM",iv:raw.slice(0,12)},syncK,raw.slice(12))));if(!best||m.ts>best.ts)best=m;}catch(x){}}
  if(!best||best.ts<=(S.syncTs||0)){if(Date.now()-(S.syncTs||0)>216e5)S.syncSnap="";return syncPush();}
  let ch=false;Object.keys(best.d||{}).forEach(k=>{if(SYK.includes(k)&&best.d[k]!==""&&best.d[k]!=null&&JSON.stringify(S[k])!==JSON.stringify(best.d[k])){S[k]=best.d[k];ch=true}});
- syncBusy=true;S.syncTs=best.ts;S.syncSnap=syncSnap();save();syncBusy=false;if(ch){try{loadAll()}catch(x){}try{if(mode==="panel")drawOpts()}catch(x){}}}catch(e){syncBusy=false}}
+ const rem={};SYK.forEach(k=>{const v=(best.d||{})[k];if(v!=null&&v!==""&&v!==KDEF[k])rem[k]=v});const mine=syncSnap();syncBusy=true;S.syncTs=best.ts;S.syncSnap=JSON.stringify(rem);save();syncBusy=false;if(mine!==S.syncSnap)syncPush();if(ch){try{loadAll()}catch(x){}try{if(mode==="panel")drawOpts()}catch(x){}}}catch(e){syncBusy=false}}
 setTimeout(syncPull,3000);setInterval(syncPull,6e5);
 
 // Instellingen via startparameters (alleen de tv-brug op je eigen pc kan die meegeven)
