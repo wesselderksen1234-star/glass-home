@@ -1,4 +1,4 @@
-<!DOCTYPE html><!--GH_BUILD:2.5.7-->
+<!DOCTYPE html><!--GH_BUILD:2.5.8-->
 <html lang="nl" style="background:#05060a url(splash5.png) center/cover no-repeat"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width">
 <title>Glass Home</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
@@ -217,7 +217,7 @@ body.fb #hero .hi{opacity:0!important}#hero .hi{transition:opacity .9s}
 .ri.last{margin-top:14px;position:relative}.ri.last::before{content:"";position:absolute;left:18px;right:18px;top:-14px;height:1px;background:rgba(255,255,255,.18)}
 .opt .v .av{vertical-align:middle;margin-right:8px}
 #det p{font-size:21px;line-height:1.36}#det{height:420px;bottom:24px;padding:30px 48px}#det h4+p{margin-bottom:16px}
-body.shelf #clock{opacity:0}#clock{transition:opacity .3s}
+#clock{transition:opacity .3s}
 body.haslive #s-cont{display:none!important}
 html{overflow:hidden}#rot{display:none}body.portrait{overflow:visible}body.portrait #rot{display:block;position:fixed;left:0;right:0;bottom:-90px;text-align:center;font-size:30px;color:rgba(255,255,255,.75);z-index:200}
 .app.bn{padding:0}.app.bn .ico{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:inherit;filter:none}.app.bn b{display:none}.app.bn::before{background:linear-gradient(160deg,rgba(255,255,255,.14),rgba(255,255,255,0) 45%);z-index:1}
@@ -1474,7 +1474,7 @@ module.exports = QRRSBlock;
 
 };
 var Q=R("./index"),E=R("./QRErrorCorrectLevel");window.ghQR=function(t){var q=new Q(-1,E.M);q.addData(t);q.make();var n=q.getModuleCount(),p="";for(var r=0;r<n;r++)for(var c=0;c<n;c++)if(q.isDark(r,c))p+="M"+(c+2)+" "+(r+2)+"h1v1h-1z";return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 '+(n+4)+' '+(n+4)+'" shape-rendering="crispEdges"><rect width="100%" height="100%" fill="#fff"/><path d="'+p+'" fill="#000"/></svg>';};})();</script>
-<script type="text/plain" id="ghv">GH_BUILD:2.5.7</script>
+<script type="text/plain" id="ghv">GH_BUILD:2.5.8</script>
 <div id="intro"><div class="orb"></div><div class="ghw"><svg class="ghl" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
 <defs>
 <linearGradient id="gl" x1="0" y1="0" x2="0.35" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".96"/><stop offset=".55" stop-color="#e9ecf6" stop-opacity=".78"/><stop offset="1" stop-color="#c9cfe6" stop-opacity=".6"/></linearGradient>
@@ -1952,7 +1952,7 @@ const tr=async u=>{const t=await trToken();return j("https://api.trakt.tv/"+u,{h
 let trPoll;
 
 // koppelen of invullen via je telefoon (QR) – versleuteld doorgegeven via ntfy.sh
-const LINKPG="https://wesselderksen1234-star.github.io/glass-home/link.html";let phT=null;
+const PVPG="https://wesselderksen1234-star.github.io/glass-home/yt.html";const LINKPG="https://wesselderksen1234-star.github.io/glass-home/link.html";let phT=null;
 const rndB=n=>{const a=new Uint8Array(n);crypto.getRandomValues(a);return a},b64u=a=>btoa(String.fromCharCode.apply(null,a)).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"");
 
 // sleutels overzetten tussen tv's (via je telefoon, zonder typen)
@@ -2135,14 +2135,15 @@ async function trailerFor(it){if(it.yt)return it.v;if(it.tr!==undefined)return i
 function stopPreview(){clearTimeout(pvT);if(pv){const p=pv;pv=null;p.box.classList.remove("on");setTimeout(()=>{try{p.player.destroy()}catch(e){}p.box.remove()},1500);}
  document.querySelectorAll(".kb").forEach(e=>e.classList.remove("kb"));}
 async function startPreview(box,it){const vid=await trailerFor(it);const kb=()=>{(box.id==="hero"?$(hc):box).classList.add("kb")};
- if(!vid||!(await ytApi())||!window.YT||!YT.Player)return kb();
+ if(!vid)return kb();
  if(pvKey!==(it.v||it.id||it.t)||!box.isConnected)return;if(pv)stopPreview();
- const w=document.createElement("div");w.className="pv";const inner=document.createElement("div");w.appendChild(inner);box.insertBefore(w,box.firstChild);
- const player=new YT.Player(inner,{videoId:vid,host:"https://www.youtube-nocookie.com",playerVars:{autoplay:1,mute:1,controls:0,rel:0,modestbranding:1,playsinline:1,iv_load_policy:3,disablekb:1,fs:0,loop:1,playlist:vid,start:it.yt?0:6},
-  events:{onReady:e=>{try{e.target.mute();e.target.playVideo()}catch(x){}},
-   onStateChange:e=>{if(e.data===1&&!w.classList.contains("on")){w.classList.add("on");try{e.target.unMute();e.target.setVolume(0);let v=0;const t=setInterval(()=>{v+=4;try{e.target.setVolume(Math.min(60,v))}catch(x){}if(v>=60||!pv)clearInterval(t)},120)}catch(x){}}},
-   onError:()=>{w.remove();kb();}}});
- pv={box:w,player};}
+ const w=document.createElement("div");w.className="pv";const f=document.createElement("iframe");f.setAttribute("allow","autoplay; encrypted-media");f.setAttribute("frameborder","0");
+ f.style.cssText="border:0;pointer-events:none";f.tabIndex=-1;
+ f.src=PVPG+"#v="+encodeURIComponent(vid)+"&s="+(it.yt?0:6)+"&vol=60";w.appendChild(f);box.insertBefore(w,box.firstChild);
+ const me={box:w,player:{destroy:()=>{try{f.contentWindow.postMessage({cmd:"stop"},"*")}catch(e){}f.src="about:blank"}},f};pv=me;
+ const on=e=>{if(!e.data||e.data.gh!=="yt"||e.source!==f.contentWindow)return;if(pv!==me){removeEventListener("message",on);return;}
+  if(e.data.state==="playing")w.classList.add("on");if(e.data.error!=null){removeEventListener("message",on);w.remove();if(pv===me)pv=null;kb();}};
+ addEventListener("message",on);}
 function mediaFocus(el){let it=null,box=null;
  if(mode==="home"&&el){if(fr===3&&el.dataset.k){it=ITEMS[+el.dataset.k];box=el;}else if(fr===1&&HERO.length){it=HERO[hi];box=$("hero");}}
  const k=it?(it.v||it.id||it.t):"";if(fr===1&&mode==="home"){if(!window.hpz){clearInterval(hT);window.hpz=1}}else if(window.hpz){window.hpz=0;clearInterval(hT);hT=setInterval(nextHero,12000);}

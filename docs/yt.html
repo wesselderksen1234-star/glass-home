@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="nl"><head><meta charset="utf-8"><meta name="referrer" content="strict-origin-when-cross-origin"><title>Glass Home voorbeeld</title>
+<style>html,body{margin:0;width:100%;height:100%;background:#000;overflow:hidden}#p{position:absolute;inset:0;width:100%;height:100%}</style></head>
+<body><div id="p"></div>
+<script>
+// Glass Home: speelt een YouTube-voorbeeld af. Draait op een https-adres zodat YouTube het filmpje toestaat.
+var q={};location.hash.replace(/^#/,"").split("&").forEach(function(x){var a=x.split("=");if(a[0])q[a[0]]=decodeURIComponent(a[1]||"")});
+var vid=(q.v||"").replace(/[^\w-]/g,""),start=parseInt(q.s||"0",10)||0,vol=Math.min(100,parseInt(q.vol||"60",10)||60),pl;
+function up(m){try{parent.postMessage(Object.assign({gh:"yt"},m),"*")}catch(e){}}
+window.onYouTubeIframeAPIReady=function(){
+ pl=new YT.Player("p",{videoId:vid,playerVars:{autoplay:1,mute:1,controls:0,rel:0,modestbranding:1,playsinline:1,iv_load_policy:3,disablekb:1,fs:0,loop:1,playlist:vid,start:start,origin:location.origin},
+  events:{onReady:function(e){e.target.mute();e.target.playVideo();},
+   onStateChange:function(e){if(e.data===1&&!window.on){window.on=1;up({state:"playing"});try{e.target.unMute();e.target.setVolume(0);var v=0,t=setInterval(function(){v+=4;try{e.target.setVolume(Math.min(vol,v))}catch(x){}if(v>=vol)clearInterval(t)},120)}catch(x){}}},
+   onError:function(e){up({error:e.data})}}});};
+addEventListener("message",function(e){var d=e.data||{};if(!pl)return;try{if(d.cmd==="stop")pl.stopVideo();if(d.cmd==="mute")pl.mute();}catch(x){}});
+if(!vid)up({error:"novid"});
+var s=document.createElement("script");s.src="https://www.youtube.com/iframe_api";s.onerror=function(){up({error:"api"})};document.head.appendChild(s);
+setTimeout(function(){if(!window.on)up({error:"timeout"})},20000);
+</script></body></html>
