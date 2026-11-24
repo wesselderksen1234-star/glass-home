@@ -1,4 +1,4 @@
-<!DOCTYPE html><!--GH_BUILD:2.7.4-->
+<!DOCTYPE html><!--GH_BUILD:2.7.5-->
 <html lang="nl" style="background:#05060a url(splash5.png) center/cover no-repeat"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width">
 <title>Glass Home</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
@@ -1498,7 +1498,7 @@ module.exports = QRRSBlock;
 
 };
 var Q=R("./index"),E=R("./QRErrorCorrectLevel");window.ghQR=function(t){var q=new Q(-1,E.M);q.addData(t);q.make();var n=q.getModuleCount(),p="";for(var r=0;r<n;r++)for(var c=0;c<n;c++)if(q.isDark(r,c))p+="M"+(c+2)+" "+(r+2)+"h1v1h-1z";return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 '+(n+4)+' '+(n+4)+'" shape-rendering="crispEdges"><rect width="100%" height="100%" fill="#fff"/><path d="'+p+'" fill="#000"/></svg>';};})();</script>
-<script type="text/plain" id="ghv">GH_BUILD:2.7.4</script>
+<script type="text/plain" id="ghv">GH_BUILD:2.7.5</script>
 <div id="intro"><div class="orb"></div><div class="ghw"><svg class="ghl" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
 <defs>
 <linearGradient id="gl" x1="0" y1="0" x2="0.35" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".96"/><stop offset=".55" stop-color="#e9ecf6" stop-opacity=".78"/><stop offset="1" stop-color="#c9cfe6" stop-opacity=".6"/></linearGradient>
@@ -1545,6 +1545,7 @@ const G={
  cast:'<circle cx="12" cy="12" r="2.2" fill="#fff"/><path d="M8 8a5.7 5.7 0 0 0 0 8M16 8a5.7 5.7 0 0 1 0 8M5.2 5.2a9.6 9.6 0 0 0 0 13.6M18.8 5.2a9.6 9.6 0 0 1 0 13.6" stroke="#fff" stroke-width="1.8" fill="none" stroke-linecap="round"/>',
  star:'<path d="m12 3.5 2.6 5.4 5.9.8-4.3 4.1 1 5.8L12 16.8l-5.2 2.8 1-5.8-4.3-4.1 5.9-.8z" stroke="#fff" stroke-width="1.8" fill="none" stroke-linejoin="round"/>'
 };
+const TOUCH=(window.matchMedia&&matchMedia("(pointer:coarse)").matches)||("ontouchstart" in window&&!window.PalmServiceBridge);
 const P=window.PalmServiceBridge?"webos":window.GHAndroid?"android":"preview",LG=P==="webos"||(P==="preview"&&location.hash==="#lg");
 const APPS=[
  {n:"YouTube",k:"youtube",id:"youtube.leanback.v4",pkg:"com.google.android.youtube.tv",g:"play",c:["#ff5a4e","#c4151c"]},
@@ -2225,8 +2226,9 @@ function openSP(uri){remember(3);launchApp(APPS[3],uri);}
 let rows=[],fr=1,fi=0,mode="home",last={r:1,i:0};
 function build(){rows=[[...document.querySelectorAll(".ri")],[$("hbtn")],[...document.querySelectorAll("#apps .f")],[...document.querySelectorAll("#shelf .f")],[...($("s-live").style.display!=="none"?document.querySelectorAll("#live .f"):[])]];
  rows.flat().forEach(el=>{if(el.dataset.b)return;el.dataset.b=1;
-  el.addEventListener("mouseenter",()=>{if(mode!=="home")return;rows.forEach((rw,ri)=>{const q=rw.indexOf(el);if(q>-1){fr=ri;fi=q}});paint()});
-  el.addEventListener("click",()=>act());});
+  const pick=()=>{let hit=false;rows.forEach((rw,ri)=>{const q=rw.indexOf(el);if(q>-1){hit=hit||(fr===ri&&fi===q);fr=ri;fi=q}});return hit};
+  if(!TOUCH)el.addEventListener("mouseenter",()=>{if(mode!=="home")return;pick();paint()});
+  el.addEventListener("click",()=>{if(TOUCH&&mode==="home"){if(!pick()){paint();return;}}act()});});
  if(fi>=rows[fr].length)fi=Math.max(0,rows[fr].length-1);paint();}
 let pvKey="",pvT,fbT,pv=null,ytApiP=null;
 function ytApi(){return ytApiP||(ytApiP=new Promise(res=>{if(window.YT&&YT.Player)return res(true);window.onYouTubeIframeAPIReady=()=>res(true);
@@ -2305,6 +2307,9 @@ let idleT;function bump(){clearTimeout(idleT);idleT=setTimeout(()=>{if(mode==="h
 addEventListener("mousemove",bump);bump();
 setInterval(()=>{const r=()=>Math.round(Math.random()*6-3)+"px";const t="translate("+r()+","+r()+")";$("ui").style.transform=t;$("amb").style.transform=t;},3e5);
 window.GH_home=()=>{if(mode==="amb")amb(false);if(mode==="panel")panel(false);fr=1;fi=0;paint();};
+if(P==="preview"&&TOUCH){const st=document.createElement("style");st.textContent="#ghpad{position:fixed;right:14px;bottom:14px;z-index:998;display:grid;grid-template-columns:repeat(3,46px);grid-template-rows:repeat(3,46px);gap:6px;opacity:.9}#ghpad b{display:flex;align-items:center;justify-content:center;border-radius:14px;background:rgba(20,22,32,.72);border:1px solid rgba(255,255,255,.25);color:#fff;font:700 18px Inter,sans-serif;-webkit-user-select:none;user-select:none;touch-action:manipulation}#ghpad b:active{background:rgba(255,255,255,.35)}#ghpad .ok{border-radius:50%;font-size:14px}#ghback{position:fixed;left:14px;bottom:14px;z-index:998;padding:12px 18px;border-radius:14px;background:rgba(20,22,32,.72);border:1px solid rgba(255,255,255,.25);color:#fff;font:600 15px Inter,sans-serif}";document.head.appendChild(st);
+ const pad=document.createElement("div");pad.id="ghpad";[["",0],["▲",38],["",0],["◀",37],["OK",13],["▶",39],["",0],["▼",40],["",0]].forEach(([t,k])=>{const b=document.createElement(t?"b":"i");if(t){b.textContent=t;if(k===13)b.className="ok";b.addEventListener("click",e=>{e.preventDefault();e.stopPropagation();document.dispatchEvent(new KeyboardEvent("keydown",{keyCode:k,which:k,bubbles:true}));})}pad.appendChild(b)});document.documentElement.appendChild(pad);
+ const bk=document.createElement("b");bk.id="ghback";bk.textContent="‹ Terug";bk.addEventListener("click",e=>{e.preventDefault();e.stopPropagation();document.dispatchEvent(new KeyboardEvent("keydown",{keyCode:27,which:27,bubbles:true}))});document.documentElement.appendChild(bk);}
 if(P==="preview"){const st=document.createElement("style");st.textContent="#ghrot{display:none;position:fixed;left:50%;top:16px;transform:translateX(-50%);z-index:999;padding:10px 18px;border-radius:999px;background:rgba(20,22,32,.85);color:#fff;font:600 15px Inter,sans-serif;pointer-events:none}@media (orientation:portrait){#ghrot{display:block}}";document.head.appendChild(st);const d=document.createElement("div");d.id="ghrot";d.textContent="Draai je telefoon voor de beste weergave";document.documentElement.appendChild(d);}
 window.GH_back=()=>{if(mode==="amb")return amb(false);if(mode==="panel"){try{const ki=$("keyin");if(ki&&document.activeElement===ki)ki.blur();document.dispatchEvent(new KeyboardEvent("keydown",{keyCode:27,which:27,bubbles:true}));}catch(e){panel(false)}return;}if(fr!==1){fr=1;fi=0;paint();}};
 // telefoon/browser: de terugknop werkt als "Terug" van de afstandsbediening
