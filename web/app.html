@@ -1,4 +1,4 @@
-<!DOCTYPE html><!--GH_BUILD:3.0.4-->
+<!DOCTYPE html><!--GH_BUILD:3.0.5-->
 <html lang="nl" style="background:#05060a url(splash5.png) center/cover no-repeat"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,viewport-fit=cover">
 <title>Glass Home</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
@@ -348,6 +348,7 @@ body.det.shelf #s-live{top:1530px}body.det.shelf #s-sport{top:2410px}.ac.grow .s
 #np.idle .npb,#np.idle .npc{opacity:.35}
 body.det.shelf #det{right:auto!important;width:1040px;grid-template-columns:400px 1fr!important;gap:32px!important}body.det.shelf #det #dtitle{font-size:32px!important}body.det.shelf #det #dzeg{-webkit-line-clamp:5}
 #shelf .f.focus:not(.grow){transform:scale(1.05)}.srow .bi.focus:not(.grow){transform:scale(1.04)}.srow .bi{transition:transform .35s cubic-bezier(.2,.9,.25,1)}
+body.det.shelf #det #dtitle{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}body.det.shelf #det #dmeta{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}body.det.shelf #det #dchips{display:flex;flex-wrap:nowrap;overflow:hidden;gap:8px;-webkit-mask:linear-gradient(90deg,#000 88%,transparent)}body.det.shelf #det #dchips .chip{flex:none;margin:0!important}body.det.shelf #det #dzeg{-webkit-line-clamp:6}
 </style></head><body class="boot"><script>window.ghFit=function(){var vv=window.visualViewport,de=document.documentElement,w=(vv&&vv.width)||de.clientWidth||innerWidth||1920,h=(vv&&vv.height)||de.clientHeight||innerHeight||1080,s=Math.min(w/1920,h/1080),b=document.body,r=document.documentElement;if(!b)return;var W=Math.round(Math.min(w/s,4000)),H=Math.round(Math.min(h/s,1620));if(h>w){W=1920;H=1080;}r.style.setProperty("--W",W+"px");r.style.setProperty("--H",H+"px");window.GW=W;window.GH=H;b.style.transformOrigin="0 0";b.style.transform="translate("+Math.round((w-W*s)/2)+"px,"+Math.round((h-H*s)/2)+"px) scale("+s+")";b.classList.toggle("portrait",h>w*1.05);};window.ghFit();addEventListener("orientationchange",function(){setTimeout(window.ghFit,300)});</script><div id="rot">Draai je scherm een kwartslag voor het grootste beeld</div><script>(function(){var M={},C={};function R(n){n=n.replace(/^\.\//,"./").replace(/\.js$/,"");if(C[n])return C[n].exports;var m={exports:{}};C[n]=m;M[n](m,m.exports);return m.exports;}
 M["./QRErrorCorrectLevel"]=function(module,exports){module.exports = {
 	L : 1,
@@ -1595,7 +1596,7 @@ module.exports = QRRSBlock;
 
 };
 var Q=R("./index"),E=R("./QRErrorCorrectLevel");window.ghQR=function(t){var q=new Q(-1,E.M);q.addData(t);q.make();var n=q.getModuleCount(),p="";for(var r=0;r<n;r++)for(var c=0;c<n;c++)if(q.isDark(r,c))p+="M"+(c+2)+" "+(r+2)+"h1v1h-1z";return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 '+(n+4)+' '+(n+4)+'" shape-rendering="crispEdges"><rect width="100%" height="100%" fill="#fff"/><path d="'+p+'" fill="#000"/></svg>';};})();</script>
-<script type="text/plain" id="ghv">GH_BUILD:3.0.4</script>
+<script type="text/plain" id="ghv">GH_BUILD:3.0.5</script>
 <div id="intro"><div class="orb"></div><div class="ghw"><svg class="ghl" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
 <defs>
 <linearGradient id="gl" x1="0" y1="0" x2="0.35" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".96"/><stop offset=".55" stop-color="#e9ecf6" stop-opacity=".78"/><stop offset="1" stop-color="#c9cfe6" stop-opacity=".6"/></linearGradient>
