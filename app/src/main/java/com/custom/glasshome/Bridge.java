@@ -374,6 +374,22 @@ public class Bridge {
     }
 
     @JavascriptInterface
+    public boolean canSleep() {
+        return HomeOverrideService.inst != null;
+    }
+
+    @JavascriptInterface
+    public boolean sleep() {
+        final HomeOverrideService s = HomeOverrideService.inst;
+        if (s == null) return false;
+        try {
+            return s.performGlobalAction(android.accessibilityservice.AccessibilityService.GLOBAL_ACTION_LOCK_SCREEN);
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    @JavascriptInterface
     public void openAccessibilitySettings() {
         start(Settings.ACTION_ACCESSIBILITY_SETTINGS);
     }

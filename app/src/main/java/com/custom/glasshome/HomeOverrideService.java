@@ -7,6 +7,10 @@ import android.view.accessibility.AccessibilityEvent;
 import java.util.Locale;
 
 public class HomeOverrideService extends AccessibilityService {
+    public static volatile HomeOverrideService inst;
+    @Override protected void onServiceConnected() { super.onServiceConnected(); inst = this; }
+    @Override public boolean onUnbind(Intent intent) { inst = null; return super.onUnbind(intent); }
+    @Override public void onDestroy() { inst = null; super.onDestroy(); }
     public static final String PREFS = "glasshome";
     public static final String KEY_OVERRIDE = "override";
     private static final long DEBOUNCE_MS = 1500;
