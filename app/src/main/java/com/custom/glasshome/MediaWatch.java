@@ -35,6 +35,27 @@ public class MediaWatch extends NotificationListenerService {
         return inst == null ? null : inst.ctrls.get(pkg);
     }
 
+    /** De app die nu muziek/video afspeelt (of als laatste gepauzeerd is). */
+    static MediaController active() {
+        if (inst == null) return null;
+        MediaController best = null;
+        long bestT = -1;
+        try {
+            for (MediaController c : inst.msm.getActiveSessions(new ComponentName(inst, MediaWatch.class))) {
+                if (c.getPackageName().equals(inst.getPackageName())) continue;
+                PlaybackState st = c.getPlaybackState();
+                if (st == null || c.getMetadata() == null) continue;
+                int s2 = st.getState();
+                if (s2 == PlaybackState.STATE_PLAYING) return c;
+                if (s2 == PlaybackState.STATE_PAUSED || s2 == PlaybackState.STATE_BUFFERING) {
+                    long t = st.getLastPositionUpdateTime();
+                    if (t > bestT) { bestT = t; best = c; }
+                }
+            }
+        } catch (Throwable ignored) { }
+        return best;
+    }
+
     @Override
     public void onListenerConnected() {
         inst = this;

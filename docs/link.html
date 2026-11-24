@@ -110,7 +110,7 @@ if(H.m==="key"){
 // ---- Spotify ----
 if(H.m==="spotify"){
  H1.textContent="Spotify koppelen";SUB.textContent="Eenmalig, duurt ongeveer 3 minuten";
- var SC="user-read-recently-played user-top-read user-read-currently-playing user-read-playback-state user-library-read playlist-read-private";
+ var SC="user-read-recently-played user-top-read user-read-currently-playing user-read-playback-state user-modify-playback-state user-library-read playlist-read-private";
  async function pkce(cid){var v=b64u(crypto.getRandomValues(new Uint8Array(48))),ch=b64u(new Uint8Array(await crypto.subtle.digest("SHA-256",new TextEncoder().encode(v))));
   H.cid=cid;H.v=v;localStorage.setItem("ghLink",JSON.stringify(H));
   location.href="https://accounts.spotify.com/authorize?"+new URLSearchParams({client_id:cid,response_type:"code",redirect_uri:PAGE,code_challenge_method:"S256",code_challenge:ch,scope:SC})}

@@ -1,4 +1,4 @@
-<!DOCTYPE html><!--GH_BUILD:2.9.8-->
+<!DOCTYPE html><!--GH_BUILD:2.9.9-->
 <html lang="nl" style="background:#05060a url(splash5.png) center/cover no-repeat"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,viewport-fit=cover">
 <title>Glass Home</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
@@ -319,6 +319,13 @@ body.haslive.shelf #s-live{top:1330px}body.shelf #s-sport{top:2200px}body:not(.h
 body.det.shelf #s-live,body.det.shelf #s-sport{opacity:0!important;pointer-events:none!important;transition:opacity .3s}.ac.grow .srcb{opacity:0}
 #full .aim{display:block;width:100%;max-height:560px;object-fit:contain;border-radius:22px;background:rgba(0,0,0,.35);margin-bottom:26px}
 #full .avid{margin:6px 0 10px}#full .avid .vth{position:relative;width:100%;aspect-ratio:16/9;max-height:620px;border-radius:22px;overflow:hidden;background-size:cover;background-position:center}#full .avid small{display:block;margin-top:10px;font-size:18px;opacity:.7}
+/* Nu speelt */
+#np{position:absolute;top:150px;right:96px;z-index:21;width:560px;display:none;align-items:center;gap:18px;padding:14px 16px;border-radius:26px;background:linear-gradient(160deg,rgba(52,56,74,.78),rgba(16,18,28,.86))!important;border:1px solid rgba(255,255,255,.2);opacity:0;transform:translateY(-8px);transition:opacity .4s,transform .4s}
+#np.on{display:flex;opacity:1;transform:none}body.amb #np,body.full #np{display:none}
+#np .npa{flex:none;width:84px;height:84px;border-radius:16px;background:rgba(255,255,255,.1) center/cover}#np .npt{flex:1;min-width:0}#np .npl{display:block;font-size:13px;letter-spacing:.6px;text-transform:uppercase;opacity:.6;margin-bottom:2px}
+#np b{display:block;font-size:21px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}#np #nps{display:block;font-size:16px;opacity:.75;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#np .npb{height:5px;border-radius:3px;background:rgba(255,255,255,.2);margin-top:9px;overflow:hidden}#np .npb i{display:block;height:100%;background:#fff;transform-origin:0 50%;transition:transform 1s linear}#np .npc{display:flex;justify-content:space-between;font-size:13px;opacity:.65;margin-top:4px;font-variant-numeric:tabular-nums}
+#np .npk{display:flex;gap:8px;align-items:center}#np .nb{width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.1)}#np .nb.big{width:56px;height:56px;background:#fff;color:#111}#np .nb svg{width:24px;height:24px}#np .nb.focus{transform:scale(1.12)}
 /* app-tegels: logo mooi gecentreerd, zonder vakje-in-een-vakje */
 .app{align-items:center;justify-content:center;text-align:center;gap:10px;padding:16px 14px}
 .app b{font-size:19px;line-height:1.15}
@@ -1574,7 +1581,7 @@ module.exports = QRRSBlock;
 
 };
 var Q=R("./index"),E=R("./QRErrorCorrectLevel");window.ghQR=function(t){var q=new Q(-1,E.M);q.addData(t);q.make();var n=q.getModuleCount(),p="";for(var r=0;r<n;r++)for(var c=0;c<n;c++)if(q.isDark(r,c))p+="M"+(c+2)+" "+(r+2)+"h1v1h-1z";return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 '+(n+4)+' '+(n+4)+'" shape-rendering="crispEdges"><rect width="100%" height="100%" fill="#fff"/><path d="'+p+'" fill="#000"/></svg>';};})();</script>
-<script type="text/plain" id="ghv">GH_BUILD:2.9.8</script>
+<script type="text/plain" id="ghv">GH_BUILD:2.9.9</script>
 <div id="intro"><div class="orb"></div><div class="ghw"><svg class="ghl" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
 <defs>
 <linearGradient id="gl" x1="0" y1="0" x2="0.35" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".96"/><stop offset=".55" stop-color="#e9ecf6" stop-opacity=".78"/><stop offset="1" stop-color="#c9cfe6" stop-opacity=".6"/></linearGradient>
@@ -1588,7 +1595,8 @@ var Q=R("./index"),E=R("./QRErrorCorrectLevel");window.ghQR=function(t){var q=ne
 <svg width="0" height="0" style="position:absolute"><filter id="reedf" x="0" y="0" width="1" height="1" color-interpolation-filters="sRGB"><feImage href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%221920%22%20height%3D%221080%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22rgb%280%2C128%2C0%29%22/%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22rgb%28255%2C128%2C0%29%22/%3E%3C/linearGradient%3E%3Cpattern%20id%3D%22p%22%20width%3D%2226%22%20height%3D%221080%22%20patternUnits%3D%22userSpaceOnUse%22%3E%3Crect%20width%3D%2226%22%20height%3D%221080%22%20fill%3D%22url%28%23g%29%22/%3E%3C/pattern%3E%3C/defs%3E%3Crect%20width%3D%221920%22%20height%3D%221080%22%20fill%3D%22url%28%23p%29%22/%3E%3C/svg%3E" x="0" y="0" width="1920" height="1080" preserveAspectRatio="none" result="m"/><feDisplacementMap in="SourceGraphic" in2="m" scale="34" xChannelSelector="R" yChannelSelector="G"/></filter></svg><div id="bgwrap"><div class="bg" id="bgA"></div><div class="bg" id="bgB"></div></div><div id="tint"></div><div id="fbg"></div>
 <div id="amb"><b id="atime"></b><span id="adate"></span><div id="aextra"><span id="aw"></span><span id="anow"></span></div></div><div id="toast" class="glass"></div><div id="full"><div class="fin glass" id="fin"></div></div>
 <div id="ui">
- <div id="clock"><b id="ctime"></b><span id="cdate"></span></div>
+ <div id="np" class="glass"><div class="npa" id="npa"></div><div class="npt"><small class="npl">Nu speelt</small><b id="npt"></b><small id="nps"></small><div class="npb"><i id="npi"></i></div><div class="npc"><span id="npc0">0:00</span><span id="npd">0:00</span></div></div><div class="npk"><span class="nb f" data-np="prev"><svg viewBox="0 0 24 24"><path d="M6 5h2v14H6zM20 5v14L9 12z" fill="currentColor"/></svg></span><span class="nb f big" data-np="toggle"><svg viewBox="0 0 24 24" id="nppi"><path d="M7 5h4v14H7zM13 5h4v14h-4z" fill="currentColor"/></svg></span><span class="nb f" data-np="next"><svg viewBox="0 0 24 24"><path d="M16 5h2v14h-2zM4 5v14l11-7z" fill="currentColor"/></svg></span></div></div>
+<div id="clock"><b id="ctime"></b><span id="cdate"></span></div>
  <div id="det" class="glass"><div><div id="dtitle"></div><div id="dmeta"></div><div id="dchips"></div></div><div><h4 id="hzeg">Wat mensen zeggen</h4><p id="dzeg"></p><h4 id="hwhy">Waarom deze score</h4><p id="dwhy"></p><div id="dsrc"></div></div></div>
  <div id="rail" class="glass"></div>
  <div id="main">
@@ -1992,6 +2000,23 @@ function capPaint(el){["capa","capsh"].forEach(id=>{const c=$(id);if(c)c.classLi
  if(mode!=="home"||!el||(fr!==3&&fr!==4&&fr!==5))return;window.grT=setTimeout(()=>{if(el.classList.contains("focus")){el.classList.add("grow");const sw=el.querySelector(".sum .sw"),sp=sw&&sw.firstChild;if(sp){const ov=sp.scrollHeight-sw.clientHeight;if(ov>4){sp.style.transition="transform "+Math.max(4,ov/16).toFixed(1)+"s linear 2.5s";sp.style.transform="translateY(-"+ov+"px)";}}const c2=fr>3&&$(fr===4?"capl":"caps");if(c2)c2.classList.add("grow")}},fr===3?900:700);
  const x=capFor(el);if(!x||!el.classList.contains("card"))return;const row=el.parentNode,c=$(fr===4?"capl":"caps");if(!c)return;
  c.innerHTML='<b>'+esc(x.t)+'</b><small>'+esc([x.src,x.s].filter(Boolean).join(" · "))+'</small>'+(x.k==="art"&&x.desc?'<em class="sum">'+esc(x.desc.slice(0,180))+(x.desc.length>180?"…":"")+'</em>':'');c.style.left=Math.max(0,el.offsetLeft-row.scrollLeft)+"px";c.style.top=((el.offsetParent===row?row.offsetTop:0)+el.offsetTop+el.offsetHeight+16)+"px";c.classList.add("on");}
+// ---------- Nu speelt: wat er speelt (Spotify of een andere app), met live tijdlijn en knoppen ----------
+let NP=null,npT0=0,npPrevT=0;const mmss=ms=>{ms=Math.max(0,Math.floor((ms||0)/1000));return Math.floor(ms/60)+":"+String(ms%60).padStart(2,"0")};
+async function npPoll(){let d=null;
+ if(P==="android"&&window.GHAndroid&&GHAndroid.mediaNow){try{const r=GHAndroid.mediaNow();if(r)d=JSON.parse(r)}catch(e){}}
+ if(!d&&(S.spRefresh||key("spotifyRefresh"))){try{const t=await spToken();if(t){const r=await fetch("https://api.spotify.com/v1/me/player",{headers:{Authorization:"Bearer "+t}});if(r.status===200){const x=await r.json();if(x&&x.item&&(x.is_playing||Date.now()-(x.timestamp||0)<36e5))d={t:x.item.name,s:(x.item.artists||[]).map(a=>a.name).join(", "),dur:x.item.duration_ms,pos:x.progress_ms,playing:!!x.is_playing,img:(((x.item.album||{}).images||[])[1]||((x.item.album||{}).images||[])[0]||{}).url||"",sp:1};}}}catch(e){}}
+ if(!d&&P==="preview"&&!S.spRefresh)d=NP&&NP.demo?NP:{demo:1,t:"Nachtbus",s:"De Kade",dur:213000,pos:64000,playing:true,img:""};
+ const was=!!(NP&&NP.t);NP=d;npT0=Date.now();npDraw();if(was!==!!(d&&d.t)){try{build()}catch(e){}}}
+function npDraw(){const e=$("np");if(!e)return;if(!NP||!NP.t){e.classList.remove("on");if(fr===6){fr=1;fi=0;try{paint()}catch(x){}}return;}e.classList.add("on");
+ $("npt").textContent=NP.t;$("nps").textContent=NP.s||"";const a=$("npa");if(a.dataset.u!==(NP.img||"")){a.dataset.u=NP.img||"";a.style.backgroundImage=NP.img?cu(NP.img):"";}
+ $("nppi").innerHTML=NP.playing?'<path d="M7 5h4v14H7zM13 5h4v14h-4z" fill="currentColor"/>':'<path d="M7 4v16l13-8z" fill="currentColor"/>';npTick();}
+function npTick(){if(!NP||!NP.t)return;const pos=Math.min(NP.dur||1e12,NP.pos+(NP.playing?Date.now()-npT0:0));$("npi").style.transform="scaleX("+(NP.dur?Math.min(1,pos/NP.dur):0)+")";$("npc0").textContent=mmss(pos);$("npd").textContent=NP.dur?mmss(NP.dur):"";}
+async function npCmd(c){if(P==="android"&&window.GHAndroid&&GHAndroid.mediaCmd&&!(NP&&NP.sp)){GHAndroid.mediaCmd(c);setTimeout(npPoll,450);setTimeout(npPoll,1400);return;}
+ if(NP&&NP.demo){if(c==="toggle"){NP.pos+=NP.playing?Date.now()-npT0:0;npT0=Date.now();NP.playing=!NP.playing;}if(c==="restart"){NP.pos=0;npT0=Date.now();}if(c==="next"||c==="prev"){NP.t=c==="next"?"Volgend nummer":"Vorig nummer";NP.pos=0;npT0=Date.now();}return npDraw();}
+ try{const t=await spToken();const B="https://api.spotify.com/v1/me/player/",m={toggle:[NP&&NP.playing?"PUT":"PUT",NP&&NP.playing?"pause":"play"],next:["POST","next"],prev:["POST","previous"],restart:["PUT","seek?position_ms=0"]}[c];
+  const r=await fetch(B+m[1],{method:m[0],headers:{Authorization:"Bearer "+t}});if(r.status===401||r.status===403)toast("Bedienen via Spotify vraagt Spotify Premium en een nieuwe koppeling");setTimeout(npPoll,500);}catch(e){}}
+function npPrev(){const pos=NP?NP.pos+(NP.playing?Date.now()-npT0:0):0,dbl=Date.now()-npPrevT<2500;npPrevT=Date.now();if(pos>3500&&!dbl){NP.pos=0;npT0=Date.now();npTick();npCmd("restart");}else npCmd("prev");}
+setInterval(npTick,1000);setInterval(()=>{if(!document.hidden)npPoll()},P==="android"?2500:8000);setTimeout(npPoll,1500);document.addEventListener("visibilitychange",()=>{if(!document.hidden)setTimeout(npPoll,400)});
 function openQuick(q){if(q==="tv")return luna("luna://com.webos.applicationManager/launch",{id:"com.webos.app.livetv"});luna("luna://com.webos.applicationManager/launch",{id:"com.webos.app.hdmi"+q});}
 function openWL(i){const w=WL[i];if(!w)return;if(w.imdb)return openCont(w);open(1);}
 async function loadWL(force){if(!S.trRefresh){WL=[];if(botMode()==="watch")drawLive();return}const c=!force&&cget("ghWL",18e5);if(c){WL=c;if(botMode()==="watch")drawLive();return}
@@ -2433,7 +2458,7 @@ function openSP(uri){remember(3);launchApp(APPS[3],uri);}
 
 // navigatie: 0 rail, 1 hero, 2 apps, 3 aanraders van gekozen app, 4 ga verder
 let rows=[],fr=1,fi=0,mode="home",last={r:1,i:0};
-function build(){rows=[[...document.querySelectorAll(".ri")],[$("hbtn")],[...document.querySelectorAll("#apps .f")],[...document.querySelectorAll("#shelf .f")],[...($("s-live").style.display!=="none"?document.querySelectorAll("#live .f"):[])],[...($("s-sport").style.display!=="none"?document.querySelectorAll("#sport .f"):[])]];
+function build(){rows=[[...document.querySelectorAll(".ri")],[$("hbtn")],[...document.querySelectorAll("#apps .f")],[...document.querySelectorAll("#shelf .f")],[...($("s-live").style.display!=="none"?document.querySelectorAll("#live .f"):[])],[...($("s-sport").style.display!=="none"?document.querySelectorAll("#sport .f"):[])],[...document.querySelectorAll("#np.on .nb")]];
  rows.flat().forEach(el=>{if(el.dataset.b)return;el.dataset.b=1;
   const pick=()=>{let hit=false;rows.forEach((rw,ri)=>{const q=rw.indexOf(el);if(q>-1){hit=hit||(fr===ri&&fi===q);fr=ri;fi=q}});return hit};
   if(!TOUCH)el.addEventListener("mouseenter",()=>{if(mode!=="home")return;pick();paint()});
@@ -2488,9 +2513,10 @@ function paint(){rows.flat().forEach(e=>e.classList.remove("focus"));$("rail").c
  const bgi=fr>=2&&/url\(/.test(el.style.backgroundImage)?el.style.backgroundImage:"";clearTimeout(window.tiT);window.tiT=setTimeout(()=>{if(bgi){$("tint").style.backgroundImage=bgi;document.body.classList.add("tinted")}else document.body.classList.remove("tinted")},160);
  mediaFocus(el);capPaint(el);
  if(fr===4||fr===5){const m=$("main"),mr=m.getBoundingClientRect(),sc=mr.width/(m.offsetWidth||1)||1,er=el.getBoundingClientRect(),cur=+((m.style.transform.match(/-?([\d.]+)px/)||[0,0])[1]);const rel=(er.top-mr.top)/sc;m.style.transform="translateY(-"+Math.max(0,Math.round(rel-330))+"px)";return;}
- if(fr>0){const op=document.body.classList.contains("shelf");$("main").style.transform="translateY(-"+(fr===1?0:document.body.classList.contains("haslive")?(fr===2?(op?160:0):fr===3?(op?620:0):fr===4?(op?1130:710):fr===5?(op?1830:1410):750):fr===2?(op?160:0):fr===3?(op?620:0):(op?1130:710))+"px)";}}
+ if(fr>0){const op=document.body.classList.contains("shelf");$("main").style.transform="translateY(-"+(fr===1||fr===6?0:document.body.classList.contains("haslive")?(fr===2?(op?160:0):fr===3?(op?620:0):fr===4?(op?1130:710):fr===5?(op?1830:1410):750):fr===2?(op?160:0):fr===3?(op?620:0):(op?1130:710))+"px)";}}
 function act(){const el=rows[fr][fi];if(!el){fr=2;fi=0;return paint();}
  if(fr===0)return RAIL[fi][2]();
+ if(fr===6){const c=el.dataset.np;return c==="prev"?npPrev():npCmd(c);}
  if(fr===1)return HERO.length?openTitle(HERO[hi]):startSetup();
  if(fr===3&&el.dataset.go){const g=el.dataset.go;openSettingsAt(g.replace(/^!/,""));if(g[0]==="!"&&CUR&&CUR[oi]&&CUR[oi].ok)CUR[oi].ok();return;}
  if(fr===3&&el.dataset.c)return openCont(CONT[+el.dataset.c]);if(fr===3&&el.dataset.a&&!el.dataset.k)return open(+el.dataset.a);
@@ -2501,6 +2527,8 @@ function act(){const el=rows[fr][fi];if(!el){fr=2;fi=0;return paint();}
 function move(dr,di){
  if(window.dsT&&fr===2&&dr>0&&rows[2][fi]){clearTimeout(window.dsT);window.dsT=0;drawShelf(+rows[2][fi].dataset.a);}
  if(fr>0&&!rows[fr][fi]){fr=2;fi=Math.min(fi,rows[2].length-1);return paint();}
+ if(fr===6){if(dr>0){fr=1;fi=0;}else if(di)fi=Math.max(0,Math.min(rows[6].length-1,fi+di));return paint();}
+ if(fr===1&&dr<0&&rows[6]&&rows[6].length){fr=6;fi=1;return paint();}
  if(fr===0){if(dr)fi=Math.max(0,Math.min(RAIL.length-1,fi+dr));else if(di>0){fr=last.r;fi=last.i;}return paint();}
  if((fr===4||fr===5)&&rows[fr][fi]&&rows[fr][fi].classList.contains("bi")||((fr===4||fr===5)&&rows[fr][fi]&&rows[fr][fi].closest&&rows[fr][fi].closest(".board"))){const cur=rows[fr][fi],r0=cur.getBoundingClientRect(),cx=r0.left+r0.width/2,cy=r0.top+r0.height/2;let best=-1,bs=1e9;
   rows[fr].forEach((e,q)=>{if(q===fi)return;const r=e.getBoundingClientRect(),dx=r.left+r.width/2-cx,dy=r.top+r.height/2-cy;let p,sec;

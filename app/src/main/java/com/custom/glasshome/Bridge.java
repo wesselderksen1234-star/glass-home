@@ -233,6 +233,83 @@ public class Bridge {
         }
     }
 
+    private final Map<String, String> artCache = new ConcurrentHashMap<>();
+
+    /** Wat er nu speelt (elke app met een mediasessie, zoals Spotify): titel, artiest, hoesje, positie en status. */
+    @JavascriptInterface
+    public String mediaNow() {
+        try {
+            android.media.session.MediaController c = MediaWatch.active();
+            if (c == null) return "";
+            android.media.session.PlaybackState st = c.getPlaybackState();
+            android.media.MediaMetadata m = c.getMetadata();
+            JSONObject o = new JSONObject();
+            o.put("pkg", c.getPackageName());
+            String t = m.getString(android.media.MediaMetadata.METADATA_KEY_TITLE);
+            if (t == null) t = m.getString(android.media.MediaMetadata.METADATA_KEY_DISPLAY_TITLE);
+            o.put("t", t == null ? "" : t);
+            String a = m.getString(android.media.MediaMetadata.METADATA_KEY_ARTIST);
+            if (a == null) a = m.getString(android.media.MediaMetadata.METADATA_KEY_DISPLAY_SUBTITLE);
+            if (a == null) a = m.getString(android.media.MediaMetadata.METADATA_KEY_ALBUM);
+            o.put("s", a == null ? "" : a);
+            o.put("dur", m.getLong(android.media.MediaMetadata.METADATA_KEY_DURATION));
+            boolean playing = st.getState() == android.media.session.PlaybackState.STATE_PLAYING;
+            long pos = st.getPosition();
+            if (playing && st.getLastPositionUpdateTime() > 0) pos += (long) ((android.os.SystemClock.elapsedRealtime() - st.getLastPositionUpdateTime()) * st.getPlaybackSpeed());
+            o.put("pos", Math.max(0, pos));
+            o.put("playing", playing);
+            String key = c.getPackageName() + "|" + t;
+            String img = artCache.get(key);
+            if (img == null) {
+                img = "";
+                String u = m.getString(android.media.MediaMetadata.METADATA_KEY_ART_URI);
+                if (u == null) u = m.getString(android.media.MediaMetadata.METADATA_KEY_ALBUM_ART_URI);
+                if (u != null && u.startsWith("http")) img = u;
+                else {
+                    Bitmap b = m.getBitmap(android.media.MediaMetadata.METADATA_KEY_ALBUM_ART);
+                    if (b == null) b = m.getBitmap(android.media.MediaMetadata.METADATA_KEY_ART);
+                    if (b == null) b = m.getBitmap(android.media.MediaMetadata.METADATA_KEY_DISPLAY_ICON);
+                    if (b != null) {
+                        Bitmap sb = Bitmap.createScaledBitmap(b, 240, Math.max(1, Math.round(b.getHeight() * 240f / Math.max(1, b.getWidth()))), true);
+                        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                        sb.compress(Bitmap.CompressFormat.JPEG, 82, bos);
+                        img = "data:image/jpeg;base64," + Base64.encodeToString(bos.toByteArray(), Base64.NO_WRAP);
+                    }
+                }
+                if (artCache.size() > 20) artCache.clear();
+                artCache.put(key, img);
+            }
+            o.put("img", img);
+            return o.toString();
+        } catch (Throwable e) {
+            return "";
+        }
+    }
+
+    /** Bediening van wat er nu speelt: play, pause, toggle, next, prev, restart. */
+    @JavascriptInterface
+    public boolean mediaCmd(String cmd) {
+        try {
+            android.media.session.MediaController c = MediaWatch.active();
+            if (c == null) return false;
+            android.media.session.MediaController.TransportControls tc = c.getTransportControls();
+            android.media.session.PlaybackState st = c.getPlaybackState();
+            boolean playing = st != null && st.getState() == android.media.session.PlaybackState.STATE_PLAYING;
+            switch (cmd == null ? "" : cmd) {
+                case "play": tc.play(); break;
+                case "pause": tc.pause(); break;
+                case "toggle": if (playing) tc.pause(); else tc.play(); break;
+                case "next": tc.skipToNext(); break;
+                case "prev": tc.skipToPrevious(); break;
+                case "restart": tc.seekTo(0); break;
+                default: return false;
+            }
+            return true;
+        } catch (Throwable e) {
+            return false;
+        }
+    }
+
     @JavascriptInterface
     public boolean resumeApp(final String pkg) {
         boolean ok = launch(pkg);
