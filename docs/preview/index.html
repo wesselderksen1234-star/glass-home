@@ -1,4 +1,4 @@
-<!DOCTYPE html><!--GH_BUILD:3.4.0-->
+<!DOCTYPE html><!--GH_BUILD:3.4.1-->
 <html lang="nl" style="background:#05060a url(splash5.png) center/cover no-repeat"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,viewport-fit=cover">
 <title>Glass Home</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
@@ -380,7 +380,6 @@ body:not(.det) #det,#panel:not(.open),#toast:not(.on),body:not(.amb) #amb{-webki
 #full .aim.pf{float:left;display:block;width:38%!important;max-width:420px;height:auto;max-height:640px;object-fit:cover;border-radius:22px;margin:6px 34px 18px 0!important;border:1px solid rgba(255,255,255,.12);box-shadow:0 14px 40px rgba(0,0,0,.45)}
 #full .aclr{clear:both}
 #dgdot{position:absolute;top:44px;right:430px;z-index:21;font-size:13px;font-weight:700;padding:5px 12px 5px 26px;border-radius:999px;background:rgba(10,12,18,.55);border:1px solid rgba(255,255,255,.18)}#dgdot::before{content:"";position:absolute;left:10px;top:50%;width:9px;height:9px;margin-top:-4.5px;border-radius:50%;background:#4ade80;box-shadow:0 0 8px #4ade80}#dgdot.a::before{background:#fbbf24;box-shadow:0 0 8px #fbbf24}#dgdot.r::before{background:#f87171;box-shadow:0 0 8px #f87171}body.amb #dgdot,body.full #dgdot{display:none!important}
-body.autolite .app,body.autolite .glass:not(#panel){-webkit-backdrop-filter:none!important;backdrop-filter:none!important}body.autolite .kb,body.autolite .wsun,body.autolite .wcl,body.autolite .wrn{animation:none!important}
 #full pre.dglog{white-space:pre-wrap;font:15px/1.5 ui-monospace,Menlo,Consolas,monospace;background:rgba(0,0,0,.35);padding:18px 22px;border-radius:16px;max-height:none}
 </style></head><body class="boot"><script>window.ghFit=function(){var vv=window.visualViewport,de=document.documentElement,w=(vv&&vv.width)||de.clientWidth||innerWidth||1920,h=(vv&&vv.height)||de.clientHeight||innerHeight||1080,s=Math.min(w/1920,h/1080),b=document.body,r=document.documentElement;if(!b)return;var W=Math.round(Math.min(w/s,4000)),H=Math.round(Math.min(h/s,1620));if(h>w){W=1920;H=1080;}r.style.setProperty("--W",W+"px");r.style.setProperty("--H",H+"px");window.GW=W;window.GH=H;b.style.transformOrigin="0 0";b.style.transform="translate("+Math.round((w-W*s)/2)+"px,"+Math.round((h-H*s)/2)+"px) scale("+s+")";b.classList.toggle("portrait",h>w*1.05);};window.ghFit();addEventListener("orientationchange",function(){setTimeout(window.ghFit,300)});</script><div id="rot">Draai je scherm een kwartslag voor het grootste beeld</div><script>(function(){var M={},C={};function R(n){n=n.replace(/^\.\//,"./").replace(/\.js$/,"");if(C[n])return C[n].exports;var m={exports:{}};C[n]=m;M[n](m,m.exports);return m.exports;}
 M["./QRErrorCorrectLevel"]=function(module,exports){module.exports = {
@@ -1629,7 +1628,7 @@ module.exports = QRRSBlock;
 
 };
 var Q=R("./index"),E=R("./QRErrorCorrectLevel");window.ghQR=function(t){var q=new Q(-1,E.M);q.addData(t);q.make();var n=q.getModuleCount(),p="";for(var r=0;r<n;r++)for(var c=0;c<n;c++)if(q.isDark(r,c))p+="M"+(c+2)+" "+(r+2)+"h1v1h-1z";return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 '+(n+4)+' '+(n+4)+'" shape-rendering="crispEdges"><rect width="100%" height="100%" fill="#fff"/><path d="'+p+'" fill="#000"/></svg>';};})();</script>
-<script type="text/plain" id="ghv">GH_BUILD:3.4.0</script>
+<script type="text/plain" id="ghv">GH_BUILD:3.4.1</script>
 <div id="intro"><div class="orb"></div><div class="ghw"><svg class="ghl" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
 <defs>
 <linearGradient id="gl" x1="0" y1="0" x2="0.35" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".96"/><stop offset=".55" stop-color="#e9ecf6" stop-opacity=".78"/><stop offset="1" stop-color="#c9cfe6" stop-opacity=".6"/></linearGradient>
@@ -2494,7 +2493,7 @@ document.addEventListener("visibilitychange",()=>{if(!document.hidden){loadMedia
 const PRE=new Map();function preImg(u){if(!u)return Promise.resolve();if(PRE.has(u))return PRE.get(u);
  const p=new Promise(r=>{const i=new Image();i.decoding="async";i.onload=()=>{(i.decode?i.decode():Promise.resolve()).then(r,r)};i.onerror=r;i.src=u;setTimeout(r,2500);});
  PRE.set(u,p);const mx=(typeof DPROF!=="undefined"?DPROF.pre:80);while(PRE.size>mx){PRE.delete(PRE.keys().next().value)}return p;}
-function preShelf(){clearTimeout(window.psT);const sa=shelfApp;window.psT=setTimeout(()=>{if(shelfApp!==sa)return;const go=()=>{[...document.querySelectorAll("#shelf .card")].slice(0,2).forEach(c=>{const it=ITEMS[+c.dataset.k];if(it&&it.big)preImg(it.big)});};window.requestIdleCallback?requestIdleCallback(go,{timeout:1500}):go();},1200);}
+function preShelf(){if(DG.auto)return;clearTimeout(window.psT);const sa=shelfApp;window.psT=setTimeout(()=>{if(shelfApp!==sa)return;const go=()=>{[...document.querySelectorAll("#shelf .card")].slice(0,2).forEach(c=>{const it=ITEMS[+c.dataset.k];if(it&&it.big)preImg(it.big)});};window.requestIdleCallback?requestIdleCallback(go,{timeout:1500}):go();},1200);}
 
 // ---------- prestatiemeting (anoniem, versleuteld, alleen voor jezelf): hoe vloeiend draait Glass Home op deze tv ----------
 const PST={f:0,j:0,big:0,max:0,lt:0,ltms:0,keys:0,t0:Date.now()};let pstOn=0,pstLast=0;
@@ -2511,16 +2510,16 @@ addEventListener("unhandledrejection",e=>{const r=e.reason;if(typeof r==="number
 const DPROF=(()=>{const t=typeof TOUCH!=="undefined"&&TOUCH;return P==="webos"?{n:"LG-tv",pre:50}:P==="android"?{n:"Google TV Streamer",pre:60}:t?{n:"Telefoon",pre:70}:{n:"Computer",pre:120};})();
 const PREMAX=()=>DPROF.pre;
 // vangnet: zakt het beeld weg tijdens navigeren, dan tijdelijk zware effecten uit (alleen veilige, geteste stijlinstellingen)
-function dgJank(f,j){if(S.dgAuto===0||f<40)return;const r=j/f;if(r>0.35&&!DG.auto){DG.auto=1;document.body.classList.add("autolite");const n=PRE.size;PRE.clear();dgLog("actie","Beeld haperde ("+Math.round(r*100)+"% schokken): zware effecten tijdelijk uit, "+n+" voorgeladen afbeeldingen opgeruimd");}
+function dgJank(f,j){if(S.dgAuto===0||f<40)return;const r=j/f;if(r>0.35&&!DG.auto){DG.auto=1;const n=PRE.size;PRE.clear();dgLog("actie","Beeld haperde ("+Math.round(r*100)+"% schokken, "+f+" frames): "+n+" opgeslagen afbeeldingen opgeruimd en voorladen even gepauzeerd");}
  if(DG.auto)DG.autoT=Date.now();}
-setInterval(()=>{if(DG.auto&&Date.now()-DG.autoT>5*6e4){DG.auto=0;document.body.classList.remove("autolite");dgLog("actie","Beeld weer vloeiend: effecten weer aan");}},6e4);
+setInterval(()=>{if(DG.auto&&Date.now()-DG.autoT>5*6e4){DG.auto=0;dgLog("actie","Beeld weer vloeiend: voorladen weer aan");}},6e4);
 function dgFps(){return DG.fps||0}
 let dgRaf=0;function dgMeasure(on){if(on&&!dgRaf){let n=0,t0=performance.now();const f=t=>{n++;if(t-t0>=1000){DG.fps=Math.round(n*1000/(t-t0));n=0;t0=t;}dgRaf=requestAnimationFrame(f)};dgRaf=requestAnimationFrame(f);}if(!on&&dgRaf){cancelAnimationFrame(dgRaf);dgRaf=0;}}
 function dgMem(){try{const m=performance.memory;if(m)return Math.round(m.usedJSHeapSize/1048576)+" MB van "+Math.round(m.jsHeapSizeLimit/1048576)+" MB"}catch(e){}return"niet beschikbaar"}
 function dgHealth(){const now=Date.now(),errs=DG.log.filter(x=>x.lv==="fout"&&now-x.t<6e5).length,bad=Object.values(DG.fd).filter(f=>f.ok===0).length;return DG.auto||errs>2||bad>1?"r":errs||bad?"a":"g";}
 function dgDot(){const d=$("dgdot");if(!d)return;const on=!!S.dgDot;d.style.display=on?"":"none";if(!on)return;const h=dgHealth();d.className=h;d.textContent=h==="g"?"Alles goed":h==="a"?"Kleine storing":"Let op";}
 function dgSummary(){const v=((document.documentElement.outerHTML.match(/GH_BUILD:([\d.]+)/)||[,"?"])[1]);const L=[];L.push("Glass Home "+v+" · "+DPROF.n+" ("+P+") · "+innerWidth+"x"+innerHeight+" · "+new Date().toLocaleString("nl-NL"));
- L.push("Profiel: "+DPROF.n+" · autolite "+(DG.auto?"AAN":"uit")+" · automatisch bijstellen "+(S.dgAuto===0?"uit":"aan")+" · geheugen "+dgMem());
+ L.push("Profiel: "+DPROF.n+" · voorladen "+(DG.auto?"GEPAUZEERD":"aan")+" · automatisch bijstellen "+(S.dgAuto===0?"uit":"aan")+" · geheugen "+dgMem());
  L.push("Navigatie: "+PST.f+" frames, "+PST.j+" schokken, max "+PST.max+" ms, lange taken "+PST.lt+"/"+PST.ltms+" ms");
  L.push("Bronnen: "+Object.entries(DG.fd).map(([n,f])=>n+"="+(f.ok?"ok":"FOUT "+f.err)).join(", "));
  DG.log.slice(-60).forEach(x=>L.push(new Date(x.t).toLocaleTimeString("nl-NL")+" ["+x.lv+"] "+x.m));return L.join("\n");}
@@ -2530,10 +2529,10 @@ async function dgSend(){const txt=dgSummary();try{if(await syncInit()){const h=n
 function dgOpenLog(){const F=["alles","fout","actie","info"],f=F[S.dgF||0];const L=DG.log.filter(x=>f==="alles"||x.lv===f).slice(-100).reverse();
  fullOpen('<h1>Logboek ('+f+')</h1>'+(L.length?'<pre class="dglog">'+L.map(x=>esc(new Date(x.t).toLocaleString("nl-NL",{day:"numeric",month:"short",hour:"2-digit",minute:"2-digit"})+"  ["+x.lv+"]  "+x.m)).join("\n")+'</pre>':'<p>Nog niets gelogd. Fijn!</p>'));}
 function dgOpts(){const ago3=t=>t?Math.max(0,Math.round((Date.now()-t)/6e4))+" min geleden":"nog niet gebruikt";const o=[
- {l:"Apparaat en profiel",v:()=>DPROF.n+(DG.auto?" · tijdelijk licht":"")},
+ {l:"Apparaat en profiel",v:()=>DPROF.n+(DG.auto?" · voorladen gepauzeerd":"")},
  {l:"Beeldsnelheid (nu)",v:()=>(DG.fps?DG.fps+" fps":"meten…")},
  {l:"Geheugen",v:()=>dgMem()},
- {l:"Automatisch bijstellen",v:()=>S.dgAuto===0?"Uit":"Aan",ok:()=>{S.dgAuto=S.dgAuto===0?1:0;if(S.dgAuto===0&&DG.auto){DG.auto=0;document.body.classList.remove("autolite");}save();}},
+ {l:"Automatisch bijstellen",v:()=>S.dgAuto===0?"Uit":"Aan",ok:()=>{S.dgAuto=S.dgAuto===0?1:0;if(S.dgAuto===0&&DG.auto){DG.auto=0;}save();}},
  {l:"Automatische acties",v:()=>{const a=DG.log.filter(x=>x.lv==="actie");return a.length?a.length+" · laatste "+ago3(a[a.length-1].t)+" ›":"Nog niets nodig geweest"},ok:()=>{S.dgF=2;dgOpenLog()}},
  {l:"Status-stip op het hoofdscherm",v:()=>S.dgDot?"Aan":"Uit",ok:()=>{S.dgDot=S.dgDot?0:1;save();dgDot();}},
  {l:"Logboek filter",v:()=>["Alles","Fouten","Acties","Info"][S.dgF||0]+" ◀ ▶",ch:d=>{S.dgF=((S.dgF||0)+d+4)%4;}},
@@ -2543,8 +2542,8 @@ function dgOpts(){const ago3=t=>t?Math.max(0,Math.round((Date.now()-t)/6e4))+" m
  Object.keys(DGN).map(h=>DGN[h]).filter((n,i,a)=>a.indexOf(n)===i).forEach(n=>{o.push({l:"Bron: "+n,v:()=>{const f=DG.fd[n];return !f?"niet gebruikt":f.ok?"✓ werkt · "+ago3(f.t):"✗ "+f.err+" · "+ago3(f.t)}})});
  [["YouTube",()=>S.ytRefresh],["Spotify",()=>S.spRefresh||key("spotifyRefresh")],["Stremio",()=>S.stAuth],["Trakt",()=>S.trRefresh]].forEach(([n,g])=>o.push({l:"Koppeling: "+n,v:()=>g()?"✓ gekoppeld":"niet gekoppeld"}));return o;}
 setTimeout(dgDot,2500);setInterval(()=>{const on=mode==="panel"&&CATS&&CATS[pc]&&CATS[pc].n==="Systeem en prestaties";dgMeasure(on);if(on&&pf!=="cats"&&document.activeElement!==$("keyin"))try{drawOpts()}catch(e){}},1000);
-async function pstSend(){try{if(PST.keys<5||!(await syncInit()))return;const h=new Uint8Array(await crypto.subtle.digest("SHA-256",new TextEncoder().encode("dbg:"+key("sync"))));const topic="ghd"+b64u(h.slice(0,18)).replace(/[-_]/g,"x");
- const d={v:(document.getElementById("ghv")||{}).textContent,p:P,ua:navigator.userAgent.slice(0,120),w:innerWidth,dpr:devicePixelRatio,min:Math.round((Date.now()-PST.t0)/60000)};Object.assign(d,PST);
+async function pstSend(){try{if((PST.keys<5&&!DG.log.some(x=>x.t>(DG.sentT||0)&&x.lv!=="info"))||!(await syncInit()))return;const h=new Uint8Array(await crypto.subtle.digest("SHA-256",new TextEncoder().encode("dbg:"+key("sync"))));const topic="ghd"+b64u(h.slice(0,18)).replace(/[-_]/g,"x");
+ const d={v:(document.getElementById("ghv")||{}).textContent,p:P,ua:navigator.userAgent.slice(0,120),w:innerWidth,dpr:devicePixelRatio,min:Math.round((Date.now()-PST.t0)/60000)};Object.assign(d,PST);d.log=DG.log.filter(x=>x.t>(DG.sentT||0)).slice(-20).map(x=>new Date(x.t).toLocaleTimeString("nl-NL")+" ["+x.lv+"] "+x.m);d.fd=Object.entries(DG.fd).filter(([n,f])=>f.ok===0).map(([n,f])=>n+": "+f.err);d.prof=DPROF.n;DG.sentT=Date.now();
  const iv=rndB(12),ct=new Uint8Array(await crypto.subtle.encrypt({name:"AES-GCM",iv},syncK,new TextEncoder().encode(JSON.stringify(d))));const all=new Uint8Array(12+ct.length);all.set(iv);all.set(ct,12);
  await fetch("https://ntfy.sh/"+topic,{method:"POST",body:b64u(all)});Object.assign(PST,{f:0,j:0,big:0,max:0,lt:0,ltms:0,keys:0,t0:Date.now()});}catch(e){}}
 setInterval(pstSend,5*60000);
