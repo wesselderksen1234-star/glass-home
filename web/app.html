@@ -1,4 +1,4 @@
-<!DOCTYPE html><!--GH_BUILD:3.5.3-->
+<!DOCTYPE html><!--GH_BUILD:3.5.4-->
 <html lang="nl" style="background:#05060a url(splash5.png) center/cover no-repeat"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,viewport-fit=cover">
 <title>Glass Home</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
@@ -390,6 +390,9 @@ body:not(.det) #det,#panel:not(.open),#toast:not(.on),body:not(.amb) #amb{-webki
 .board.sb .mc,.board.sb .stp,.board.sb .ac,.board.sb .vt{clip-path:inset(0 round 24px);overflow:hidden;backface-visibility:hidden}
 .board.sb .bi.focus{outline:3px solid rgba(255,255,255,.92);outline-offset:-3px;box-shadow:none}
 #s-sport{content-visibility:auto;contain-intrinsic-size:auto 1400px}
+#full .dgsum{display:flex;gap:12px;margin:4px 0 18px}#full .dgsum span{padding:6px 14px;border-radius:999px;background:rgba(255,255,255,.08);font-size:18px}#full .dgsum b{font-size:20px}
+#full .dgl{display:flex;flex-direction:column;gap:6px}#full .dr{display:grid;grid-template-columns:120px 150px 1fr;gap:14px;align-items:baseline;padding:10px 14px;border-radius:12px;background:rgba(255,255,255,.05);font-size:18px;line-height:1.35}
+#full .dr i{font-style:normal;font-weight:800;font-size:14px;text-transform:uppercase;letter-spacing:.5px;padding:3px 8px;border-radius:8px;text-align:center}#full .dr i.r{background:rgba(239,68,68,.25);color:#fca5a5}#full .dr i.b{background:rgba(59,130,246,.25);color:#93c5fd}#full .dr i.g{background:rgba(34,197,94,.22);color:#86efac}#full .dr i.n{background:rgba(255,255,255,.1);color:#ddd}#full .dr time{opacity:.6;font-size:15px}
 </style></head><body class="boot"><script>window.ghFit=function(){var vv=window.visualViewport,de=document.documentElement,w=(vv&&vv.width)||de.clientWidth||innerWidth||1920,h=(vv&&vv.height)||de.clientHeight||innerHeight||1080,s=Math.min(w/1920,h/1080),b=document.body,r=document.documentElement;if(!b)return;var W=Math.round(Math.min(w/s,4000)),H=Math.round(Math.min(h/s,1620));if(h>w){W=1920;H=1080;}var tf="translate("+Math.round((w-W*s)/2)+"px,"+Math.round((h-H*s)/2)+"px) scale("+s+")";if(window.GW===W&&window.GH===H&&window.ghTF===tf)return;r.style.setProperty("--W",W+"px");r.style.setProperty("--H",H+"px");window.GW=W;window.GH=H;window.ghTF=tf;b.style.transformOrigin="0 0";b.style.transform=tf;b.classList.toggle("portrait",h>w*1.05);};window.ghFit();addEventListener("orientationchange",function(){setTimeout(window.ghFit,300)});</script><div id="rot">Draai je scherm een kwartslag voor het grootste beeld</div><script>(function(){var M={},C={};function R(n){n=n.replace(/^\.\//,"./").replace(/\.js$/,"");if(C[n])return C[n].exports;var m={exports:{}};C[n]=m;M[n](m,m.exports);return m.exports;}
 M["./QRErrorCorrectLevel"]=function(module,exports){module.exports = {
 	L : 1,
@@ -1637,7 +1640,7 @@ module.exports = QRRSBlock;
 
 };
 var Q=R("./index"),E=R("./QRErrorCorrectLevel");window.ghQR=function(t){var q=new Q(-1,E.M);q.addData(t);q.make();var n=q.getModuleCount(),p="";for(var r=0;r<n;r++)for(var c=0;c<n;c++)if(q.isDark(r,c))p+="M"+(c+2)+" "+(r+2)+"h1v1h-1z";return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 '+(n+4)+' '+(n+4)+'" shape-rendering="crispEdges"><rect width="100%" height="100%" fill="#fff"/><path d="'+p+'" fill="#000"/></svg>';};})();</script>
-<script type="text/plain" id="ghv">GH_BUILD:3.5.3</script>
+<script type="text/plain" id="ghv">GH_BUILD:3.5.4</script>
 <div id="intro"><div class="orb"></div><div class="ghw"><svg class="ghl" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
 <defs>
 <linearGradient id="gl" x1="0" y1="0" x2="0.35" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".96"/><stop offset=".55" stop-color="#e9ecf6" stop-opacity=".78"/><stop offset="1" stop-color="#c9cfe6" stop-opacity=".6"/></linearGradient>
@@ -2529,7 +2532,11 @@ addEventListener("unhandledrejection",e=>{const r=e.reason;if(typeof r==="number
 const DPROF=(()=>{const t=!!TOUCH||/Android|iPhone|iPad|Mobile/i.test(navigator.userAgent);return P==="webos"?{n:"LG-tv",pre:50}:P==="android"?{n:"Google TV Streamer",pre:60}:t?{n:"Telefoon",pre:70}:{n:"Computer",pre:120};})();
 const PREMAX=()=>DPROF.pre;
 // vangnet: zakt het beeld weg tijdens navigeren, dan tijdelijk zware effecten uit (alleen veilige, geteste stijlinstellingen)
-function dgJank(f,j){if(S.dgAuto===0||f<40)return;const r=j/f;if(r>0.35&&!DG.auto){DG.auto=1;const n=PRE.size;PRE.clear();dgLog("actie","Beeld haperde ("+Math.round(r*100)+"% schokken, "+f+" frames): "+n+" opgeslagen afbeeldingen opgeruimd en voorladen even gepauzeerd");}
+function dgScore(){const f=DG.mf||0,j=DG.mj||0,jr=f?j/f:0,lt=DG.mlt||0,bad=Object.values(DG.fd).filter(x=>x.ok===0).length;let s=100-Math.min(45,jr*300)-Math.min(25,lt*2)-bad*5-(DG.auto?5:0);return Math.max(5,Math.round(s));}
+function dgJank(f,j){DG.mf=(DG.mf||0)*0.6+f;DG.mj=(DG.mj||0)*0.6+j;const lt=PST.lt-(DG.lt0||0);DG.lt0=PST.lt;DG.mlt=(DG.mlt||0)*0.6+lt;
+ if(f>=40){const jr=Math.round(j/f*100);if(Date.now()-(DG.lastM||0)>3e5){DG.lastM=Date.now();dgLog("meting","Navigeren: "+f+" beelden, "+jr+"% schokken, "+lt+" lange taken · score "+dgScore()+"%");}
+  if(S.dgAuto!==0){if(jr>=8&&!DG.tune){DG.tune=1;dgLog("actie","Afgestemd: video-voorbeeld start iets later (0,95 s) zodat snel bladeren soepel blijft");}else if(jr<4&&DG.tune&&Date.now()-(DG.tuneT||0)>6e5){DG.tune=0;dgLog("actie","Beeld weer soepel: video-voorbeeld weer op normale snelheid");}if(DG.tune)DG.tuneT=Date.now();}}
+ if(S.dgAuto===0||f<40)return;const r=j/f;if(r>0.35&&!DG.auto){DG.auto=1;const n=PRE.size;PRE.clear();dgLog("actie","Beeld haperde ("+Math.round(r*100)+"% schokken, "+f+" frames): "+n+" opgeslagen afbeeldingen opgeruimd en voorladen even gepauzeerd");}
  if(DG.auto)DG.autoT=Date.now();}
 setInterval(()=>{if(DG.auto&&Date.now()-DG.autoT>5*6e4){DG.auto=0;dgLog("actie","Beeld weer vloeiend: voorladen weer aan");}},6e4);
 function dgFps(){return DG.fps||0}
@@ -2546,16 +2553,18 @@ function dgCopy(txt){let ok=false;try{const a=document.createElement("textarea")
 async function dgSend(){const txt=dgSummary();const cp=dgCopy(txt);try{if(await syncInit()){const h=new Uint8Array(await crypto.subtle.digest("SHA-256",new TextEncoder().encode("dbg:"+key("sync"))));const topic="ghd"+b64u(h.slice(0,18)).replace(/[-_]/g,"x");
   const iv=rndB(12),ct=new Uint8Array(await crypto.subtle.encrypt({name:"AES-GCM",iv},syncK,new TextEncoder().encode(JSON.stringify({log:1,txt}))));const all=new Uint8Array(12+ct.length);all.set(iv);all.set(ct,12);await fetch("https://ntfy.sh/"+topic,{method:"POST",body:b64u(all)});toast("Logboek veilig verstuurd. Zeg tegen Claude: ‘logs gestuurd’");dgLog("info","Logboek verstuurd naar Claude");return;}}catch(e){}
  fullOpen('<h1>Logboek voor Claude</h1><p>'+(cp?'Gekopieerd: plak het bij Claude of Gemini.':'Maak een foto van dit scherm en stuur die naar Claude.')+'</p><pre class="dglog">'+esc(txt)+'</pre>');}
-function dgOpenLog(){const F=["alles","fout","actie","info"],f=F[S.dgF||0];const L=DG.log.filter(x=>f==="alles"||x.lv===f).slice(-100).reverse();
- fullOpen('<h1>Logboek ('+f+')</h1>'+(L.length?'<pre class="dglog">'+L.map(x=>esc(new Date(x.t).toLocaleString("nl-NL",{day:"numeric",month:"short",hour:"2-digit",minute:"2-digit"})+"  ["+x.lv+"]  "+x.m)).join("\n")+'</pre>':'<p>Nog niets gelogd. Fijn!</p>'));}
+function dgOpenLog(){const F=["alles","fout","actie","meting","info"],f=F[S.dgF||0];const L=DG.log.filter(x=>f==="alles"||x.lv===f).slice(-100).reverse();
+ const LV={fout:["Fout","r"],actie:["Bijgesteld","b"],meting:["Meting","g"],info:["Info","n"]};
+ fullOpen('<h1>Logboek</h1><div class="dgsum"><span><b>'+dgScore()+'%</b> geoptimaliseerd</span><span>'+DPROF.n+'</span><span>Filter: '+["Alles","Fouten","Acties","Metingen","Info"][S.dgF||0]+'</span></div>'+(L.length?'<div class="dgl">'+L.map(x=>{const v=LV[x.lv]||[x.lv,"n"];return '<div class="dr"><i class="'+v[1]+'">'+v[0]+'</i><time>'+esc(new Date(x.t).toLocaleString("nl-NL",{day:"numeric",month:"short",hour:"2-digit",minute:"2-digit"}))+'</time><span>'+esc(x.m)+'</span></div>'}).join("")+'</div>':'<p>Nog niets gelogd. Fijn!</p>'));}
 function dgOpts(){const ago3=t=>t?Math.max(0,Math.round((Date.now()-t)/6e4))+" min geleden":"nog niet gebruikt";const o=[
  {l:"Apparaat en profiel",v:()=>DPROF.n+(DG.auto?" · voorladen gepauzeerd":"")},
+ {l:"Optimalisatiescore",v:()=>dgScore()+"%"+(DG.mf?"":" (nog geen meting)")},
  {l:"Beeldsnelheid (nu)",v:()=>(DG.fps?DG.fps+" fps":"meten…")},
  {l:"Geheugen",v:()=>dgMem()},
  {l:"Automatisch bijstellen",v:()=>S.dgAuto===0?"Uit":"Aan",ok:()=>{S.dgAuto=S.dgAuto===0?1:0;if(S.dgAuto===0&&DG.auto){DG.auto=0;}save();}},
  {l:"Automatische acties",v:()=>{const a=DG.log.filter(x=>x.lv==="actie");return a.length?a.length+" · laatste "+ago3(a[a.length-1].t)+" ›":"Nog niets nodig geweest"},ok:()=>{S.dgF=2;dgOpenLog()}},
  {l:"Status-stip op het hoofdscherm",v:()=>S.dgDot?"Aan":"Uit",ok:()=>{S.dgDot=S.dgDot?0:1;save();dgDot();}},
- {l:"Logboek filter",v:()=>["Alles","Fouten","Acties","Info"][S.dgF||0]+" ◀ ▶",ch:d=>{S.dgF=((S.dgF||0)+d+4)%4;}},
+ {l:"Logboek filter",v:()=>["Alles","Fouten","Acties","Metingen","Info"][S.dgF||0]+" ◀ ▶",ch:d=>{S.dgF=((S.dgF||0)+d+5)%5;}},
  {l:"Logboek bekijken",v:()=>DG.log.length+" regels ›",ok:dgOpenLog},
  {l:"Logs kopiëren en naar Claude sturen",v:()=>"OK",ok:dgSend},
  {l:"Logboek wissen",v:()=>"OK",ok:()=>{DG.log=[];try{localStorage.removeItem("ghLog")}catch(e){}toast("Logboek gewist")}}];
@@ -2666,21 +2675,21 @@ async function startPreview(box,it){const k0=it.v||it.id||it.t;const vid=await t
  if(PVM){clearTimeout(window.pvIdle);if(!PVW||!PVW.isConnected)pvMake();const n=++PVN,msg={cmd:"load",v:vid,s:it.yt?0:6,vol:60,n};PVW.classList.remove("on");PVW.classList.toggle("vert",isShort(it));pvMove(box,box.firstChild);
   const me={persist:1,box:PVW,n,msg};pv=me;try{PVF.contentWindow.postMessage(msg,"*")}catch(e){}
   const on=e=>{if(!e.data||e.data.gh!=="yt"||!PVF||e.source!==PVF.contentWindow)return;if(pv!==me){removeEventListener("message",on);return;}if(e.data.n!==n)return;
-   if(e.data.state==="playing")setTimeout(()=>{if(pv===me&&PVW)PVW.classList.add("on")},300);if(e.data.error!=null){removeEventListener("message",on);pv=null;pvPark();kb();}};
+   if(e.data.state==="playing")setTimeout(()=>{if(pv===me&&PVW)PVW.classList.add("on")},300);if(e.data.error!=null){const YTE={2:"ongeldige video",5:"speler-fout",100:"video bestaat niet meer",101:"insluiten niet toegestaan",150:"insluiten niet toegestaan",timeout:"laden duurde te lang",api:"YouTube-speler niet bereikbaar",load:"laden mislukt"};try{dgLog("fout","YouTube-voorbeeld: "+(YTE[e.data.error]||e.data.error)+" ("+vid+")")}catch(x){}removeEventListener("message",on);pv=null;pvPark();kb();}};
   addEventListener("message",on);return;}
  const w=document.createElement("div");w.className="pv"+(isShort(it)?" vert":"");const f=document.createElement("iframe");f.setAttribute("allow","autoplay; encrypted-media");f.setAttribute("frameborder","0");
  f.style.cssText="border:0;pointer-events:none";f.tabIndex=-1;
  f.src=PVPG+"?p=7#v="+encodeURIComponent(vid)+"&s="+(it.yt?0:6)+"&vol=60";w.appendChild(f);box.insertBefore(w,box.firstChild);
  const me={box:w,player:{destroy:()=>{try{f.contentWindow.postMessage({cmd:"stop"},"*")}catch(e){}f.src="about:blank"}},f};pv=me;
  const on=e=>{if(!e.data||e.data.gh!=="yt"||e.source!==f.contentWindow)return;if(pv!==me){removeEventListener("message",on);return;}
-  if(e.data.state==="playing")w.classList.add("on");if(e.data.error!=null){removeEventListener("message",on);w.remove();if(pv===me)pv=null;kb();}};
+  if(e.data.state==="playing")w.classList.add("on");if(e.data.error!=null){const YTE={2:"ongeldige video",5:"speler-fout",100:"video bestaat niet meer",101:"insluiten niet toegestaan",150:"insluiten niet toegestaan",timeout:"laden duurde te lang",api:"YouTube-speler niet bereikbaar",load:"laden mislukt"};try{dgLog("fout","YouTube-voorbeeld: "+(YTE[e.data.error]||e.data.error)+" ("+vid+")")}catch(x){}removeEventListener("message",on);w.remove();if(pv===me)pv=null;kb();}};
  addEventListener("message",on);}
 function mediaFocus(el){let it=null,box=null;
  if(mode==="home"&&el){if((fr===4||fr===5)&&(el.dataset.x||(el.dataset.y&&!/^(st|ld)/.test(el.dataset.y)))){const x=el.dataset.x?NW[+el.dataset.x]:SP[+el.dataset.y];if(x&&x.k==="yt"){it={yt:1,v:x.v,t:x.t,du:x.du,vt:x.vt};box=el.querySelector(".vth")||el;}}else if(fr===3&&el.dataset.k){it=ITEMS[+el.dataset.k];box=el;}else if(fr===3&&el.dataset.c){const c=CONT[+el.dataset.c];if(c){it=c._pit||(c._pit={t:c.t,_c:c,type:c.type==="series"?"tv":c.type});box=el;}}else if(fr===3&&el.dataset.lp){const L=lastFor(+el.dataset.lp),g=L&&L.go;if(g&&g.k==="yt"&&g.v){const h=ITEMS.find(x=>x.yt&&x.v===g.v);it=h||{yt:1,v:g.v,t:L.t};box=el;}}}
  const k=it?(it.v||it.id||it.t):"";if(fr===1&&mode==="home"){if(!window.hpz){clearInterval(hT);window.hpz=1}}else if(window.hpz){window.hpz=0;clearInterval(hT);hT=setInterval(nextHero,12000);}
  if(k===pvKey&&!(el&&el.dataset.c))return;pvKey=k;stopPreview();
  clearTimeout(fbT);fbT=setTimeout(()=>{const c=fr===3&&el&&el.dataset.c?CONT[+el.dataset.c]:null;const u0=(it&&fr===3&&(it.big||it.img))||(c&&c.img),u=u0||(mode==="home"&&fr>=2&&HERO.length&&HERO[hi]&&HERO[hi].big);window.fbH=!u0;if(u){const tk=window.fbTok=(window.fbTok||0)+1;preImg(u).then(()=>{if(window.fbTok!==tk)return;$("fbg").style.backgroundImage=cu(u);document.body.classList.add("fb")})}else document.body.classList.remove("fb")},800);
- if(it&&!it.act&&!it.tv&&!it.sp)pvT=setTimeout(()=>startPreview(box,it),fr===1?6000:650);}
+ if(it&&!it.act&&!it.tv&&!it.sp)pvT=setTimeout(()=>startPreview(box,it),fr===1?6000:(DG.tune?950:650));}
 function paint(){const nf=(rows[fr]||[])[fi];rows.forEach(r=>r.forEach(e=>{if(e!==nf&&e.classList.contains("focus"))e.classList.remove("focus")}));$("rail").classList.toggle("open",(fr===0||fr===6)&&mode==="home");
  const el=rows[fr][fi];if(!el||mode!=="home"){detail(-1);mediaFocus(null);capPaint(null);return;}el.classList.add("focus");
  const pr=el.parentNode;if(pr.classList.contains("row")||pr.classList.contains("srow")){const sl=Math.max(0,(el._ol!=null?el._ol:(el._ol=el.offsetLeft))-200);if(pr._sl!==sl){pr._sl=sl;pr.scrollLeft=sl;}}
