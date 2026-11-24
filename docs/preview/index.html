@@ -1,4 +1,4 @@
-<!DOCTYPE html><!--GH_BUILD:3.5.1-->
+<!DOCTYPE html><!--GH_BUILD:3.5.2-->
 <html lang="nl" style="background:#05060a url(splash5.png) center/cover no-repeat"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,viewport-fit=cover">
 <title>Glass Home</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
@@ -389,6 +389,7 @@ body:not(.det) #det,#panel:not(.open),#toast:not(.on),body:not(.amb) #amb{-webki
 .board.sb .stp,.board.sb .ac,.board.sb .vt,.board.sb .bempty{background:linear-gradient(160deg,rgba(46,50,68,.96),rgba(14,16,24,.98))!important;border-color:rgba(255,255,255,.16)!important}
 .board.sb .mc,.board.sb .stp,.board.sb .ac,.board.sb .vt{clip-path:inset(0 round 24px);overflow:hidden;backface-visibility:hidden}
 .board.sb .bi.focus{outline:3px solid rgba(255,255,255,.92);outline-offset:-3px;box-shadow:none}
+#s-sport{content-visibility:auto;contain-intrinsic-size:auto 1400px}
 </style></head><body class="boot"><script>window.ghFit=function(){var vv=window.visualViewport,de=document.documentElement,w=(vv&&vv.width)||de.clientWidth||innerWidth||1920,h=(vv&&vv.height)||de.clientHeight||innerHeight||1080,s=Math.min(w/1920,h/1080),b=document.body,r=document.documentElement;if(!b)return;var W=Math.round(Math.min(w/s,4000)),H=Math.round(Math.min(h/s,1620));if(h>w){W=1920;H=1080;}var tf="translate("+Math.round((w-W*s)/2)+"px,"+Math.round((h-H*s)/2)+"px) scale("+s+")";if(window.GW===W&&window.GH===H&&window.ghTF===tf)return;r.style.setProperty("--W",W+"px");r.style.setProperty("--H",H+"px");window.GW=W;window.GH=H;window.ghTF=tf;b.style.transformOrigin="0 0";b.style.transform=tf;b.classList.toggle("portrait",h>w*1.05);};window.ghFit();addEventListener("orientationchange",function(){setTimeout(window.ghFit,300)});</script><div id="rot">Draai je scherm een kwartslag voor het grootste beeld</div><script>(function(){var M={},C={};function R(n){n=n.replace(/^\.\//,"./").replace(/\.js$/,"");if(C[n])return C[n].exports;var m={exports:{}};C[n]=m;M[n](m,m.exports);return m.exports;}
 M["./QRErrorCorrectLevel"]=function(module,exports){module.exports = {
 	L : 1,
@@ -1636,7 +1637,7 @@ module.exports = QRRSBlock;
 
 };
 var Q=R("./index"),E=R("./QRErrorCorrectLevel");window.ghQR=function(t){var q=new Q(-1,E.M);q.addData(t);q.make();var n=q.getModuleCount(),p="";for(var r=0;r<n;r++)for(var c=0;c<n;c++)if(q.isDark(r,c))p+="M"+(c+2)+" "+(r+2)+"h1v1h-1z";return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 '+(n+4)+' '+(n+4)+'" shape-rendering="crispEdges"><rect width="100%" height="100%" fill="#fff"/><path d="'+p+'" fill="#000"/></svg>';};})();</script>
-<script type="text/plain" id="ghv">GH_BUILD:3.5.1</script>
+<script type="text/plain" id="ghv">GH_BUILD:3.5.2</script>
 <div id="intro"><div class="orb"></div><div class="ghw"><svg class="ghl" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
 <defs>
 <linearGradient id="gl" x1="0" y1="0" x2="0.35" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".96"/><stop offset=".55" stop-color="#e9ecf6" stop-opacity=".78"/><stop offset="1" stop-color="#c9cfe6" stop-opacity=".6"/></linearGradient>
@@ -1673,7 +1674,7 @@ var Q=R("./index"),E=R("./QRErrorCorrectLevel");window.ghQR=function(t){var q=ne
 <script src="config.js"></script>
 <script>
 addEventListener("scroll",function(e){var t=e.target;if(t===document||t===document.body||t===document.documentElement){if(window.scrollX||window.scrollY)window.scrollTo(0,0);if(document.body&&document.body.scrollTop)document.body.scrollTop=0;if(document.documentElement.scrollTop)document.documentElement.scrollTop=0;}},true);
-window.ghSq=function(i){var p=i.parentNode;if(!p||!p.classList.contains("app"))return;var w=i.naturalWidth,h=i.naturalHeight;if(!w||!h)return;var tl=i.classList.contains("tl"),sq=w<h*(tl?1.12:1.45)&&!p.classList.contains("bn");p.classList.toggle("sq",sq);};
+window.ghSq=function(i){var p=i.parentNode;if(!p||!p.classList.contains("app"))return;var w=i.naturalWidth,h=i.naturalHeight;if(!w||!h)return;var tl=i.classList.contains("tl"),nm=(p.textContent||"").toLowerCase(),sq=!/prime|npo|hbo|disney|apple/.test(nm)&&w<h*(tl?1.12:1.45)&&!p.classList.contains("bn");p.classList.toggle("sq",sq);};
 window.aimFit=function(i){var w=i.naturalWidth,h=i.naturalHeight;if(!w||!h)return;i.classList.add(h>w*0.9?"pf":"lf");var f=document.getElementById("fin");if(f&&!f.querySelector(".aclr")){var c=document.createElement("div");c.className="aclr";f.appendChild(c);}};
 {
 window.__gh=function(c){return eval(c)};
@@ -2522,7 +2523,7 @@ document.addEventListener("keydown",()=>{PST.keys++;pstLast=performance.now();if
 const DG={log:[],act:0,fd:{},auto:0,autoT:0,lastErr:{}};try{DG.log=JSON.parse(localStorage.getItem("ghLog")||"[]").slice(-100)}catch(e){}
 const DGN={"site.api.espn.com":"ESPN (sport)","feeds.nos.nl":"NOS","www.nu.nl":"NU.nl","www.rtlnieuws.nl":"RTL Nieuws","www.googleapis.com":"YouTube","api.spotify.com":"Spotify","api.themoviedb.org":"TMDB","api.open-meteo.com":"Weer","api.energyzero.nl":"Stroomprijs","raw.githubusercontent.com":"KNMI-codes / updates","api.trakt.tv":"Trakt","api.rss2json.com":"RSS-hulp"};
 function dgLog(lv,m){const t=Date.now(),k=lv+m;const ks=Object.keys(DG.lastErr);if(ks.length>60)ks.forEach(x=>{if(t-DG.lastErr[x]>6e4)delete DG.lastErr[x]});if(DG.lastErr[k]&&t-DG.lastErr[k]<6e4)return;DG.lastErr[k]=t;DG.log.push({t,lv,m:String(m).slice(0,180)});if(DG.log.length>100)DG.log.splice(0,DG.log.length-100);clearTimeout(DG.sv);DG.sv=setTimeout(()=>{try{localStorage.setItem("ghLog",JSON.stringify(DG.log))}catch(e){}},2000);if(lv==="actie")DG.act++;dgDot();}
-function fdMark(u,ok,err){let h="";try{h=new URL(u).host}catch(e){return}const n=DGN[h];if(!n)return;const f=DG.fd[n]||(DG.fd[n]={});const was=f.ok;f.ok=ok;f.t=Date.now();if(ok){f.err="";if(was===0)dgLog("info",n+" werkt weer");}else{f.err=err||"fout";dgLog("fout",n+": "+f.err);}}
+function fdMark(u,ok,err){if(!ok&&/playlistNotFound|channelNotFound/.test(err||""))return;let h="";try{h=new URL(u).host}catch(e){return}const n=DGN[h];if(!n)return;const f=DG.fd[n]||(DG.fd[n]={});const was=f.ok;f.ok=ok;f.t=Date.now();if(ok){f.err="";if(was===0)dgLog("info",n+" werkt weer");}else{f.err=err||"fout";dgLog("fout",n+": "+f.err);}}
 addEventListener("error",e=>{dgLog("fout",(e.message||"Scriptfout")+(e.lineno?" (regel "+e.lineno+")":""))});
 addEventListener("unhandledrejection",e=>{const r=e.reason;if(typeof r==="number"||r===0)return;dgLog("fout","Onafgehandeld: "+((r&&r.message)||r))});
 const DPROF=(()=>{const t=!!TOUCH||/Android|iPhone|iPad|Mobile/i.test(navigator.userAgent);return P==="webos"?{n:"LG-tv",pre:50}:P==="android"?{n:"Google TV Streamer",pre:60}:t?{n:"Telefoon",pre:70}:{n:"Computer",pre:120};})();
