@@ -1,4 +1,4 @@
-<!DOCTYPE html><!--GH_BUILD:3.0.3-->
+<!DOCTYPE html><!--GH_BUILD:3.0.4-->
 <html lang="nl" style="background:#05060a url(splash5.png) center/cover no-repeat"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,viewport-fit=cover">
 <title>Glass Home</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
@@ -346,6 +346,8 @@ body.det.shelf #s-live{top:1530px}body.det.shelf #s-sport{top:2410px}.ac.grow .s
 #shelf .card.vc{width:140px}#shelf .card.vc .lab{padding:10px 10px 12px}#shelf .card.vc .tt{font-size:16px;line-height:1.2;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;white-space:normal}#shelf .card.vc small{display:none}#shelf .card.vc .score{font-size:13px;padding:4px 8px}
 .vc .pv.vert iframe,.vt.vs .pv.vert iframe{width:100%!important;height:100%!important;left:0!important;transform:none!important;aspect-ratio:auto;border-radius:0;box-shadow:none}
 #np.idle .npb,#np.idle .npc{opacity:.35}
+body.det.shelf #det{right:auto!important;width:1040px;grid-template-columns:400px 1fr!important;gap:32px!important}body.det.shelf #det #dtitle{font-size:32px!important}body.det.shelf #det #dzeg{-webkit-line-clamp:5}
+#shelf .f.focus:not(.grow){transform:scale(1.05)}.srow .bi.focus:not(.grow){transform:scale(1.04)}.srow .bi{transition:transform .35s cubic-bezier(.2,.9,.25,1)}
 </style></head><body class="boot"><script>window.ghFit=function(){var vv=window.visualViewport,de=document.documentElement,w=(vv&&vv.width)||de.clientWidth||innerWidth||1920,h=(vv&&vv.height)||de.clientHeight||innerHeight||1080,s=Math.min(w/1920,h/1080),b=document.body,r=document.documentElement;if(!b)return;var W=Math.round(Math.min(w/s,4000)),H=Math.round(Math.min(h/s,1620));if(h>w){W=1920;H=1080;}r.style.setProperty("--W",W+"px");r.style.setProperty("--H",H+"px");window.GW=W;window.GH=H;b.style.transformOrigin="0 0";b.style.transform="translate("+Math.round((w-W*s)/2)+"px,"+Math.round((h-H*s)/2)+"px) scale("+s+")";b.classList.toggle("portrait",h>w*1.05);};window.ghFit();addEventListener("orientationchange",function(){setTimeout(window.ghFit,300)});</script><div id="rot">Draai je scherm een kwartslag voor het grootste beeld</div><script>(function(){var M={},C={};function R(n){n=n.replace(/^\.\//,"./").replace(/\.js$/,"");if(C[n])return C[n].exports;var m={exports:{}};C[n]=m;M[n](m,m.exports);return m.exports;}
 M["./QRErrorCorrectLevel"]=function(module,exports){module.exports = {
 	L : 1,
@@ -1593,7 +1595,7 @@ module.exports = QRRSBlock;
 
 };
 var Q=R("./index"),E=R("./QRErrorCorrectLevel");window.ghQR=function(t){var q=new Q(-1,E.M);q.addData(t);q.make();var n=q.getModuleCount(),p="";for(var r=0;r<n;r++)for(var c=0;c<n;c++)if(q.isDark(r,c))p+="M"+(c+2)+" "+(r+2)+"h1v1h-1z";return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 '+(n+4)+' '+(n+4)+'" shape-rendering="crispEdges"><rect width="100%" height="100%" fill="#fff"/><path d="'+p+'" fill="#000"/></svg>';};})();</script>
-<script type="text/plain" id="ghv">GH_BUILD:3.0.3</script>
+<script type="text/plain" id="ghv">GH_BUILD:3.0.4</script>
 <div id="intro"><div class="orb"></div><div class="ghw"><svg class="ghl" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
 <defs>
 <linearGradient id="gl" x1="0" y1="0" x2="0.35" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".96"/><stop offset=".55" stop-color="#e9ecf6" stop-opacity=".78"/><stop offset="1" stop-color="#c9cfe6" stop-opacity=".6"/></linearGradient>
@@ -2398,8 +2400,9 @@ function playLast(ai){const L=lastFor(ai);if(!L)return open(ai);const g=L.go;
 function playLast2(ai,L){
  if(L.media&&P==="android"){S.recent=[ai].concat(S.recent.filter(x=>x!==ai)).slice(0,6);S.seen[ai]=Date.now();save();stopPreview();try{if(GHAndroid.resumeApp(APPS[ai].pkg))return}catch(e){}}
  open(ai);}
-function lastCard(ai){const L=lastFor(ai);if(!L||!L.t)return"";const a=APPS[ai];
- return '<div class="card f res" data-lp="'+ai+'" style="background-image:'+(L.img?cu(L.img):grad(a.c))+'"><div class="score glass">▶ Verder</div><div class="lab"><div class="tt">'+esc(L.t)+'</div><small>'+esc(a.n+(L.s?" · "+L.s:""))+(L.ts?" · "+ago(L.ts):"")+'</small>'+(L.p?'<div class="bar"><i style="width:'+L.p+'%"></i></div>':'')+'</div></div>';}
+function lastCard(ai){const L=lastFor(ai);if(!L||!L.t)return"";const a=APPS[ai];let dk2="",vc="";
+ if(ai===0&&L.go&&L.go.k==="yt"&&L.go.v){let k=ITEMS.findIndex(x=>x.yt&&x.v===L.go.v);if(k<0){ITEMS.push({yt:1,lp:1,a:-1,v:L.go.v,t:L.t,c:L.s||"YouTube",vw:"",du:"",because:["Verder kijken"],zeg:"Je was deze video aan het kijken. Druk op OK om verder te kijken.",sc:{}});k=ITEMS.length-1;}dk2=' data-k="'+k+'"';if(isShort(ITEMS[k]))vc=" vc";}
+ return '<div class="card f res'+vc+'" data-lp="'+ai+'"'+dk2+' style="background-image:'+(L.img?cu(L.img):grad(a.c))+'"><div class="score glass">▶ Verder</div><div class="lab"><div class="tt">'+esc(L.t)+'</div><small>'+esc(a.n+(L.s?" · "+L.s:""))+(L.ts?" · "+ago(L.ts):"")+'</small>'+(L.p?'<div class="bar"><i style="width:'+L.p+'%"></i></div>':'')+'</div></div>';}
 document.addEventListener("visibilitychange",()=>{if(!document.hidden){loadMedia();const k=shelfApp;shelfApp=-1;if(k>=0)try{drawShelf(k)}catch(e){}}});
 
 // afbeeldingen eerst op de achtergrond laten decoderen, dan pas tonen (voorkomt haperen)
@@ -2437,9 +2440,9 @@ function why(it){const b=it.because&&it.because[0]?(it.yt||it.sp?it.because[0]+"
 let dT,dk=-1;
 function detail(k){clearTimeout(dT);if(isNaN(k)||k<0||!ITEMS[k]){document.body.classList.remove("det");dk=-1;return;}
  document.body.classList.add("det");if(k===dk)return;dk=k;const it=ITEMS[k];
- $("dtitle").textContent=it.t;$("dmeta").textContent=it.tv?"Nu op "+it.c+" · "+it.s:it.act?it.s:it.yt?it.c+" · "+it.vw+" weergaven":it.sp?it.c+" · "+it.s:it.s;
+ $("dtitle").textContent=it.t;$("dmeta").textContent=it.tv?"Nu op "+it.c+" · "+it.s:it.act?it.s:it.yt?it.c+(it.vw?" · "+it.vw+" weergaven":""):it.sp?it.c+" · "+it.s:it.s;
  $("dchips").innerHTML=it.tv?'<span class="chip big">● LIVE</span><span class="chip">'+it.p+'% voorbij</span>':it.act?'':(it.because||[]).map(b=>'<span class="chip me">'+esc(it.yt||it.sp?b:"Omdat je "+b+" keek")+'</span>').join("")+
-  (it.yt?(it.du?'<span class="chip big">▶ '+it.du+'</span>':'')+(it.tr?'<span class="chip">Trending</span>':'')+'<span class="chip">'+it.vw+' weergaven</span>'+(it.up?'<span class="chip">'+ago2(it.up)+'</span>':'')
+  (it.yt?(it.du?'<span class="chip big">▶ '+it.du+'</span>':'')+(it.tr?'<span class="chip">Trending</span>':'')+(it.vw?'<span class="chip">'+it.vw+' weergaven</span>':'')+(it.up?'<span class="chip">'+ago2(it.up)+'</span>':'')
   :it.sp?(it.sc.SP!=null?'<span class="chip big">♫ Populariteit '+it.sc.SP+'</span>':'')+(it.genres||[]).map(g=>'<span class="chip">'+esc(g)+'</span>').join("")
   :(it.avg?'<span class="chip big">★ '+sc10(it.avg)+'</span>':'')+(it.gen||[]).map(g=>'<span class="chip">'+esc(g)+'</span>').join("")+(it.len?'<span class="chip">'+esc(it.len)+'</span>':'')+(Object.keys(it.sc||{}).length>1?'<span class="chip">'+Object.keys(it.sc).length+' bronnen</span>':''));
  $("dzeg").textContent=it.zeg||it.ov||"Samenvatting maken…";$("dwhy").textContent=it.waarom||"";$("dsrc").textContent=it.zeg&&!it.id&&!it.v&&!it.act&&!(it.tv&&key("epgUrl"))?"Voorbeeldtekst":"";
