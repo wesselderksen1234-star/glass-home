@@ -165,6 +165,32 @@ function Connect-Tv {
 }
 
 # opdrachten van Claude: opdracht.json -> antwoord.json
+
+# Houd de verbinding met de Google TV Streamer in leven (ook na een herstart van de Streamer)
+$script:nextAdb = Get-Date
+function Ensure-Adb {
+  if ((Get-Date) -lt $script:nextAdb) { return }
+  $script:nextAdb = (Get-Date).AddSeconds(60)
+  $exe = Join-Path $Dir "platform-tools\adb.exe"; if (-not (Test-Path $exe)) { return }
+  try {
+    $ipf = Join-Path $Dir "streamer-ip.txt"; $ip = "192.168.0.148"; if (Test-Path $ipf) { $ip = (Get-Content $ipf -Raw).Trim() }
+    $dev = (& $exe devices | Out-String)
+    if ($dev -match [regex]::Escape("${ip}:5555") + "\s+device") { return }
+    & $exe connect "${ip}:5555" 2>&1 | Out-Null
+    $dev = (& $exe devices | Out-String)
+    if ($dev -match [regex]::Escape("${ip}:5555") + "\s+device") { return }
+    $md = (& $exe mdns services | Out-String)
+    $m = [regex]::Match($md, "_adb-tls-connect\._tcp\s+([\d.]+):(\d+)")
+    if ($m.Success) {
+      $ip2 = $m.Groups[1].Value; $hp = "${ip2}:" + $m.Groups[2].Value
+      & $exe connect $hp 2>&1 | Out-Null; Start-Sleep -Seconds 2
+      & $exe -s $hp tcpip 5555 2>&1 | Out-Null; Start-Sleep -Seconds 3
+      & $exe connect "${ip2}:5555" 2>&1 | Out-Null
+      Set-Content $ipf $ip2
+      Log ("Streamer opnieuw verbonden op " + $ip2)
+    }
+  } catch { }
+}
 function Run-Commands {
   $f = Join-Path $Dir "opdracht2.json"
   if (-not (Test-Path $f)) { return }
@@ -208,6 +234,7 @@ while ($true) {
       exit
     }
     Run-Commands
+    Ensure-Adb
     if (-not $script:ws -or $script:ws.State -ne "Open") {
       if ((Get-Date) -lt $script:nextTry) { Start-Sleep -Seconds 1; continue }
       $script:nextTry = (Get-Date).AddSeconds(30)
