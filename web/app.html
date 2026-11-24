@@ -1,4 +1,4 @@
-<!DOCTYPE html><!--GH_BUILD:2.6.7-->
+<!DOCTYPE html><!--GH_BUILD:2.6.8-->
 <html lang="nl" style="background:#05060a url(splash5.png) center/cover no-repeat"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width">
 <title>Glass Home</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
@@ -103,7 +103,7 @@ body.det #det{opacity:1;transform:none}
 .app{backdrop-filter:blur(26px) saturate(190%);-webkit-backdrop-filter:blur(26px) saturate(190%);border:1px solid rgba(255,255,255,.3);box-shadow:inset 0 1.5px 0 rgba(255,255,255,.65),inset 0 -1px 0 rgba(255,255,255,.12),0 14px 34px rgba(0,0,0,.32)}
 .app:before{content:"";position:absolute;inset:0;border-radius:inherit;background:radial-gradient(120% 70% at 20% 0%,rgba(255,255,255,.38),rgba(255,255,255,0) 55%),linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,0) 40%)}
 .app>*{position:relative}
-.card{flex:none;width:440px;height:248px;border-radius:26px;overflow:hidden;background-size:cover;background-position:center}
+.card{flex:none;width:440px;height:248px;contain:layout style paint;border-radius:26px;overflow:hidden;background-size:cover;background-position:center}
 .card .lab{position:absolute;left:0;right:0;bottom:0;padding:50px 24px 20px;background:linear-gradient(transparent,rgba(0,0,0,.8));font-size:25px;font-weight:700}
 .card .lab small{display:block;font-size:17px;font-weight:500;opacity:.8;margin-top:3px}
 .card .gl{position:absolute;right:26px;top:24px;width:84px;height:84px;opacity:.9}
@@ -1498,7 +1498,7 @@ module.exports = QRRSBlock;
 
 };
 var Q=R("./index"),E=R("./QRErrorCorrectLevel");window.ghQR=function(t){var q=new Q(-1,E.M);q.addData(t);q.make();var n=q.getModuleCount(),p="";for(var r=0;r<n;r++)for(var c=0;c<n;c++)if(q.isDark(r,c))p+="M"+(c+2)+" "+(r+2)+"h1v1h-1z";return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 '+(n+4)+' '+(n+4)+'" shape-rendering="crispEdges"><rect width="100%" height="100%" fill="#fff"/><path d="'+p+'" fill="#000"/></svg>';};})();</script>
-<script type="text/plain" id="ghv">GH_BUILD:2.6.7</script>
+<script type="text/plain" id="ghv">GH_BUILD:2.6.8</script>
 <div id="intro"><div class="orb"></div><div class="ghw"><svg class="ghl" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
 <defs>
 <linearGradient id="gl" x1="0" y1="0" x2="0.35" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".96"/><stop offset=".55" stop-color="#e9ecf6" stop-opacity=".78"/><stop offset="1" stop-color="#c9cfe6" stop-opacity=".6"/></linearGradient>
@@ -1533,6 +1533,7 @@ var Q=R("./index"),E=R("./QRErrorCorrectLevel");window.ghQR=function(t){var q=ne
 <script src="config.js"></script>
 <script>
 {
+window.__gh=function(c){return eval(c)};
 const G={
  pad:'<path d="M6 9h12a4 4 0 0 1 3.9 4.9l-.8 3.4a2.3 2.3 0 0 1-4 .9L15 16H9l-2.1 2.2a2.3 2.3 0 0 1-4-.9l-.8-3.4A4 4 0 0 1 6 9z" stroke="#fff" stroke-width="1.8" fill="none"/><path d="M7 12v3M5.5 13.5h3" stroke="#fff" stroke-width="1.8"/>',
  play:'<path d="M8 5.5v13l10.5-6.5z" fill="#fff"/>',
@@ -1834,18 +1835,20 @@ function card(it,i){if(it.tv)return '<div class="card f" data-k="'+i+'" style="b
 
 // rij met aanraders onder de gekozen app
 let shelfApp=-1;
-function drawShelf(ai){if(ai===shelfApp||isNaN(ai))return;shelfApp=ai;const a=APPS[ai];document.body.classList.add("shelf");
+function drawShelf(ai){if(ai===shelfApp||isNaN(ai))return;shelfApp=ai;if(PVW&&PVW.isConnected&&$("shelf").contains(PVW)){if(pv&&pv.persist)stopPreview();pvPark();}const a=APPS[ai];document.body.classList.add("shelf");
  let list=ITEMS.map((it,i)=>[it,i]).filter(x=>ai===1?(!x[0].yt&&!x[0].sp&&!x[0].tv&&!x[0].act&&x[0].sc):x[0].a===ai);
  if(ai===1)list=list.sort((p,q)=>q[0].rs-p[0].rs).slice(0,15);
  if(!list.length&&a.x){let k=ITEMS.findIndex(x=>x.act==="open"&&x.a===ai);if(k<0){ITEMS.push({act:"open",a:ai,t:a.n+" openen",c:a.n,s:"Door jou toegevoegd",sc:{},h:200,zeg:"Start "+a.n+" direct vanaf je startscherm.",waarom:"Je hebt deze app zelf aan Glass Home toegevoegd. Hieronder je beste tips van je andere diensten."});k=ITEMS.length-1;}
   list=[[ITEMS[k],k]].concat(ITEMS.map((it,i)=>[it,i]).filter(x=>!x[0].act&&!x[0].yt&&!x[0].sp&&!x[0].tv&&x[0].a>3).sort((p,q)=>q[0].rs-p[0].rs).slice(0,5));}const pers=list.some(x=>x[0].because&&x[0].because.length);
  $("shtitle").textContent=a.x?"Snel naar "+a.n+" · en je beste tips":ai===1?(S.trRefresh||pers?"Voor jou op Stremio":"Populair op Stremio"):ai===2?(LG?"Snelkoppelingen":"Nu live op tv"):(pers?"Voor jou op ":ai===0?"Trending op ":"Aanraders op ")+a.n;
- const row=$("shelf");row.classList.remove("in");void row.offsetWidth;
+ const row=$("shelf");if(row.scrollLeft)row.scrollLeft=0;
  loadMedia();const res=ai===1&&!CONT.length&&lastFor(1)?lastCard(1):ai!==1&&ai!==2&&lastFor(ai)?lastCard(ai):ai===1?CONT.slice(0,1).map((c,n)=>'<div class="card f res" data-c="'+n+'" style="background-image:'+(c.img?cu(c.img):art(n*53+190))+'"><div class="score glass">▶ Verder</div><div class="lab"><div class="tt">'+esc(c.t)+'</div><small>'+esc(c.s)+(c.p?' · '+Math.round(c.p)+'% gekeken':'')+'</small><div class="bar"><i style="width:'+c.p+'%"></i></div></div></div>').join(""):(!list.length&&((S.seen&&S.seen[ai])||(S.recent||[]).includes(ai))&&!a.x&&ai!==2?'<div class="card f res" data-a="'+ai+'" style="background:'+grad(a.c)+'">'+icon(a,a.tl?"gi tl":"gi")+'<div class="score glass">▶ Verder</div><div class="lab"><div class="tt">'+(ai===3?"Verder luisteren":"Verder kijken")+'</div><small>'+esc(a.n)+' onthoudt waar je was'+(S.seen&&S.seen[ai]?' · '+ago(S.seen[ai]):'')+'</small></div></div>':"");
  const lk=list.length?(ai===1&&!S.stAuth?["Koppel je Stremio-account","!Stremio"]:ai===0&&!S.ytRefresh?["Koppel je YouTube-account","!YouTube-account"]:ai===3&&!(S.spRefresh||key("spotifyRefresh"))?["Koppel je Spotify-account","!Spotify-account"]:ai>3&&!S.trRefresh?["Maak tips persoonlijk met Trakt","!Trakt-account"]:null):null;
  const lkc=lk?'<div class="empty glass f lk" data-go="'+lk[1]+'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></svg><span>'+lk[0]+'</span><b>Koppelen ›</b></div>':"";
+ const tok=window.shTok=(window.shTok||0)+1,rest=list.length>6?list.slice(6):[];if(rest.length)list=list.slice(0,6);
  row.innerHTML=res+lkc+(list.length?list.map(x=>card(x[0],x[1])).join(""):(()=>{const e=EMPTY[ai]||(a.x?["Nog geen aanraders voor "+a.n,"Apps beheren"]:EMPTYX);return '<div class="empty glass f" data-go="'+e[1]+'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></svg><span>'+e[0]+'</span><b>Instellen ›</b></div>'})());
- row.classList.add("in");row.scrollLeft=0;build();preShelf();}
+ if(!row.classList.contains("in"))row.classList.add("in");build();preShelf();
+ if(rest.length){const add=()=>{if(window.shTok!==tok)return;row.insertAdjacentHTML("beforeend",rest.map(x=>card(x[0],x[1])).join(""));build();};window.requestIdleCallback?requestIdleCallback(add,{timeout:900}):setTimeout(add,300);}}
 
 // hero
 let HERO=[],hi=0,hT,hc="hA";
@@ -1869,7 +1872,7 @@ async function seeds(B,k){const out=[],lb=key("letterboxd");
    .forEach(r=>{if(r)out.push({id:r.id,type:r.media_type,title:r.title||r.name,w:1.5})});}catch(e){}
  if(S.trRefresh){try{(await tr("sync/history?limit=80")).forEach(h=>{const o=h.movie||h.show,t=h.movie?"movie":"tv";if(o&&o.ids.tmdb&&!out.some(x=>x.id===o.ids.tmdb))out.push({id:o.ids.tmdb,type:t,title:o.title,w:2});});}catch(e){}}
  return out;}
-async function loadMovies(tk){const c=cget("ghM9"+(S.lang||0),432e5);if(c)return c;
+async function loadMovies(tk){const c=cget("ghMa"+(S.lang||0),432e5);if(c)return c;
  const B="https://api.themoviedb.org/3/",k="api_key="+tk,ok=key("omdb"),sd=await seeds(B,k),C=new Map(),own=new Set(sd.map(s=>s.type+s.id));
  const add=(m,type,why,w)=>{const id=type+m.id;let c=C.get(id);if(!c){c={m,type,n:0,why:[]};C.set(id,c)}c.n+=w;if(why&&c.why.length<2&&!c.why.includes(why))c.why.push(why);};
  await Promise.all(sd.slice(0,25).map(s=>j(B+s.type+"/"+s.id+"/recommendations?language=nl-NL&"+k).then(r=>r.results.slice(0,12).forEach(m=>add(m,s.type,s.title,s.w))).catch(()=>{})));
@@ -1893,10 +1896,10 @@ async function loadMovies(tk){const c=cget("ghM9"+(S.lang||0),432e5);if(c)return
   if(!Object.keys(sc).length)return null;const A=wavg(sc);
   return{id:m.id,type:c.type,t:ttl,s:(c.type==="tv"?"Serie":"Film")+" · "+(d.release_date||d.first_air_date||"").slice(0,4),
    a:hit?PROV[hit.provider_name]:1,because:c.why,sc,avg:A,rs:A+Math.min(c.n,4)*4,ov:d.overview||"",imdb,gen:(d.genres||[]).slice(0,2).map(g=>g.name),len:c.type==="tv"?(d.number_of_seasons?d.number_of_seasons+(d.number_of_seasons===1?" seizoen":" seizoenen"):""):(d.runtime?(d.runtime>=60?Math.floor(d.runtime/60)+" u "+(d.runtime%60?d.runtime%60+" min":""):d.runtime+" min").trim():""),
-   img:"https://image.tmdb.org/t/p/w1280"+(d.backdrop_path||m.backdrop_path),big:"https://image.tmdb.org/t/p/"+(P==="preview"?"original":"w1280")+(d.backdrop_path||m.backdrop_path),bp:d.backdrop_path};}catch(e){return null}};
+   img:"https://image.tmdb.org/t/p/w500"+(d.backdrop_path||m.backdrop_path),big:"https://image.tmdb.org/t/p/"+(P==="preview"?"original":"w1280")+(d.backdrop_path||m.backdrop_path),bp:d.backdrop_path};}catch(e){return null}};
  let res=[];for(let i=0;i<list.length;i+=10)res=res.concat(await Promise.all(list.slice(i,i+10).map(det)));
  const out=res.filter(x=>x&&x.bp&&x.avg>=68).sort((a,b)=>b.rs-a.rs);
- cset("ghM9"+(S.lang||0),out);return out;}
+ cset("ghMa"+(S.lang||0),out);return out;}
 
 // ---------- Spotify: jouw toppers + nieuwe releases die bij je passen ----------
 let spTokenP;async function spToken(){return spTokenP||(spTokenP=_spToken().finally(()=>{spTokenP=null}));}
@@ -1934,10 +1937,10 @@ async function ytLink(){const cid=key("ytClientId"),m=$("msg");if(!cid)return ph
  try{const d=await form("https://oauth2.googleapis.com/device/code",{client_id:cid,scope:"https://www.googleapis.com/auth/youtube.readonly"});
   m.innerHTML=codeHtml("YouTube koppelen",d.verification_url,d.user_code);
   clearInterval(ytPoll);const yEnd=Date.now()+(d.expires_in||900)*1000;ytPoll=setInterval(async()=>{if(Date.now()>yEnd){clearInterval(ytPoll);m.textContent="De code is verlopen. Probeer het opnieuw.";return}try{const r=await form("https://oauth2.googleapis.com/token",{client_id:cid,client_secret:key("ytClientSecret"),device_code:d.device_code,grant_type:"urn:ietf:params:oauth:grant-type:device_code"});
-   if(r.refresh_token){clearInterval(ytPoll);S.ytRefresh=r.refresh_token;S.ytTok=r.access_token;S.ytExp=Date.now()+r.expires_in*1000;save();m.textContent="YouTube gekoppeld ✓";try{localStorage.removeItem("ghYT6")}catch(e){}drawOpts();loadAll();}}catch(e){}},(d.interval||5)*1000);
+   if(r.refresh_token){clearInterval(ytPoll);S.ytRefresh=r.refresh_token;S.ytTok=r.access_token;S.ytExp=Date.now()+r.expires_in*1000;save();m.textContent="YouTube gekoppeld ✓";try{localStorage.removeItem("ghYT8")}catch(e){}drawOpts();loadAll();}}catch(e){}},(d.interval||5)*1000);
  }catch(e){m.textContent="Koppelen is niet gelukt. Kijk of je Google-sleutel (Client-ID en Clientgeheim) goed is.";}}
 const fmt=n=>n>=1e6?nl((n/1e6).toFixed(1))+" mln":n>=1e3?Math.round(n/1e3)+"k":String(n);
-async function loadYT(){const c=cget("ghYT7",108e5);if(c)return c;
+async function loadYT(){const c=cget("ghYT8",108e5);if(c)return c;
  const tok=await ytToken().catch(()=>""),yk=key("youtube");if(!tok&&!yk)return[];
  const api=u=>j("https://www.googleapis.com/youtube/v3/"+u+(tok?"":"&key="+yk),tok?{headers:{Authorization:"Bearer "+tok}}:{});
  const why={},cats={};let ids=[];
@@ -1954,9 +1957,9 @@ async function loadYT(){const c=cget("ghYT7",108e5);if(c)return c;
  const dur=d=>{const m=String(d||"").match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/);if(!m)return"";const h=+m[1]||0,mi=+m[2]||0,se=+m[3]||0;return h?h+":"+String(mi).padStart(2,"0")+":"+String(se).padStart(2,"0"):mi+":"+String(se).padStart(2,"0")},trend=new Set();
  const out=vids.map(v=>{const st=v.statistics||{},vw=+st.viewCount||0,lk=+st.likeCount||0,th=v.snippet.thumbnails;
   return{yt:1,a:0,v:v.id,t:v.snippet.title,c:v.snippet.channelTitle,vw:fmt(vw),n:vw,lr:"",du:dur((v.contentDetails||{}).duration),up:v.snippet.publishedAt,tr:!keep[v.id]&&!(why[v.id]&&why[v.id][0]==="N"),because:why[v.id]?[why[v.id]]:[],
-   q:(vw?lk/vw*Math.log10(vw):0)+(why[v.id]&&why[v.id][0]==="N"?.12:0)+(keep[v.id]?.2:0),img:(th.maxres||th.high||th.medium||th.default||{}).url}})
+   q:(vw?lk/vw*Math.log10(vw):0)+(why[v.id]&&why[v.id][0]==="N"?.12:0)+(keep[v.id]?.2:0),img:(th.high||th.medium||th.maxres||th.default||{}).url,big:(th.maxres||th.standard||th.high||{}).url}})
   .filter(x=>x.n>2e3).sort((a,b)=>b.q-a.q).slice(0,18);
- cset("ghYT7",out);return out;}
+ cset("ghYT8",out);return out;}
 
 // ---------- TiviMate: nu op tv via je EPG (XMLTV) ----------
 const hm=t=>new Date(t).toLocaleTimeString("nl-NL",{hour:"2-digit",minute:"2-digit"});
@@ -2003,14 +2006,14 @@ let phTok=0;async function phoneLink(o,txt,done){clearTimeout(phT);const m=$("ms
    for(const ln of tx.split("\n")){if(!ln)continue;const e=JSON.parse(ln);if(e.event!=="message")continue;
     const raw=Uint8Array.from(atob(e.message.replace(/-/g,"+").replace(/_/g,"/")),c=>c.charCodeAt(0));
     const d=JSON.parse(new TextDecoder().decode(await crypto.subtle.decrypt({name:"AES-GCM",iv:raw.slice(0,12)},ck,raw.slice(12))));
-    Object.keys(d).forEach(x=>{if(d[x])S[x]=d[x]});save();["ghM9"+(S.lang||0)].forEach(x=>{try{localStorage.removeItem(x)}catch(e){}});if(done)done(d);else{m.textContent="Opgeslagen ✓";loadAll();}if(mode==="panel")drawOpts();return;}}catch(e){}
+    Object.keys(d).forEach(x=>{if(d[x])S[x]=d[x]});save();["ghMa"+(S.lang||0)].forEach(x=>{try{localStorage.removeItem(x)}catch(e){}});if(done)done(d);else{m.textContent="Opgeslagen ✓";loadAll();}if(mode==="panel")drawOpts();return;}}catch(e){}
   phT=setTimeout(poll,3000);};phT=setTimeout(poll,3000);}
 function spLink(){phoneLink({m:"spotify",cid:key("spotifyClientId")||""},"<b>Spotify koppelen</b><br>1. Pak je telefoon en open de camera.<br>2. Richt hem op de code hiernaast en tik op de link.<br>3. Volg de stappen op je telefoon. Klaar!",()=>{spTokenP=null;$("msg").textContent="Spotify gekoppeld ✓";try{localStorage.removeItem("ghSP6")}catch(e){}loadAll();});}
 async function trLink(){const cid=key("traktClientId"),m=$("msg");if(!cid)return phoneLink({m:"key",h:"trakt",f:"traktClientId|Trakt Client ID"},"Om Trakt te koppelen is eenmalig een gratis Trakt-sleutel nodig. Je telefoon legt uit hoe.",()=>trLink());
  try{const d=await j("https://api.trakt.tv/oauth/device/code",{method:"POST",headers:TH(),body:JSON.stringify({client_id:cid})});
   m.innerHTML=codeHtml("Trakt koppelen",d.verification_url+"/"+d.user_code,d.user_code);
   clearInterval(trPoll);const tEnd=Date.now()+(d.expires_in||600)*1000;trPoll=setInterval(async()=>{if(Date.now()>tEnd){clearInterval(trPoll);m.textContent="De code is verlopen. Probeer het opnieuw.";return}try{const r=await j("https://api.trakt.tv/oauth/device/token",{method:"POST",headers:TH(),body:JSON.stringify({code:d.device_code,client_id:cid,client_secret:key("traktClientSecret")||undefined})});
-   if(r.refresh_token){clearInterval(trPoll);S.trRefresh=r.refresh_token;S.trTok=r.access_token;S.trExp=Date.now()+r.expires_in*1000;save();m.textContent="Trakt gekoppeld ✓";["ghM9"+(S.lang||0),"ghTR"].forEach(x=>{try{localStorage.removeItem(x)}catch(e){}});drawOpts();loadTrakt();loadAll();}}catch(e){}},(d.interval||5)*1000);
+   if(r.refresh_token){clearInterval(trPoll);S.trRefresh=r.refresh_token;S.trTok=r.access_token;S.trExp=Date.now()+r.expires_in*1000;save();m.textContent="Trakt gekoppeld ✓";["ghMa"+(S.lang||0),"ghTR"].forEach(x=>{try{localStorage.removeItem(x)}catch(e){}});drawOpts();loadTrakt();loadAll();}}catch(e){}},(d.interval||5)*1000);
  }catch(e){m.textContent="Koppelen lukte niet. Controleer je Trakt-gegevens.";}}
 async function loadTrakt(){
  if(!S.trRefresh){if(P==="preview"){CONT=[{t:"Noorderlicht",s:"S1 · A4 · De ijsvlakte",p:62,type:"series"},{t:"Rode Woestijn",s:"Film · 2023",p:35,type:"movie"},{t:"Grensgebied",s:"S2 · A1 · Terug",p:12,type:"series"}];drawCont();}return;}
@@ -2089,7 +2092,7 @@ window.ghTint=function(img){try{const c=document.createElement("canvas");c.width
  t.style.background="linear-gradient(150deg,rgba("+k(r*.75)+","+k(gg*.75)+","+k(b*.75)+",.82),rgba("+k(r*.35)+","+k(gg*.35)+","+k(b*.35)+",.72))";}catch(e){}};
 
 // YouTube-speler alvast opwarmen, zodat voorbeelden snel starten
-if(P!=="preview")setTimeout(()=>{try{const f=document.createElement("iframe");f.style.cssText="position:absolute;width:2px;height:2px;left:-10px;top:-10px;opacity:0;border:0;pointer-events:none";f.src=PVPG+"#warm=1";document.body.appendChild(f);setTimeout(()=>f.remove(),25000);}catch(e){}},6000);
+if(P!=="preview")setTimeout(()=>{try{if(PVM){if(!PVW)pvMake();return;}const f=document.createElement("iframe");f.style.cssText="position:absolute;width:2px;height:2px;left:-10px;top:-10px;opacity:0;border:0;pointer-events:none";f.src=PVPG+"#warm=1";document.body.appendChild(f);setTimeout(()=>f.remove(),25000);}catch(e){}},6000);
 
 // ---------- "Verder kijken" per app: wat je als laatste afspeelde ----------
 let MEDIA={};
@@ -2116,7 +2119,7 @@ document.addEventListener("visibilitychange",()=>{if(!document.hidden){loadMedia
 const PRE=new Map();function preImg(u){if(!u)return Promise.resolve();if(PRE.has(u))return PRE.get(u);
  const p=new Promise(r=>{const i=new Image();i.decoding="async";i.onload=()=>{(i.decode?i.decode():Promise.resolve()).then(r,r)};i.onerror=r;i.src=u;setTimeout(r,2500);});
  PRE.set(u,p);if(PRE.size>80){PRE.delete(PRE.keys().next().value)}return p;}
-function preShelf(){const go=()=>{[...document.querySelectorAll("#shelf .card")].slice(0,6).forEach(c=>{const it=ITEMS[+c.dataset.k];if(it&&it.big)preImg(it.big)});};window.requestIdleCallback?requestIdleCallback(go,{timeout:1500}):setTimeout(go,400);}
+function preShelf(){const go=()=>{[...document.querySelectorAll("#shelf .card")].slice(0,3).forEach(c=>{const it=ITEMS[+c.dataset.k];if(it&&it.big)preImg(it.big)});};window.requestIdleCallback?requestIdleCallback(go,{timeout:1500}):setTimeout(go,400);}
 
 // ---------- prestatiemeting (anoniem, versleuteld, alleen voor jezelf): hoe vloeiend draait Glass Home op deze tv ----------
 const PST={f:0,j:0,big:0,max:0,lt:0,ltms:0,keys:0,t0:Date.now()};let pstOn=0,pstLast=0;
@@ -2202,11 +2205,25 @@ async function trailerFor(it){if(it.yt)return it.v;if(it.tr!==undefined)return i
  const pick=r=>((r&&r.results)||[]).filter(v=>v.site==="YouTube").sort((a,b)=>(b.type==="Trailer")-(a.type==="Trailer")||(b.official-a.official))[0];
  try{const B="https://api.themoviedb.org/3/"+(it.type==="tv"?"tv":"movie")+"/"+it.id+"/videos?api_key="+tk+"&language=";
   let v=pick(await j(B+"nl-NL"));if(!v)v=pick(await j(B+"en-US"));it.tr=v?v.key:null;}catch(e){it.tr=null}return it.tr;}
-function stopPreview(){clearTimeout(pvT);if(pv){const p=pv;pv=null;p.box.classList.remove("on");setTimeout(()=>{try{p.player.destroy()}catch(e){}p.box.remove()},1500);}
+// één blijvende voorbeeldspeler (snel, geen herladen van YouTube) als de browser elementen kan verplaatsen zonder herladen
+var PVM=!!(window.Element&&Element.prototype.moveBefore),PVW=null,PVF=null,PVN=0;
+function pvHold(){let h=$("pvhold");if(!h){h=document.createElement("div");h.id="pvhold";h.style.cssText="position:fixed;left:-4000px;top:0;width:440px;height:248px;overflow:hidden;pointer-events:none";document.body.appendChild(h);}return h;}
+function pvMake(){PVW=document.createElement("div");PVW.className="pv";PVF=document.createElement("iframe");PVF.setAttribute("allow","autoplay; encrypted-media");PVF.setAttribute("frameborder","0");PVF.style.cssText="border:0;pointer-events:none";PVF.tabIndex=-1;
+ PVF.addEventListener("load",()=>{if(pv&&pv.persist&&pv.msg)try{PVF.contentWindow.postMessage(pv.msg,"*")}catch(e){}});PVF.src=PVPG+"?p=3#warm=1";PVW.appendChild(PVF);pvHold().appendChild(PVW);}
+function pvMove(par,ref){try{par.moveBefore(PVW,ref)}catch(e){par.insertBefore(PVW,ref)}}
+function pvPark(){if(!PVW)return;if(!PVW.isConnected){PVW=PVF=null;return;}PVW.classList.remove("on");if(PVW.parentNode!==$("pvhold"))pvMove(pvHold(),null);}
+function stopPreview(){clearTimeout(pvT);if(pv){const p=pv;pv=null;p.box.classList.remove("on");
+ if(p.persist){const n=p.n;try{PVF.contentWindow.postMessage({cmd:"mute"},"*")}catch(e){}setTimeout(()=>{if(PVN!==n||pv)return;try{PVF.contentWindow.postMessage({cmd:"stop"},"*")}catch(e){}pvPark()},1500);}
+ else setTimeout(()=>{try{p.player.destroy()}catch(e){}p.box.remove()},1500);}
  document.querySelectorAll(".kb").forEach(e=>e.classList.remove("kb"));}
 async function startPreview(box,it){const vid=await trailerFor(it);const kb=()=>{(box.id==="hero"?$(hc):box).classList.add("kb")};
  if(!vid)return kb();
  if(pvKey!==(it.v||it.id||it.t)||!box.isConnected)return;if(pv)stopPreview();
+ if(PVM){if(!PVW||!PVW.isConnected)pvMake();const n=++PVN,msg={cmd:"load",v:vid,s:it.yt?0:6,vol:60,n};PVW.classList.remove("on");pvMove(box,box.firstChild);
+  const me={persist:1,box:PVW,n,msg};pv=me;try{PVF.contentWindow.postMessage(msg,"*")}catch(e){}
+  const on=e=>{if(!e.data||e.data.gh!=="yt"||!PVF||e.source!==PVF.contentWindow)return;if(pv!==me){removeEventListener("message",on);return;}if(e.data.n!==n)return;
+   if(e.data.state==="playing")setTimeout(()=>{if(pv===me&&PVW)PVW.classList.add("on")},600);if(e.data.error!=null){removeEventListener("message",on);pv=null;pvPark();kb();}};
+  addEventListener("message",on);return;}
  const w=document.createElement("div");w.className="pv";const f=document.createElement("iframe");f.setAttribute("allow","autoplay; encrypted-media");f.setAttribute("frameborder","0");
  f.style.cssText="border:0;pointer-events:none";f.tabIndex=-1;
  f.src=PVPG+"#v="+encodeURIComponent(vid)+"&s="+(it.yt?0:6)+"&vol=60";w.appendChild(f);box.insertBefore(w,box.firstChild);
@@ -2223,7 +2240,7 @@ function mediaFocus(el){let it=null,box=null;
 function paint(){rows.flat().forEach(e=>e.classList.remove("focus"));$("rail").classList.toggle("open",fr===0&&mode==="home");
  const el=rows[fr][fi];if(!el||mode!=="home"){detail(-1);mediaFocus(null);return;}el.classList.add("focus");
  const pr=el.parentNode;if(pr.classList.contains("row"))pr.scrollLeft=Math.max(0,el.offsetLeft-200);
- if(fr===2){clearTimeout(window.dsT);const ai=+el.dataset.a;if(shelfApp<0||!document.body.classList.contains("shelf"))drawShelf(ai);else window.dsT=setTimeout(()=>{if(fr===2&&rows[2][fi]===el){drawShelf(ai);build();}},170);}
+ if(fr===2){clearTimeout(window.dsT);const ai=+el.dataset.a;if(shelfApp<0||!document.body.classList.contains("shelf"))drawShelf(ai);else window.dsT=setTimeout(()=>{if(fr===2&&rows[2][fi]===el)drawShelf(ai)},260);}
  if(fr===3&&el.dataset.c)detailC(+el.dataset.c);else detail(fr===3?+el.dataset.k:-1);
  const bgi=fr>=2&&/url\(/.test(el.style.backgroundImage)?el.style.backgroundImage:"";clearTimeout(window.tiT);window.tiT=setTimeout(()=>{if(bgi){$("tint").style.backgroundImage=bgi;document.body.classList.add("tinted")}else document.body.classList.remove("tinted")},160);
  mediaFocus(el);
@@ -2300,7 +2317,7 @@ $("pcats").addEventListener("click",e=>{const c=e.target.closest(".cat");if(!c)r
 $("opts").addEventListener("click",e=>{const o=e.target.closest(".opt");if(!o)return;oi=+o.dataset.i;const O=CUR[oi];O.ok?O.ok():O.ch(1);save();drawOpts();});
 $("keyin").addEventListener("keydown",e=>{const kc=e.keyCode;if(kc===461||kc===27||kc===38||kc===40||(kc===37&&!e.target.value)){clrMsg();$("keyin").blur();e.preventDefault();e.stopPropagation();if(kc===38||kc===40){oi=Math.max(0,Math.min(CUR.length-1,oi+(kc===38?-1:1)));drawOpts();}else if(kc===37){pf="cats";drawOpts();}return;}if(e.keyCode===13&&kn==="_pname"){const v=e.target.value.trim();if(v){const p=PROF.list.find(x=>x.id===PROF.cur);if(p)p.n=v.slice(0,20);saveProf();drawRail();}$("keybox").style.display="none";e.target.blur();e.target.placeholder="Plak je API-sleutel en druk op OK";profEdit();e.preventDefault();e.stopPropagation();return;}
  if(e.keyCode===13&&kn==="_addid"){const v=e.target.value.trim();e.target.placeholder="Plak je API-sleutel en druk op OK";if(v){S.extra.push({n:v.split(".").pop().replace(/[-_]/g," ").replace(/^./,c=>c.toUpperCase()),id:v});addExtras();save();drawApps();build();toast("App toegevoegd");}panel(false);e.stopPropagation();return;}
- if(e.keyCode===13){S[kn]=e.target.value.trim();save();try{["ghM9"+(S.lang||0),"ghYT6","ghSP6","ghEPG","ghTR"].forEach(x=>localStorage.removeItem(x))}catch(x){}$("keybox").style.display="none";drawOpts();loadAll();}e.stopPropagation();});
+ if(e.keyCode===13){S[kn]=e.target.value.trim();save();try{["ghMa"+(S.lang||0),"ghYT8","ghSP6","ghEPG","ghTR"].forEach(x=>localStorage.removeItem(x))}catch(x){}$("keybox").style.display="none";drawOpts();loadAll();}e.stopPropagation();});
 function clrMsg(){phTok++;const m=$("msg");if(m.innerHTML){m.innerHTML="";}clearTimeout(phT);try{clearInterval(trPoll)}catch(e){}$("keybox").style.display="none";}
 function openSettingsAt(lbl){if(PROF.pin&&!CATS&&PROF.cur!=="guest"&&!window.UNL)return pinAsk(()=>{window.UNL=1;setTimeout(()=>window.UNL=0,1500);openSettingsAt(lbl)});panel(true);if(lbl==="__zij"){const ci=CATS.findIndex(c=>c.n==="Zijmenu");pc=ci;CUR=CATS[pc].o;oi=0;pf="opts";$("msg").textContent="◀ ▶ verplaatsen · OK tonen of verbergen";return drawOpts();}const ci=CATS.findIndex(c=>c.o.some(o=>o.l.indexOf(lbl)>-1));if(ci<0)return;pc=ci;CUR=CATS[pc].o;oi=Math.max(0,CUR.findIndex(o=>o.l.indexOf(lbl)>-1));pf="opts";drawOpts();}
 let SST=[];function sheet(t,opts,np){{const pt=$("ptitle").textContent;if(!np&&mode==="panel"&&!CATS&&CUR&&pt!==t&&!/incode/.test(pt))SST.push([pt,CUR]);}fromSettings=fromSettings||(!!CATS&&mode==="panel");CATS=null;CUR=opts;$("ptitle").textContent=t;mode="panel";$("panel").classList.add("open");$("msg").textContent="";$("keybox").style.display="none";oi=0;drawOpts();paint();}
