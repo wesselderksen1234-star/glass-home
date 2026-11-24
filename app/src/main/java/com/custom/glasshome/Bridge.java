@@ -101,11 +101,21 @@ public class Bridge {
     public String appLogo(String pkg) {
         try {
             Drawable d = ctx.getPackageManager().getApplicationIcon(pkg);
-            int w = 160, h = 160;
+            int w = 192, h = 192;
             Bitmap bmp = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
             Canvas c = new Canvas(bmp);
-            d.setBounds(0, 0, w, h);
-            d.draw(c);
+            if (android.os.Build.VERSION.SDK_INT >= 26 && d instanceof android.graphics.drawable.AdaptiveIconDrawable
+                    && ((android.graphics.drawable.AdaptiveIconDrawable) d).getForeground() != null) {
+                // Alleen het logo (voorgrondlaag) zonder het eigen vakje van het icoon.
+                // De voorgrond is 108dp; het zichtbare deel zit in de middelste 72dp.
+                Drawable fg = ((android.graphics.drawable.AdaptiveIconDrawable) d).getForeground();
+                int full = Math.round(w * 108f / 72f), off = (full - w) / 2;
+                fg.setBounds(-off, -off, full - off, full - off);
+                fg.draw(c);
+            } else {
+                d.setBounds(0, 0, w, h);
+                d.draw(c);
+            }
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
             bmp.compress(Bitmap.CompressFormat.PNG, 100, bos);
             return "data:image/png;base64," + Base64.encodeToString(bos.toByteArray(), Base64.NO_WRAP);
