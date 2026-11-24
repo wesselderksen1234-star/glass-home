@@ -7,15 +7,15 @@
 // Eén speler blijft open en krijgt steeds een nieuw filmpje (cmd "load"), zodat YouTube niet elke keer opnieuw hoeft te laden.
 var q={};location.hash.replace(/^#/,"").split("&").forEach(function(x){var a=x.split("=");if(a[0])q[a[0]]=decodeURIComponent(a[1]||"")});
 var clean=function(v){return (v||"").replace(/[^\w-]/g,"")};
-var cur={v:clean(q.v),s:parseInt(q.s||"0",10)||0,vol:Math.min(100,parseInt(q.vol||"60",10)||60),n:q.n||0},pl,ready=0,on=0,ft,to;
+var boot=0,cur={v:clean(q.v),s:parseInt(q.s||"0",10)||0,vol:Math.min(100,parseInt(q.vol||"60",10)||60),n:q.n||0},pl,ready=0,on=0,ft,to;
 function up(m){try{m.n=cur.n;parent.postMessage(Object.assign({gh:"yt"},m),"*")}catch(e){}}
 function arm(){clearTimeout(to);on=0;to=setTimeout(function(){if(!on&&cur.v)up({error:"timeout"})},20000)}
 function fade(p){clearInterval(ft);try{p.unMute();p.setVolume(0)}catch(x){}var v=0;ft=setInterval(function(){v+=4;try{p.setVolume(Math.min(cur.vol,v))}catch(x){}if(v>=cur.vol)clearInterval(ft)},120)}
 function play(){if(!ready||!cur.v)return;arm();try{pl.mute();pl.loadVideoById({videoId:cur.v,startSeconds:cur.s})}catch(x){up({error:"load"})}}
 window.onYouTubeIframeAPIReady=function(){
- var pv={autoplay:cur.v?1:0,mute:1,controls:0,rel:0,modestbranding:1,playsinline:1,iv_load_policy:3,disablekb:1,fs:0,origin:location.origin};if(cur.v)pv.start=cur.s;
- pl=new YT.Player("p",{videoId:cur.v||undefined,playerVars:pv,
-  events:{onReady:function(e){ready=1;up({state:"ready"});if(cur.v){arm();e.target.mute();e.target.playVideo();}},
+ boot=!!cur.v;var pv={autoplay:cur.v?1:0,mute:1,controls:0,rel:0,modestbranding:1,playsinline:1,iv_load_policy:3,disablekb:1,fs:0,origin:location.origin};if(cur.v)pv.start=cur.s;
+ pl=new YT.Player("p",{videoId:cur.v||"M7lc1UVf-VE",playerVars:pv,
+  events:{onReady:function(e){ready=1;if(cur.v){if(boot){arm();e.target.mute();e.target.playVideo();}else play();}},
    onStateChange:function(e){if(e.data===1&&!on&&cur.v){on=1;clearTimeout(to);up({state:"playing"});fade(e.target);}
     if(e.data===0&&cur.v){try{e.target.seekTo(cur.s,true);e.target.playVideo()}catch(x){}}},
    onError:function(e){up({error:e.data})}}});};
