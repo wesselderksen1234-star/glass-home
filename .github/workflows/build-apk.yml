@@ -28,25 +28,14 @@ jobs:
           GH_CONFIG_JS: ${{ secrets.GH_CONFIG_JS }}
       - name: Build release APK
         run: gradle assembleRelease
-      - name: Telefoonversie bouwen (zonder tv-diensten, zodat Play Protect hem toestaat)
-        run: |
-          mkdir -p /tmp/out && cp app/build/outputs/apk/release/*.apk /tmp/out/GlassHome-GoogleTV.apk
-          python3 - <<'PY'
-          import re
-          p='app/src/main/AndroidManifest.xml';s=open(p).read()
-          s=re.sub(r'\s*<service[\s\S]*?</service>','',s)
-          s=re.sub(r'\s*<intent-filter>\s*<action android:name="android.intent.action.MAIN" />\s*<category android:name="android.intent.category.HOME" />[\s\S]*?</intent-filter>','',s)
-          open(p,'w').write(s)
-          PY
-          gradle assembleRelease
-          cp app/build/outputs/apk/release/*.apk /tmp/out/GlassHome-Telefoon.apk
       - uses: actions/upload-artifact@v4
         with:
           name: glasshome-apk
-          path: /tmp/out/*.apk
+          path: app/build/outputs/apk/release/*.apk
       - name: APK opslaan in branch 'builds'
         if: github.ref == 'refs/heads/main'
         run: |
+          mkdir -p /tmp/out && cp app/build/outputs/apk/release/*.apk /tmp/out/GlassHome-GoogleTV.apk
           git config user.name "github-actions"; git config user.email "actions@github.com"
-          git checkout --orphan builds && git rm -rqf . && cp /tmp/out/*.apk .
-          git add *.apk && git commit -qm "APK ${GITHUB_SHA::7}" && git push -f origin builds
+          git checkout --orphan builds && git rm -rqf . && cp /tmp/out/GlassHome-GoogleTV.apk .
+          git add GlassHome-GoogleTV.apk && git commit -qm "APK ${GITHUB_SHA::7}" && git push -f origin builds
