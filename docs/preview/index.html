@@ -1,4 +1,4 @@
-<!DOCTYPE html><!--GH_BUILD:2.7.9-->
+<!DOCTYPE html><!--GH_BUILD:2.8.0-->
 <html lang="nl" style="background:#05060a url(splash5.png) center/cover no-repeat"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,viewport-fit=cover">
 <title>Glass Home</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
@@ -1498,7 +1498,7 @@ module.exports = QRRSBlock;
 
 };
 var Q=R("./index"),E=R("./QRErrorCorrectLevel");window.ghQR=function(t){var q=new Q(-1,E.M);q.addData(t);q.make();var n=q.getModuleCount(),p="";for(var r=0;r<n;r++)for(var c=0;c<n;c++)if(q.isDark(r,c))p+="M"+(c+2)+" "+(r+2)+"h1v1h-1z";return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 '+(n+4)+' '+(n+4)+'" shape-rendering="crispEdges"><rect width="100%" height="100%" fill="#fff"/><path d="'+p+'" fill="#000"/></svg>';};})();</script>
-<script type="text/plain" id="ghv">GH_BUILD:2.7.9</script>
+<script type="text/plain" id="ghv">GH_BUILD:2.8.0</script>
 <div id="intro"><div class="orb"></div><div class="ghw"><svg class="ghl" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
 <defs>
 <linearGradient id="gl" x1="0" y1="0" x2="0.35" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".96"/><stop offset=".55" stop-color="#e9ecf6" stop-opacity=".78"/><stop offset="1" stop-color="#c9cfe6" stop-opacity=".6"/></linearGradient>
@@ -2017,6 +2017,14 @@ function xferOut(){const o={};XK.forEach(k=>{const v=key(k);if(v&&v!==KDEF[k])o[
  $("msg").innerHTML='<span class="qr">'+ghQR(LINKPG+"#m=xfer&d="+d)+'</span><b>Sleutels overzetten</b><br>1. Scan deze code met je telefoon.<br>2. Open daarna Glass Home op je andere tv.<br>3. Kies daar: Instellingen → Sleutels en bronnen → <b>Sleutels overnemen</b> en scan die code ook.<br><small>Je sleutels gaan alleen via je eigen telefoon.</small>';}
 function xferIn(){phoneLink({m:"key",h:"xfer",f:""},"<b>Sleutels overnemen</b><br>1. Heb je de code op je andere tv al gescand? Dan:<br>2. Scan deze code met je telefoon.<br>3. Druk op <b>Naar de tv sturen</b>. Klaar!",()=>{$("msg").textContent="Sleutels overgenomen ✓";loadAll();});}
 function codeHtml(n,u,c){return '<span class="qr">'+ghQR(LINKPG+"#m=code&n="+encodeURIComponent(n)+"&c="+encodeURIComponent(c)+"&u="+encodeURIComponent(u))+'</span><b>'+esc(n)+'</b><br>1. Pak je telefoon en open de camera.<br>2. Richt hem op de code hiernaast en tik op de link.<br>3. Druk op de grote knop. De code wordt voor je ingevuld.<br><br>Code: <b class="code">'+esc(c)+'</b><br><small>Glass Home wacht hier tot het klaar is.</small>';}
+
+// telefoon: een QR-code kun je niet scannen met hetzelfde toestel, dus maak er een knop van
+function openExt(u){try{if(P==="android"&&GHAndroid.openUri){GHAndroid.openUri(u,"");return}}catch(e){}try{window.open(u,"_blank")}catch(e){location.href=u}}
+if(TOUCH){const _q=window.ghQR;if(_q)window.ghQR=t=>{window.ghQRu=t;return _q(t)};
+ const mo=new MutationObserver(()=>{const m=$("msg");if(!m)return;m.querySelectorAll(".qr:not([data-done])").forEach(q=>{q.setAttribute("data-done","1");const u=q.getAttribute("data-u")||window.ghQRu;if(!u)return;
+  const b=document.createElement("div");b.className="ghopen";b.textContent="Openen op deze telefoon ›";b.style.cssText="display:inline-block;margin:10px 0;padding:12px 22px;border-radius:999px;background:#fff;color:#111;font-weight:700;cursor:pointer";
+  const go=e=>{e.preventDefault();e.stopPropagation();openExt(u)};b.addEventListener("click",go);q.addEventListener("click",go);q.style.cursor="pointer";m.insertBefore(b,m.firstChild);});});
+ setTimeout(()=>{const m=$("msg");if(m)mo.observe(m,{childList:true,subtree:true})},0);}
 let phTok=0;async function phoneLink(o,txt,done){clearTimeout(phT);const m=$("msg"),tk=++phTok;
  if(!window.crypto||!crypto.subtle){m.textContent="Koppelen via je telefoon werkt niet op dit apparaat.";return;}
  try{const r=await fetch(LINKPG,{method:"HEAD",cache:"no-store"});if(tk!==phTok)return;if(!r.ok)throw 0}catch(e){if(tk!==phTok)return;m.textContent=o.m==="key"&&o.f&&o.f.split(";").length===1?"Je telefoon kan nu niet verbinden. Typ het hieronder met de afstandsbediening.":"Koppelen via je telefoon lukt nu niet. Kijk of de tv internet heeft en probeer het zo nog eens.";return;}
@@ -2065,7 +2073,7 @@ async function loadStremio(){if(!S.stAuth)return;try{
  const have=new Set(CONT.map(c=>c.imdb));CONT=CONT.filter(c=>!c.st).concat(l.filter(c=>!have.has(c.imdb)||c.st));drawCont();if(shelfApp===1){const a=shelfApp;shelfApp=-1;drawShelf(a);}}catch(e){if(e===401||e===403){delete S.stAuth;save();}}}
 async function stLink(){const m=$("msg");m.textContent="Code ophalen…";try{
  const c=await j("https://link.stremio.com/api/create?type=Create");const code=c.result.code,link=c.result.link||"https://link.stremio.com";
- const qr=c.result.qrcode||"";m.innerHTML=(qr?'<img src="'+esc(qr)+'" style="float:right;width:230px;height:230px;border-radius:14px;background:#fff;margin-left:18px">':'')+"<b>Stremio koppelen</b><br>1. Pak je telefoon en open de camera.<br>2. Richt hem op de code hiernaast en tik op de link.<br>3. Log in bij Stremio. Klaar!<br><br><small>Geen camera? Ga naar "+esc(link.replace("https://",""))+". Glass Home wacht hier tot het klaar is.</small>";
+ const qr=c.result.qrcode||"";m.innerHTML=(qr?'<img class="qr" data-u="'+esc(link)+'" src="'+esc(qr)+'" style="float:right;width:230px;height:230px;border-radius:14px;background:#fff;margin-left:18px">':'')+"<b>Stremio koppelen</b><br>1. Pak je telefoon en open de camera.<br>2. Richt hem op de code hiernaast en tik op de link.<br>3. Log in bij Stremio. Klaar!<br><br><small>Geen camera? Ga naar "+esc(link.replace("https://",""))+". Glass Home wacht hier tot het klaar is.</small>";
  const t0=Date.now();const poll=async()=>{if(Date.now()-t0>6e5){m.textContent="De code is verlopen. Probeer het opnieuw.";return;}
   try{const r=await j("https://link.stremio.com/api/read?type=Read&code="+encodeURIComponent(code));if(r.result&&r.result.authKey){S.stAuth=r.result.authKey;save();m.textContent="Stremio is gekoppeld ✓";loadStremio();if(mode==="panel")drawOpts();return;}}catch(e){}
   setTimeout(poll,3000);};setTimeout(poll,3000);
