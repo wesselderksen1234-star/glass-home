@@ -1,4 +1,4 @@
-<!DOCTYPE html><!--GH_BUILD:3.0.6-->
+<!DOCTYPE html><!--GH_BUILD:3.0.7-->
 <html lang="nl" style="background:#05060a url(splash5.png) center/cover no-repeat"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,viewport-fit=cover">
 <title>Glass Home</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
@@ -1597,7 +1597,7 @@ module.exports = QRRSBlock;
 
 };
 var Q=R("./index"),E=R("./QRErrorCorrectLevel");window.ghQR=function(t){var q=new Q(-1,E.M);q.addData(t);q.make();var n=q.getModuleCount(),p="";for(var r=0;r<n;r++)for(var c=0;c<n;c++)if(q.isDark(r,c))p+="M"+(c+2)+" "+(r+2)+"h1v1h-1z";return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 '+(n+4)+' '+(n+4)+'" shape-rendering="crispEdges"><rect width="100%" height="100%" fill="#fff"/><path d="'+p+'" fill="#000"/></svg>';};})();</script>
-<script type="text/plain" id="ghv">GH_BUILD:3.0.6</script>
+<script type="text/plain" id="ghv">GH_BUILD:3.0.7</script>
 <div id="intro"><div class="orb"></div><div class="ghw"><svg class="ghl" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
 <defs>
 <linearGradient id="gl" x1="0" y1="0" x2="0.35" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".96"/><stop offset=".55" stop-color="#e9ecf6" stop-opacity=".78"/><stop offset="1" stop-color="#c9cfe6" stop-opacity=".6"/></linearGradient>
@@ -2565,7 +2565,7 @@ function move(dr,di){
  if(di<0&&fi===0){last={r:fr,i:fi};fr=0;fi=Math.max(0,RAIL.findIndex(r=>r[0]==="home"));return paint();}
  if(dr){const ORD=[1,2,3,4,5];let p=ORD.indexOf(fr)+dr;while(p>=0&&p<ORD.length&&!rows[ORD[p]].length)p+=dr;if(p<0||p>=ORD.length)return;const n=ORD[p];
   const o=rows[fr][fi],cx=o.getBoundingClientRect().left;fr=n;let b=0,bd=1e9;
-  rows[fr].forEach((e,q)=>{const R=e.getBoundingClientRect(),d=Math.abs(R.left-cx)+((n===4||n===5)&&e.closest&&e.closest(".board")?(dr>0?R.top:-R.bottom)*3:0);if(d<bd){bd=d;b=q}});fi=b;
+  if(n===3){fi=0;$("shelf").scrollLeft=0;}else rows[fr].forEach((e,q)=>{const R=e.getBoundingClientRect(),d=Math.abs(R.left-cx)+((n===4||n===5)&&e.closest&&e.closest(".board")?(dr>0?R.top:-R.bottom)*3:0);if(d<bd){bd=d;b=q}});fi=b;
   const tg=rows[fr][fi];if(tg&&tg.parentNode&&tg.parentNode.classList.contains("srow")){const nr=tg.parentNode,f0=[...nr.children].find(e=>e.classList.contains("f"));if(f0){nr.scrollLeft=0;fi=rows[fr].indexOf(f0);}}}
  else fi=Math.max(0,Math.min(rows[fr].length-1,fi+di));paint();}
 let ambT=0,ambI;function amb(on){ambT=Date.now();mode=on?"amb":"home";document.body.classList.toggle("amb",on);paint();clearInterval(ambI);if(on){ambExtra();nextBg();ambI=setInterval(()=>{ambExtra();nextBg()},6e4)}else bump();}
