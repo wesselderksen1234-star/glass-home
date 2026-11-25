@@ -1,4 +1,4 @@
-<!DOCTYPE html><!--GH_BUILD:3.6.3-->
+<!DOCTYPE html><!--GH_BUILD:3.6.4-->
 <html lang="nl" style="background:#05060a url(splash5.png) center/cover no-repeat"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,viewport-fit=cover">
 <title>Glass Home</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
@@ -1653,7 +1653,7 @@ module.exports = QRRSBlock;
 
 };
 var Q=R("./index"),E=R("./QRErrorCorrectLevel");window.ghQR=function(t){var q=new Q(-1,E.M);q.addData(t);q.make();var n=q.getModuleCount(),p="";for(var r=0;r<n;r++)for(var c=0;c<n;c++)if(q.isDark(r,c))p+="M"+(c+2)+" "+(r+2)+"h1v1h-1z";return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 '+(n+4)+' '+(n+4)+'" shape-rendering="crispEdges"><rect width="100%" height="100%" fill="#fff"/><path d="'+p+'" fill="#000"/></svg>';};})();</script>
-<script type="text/plain" id="ghv">GH_BUILD:3.6.3</script>
+<script type="text/plain" id="ghv">GH_BUILD:3.6.4</script>
 <div id="intro"><div class="orb"></div><div class="ghw"><svg class="ghl" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
 <defs>
 <linearGradient id="gl" x1="0" y1="0" x2="0.35" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".96"/><stop offset=".55" stop-color="#e9ecf6" stop-opacity=".78"/><stop offset="1" stop-color="#c9cfe6" stop-opacity=".6"/></linearGradient>
@@ -2700,11 +2700,16 @@ function build(){setTimeout(olPre,0);rows=[[...document.querySelectorAll(".ri")]
 let pvKey="",pvT,fbT,pv=null,ytApiP=null;
 function ytApi(){return ytApiP||(ytApiP=new Promise(res=>{if(window.YT&&YT.Player)return res(true);window.onYouTubeIframeAPIReady=()=>res(true);
  const sc=document.createElement("script");sc.src="https://www.youtube.com/iframe_api";sc.onerror=()=>res(false);document.head.appendChild(sc);setTimeout(()=>res(!!(window.YT&&YT.Player)),8000);}).then(v=>{if(!v)ytApiP=null;return v}));}
-async function trailerFor(it){if(it.yt)return it.v;if(it.tr!==undefined)return it.tr;const tk=key("tmdb");
+let TRC=null;function trc(){if(!TRC){try{TRC=JSON.parse(localStorage.getItem("ghTrc")||"{}")}catch(e){TRC={}}}return TRC}
+function trSave(it){if(!it.id)return;const c=trc();c[(it.type||"m")+it.id]=it.tr||"";const ks=Object.keys(c);if(ks.length>400)ks.slice(0,ks.length-400).forEach(k=>delete c[k]);clearTimeout(window.trcT);window.trcT=setTimeout(()=>{try{localStorage.setItem("ghTrc",JSON.stringify(c))}catch(e){}},2000);}
+async function trailerFor(it){if(it.yt)return it.v;if(it.tr!==undefined)return it.tr;if(it.id){const c=trc()[(it.type||"m")+it.id];if(c!==undefined)return it.tr=c||null;}const tk=key("tmdb");
  if(it._c&&!it.id){const c=it._c,h=ITEMS.find(x=>x.imdb&&x.imdb===c.imdb&&x.id);if(h){it.id=h.id;it.type=h.type}else if(c.imdb&&tk){try{const d=await j("https://api.themoviedb.org/3/find/"+c.imdb+"?external_source=imdb_id&api_key="+tk);const tv=(d.tv_results||[])[0],mv=(d.movie_results||[])[0];if(tv){it.id=tv.id;it.type="tv"}else if(mv){it.id=mv.id;it.type="movie"}}catch(e){}}}if(!it.id||!tk)return it.tr=null;
  const pick=r=>((r&&r.results)||[]).filter(v=>v.site==="YouTube").sort((a,b)=>(b.type==="Trailer")-(a.type==="Trailer")||(b.official-a.official))[0];
  try{const B="https://api.themoviedb.org/3/"+(it.type==="tv"?"tv":"movie")+"/"+it.id+"/videos?api_key="+tk+"&language=";
-  let v=pick(await j(B+"nl-NL"));if(!v)v=pick(await j(B+"en-US"));it.tr=v?v.key:null;}catch(e){it.tr=null}return it.tr;}
+  let v=pick(await j(B+"nl-NL"));if(!v)v=pick(await j(B+"en-US"));it.tr=v?v.key:null;trSave(it);}catch(e){it.tr=null}return it.tr;}
+// buren alvast opzoeken, zodat het voorbeeld direct kan starten als je erop komt
+function pvItem(el){if(!el||!el.dataset)return null;if(el.dataset.k)return ITEMS[+el.dataset.k];if(el.dataset.c){const c=CONT[+el.dataset.c];return c?(c._pit||(c._pit={t:c.t,_c:c,type:c.type==="series"?"tv":c.type})):null;}return null}
+function pvPrefetch(){if(fr!==3||mode!=="home")return;const r=rows[3]||[];[0,1,-1,2].forEach(d=>{const it=pvItem(r[fi+d]);if(it&&!it.yt&&it.tr===undefined&&!it._trp){it._trp=trailerFor(it).catch(()=>null)}});}
 // één blijvende voorbeeldspeler (snel, geen herladen van YouTube) als de browser elementen kan verplaatsen zonder herladen
 var PVM=!!(window.Element&&Element.prototype.moveBefore),PVW=null,PVF=null,PVN=0;
 function pvHold(){let h=$("pvhold");if(!h){h=document.createElement("div");h.id="pvhold";h.style.cssText="position:fixed;left:-4000px;top:0;width:440px;height:248px;overflow:hidden;pointer-events:none";document.body.appendChild(h);}return h;}
@@ -2718,13 +2723,13 @@ function stopPreview(){clearTimeout(pvT);if(pv){const p=pv;pv=null;p.box.classLi
  if(p.persist){const n=p.n;try{PVF.contentWindow.postMessage({cmd:"mute"},"*");PVF.contentWindow.postMessage({cmd:"stop"},"*")}catch(e){}setTimeout(()=>{if(PVN!==n||pv)return;pvPark()},700);}
  else{try{p.f&&p.f.contentWindow.postMessage({cmd:"mute"},"*")}catch(e){}setTimeout(()=>{try{p.player.destroy()}catch(e){}p.box.remove()},700);}}
  document.querySelectorAll(".kb").forEach(e=>e.classList.remove("kb"));}
-async function startPreview(box,it){const k0=it.v||it.id||it.t;const vid=await trailerFor(it);const kb=()=>{(box.id==="hero"?$(hc):box).classList.add("kb")};
+async function startPreview(box,it){const k0=it.v||it.id||it.t;const vid=await (it._trp&&it.tr===undefined?it._trp:trailerFor(it));const kb=()=>{(box.id==="hero"?$(hc):box).classList.add("kb")};
  if(!vid)return kb();
  if((pvKey!==k0&&pvKey!==(it.v||it.id||it.t))||!box.isConnected)return;if(pv)stopPreview();
  if(PVM){clearTimeout(window.pvIdle);if(!PVW||!PVW.isConnected)pvMake();const n=++PVN,msg={cmd:"load",v:vid,s:it.yt?0:6,vol:60,n};PVW.classList.remove("on");PVW.classList.toggle("vert",isShort(it));pvMove(box,box.firstChild);
   const me={persist:1,box:PVW,n,msg};pv=me;try{PVF.contentWindow.postMessage(msg,"*")}catch(e){}
   const on=e=>{if(!e.data||e.data.gh!=="yt"||!PVF||e.source!==PVF.contentWindow)return;if(pv!==me){removeEventListener("message",on);return;}if(e.data.n!==n)return;
-   if(e.data.state==="playing")setTimeout(()=>{if(pv===me&&PVW)PVW.classList.add("on")},300);if(e.data.error!=null){const YTE={2:"ongeldige video",5:"speler-fout",100:"video bestaat niet meer",101:"insluiten niet toegestaan",150:"insluiten niet toegestaan",timeout:"laden duurde te lang",api:"YouTube-speler niet bereikbaar",load:"laden mislukt"};try{dgLog("fout","YouTube-voorbeeld: "+(YTE[e.data.error]||e.data.error)+" ("+vid+")")}catch(x){}removeEventListener("message",on);pv=null;pvPark();kb();}};
+   if(e.data.state==="playing")setTimeout(()=>{if(pv===me&&PVW)PVW.classList.add("on")},120);if(e.data.error!=null){const YTE={2:"ongeldige video",5:"speler-fout",100:"video bestaat niet meer",101:"insluiten niet toegestaan",150:"insluiten niet toegestaan",timeout:"laden duurde te lang",api:"YouTube-speler niet bereikbaar",load:"laden mislukt"};try{dgLog("fout","YouTube-voorbeeld: "+(YTE[e.data.error]||e.data.error)+" ("+vid+")")}catch(x){}removeEventListener("message",on);pv=null;pvPark();kb();}};
   addEventListener("message",on);return;}
  const w=document.createElement("div");w.className="pv"+(isShort(it)?" vert":"");const f=document.createElement("iframe");f.setAttribute("allow","autoplay; encrypted-media");f.setAttribute("frameborder","0");
  f.style.cssText="border:0;pointer-events:none";f.tabIndex=-1;
@@ -2738,7 +2743,7 @@ function mediaFocus(el){let it=null,box=null;
  const k=it?(it.v||it.id||it.t):"";if(fr===1&&mode==="home"){if(!window.hpz){clearInterval(hT);window.hpz=1}}else if(window.hpz){window.hpz=0;clearInterval(hT);hT=setInterval(nextHero,12000);}
  if(k===pvKey&&!(el&&el.dataset.c))return;pvKey=k;stopPreview();
  clearTimeout(fbT);fbT=setTimeout(()=>{const c=fr===3&&el&&el.dataset.c?CONT[+el.dataset.c]:null;const u0=(it&&fr===3&&(it.big||it.img))||(c&&c.img),u=u0||(mode==="home"&&fr>=2&&HERO.length&&HERO[hi]&&HERO[hi].big);window.fbH=!u0;if(u){const tk=window.fbTok=(window.fbTok||0)+1;preImg(u).then(()=>{if(window.fbTok!==tk)return;$("fbg").style.backgroundImage=cu(u);document.body.classList.add("fb")})}else document.body.classList.remove("fb")},800);
- if(it&&!it.act&&!it.tv&&!it.sp)pvT=setTimeout(()=>startPreview(box,it),fr===1?6000:(DG.tune?600:350));}
+ if(it&&!it.act&&!it.tv&&!it.sp)pvT=setTimeout(()=>startPreview(box,it),fr===1?6000:(DG.tune?400:180));pvPrefetch();}
 function paint(){if(mode==="lg"){lgFocus();return;}const nf=(rows[fr]||[])[fi];rows.forEach(r=>r.forEach(e=>{if(e!==nf&&e.classList.contains("focus"))e.classList.remove("focus")}));$("rail").classList.toggle("open",(fr===0||fr===6)&&mode==="home");
  const el=rows[fr][fi];if(!el||mode!=="home"){detail(-1);mediaFocus(null);capPaint(null);return;}el.classList.add("focus");
  const pr=el.parentNode;if(pr.classList.contains("row")||pr.classList.contains("srow")){const sl=Math.max(0,(el._ol!=null?el._ol:(el._ol=el.offsetLeft))-200);if(pr._sl!==sl){pr._sl=sl;pr.scrollLeft=sl;}}
