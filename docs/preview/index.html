@@ -1,4 +1,4 @@
-<!DOCTYPE html><!--GH_BUILD:3.6.5-->
+<!DOCTYPE html><!--GH_BUILD:3.6.6-->
 <html lang="nl" style="background:#05060a url(splash5.png) center/cover no-repeat"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,viewport-fit=cover">
 <title>Glass Home</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
@@ -188,7 +188,7 @@ body.hasHero #bgwrap{opacity:0}#bgwrap{transition:opacity 1.2s}
 body.hasHero #hero:after{bottom:auto;height:var(--H,1080px);-webkit-mask-image:linear-gradient(180deg,#000 60%,transparent);mask-image:linear-gradient(180deg,#000 60%,transparent)}body.hasHero #hero{overflow:visible;-webkit-mask-image:none;mask-image:none}body.hasHero .hi{bottom:auto;height:var(--H,1080px);-webkit-mask-image:linear-gradient(180deg,#000 40%,rgba(0,0,0,.45) 70%,rgba(0,0,0,.12) 88%,transparent);mask-image:linear-gradient(180deg,#000 40%,rgba(0,0,0,.45) 70%,rgba(0,0,0,.12) 88%,transparent)}
 #intro .ghw{width:130px;height:130px;display:block}#intro .ghl{width:130px;height:130px;opacity:.88;animation:none!important}#intro .orb{display:none}#intro .ghs{position:absolute;inset:0;-webkit-mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Cpath%20fill%3D%22%23000%22%20fill-rule%3D%22evenodd%22%20d%3D%22M44.6%2012.9a8%208%200%200%201%2010.8%200l30.2%2027.5a8%208%200%200%201%202.6%205.9V82a8%208%200%200%201-8%208H19.8a8%208%200%200%201-8-8V46.3a8%208%200%200%201%202.6-5.9Z%20M50%2060a8%208%200%200%200-8%208v22h16V68a8%208%200%200%200-8-8Z%22/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Cpath%20fill%3D%22%23000%22%20fill-rule%3D%22evenodd%22%20d%3D%22M44.6%2012.9a8%208%200%200%201%2010.8%200l30.2%2027.5a8%208%200%200%201%202.6%205.9V82a8%208%200%200%201-8%208H19.8a8%208%200%200%201-8-8V46.3a8%208%200%200%201%202.6-5.9Z%20M50%2060a8%208%200%200%200-8%208v22h16V68a8%208%200%200%200-8-8Z%22/%3E%3C/svg%3E");-webkit-mask-size:100% 100%;mask-size:100% 100%;background:linear-gradient(100deg,transparent 35%,rgba(255,255,255,.95) 50%,transparent 65%);background-size:320% 100%;background-position:100% 0;animation:ghs 2s cubic-bezier(.45,0,.25,1) .35s both}
 .card::before{content:"";position:absolute;left:0;right:0;bottom:0;height:60%;background:linear-gradient(180deg,transparent,rgba(0,0,0,.72));border-radius:inherit;pointer-events:none;z-index:1}.card .lab{z-index:2}
-body.amb #bgwrap{opacity:1!important}
+body.amb #bgwrap{opacity:1!important}body.amb #fbg,body.amb #tint{opacity:0!important}
 
 /* thema's */
 body.th-dark #panel,body.th-dark #det{background:linear-gradient(160deg,rgba(20,22,30,.9),rgba(6,7,11,.94))!important}
@@ -1653,7 +1653,7 @@ module.exports = QRRSBlock;
 
 };
 var Q=R("./index"),E=R("./QRErrorCorrectLevel");window.ghQR=function(t){var q=new Q(-1,E.M);q.addData(t);q.make();var n=q.getModuleCount(),p="";for(var r=0;r<n;r++)for(var c=0;c<n;c++)if(q.isDark(r,c))p+="M"+(c+2)+" "+(r+2)+"h1v1h-1z";return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 '+(n+4)+' '+(n+4)+'" shape-rendering="crispEdges"><rect width="100%" height="100%" fill="#fff"/><path d="'+p+'" fill="#000"/></svg>';};})();</script>
-<script type="text/plain" id="ghv">GH_BUILD:3.6.5</script>
+<script type="text/plain" id="ghv">GH_BUILD:3.6.6</script>
 <div id="intro"><div class="orb"></div><div class="ghw"><svg class="ghl" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
 <defs>
 <linearGradient id="gl" x1="0" y1="0" x2="0.35" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".96"/><stop offset=".55" stop-color="#e9ecf6" stop-opacity=".78"/><stop offset="1" stop-color="#c9cfe6" stop-opacity=".6"/></linearGradient>
@@ -1905,7 +1905,7 @@ async function potd(){const p=n=>String(n).padStart(2,"0");
 function applyTheme(){document.body.classList.toggle("th-dark",S.th===1);document.body.classList.toggle("th-light",S.th===2);}
 function applyGlass(){document.body.classList.toggle("reed",S.glass===1);document.body.classList.toggle("reedbg",S.glass===2);}
 function nextBg(){const el=$(cur==="bgA"?"bgB":"bgA");const show=()=>{if(cur===el.id)return;el.classList.add("on");$(cur).classList.remove("on");cur=el.id;};
- let url="";if(S.theme===1&&P!=="preview"){potd().then(u=>{const tryL=(u,n)=>{const im=new Image();im.onload=()=>{el.style.backgroundImage=cu(u);show()};im.onerror=()=>{const sm=/peapix/.test(u)?u.replace(/(_1920)?\.jpg$/,"_1920.jpg"):u.replace(/\/\d+px-/,"/1920px-");if(n<1&&sm!==u)return tryL(sm,n+1);if(!$(cur).style.backgroundImage){el.style.backgroundImage=mesh();show()}};im.src=u;};tryL(u,0);});return;}
+ let url="";if((S.theme===1&&P!=="preview")||mode==="amb"){potd().then(u=>{const tryL=(u,n)=>{const im=new Image();im.onload=()=>{el.style.backgroundImage=cu(u);show()};im.onerror=()=>{const sm=/peapix/.test(u)?u.replace(/(_1920)?\.jpg$/,"_1920.jpg"):u.replace(/\/\d+px-/,"/1920px-");if(n<1&&sm!==u)return tryL(sm,n+1);if(!$(cur).style.backgroundImage){el.style.backgroundImage=mesh();show()}};im.src=u;};tryL(u,0);});return;}
  if(S.theme===2){const l=S.urls.split(/\s+/).filter(Boolean);if(l.length)url=l[Math.floor(Math.random()*l.length)];}
  if(!url){el.style.backgroundImage=mesh();return show();}
  const im=new Image();im.onload=()=>{el.style.backgroundImage="url('"+url+"')";show()};im.onerror=()=>{el.style.backgroundImage=mesh();show()};im.src=url;}
@@ -2782,7 +2782,7 @@ function move(dr,di){
   if(mm&&mm.isConnected&&rows[n].includes(mm)){fi=rows[n].indexOf(mm);return paint();}else if(n===3){fi=0;$("shelf").scrollLeft=0;$("shelf")._sl=0;}else rows[fr].forEach((e,q)=>{const R=e.getBoundingClientRect(),d=Math.abs(R.left-cx)+((n===4||n===5)&&e.closest&&e.closest(".board")?(dr>0?R.top:-R.bottom)*3:0);if(d<bd){bd=d;b=q}});fi=b;
   const tg=rows[fr][fi];if(tg&&tg.parentNode&&tg.parentNode.classList.contains("srow")){const nr=tg.parentNode,f0=[...nr.children].find(e=>e.classList.contains("f"));if(f0){nr.scrollLeft=0;nr._sl=0;fi=rows[fr].indexOf(f0);}}}
  else fi=Math.max(0,Math.min(rows[fr].length-1,fi+di));paint();}
-let ambT=0,ambI;function amb(on){ambT=Date.now();mode=on?"amb":"home";document.body.classList.toggle("amb",on);paint();clearInterval(ambI);if(on){ambExtra();nextBg();ambI=setInterval(()=>{ambExtra();nextBg()},6e4)}else bump();}
+let ambT=0,ambI;function amb(on){ambT=Date.now();mode=on?"amb":"home";document.body.classList.toggle("amb",on);paint();clearInterval(ambI);if(on){ambExtra();nextBg();ambI=setInterval(()=>{ambExtra();nextBg()},6e4)}else{bump();if(S.theme!==1)nextBg();}}
 const WC={0:"Helder",1:"Vrijwel helder",2:"Half bewolkt",3:"Bewolkt",45:"Mist",48:"Mist",51:"Motregen",53:"Motregen",55:"Motregen",61:"Lichte regen",63:"Regen",65:"Zware regen",71:"Lichte sneeuw",73:"Sneeuw",75:"Zware sneeuw",80:"Buien",81:"Buien",82:"Zware buien",95:"Onweer",96:"Onweer",99:"Onweer"};
 async function ambExtra(){const g=window.GH_KEYS||{},place=g.place||"Utrecht";
  try{const d=await j("https://api.open-meteo.com/v1/forecast?latitude="+(g.lat||52.0907)+"&longitude="+(g.lon||5.1214)+"&current=temperature_2m,weather_code&timezone=Europe%2FAmsterdam");
