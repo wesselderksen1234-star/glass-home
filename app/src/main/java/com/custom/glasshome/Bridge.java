@@ -634,6 +634,53 @@ public class Bridge {
         tryStart(new Intent(Settings.ACTION_SETTINGS));
     }
 
+
+    // Belasting van het apparaat voor "Systeem en prestaties": CPU van Glass Home, geheugen en warmte.
+    private long lastCpuTicks = -1, lastCpuWall = 0;
+    @JavascriptInterface
+    public String sysStats() {
+        JSONObject o = new JSONObject();
+        try {
+            int cores = Runtime.getRuntime().availableProcessors();
+            o.put("cores", cores);
+            try {
+                String st = new String(java.nio.file.Files.readAllBytes(java.nio.file.Paths.get("/proc/self/stat")));
+                String[] f = st.substring(st.lastIndexOf(')') + 2).split(" ");
+                long ticks = Long.parseLong(f[11]) + Long.parseLong(f[12]);
+                long now = android.os.SystemClock.elapsedRealtime();
+                if (lastCpuTicks >= 0 && now > lastCpuWall) {
+                    double sec = (ticks - lastCpuTicks) / 100.0, wall = (now - lastCpuWall) / 1000.0;
+                    o.put("cpu", Math.round(Math.min(100, sec / wall / cores * 100)));
+                    o.put("cpu1", Math.round(sec / wall * 100));
+                }
+                lastCpuTicks = ticks; lastCpuWall = now;
+                o.put("threads", Integer.parseInt(f[17]));
+            } catch (Exception e) { }
+            android.app.ActivityManager am = (android.app.ActivityManager) ctx.getSystemService(Context.ACTIVITY_SERVICE);
+            android.app.ActivityManager.MemoryInfo mi = new android.app.ActivityManager.MemoryInfo();
+            am.getMemoryInfo(mi);
+            o.put("memAvail", mi.availMem / 1048576); o.put("memTotal", mi.totalMem / 1048576); o.put("lowMem", mi.lowMemory);
+            android.os.Debug.MemoryInfo dm = new android.os.Debug.MemoryInfo();
+            android.os.Debug.getMemoryInfo(dm);
+            o.put("pss", dm.getTotalPss() / 1024);
+            try { o.put("gfx", Integer.parseInt(dm.getMemoryStat("summary.graphics")) / 1024); } catch (Exception e) { }
+            android.os.PowerManager pm = (android.os.PowerManager) ctx.getSystemService(Context.POWER_SERVICE);
+            if (Build.VERSION.SDK_INT >= 29) o.put("thermal", pm.getCurrentThermalStatus());
+            if (Build.VERSION.SDK_INT >= 30) { float h = pm.getThermalHeadroom(10); if (!Float.isNaN(h)) o.put("headroom", Math.round(h * 100)); }
+            try {
+                String fr = new String(java.nio.file.Files.readAllBytes(java.nio.file.Paths.get("/sys/devices/system/cpu/cpu0/cpufreq/scaling_cur_freq"))).trim();
+                o.put("mhz", Long.parseLong(fr) / 1000);
+            } catch (Exception e) { }
+            for (String gp : new String[]{"/sys/kernel/ged/hal/gpu_utilization", "/sys/class/misc/mali0/device/utilization", "/proc/mali/utilization"}) {
+                try {
+                    String g = new String(java.nio.file.Files.readAllBytes(java.nio.file.Paths.get(gp))).trim().split("[^0-9]+")[0];
+                    if (g.length() > 0) { o.put("gpu", Integer.parseInt(g)); break; }
+                } catch (Exception e) { }
+            }
+        } catch (Exception e) { }
+        return o.toString();
+    }
+
     @JavascriptInterface
     public String platform() {
         return "androidtv";
