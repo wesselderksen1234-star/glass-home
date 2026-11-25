@@ -1,4 +1,4 @@
-<!DOCTYPE html><!--GH_BUILD:3.6.4-->
+<!DOCTYPE html><!--GH_BUILD:3.6.5-->
 <html lang="nl" style="background:#05060a url(splash5.png) center/cover no-repeat"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,viewport-fit=cover">
 <title>Glass Home</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
@@ -162,7 +162,7 @@ body.lite .card.kb,body.lite .hi.kb{animation:none}
 #apps .app{background-blend-mode:normal}
 #apps .app::before{content:"";position:absolute;inset:0;border-radius:inherit;background:linear-gradient(160deg,rgba(255,255,255,.16),rgba(255,255,255,.04) 60%);pointer-events:none}
 #apps .app{position:relative}#apps .app>*{position:relative}
-.card.res .score{left:22px;right:auto;top:auto;bottom:86px}.card.res.focus{box-shadow:0 0 0 4px #fff,0 20px 44px rgba(0,0,0,.45)}
+.card.res .score{left:22px;right:auto;top:16px;bottom:auto}.card.res.focus{box-shadow:0 0 0 4px #fff,0 20px 44px rgba(0,0,0,.45)}
 .card .score{background:rgba(16,18,26,.66)!important;-webkit-backdrop-filter:blur(16px) saturate(140%);backdrop-filter:blur(16px) saturate(140%);border:1px solid rgba(255,255,255,.22);color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.5);box-shadow:0 4px 12px rgba(0,0,0,.3)}
 #rail:not(.open){width:10px;max-height:84px;left:16px;padding:0;opacity:.7;border-radius:5px}#rail{max-height:900px}
 #rail .ri{transition:opacity .3s,transform .45s cubic-bezier(.2,.9,.25,1)}#rail:not(.open) .ri{opacity:0;transform:translateX(-30px)}
@@ -1653,7 +1653,7 @@ module.exports = QRRSBlock;
 
 };
 var Q=R("./index"),E=R("./QRErrorCorrectLevel");window.ghQR=function(t){var q=new Q(-1,E.M);q.addData(t);q.make();var n=q.getModuleCount(),p="";for(var r=0;r<n;r++)for(var c=0;c<n;c++)if(q.isDark(r,c))p+="M"+(c+2)+" "+(r+2)+"h1v1h-1z";return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 '+(n+4)+' '+(n+4)+'" shape-rendering="crispEdges"><rect width="100%" height="100%" fill="#fff"/><path d="'+p+'" fill="#000"/></svg>';};})();</script>
-<script type="text/plain" id="ghv">GH_BUILD:3.6.4</script>
+<script type="text/plain" id="ghv">GH_BUILD:3.6.5</script>
 <div id="intro"><div class="orb"></div><div class="ghw"><svg class="ghl" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
 <defs>
 <linearGradient id="gl" x1="0" y1="0" x2="0.35" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".96"/><stop offset=".55" stop-color="#e9ecf6" stop-opacity=".78"/><stop offset="1" stop-color="#c9cfe6" stop-opacity=".6"/></linearGradient>
@@ -2685,7 +2685,9 @@ setTimeout(warm,8000);
 function remember(i){S.recent=[i].concat(S.recent.filter(x=>x!==i)).slice(0,6);S.seen[i]=Date.now();save();setTimeout(drawCont,800);}
 function ytMarkSeen(v){try{S.ytSeen=(S.ytSeen||[]).filter(x=>x!==v);S.ytSeen.push(v);if(S.ytSeen.length>400)S.ytSeen=S.ytSeen.slice(-400);const it=ITEMS.find(x=>x.yt&&x.v===v);if(it&&it.ch){S.ytWch=(S.ytWch||[]).filter(x=>x.id!==it.ch);S.ytWch.push({id:it.ch,n:it.c});if(S.ytWch.length>12)S.ytWch=S.ytWch.slice(-12);}save();}catch(e){}}
 function ytIsSeen(v){return !!v&&(S.ytSeen||[]).includes(v);}
-function openYT(v,t){remember(0);ytMarkSeen(v);launchApp(APPS[0],P==="android"?"https://www.youtube.com/watch?v="+v+(t>5?"&t="+Math.floor(t)+"s":""):"v="+v);}
+// waar het kleine voorbeeld was gebleven, zodat de video daar verder gaat als je hem opent
+const PVTM={};addEventListener("message",e=>{const d=e.data;if(d&&d.gh==="yt"&&d.state==="t"&&d.v&&d.t>0)PVTM[d.v]={t:d.t,ts:Date.now()}});
+function openYT(v,t){if(!(t>5)&&PVTM[v]&&Date.now()-PVTM[v].ts<6e5)t=PVTM[v].t;remember(0);ytMarkSeen(v);launchApp(APPS[0],P==="android"?"https://www.youtube.com/watch?v="+v+(t>5?"&t="+Math.floor(t)+"s":""):"v="+v);}
 function openSP(uri){remember(3);launchApp(APPS[3],uri);}
 
 // navigatie: 0 rail, 1 hero, 2 apps, 3 aanraders van gekozen app, 4 ga verder
@@ -2792,7 +2794,13 @@ async function ambExtra(){const g=window.GH_KEYS||{},place=g.place||"Utrecht";
 let idleT;function bump(){clearTimeout(idleT);idleT=setTimeout(()=>{if(mode==="home")amb(true)},18e4);}
 addEventListener("mousemove",bump);bump();
 setInterval(()=>{const r=()=>Math.round(Math.random()*6-3)+"px";const t="translate("+r()+","+r()+")";$("ui").style.transform=t;$("amb").style.transform=t;},3e5);
-window.GH_home=()=>{if(mode==="amb")amb(false);if(mode==="panel")panel(false);fr=1;fi=0;paint();};
+window.GH_home=()=>{const back=document.hidden||Date.now()-(window.ghVisAt||0)<2000;if(back&&window.ghHidAt&&Date.now()-window.ghHidAt<18e5)return;if(mode==="amb")amb(false);if(mode==="panel")panel(false);fr=1;fi=0;paint();};
+// onthoud waar je was (30 min), ook als de app opnieuw laadt
+function posSig(el){if(!el||!el.dataset)return"";const d=el.dataset;return d.k?"k"+(ITEMS[+d.k]&&(ITEMS[+d.k].v||ITEMS[+d.k].id||ITEMS[+d.k].t)):d.c?"c"+d.c:d.lp?"lp"+d.lp:d.a?"a"+d.a:d.x?"x"+d.x:d.y?"y"+d.y:"";}
+function posSave(){try{if(mode!=="home")return;localStorage.setItem("ghPos",JSON.stringify({fr,fi,sa:shelfApp,sig:posSig((rows[fr]||[])[fi]),ts:Date.now()}))}catch(e){}}
+function posRestore(){try{const p=JSON.parse(localStorage.getItem("ghPos")||"null");if(!p||Date.now()-p.ts>18e5||mode!=="home"||!(fr===1&&fi===0))return;if(p.fr===3&&p.sa>=0&&shelfApp!==p.sa){drawShelf(p.sa);build();}const r=rows[p.fr]||[];if(!r.length)return;let i=r.findIndex(el=>p.sig&&posSig(el)===p.sig);if(i<0)i=Math.min(p.fi,r.length-1);fr=p.fr;fi=i;paint();}catch(e){}}
+document.addEventListener("visibilitychange",()=>{if(document.hidden){window.ghHidAt=Date.now();posSave();}else window.ghVisAt=Date.now();});
+setTimeout(posRestore,2600);
 if(TOUCH&&P!=="webos"){const st=document.createElement("style");st.textContent="#ghpad{position:fixed;right:calc(18px + env(safe-area-inset-right,0px));bottom:calc(22px + env(safe-area-inset-bottom,0px));z-index:998;display:grid;grid-template-columns:repeat(3,52px);grid-template-rows:repeat(3,52px);gap:6px;opacity:.92;touch-action:manipulation}#ghpad b{display:flex;align-items:center;justify-content:center;border-radius:14px;background:rgba(20,22,32,.72);border:1px solid rgba(255,255,255,.25);color:#fff;font:700 18px Inter,sans-serif;-webkit-user-select:none;user-select:none;touch-action:manipulation;-webkit-tap-highlight-color:transparent}#ghpad b:active{background:rgba(255,255,255,.35)}#ghpad .ok{border-radius:50%;font-size:14px}#ghback{position:fixed;left:calc(18px + env(safe-area-inset-left,0px));bottom:calc(22px + env(safe-area-inset-bottom,0px));touch-action:manipulation;-webkit-tap-highlight-color:transparent;z-index:998;padding:12px 18px;border-radius:14px;background:rgba(20,22,32,.72);border:1px solid rgba(255,255,255,.25);color:#fff;font:600 15px Inter,sans-serif}";document.head.appendChild(st);
  const pad=document.createElement("div");pad.id="ghpad";[["",0],["▲",38],["",0],["◀",37],["OK",13],["▶",39],["",0],["▼",40],["",0]].forEach(([t,k])=>{const b=document.createElement(t?"b":"i");if(t){b.textContent=t;if(k===13)b.className="ok";b.addEventListener("click",e=>{e.preventDefault();e.stopPropagation();document.dispatchEvent(new KeyboardEvent("keydown",{keyCode:k,which:k,bubbles:true}));})}pad.appendChild(b)});document.documentElement.appendChild(pad);
  const bk=document.createElement("b");bk.id="ghback";bk.textContent="‹ Terug";bk.addEventListener("click",e=>{e.preventDefault();e.stopPropagation();document.dispatchEvent(new KeyboardEvent("keydown",{keyCode:27,which:27,bubbles:true}))});document.documentElement.appendChild(bk);}
