@@ -1,4 +1,4 @@
-<!DOCTYPE html><!--GH_BUILD:3.6.7-->
+<!DOCTYPE html><!--GH_BUILD:3.6.8-->
 <html lang="nl" style="background:#05060a url(splash5.png) center/cover no-repeat"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,viewport-fit=cover">
 <title>Glass Home</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
@@ -129,7 +129,7 @@ body.amb #amb{opacity:1}
 .cat{display:flex;align-items:center;gap:18px;height:68px;padding:0 22px;border-radius:34px;font-size:25px;font-weight:600;opacity:.75;transition:background .2s,opacity .2s}
 .cat svg{width:30px;height:30px;flex:none}
 .cat.sel{opacity:1;background:rgba(255,255,255,.14)}
-.cat.focus{opacity:1;background:#fff;color:#000}.cat.focus svg *{stroke:#000}
+.cat.focus{opacity:1;background:#fff;color:#000}.cat.focus svg *{stroke:#000}#pcats{gap:4px!important;min-height:0;overflow-y:auto;scrollbar-width:none}#pcats::-webkit-scrollbar{display:none}.cat{height:58px!important;flex:none;font-size:23px!important;white-space:nowrap}
 #optwrap{overflow:hidden;min-height:0;display:flex;flex-direction:column}
 #opts{position:relative;overflow-y:auto;scroll-behavior:smooth;padding:4px 6px 10px 2px;scrollbar-width:none}
 #opts::-webkit-scrollbar{display:none}
@@ -1653,7 +1653,7 @@ module.exports = QRRSBlock;
 
 };
 var Q=R("./index"),E=R("./QRErrorCorrectLevel");window.ghQR=function(t){var q=new Q(-1,E.M);q.addData(t);q.make();var n=q.getModuleCount(),p="";for(var r=0;r<n;r++)for(var c=0;c<n;c++)if(q.isDark(r,c))p+="M"+(c+2)+" "+(r+2)+"h1v1h-1z";return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 '+(n+4)+' '+(n+4)+'" shape-rendering="crispEdges"><rect width="100%" height="100%" fill="#fff"/><path d="'+p+'" fill="#000"/></svg>';};})();</script>
-<script type="text/plain" id="ghv">GH_BUILD:3.6.7</script>
+<script type="text/plain" id="ghv">GH_BUILD:3.6.8</script>
 <div id="intro"><div class="orb"></div><div class="ghw"><svg class="ghl" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
 <defs>
 <linearGradient id="gl" x1="0" y1="0" x2="0.35" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".96"/><stop offset=".55" stop-color="#e9ecf6" stop-opacity=".78"/><stop offset="1" stop-color="#c9cfe6" stop-opacity=".6"/></linearGradient>
@@ -2850,7 +2850,7 @@ function buildCats(){const used=new Set();return CATDEF.map(([ic,n,re])=>{const 
 let CATS=null,pc=0,pf="opts",fromSettings=false;
 function drawCats(){$("scrim").classList.toggle("on",mode==="panel");if(!CATS){$("panel").classList.add("single");return;}$("panel").classList.remove("single");
  $("pcats").innerHTML=CATS.map((c,i)=>'<div class="cat'+(i===pc?(pf==="cats"?" focus":" sel"):"")+'" data-c="'+i+'">'+rsvg(c.ic)+'<span>'+c.n+'</span></div>').join("");
- $("ctitle").textContent=CATS[pc].n;$("panel").classList.toggle("opts-dim",pf==="cats");}
+ $("ctitle").textContent=CATS[pc].n;$("panel").classList.toggle("opts-dim",pf==="cats");const ce=$("pcats").children[pc];if(ce){const pb=$("pcats");if(ce.offsetTop<pb.scrollTop)pb.scrollTop=ce.offsetTop;else if(ce.offsetTop+ce.offsetHeight>pb.scrollTop+pb.clientHeight)pb.scrollTop=ce.offsetTop+ce.offsetHeight-pb.clientHeight;}}
 function drawOpts(){drawCats();$("opts").innerHTML=CUR.map((o,i)=>'<div class="opt'+(i===oi?" focus":"")+'" data-i="'+i+'"><span>'+o.l+'</span><span class="v">'+o.v()+'</span></div>').join("");const f=$("opts").children[oi];if(f){const b=$("opts");const pad=14,t=f.offsetTop,h=f.offsetHeight;if(t-pad<b.scrollTop)b.scrollTop=Math.max(0,t-pad);else if(t+h+pad>b.scrollTop+b.clientHeight)b.scrollTop=t+h+pad-b.clientHeight;}}
 $("pcats").addEventListener("click",e=>{const c=e.target.closest(".cat");if(!c)return;clrMsg();pc=+c.dataset.c;CUR=CATS[pc].o;oi=0;pf="opts";drawOpts();});
 $("opts").addEventListener("click",e=>{const o=e.target.closest(".opt");if(!o)return;if(+o.dataset.i!==oi)clrMsg();oi=+o.dataset.i;const O=CUR[oi];O.ok?O.ok():O.ch(1);save();drawOpts();});
