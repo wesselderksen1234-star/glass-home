@@ -1,4 +1,4 @@
-<!DOCTYPE html><!--GH_BUILD:3.6.2-->
+<!DOCTYPE html><!--GH_BUILD:3.6.3-->
 <html lang="nl" style="background:#05060a url(splash5.png) center/cover no-repeat"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,viewport-fit=cover">
 <title>Glass Home</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
@@ -401,7 +401,7 @@ body:not(.det) #det,#panel:not(.open),#toast:not(.on),body:not(.amb) #amb{-webki
 #lgv.on{display:flex}body.lgon #main,body.lgon #rail{opacity:.25}body.full #lgv{opacity:.2}
 #lgv .lgt{display:flex;align-items:center;gap:18px;margin-bottom:18px}#lgv .lgt img{width:58px;height:58px;object-fit:contain}#lgv .lgt h1{font-size:40px;margin:0 22px 0 0;font-weight:800;letter-spacing:-.6px}
 #lgv .lgtabs{display:flex;gap:10px}#lgv .lgtabs span{padding:10px 22px;border-radius:999px;font-size:20px;font-weight:700;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);transition:background .2s,color .2s,transform .2s}#lgv .lgtabs span.on{background:rgba(255,255,255,.2)}#lgv .lgtabs span.focus{background:#fff;color:#000;transform:scale(1.06)}
-#lgv .lgb{flex:1;overflow:hidden;overflow-y:auto;padding:10px 8px 20px!important;display:block!important;scroll-behavior:smooth}#lgv .lgg{display:grid;gap:22px}#lgv .lgg.c3{grid-template-columns:repeat(3,1fr)}#lgv .lgg.c2{grid-template-columns:repeat(2,1fr)}#lgv .lgg.c1{grid-template-columns:1fr;gap:6px}
+#lgv .lgb{flex:1 1 0;min-height:0;overflow:hidden;overflow-y:auto;padding:10px 8px 20px!important;display:block!important;scroll-behavior:smooth}#lgv .lgg{display:grid;gap:22px}#lgv .lgg.c3{grid-template-columns:repeat(3,1fr)}#lgv .lgg.c2{grid-template-columns:repeat(2,1fr)}#lgv .lgg.c1{grid-template-columns:1fr;gap:6px}
 #lgv .lgg .mc,#lgv .lgg .ac,#lgv .lgg .vt,#lgv .lgg .stp{width:auto!important}#lgv .lgg .vt .vth{width:100%}
 #lgv .lgr{display:grid;grid-template-columns:56px 44px 1fr 130px 80px;align-items:center;gap:12px;padding:10px 16px;border-radius:14px;font-size:21px;background:rgba(255,255,255,.04)}#lgv .lgr img{width:36px;height:36px;object-fit:contain}#lgv .lgr .rk{opacity:.7;text-align:right}#lgv .lgr .gp{opacity:.55;font-size:16px}#lgv .lgr .pt{text-align:right}#lgv .lgr.me{background:rgba(255,255,255,.13);font-weight:800}
 #lgv .li.focus{outline:3px solid #fff;outline-offset:-3px;transform:none!important}#lgv .lge{opacity:.7;font-size:22px}#lgv .hint{margin-top:10px;font-size:15px;opacity:.5}
@@ -1653,7 +1653,7 @@ module.exports = QRRSBlock;
 
 };
 var Q=R("./index"),E=R("./QRErrorCorrectLevel");window.ghQR=function(t){var q=new Q(-1,E.M);q.addData(t);q.make();var n=q.getModuleCount(),p="";for(var r=0;r<n;r++)for(var c=0;c<n;c++)if(q.isDark(r,c))p+="M"+(c+2)+" "+(r+2)+"h1v1h-1z";return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 '+(n+4)+' '+(n+4)+'" shape-rendering="crispEdges"><rect width="100%" height="100%" fill="#fff"/><path d="'+p+'" fill="#000"/></svg>';};})();</script>
-<script type="text/plain" id="ghv">GH_BUILD:3.6.2</script>
+<script type="text/plain" id="ghv">GH_BUILD:3.6.3</script>
 <div id="intro"><div class="orb"></div><div class="ghw"><svg class="ghl" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
 <defs>
 <linearGradient id="gl" x1="0" y1="0" x2="0.35" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".96"/><stop offset=".55" stop-color="#e9ecf6" stop-opacity=".78"/><stop offset="1" stop-color="#c9cfe6" stop-opacity=".6"/></linearGradient>
