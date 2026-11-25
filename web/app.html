@@ -1,4 +1,4 @@
-<!DOCTYPE html><!--GH_BUILD:3.7.2-->
+<!DOCTYPE html><!--GH_BUILD:3.7.3-->
 <html lang="nl" style="background:#05060a url(splash5.png) center/cover no-repeat"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,viewport-fit=cover">
 <title>Glass Home</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
@@ -217,7 +217,9 @@ body.fb #hero .hi{opacity:0!important}#hero .hi{transition:opacity .9s}
 .ri.last{margin-top:14px;position:relative}.ri.last::before{content:"";position:absolute;left:18px;right:18px;top:-14px;height:1px;background:rgba(255,255,255,.18)}
 .opt .v .av{vertical-align:middle;margin-right:8px}
 #det p{font-size:21px;line-height:1.36}#det{height:420px;bottom:24px;padding:30px 48px}#det h4+p{margin-bottom:16px}
-#clock{transition:opacity .3s}
+#clock{transition:opacity .3s}body.dn #clock,body.dn2 #clock{opacity:0;pointer-events:none}
+/* Shorts: YouTube-knoppen (duim, delen, kanaal) buiten beeld houden */
+.vc .pv.vert iframe,.vt.vs .pv.vert iframe{width:170%!important;height:245%!important;left:-35%!important;top:-72.5%!important}
 body.haslive #s-cont{display:none!important}
 html{overflow:hidden}#rot{display:none}body.portrait{overflow:visible}body.portrait #rot{display:block;position:fixed;left:0;right:0;bottom:-90px;text-align:center;font-size:30px;color:rgba(255,255,255,.75);z-index:200}
 .app.bn{padding:0}.app.bn .ico{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:inherit;filter:none}.app.bn b{display:none}.app.bn::before{background:linear-gradient(160deg,rgba(255,255,255,.14),rgba(255,255,255,0) 45%);z-index:1}
@@ -1653,7 +1655,7 @@ module.exports = QRRSBlock;
 
 };
 var Q=R("./index"),E=R("./QRErrorCorrectLevel");window.ghQR=function(t){var q=new Q(-1,E.M);q.addData(t);q.make();var n=q.getModuleCount(),p="";for(var r=0;r<n;r++)for(var c=0;c<n;c++)if(q.isDark(r,c))p+="M"+(c+2)+" "+(r+2)+"h1v1h-1z";return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 '+(n+4)+' '+(n+4)+'" shape-rendering="crispEdges"><rect width="100%" height="100%" fill="#fff"/><path d="'+p+'" fill="#000"/></svg>';};})();</script>
-<script type="text/plain" id="ghv">GH_BUILD:3.7.2</script>
+<script type="text/plain" id="ghv">GH_BUILD:3.7.3</script>
 <div id="intro"><div class="orb"></div><div class="ghw"><svg class="ghl" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
 <defs>
 <linearGradient id="gl" x1="0" y1="0" x2="0.35" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".96"/><stop offset=".55" stop-color="#e9ecf6" stop-opacity=".78"/><stop offset="1" stop-color="#c9cfe6" stop-opacity=".6"/></linearGradient>
@@ -2767,7 +2769,8 @@ function mediaFocus(el){let it=null,box=null;
  if(k===pvKey&&!(el&&el.dataset.c))return;pvKey=k;stopPreview();
  clearTimeout(fbT);fbT=setTimeout(function fbg0(){if(Date.now()-(window.ghLastKey||0)<(DG.fbSlow?900:500)){fbT=setTimeout(fbg0,250);return}const c=fr===3&&el&&el.dataset.c?CONT[+el.dataset.c]:null;const u0=(it&&fr===3&&(it.big||it.img))||(c&&c.img),u=u0||(mode==="home"&&fr>=2&&HERO.length&&HERO[hi]&&HERO[hi].big);window.fbH=!u0;if(u){const tk=window.fbTok=(window.fbTok||0)+1;preImg(u).then(()=>{if(window.fbTok!==tk)return;window.fbAt=Date.now();$("fbg").style.backgroundImage=cu(u);document.body.classList.add("fb")})}else document.body.classList.remove("fb")},800);
  if(it&&!it.act&&!it.tv&&!it.sp)pvT=fr===1?setTimeout(()=>startPreview(box,it),6000):setTimeout(function g(){const d=Date.now()-(window.ghLastKey||0),need=DG.tune?450:220;if(d<need){pvT=setTimeout(g,need-d);return}startPreview(box,it)},DG.tune?450:220);pvPrefetch();}
-function paint(){if(mode==="lg"){lgFocus();return;}const nf=(rows[fr]||[])[fi];rows.forEach(r=>r.forEach(e=>{if(e!==nf&&e.classList.contains("focus"))e.classList.remove("focus")}));$("rail").classList.toggle("open",(fr===0||fr===6)&&mode==="home");
+document.addEventListener("scroll",e=>{const t=e.target;if(t&&t.scrollTop!==undefined&&t.scrollHeight>t.clientHeight+50&&t!==document.body)document.body.classList.toggle("dn2",t.scrollTop>160)},true);
+function paint(){if(mode==="lg"){lgFocus();return;}document.body.classList.toggle("dn",mode==="home"&&fr>=2);const nf=(rows[fr]||[])[fi];rows.forEach(r=>r.forEach(e=>{if(e!==nf&&e.classList.contains("focus"))e.classList.remove("focus")}));$("rail").classList.toggle("open",(fr===0||fr===6)&&mode==="home");
  const el=rows[fr][fi];if(!el||mode!=="home"){detail(-1);mediaFocus(null);capPaint(null);return;}el.classList.add("focus");
  const pr=el.parentNode;if(pr.classList.contains("row")||pr.classList.contains("srow")){const sl=Math.max(0,(el._ol!=null?el._ol:(el._ol=el.offsetLeft))-200);if(pr._sl!==sl){pr._sl=sl;pr.scrollLeft=sl;}}
  if(fr===2){clearTimeout(window.dsT);const ai=+el.dataset.a;if(shelfApp<0||!document.body.classList.contains("shelf"))drawShelf(ai);else window.dsT=setTimeout(()=>{if(fr===2&&rows[2][fi]===el)drawShelf(ai)},450);}
