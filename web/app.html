@@ -1,4 +1,4 @@
-<!DOCTYPE html><!--GH_BUILD:3.7.1-->
+<!DOCTYPE html><!--GH_BUILD:3.7.2-->
 <html lang="nl" style="background:#05060a url(splash5.png) center/cover no-repeat"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,viewport-fit=cover">
 <title>Glass Home</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
@@ -1653,7 +1653,7 @@ module.exports = QRRSBlock;
 
 };
 var Q=R("./index"),E=R("./QRErrorCorrectLevel");window.ghQR=function(t){var q=new Q(-1,E.M);q.addData(t);q.make();var n=q.getModuleCount(),p="";for(var r=0;r<n;r++)for(var c=0;c<n;c++)if(q.isDark(r,c))p+="M"+(c+2)+" "+(r+2)+"h1v1h-1z";return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 '+(n+4)+' '+(n+4)+'" shape-rendering="crispEdges"><rect width="100%" height="100%" fill="#fff"/><path d="'+p+'" fill="#000"/></svg>';};})();</script>
-<script type="text/plain" id="ghv">GH_BUILD:3.7.1</script>
+<script type="text/plain" id="ghv">GH_BUILD:3.7.2</script>
 <div id="intro"><div class="orb"></div><div class="ghw"><svg class="ghl" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
 <defs>
 <linearGradient id="gl" x1="0" y1="0" x2="0.35" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".96"/><stop offset=".55" stop-color="#e9ecf6" stop-opacity=".78"/><stop offset="1" stop-color="#c9cfe6" stop-opacity=".6"/></linearGradient>
@@ -2341,22 +2341,23 @@ async function _spToken(){const cid=key("spotifyClientId"),rt=S.spRefresh||key("
  S.spTok=r.access_token;S.spExp=Date.now()+r.expires_in*1000;if(r.refresh_token)S.spRefresh=r.refresh_token;save();return S.spTok;}
 async function loadSpotify(){const c=cget("ghSPF",216e5);if(Array.isArray(c)&&c.length)return c;const t=await spToken();if(!t)return[];
  const g=u=>j("https://api.spotify.com/v1/"+u,{headers:{Authorization:"Bearer "+t}});
- const top=(await g("me/top/artists?limit=15&time_range=short_term")).items,GN={},AL=new Map();
- top.forEach(a=>a.genres.forEach(x=>GN[x]=(GN[x]||0)+1));
+ let top=[];try{top=((await g("me/top/artists?limit=15&time_range=short_term")).items||[]);if(!top.length)top=((await g("me/top/artists?limit=15&time_range=medium_term")).items||[]);}catch(e){dgLog("fout","Spotify-aanraders: top-artiesten niet op te halen ("+e+")")}const GN={},AL=new Map();
+ top.forEach(a=>{a.genres=a.genres||[];a.images=a.images||[];(a.genres).forEach(x=>GN[x]=(GN[x]||0)+1)});
  const addA=(x,why,gen,b)=>{if(!AL.has(x.id))AL.set(x.id,{x,why,gen,b})};
  await Promise.all(top.slice(0,10).map(a=>g("artists/"+a.id+"/albums?include_groups=album,single&market=NL&limit=4").then(r=>r.items.forEach(x=>addA(x,"Omdat je veel "+a.name+" luistert",a.genres,15))).catch(()=>{})));
  try{const nr=(await g("browse/new-releases?country=NL&limit=50")).albums.items,ids=[...new Set(nr.map(x=>x.artists[0].id))];
   const ar={};(await g("artists?ids="+ids.slice(0,50).join(","))).artists.forEach(a=>{if(a)ar[a.id]=a});
-  nr.forEach(x=>{const a=ar[x.artists[0].id];if(!a)return;const ov=a.genres.filter(q=>GN[q]);if(ov.length)addA(x,"Nieuw en past bij jouw "+ov[0],a.genres,8);});}catch(e){}
+  nr.forEach(x=>{const a=ar[x.artists[0].id];if(!a)return;const ov=(a.genres||[]).filter(q=>GN[q]);if(ov.length)addA(x,"Nieuw en past bij jouw "+ov[0],a.genres,8);});}catch(e){}
  const yr=Date.now()-3e10,arr=[...AL.values()].filter(v=>new Date(v.x.release_date)>yr).sort((a,b)=>(b.x.release_date>a.x.release_date)?1:-1).slice(0,40),pop={};
  for(let i=0;i<arr.length;i+=20){try{(await g("albums?market=NL&ids="+arr.slice(i,i+20).map(v=>v.x.id).join(","))).albums.forEach(a=>{if(a)pop[a.id]=a.popularity})}catch(e){}}
  const extra=[];
  try{const rp=(await g("me/player/recently-played?limit=50")).items,ctx=[...new Set(rp.map(x=>x.context&&x.context.type==="playlist"?x.context.uri:"").filter(Boolean))].slice(0,6);
   (await Promise.all(ctx.map(u=>g("playlists/"+u.split(":")[2]+"?fields=name,uri,images,owner(display_name)").catch(()=>null)))).forEach(p=>{if(p)extra.push({sp:1,kind:"playlist",a:3,id:p.uri,uri:p.uri,t:p.name,c:p.owner.display_name,s:"Afspeellijst",img:(p.images&&p.images[0]||{}).url,because:["Laatst door jou beluisterd"],sc:{},avg:0,rs:999,genres:[]})});}catch(e){}
- top.slice(0,5).forEach(a=>extra.push({sp:1,kind:"artist",a:3,id:a.id,uri:a.uri,t:a.name,c:"Artiest",s:"Een van je meest beluisterde artiesten",img:(a.images[0]||{}).url,genres:a.genres.slice(0,3),because:["Jouw top-artiest"],sc:{SP:a.popularity},avg:a.popularity,rs:60}));
+ top.slice(0,5).forEach(a=>extra.push({sp:1,kind:"artist",a:3,id:a.id,uri:a.uri,t:a.name,c:"Artiest",s:"Een van je meest beluisterde artiesten",img:(a.images[0]||{}).url,genres:a.genres.slice(0,3),because:["Jouw top-artiest"],sc:{SP:a.popularity||0},avg:a.popularity||0,rs:60}));
+ try{if(arr.length<6){const tt=((await g("me/top/tracks?limit=30&time_range=short_term")).items||[]),seenA=new Set(arr.map(v=>v.x.id));tt.forEach(t=>{const al=t.album;if(!al||seenA.has(al.id))return;seenA.add(al.id);arr.push({x:al,why:"Veel door jou beluisterd",gen:[],b:20})});}}catch(e){}
  const out=arr.map(v=>{const x=v.x,p=pop[x.id]||0;return{sp:1,a:3,id:x.id,uri:x.uri,t:x.name,c:x.artists.map(a=>a.name).join(", "),s:(x.album_type==="single"?"Single":"Album")+" · "+x.release_date.slice(0,4),
-  genres:v.gen.slice(0,3),because:[v.why],sc:{SP:p},avg:p,rs:p+v.b,img:(x.images[0]||{}).url}}).concat(extra).sort((a,b)=>b.rs-a.rs).slice(0,20);
- if(out.length)cset("ghSPF",out);return out;}
+  genres:(v.gen||[]).slice(0,3),because:[v.why],sc:{SP:p},avg:p,rs:p+v.b,img:((x.images||[])[0]||{}).url}}).concat(extra).sort((a,b)=>b.rs-a.rs).slice(0,20);
+ if(out.length)cset("ghSPF",out);else dgLog("fout","Spotify-aanraders: niets gevonden (top "+top.length+", albums "+arr.length+")");return out;}
 
 // ---------- YouTube: nieuw van je abonnementen + trending in jouw onderwerpen ----------
 let ytTokenP;async function ytToken(){return ytTokenP||(ytTokenP=_ytToken().finally(()=>{ytTokenP=null}));}
@@ -2648,7 +2649,7 @@ setInterval(pstSend,5*60000);
 
 async function loadAll(){const tk=key("tmdb");
  if(!tk&&!key("youtube")&&!S.ytRefresh&&!key("spotifyRefresh")&&!S.spRefresh&&!S.trRefresh&&!key("epgUrl")){ITEMS=(P==="preview"?SAMPLE:[]).filter(x=>!(LG&&x.tv)).concat(LG?MOON:[]).map((x,i)=>Object.assign({h:i*47+200},x,{avg:x.sp?x.sc.SP:x.sc?wavg(x.sc):0,rs:x.sc?wavg(x.sc):0}));$("note").textContent=P==="preview"?"Voorbeeld":"";}
- else{$("note").textContent="Laden…";const r=await Promise.all([tk||S.trRefresh?loadMovies(tk).catch(()=>[]):[],loadYT().catch(()=>[]),loadSpotify().catch(()=>[]),loadEPG().catch(()=>[])]);ITEMS=r.flat().concat(LG?MOON:[]);$("note").textContent="";}
+ else{$("note").textContent="Laden…";const r=await Promise.all([tk||S.trRefresh?loadMovies(tk).catch(()=>[]):[],loadYT().catch(()=>[]),loadSpotify().catch(e=>{dgLog("fout","Spotify-aanraders mislukt: "+(e&&e.message||e)+" · gekoppeld="+!!(S.spRefresh||key("spotifyRefresh")));return[]}),loadEPG().catch(()=>[])]);ITEMS=r.flat().concat(LG?MOON:[]);$("note").textContent="";}
  dk=-1;setHero();if(shelfApp>-1){const x=shelfApp;shelfApp=-1;drawShelf(x);}}
 
 // ---------- infokaart: wat mensen zeggen + waarom (zonder spoilers) ----------
