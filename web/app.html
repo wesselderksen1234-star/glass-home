@@ -1,4 +1,4 @@
-<!DOCTYPE html><!--GH_BUILD:3.6.9-->
+<!DOCTYPE html><!--GH_BUILD:3.6.10-->
 <html lang="nl" style="background:#05060a url(splash5.png) center/cover no-repeat"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,viewport-fit=cover">
 <title>Glass Home</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
@@ -1653,7 +1653,7 @@ module.exports = QRRSBlock;
 
 };
 var Q=R("./index"),E=R("./QRErrorCorrectLevel");window.ghQR=function(t){var q=new Q(-1,E.M);q.addData(t);q.make();var n=q.getModuleCount(),p="";for(var r=0;r<n;r++)for(var c=0;c<n;c++)if(q.isDark(r,c))p+="M"+(c+2)+" "+(r+2)+"h1v1h-1z";return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 '+(n+4)+' '+(n+4)+'" shape-rendering="crispEdges"><rect width="100%" height="100%" fill="#fff"/><path d="'+p+'" fill="#000"/></svg>';};})();</script>
-<script type="text/plain" id="ghv">GH_BUILD:3.6.9</script>
+<script type="text/plain" id="ghv">GH_BUILD:3.6.10</script>
 <div id="intro"><div class="orb"></div><div class="ghw"><svg class="ghl" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
 <defs>
 <linearGradient id="gl" x1="0" y1="0" x2="0.35" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".96"/><stop offset=".55" stop-color="#e9ecf6" stop-opacity=".78"/><stop offset="1" stop-color="#c9cfe6" stop-opacity=".6"/></linearGradient>
@@ -2584,10 +2584,10 @@ addEventListener("unhandledrejection",e=>{const r=e.reason;if(typeof r==="number
 const DPROF=(()=>{const t=!!TOUCH||/Android|iPhone|iPad|Mobile/i.test(navigator.userAgent);return P==="webos"?{n:"LG-tv",pre:50}:P==="android"?{n:"Google TV Streamer",pre:60}:t?{n:"Telefoon",pre:70}:{n:"Computer",pre:120};})();
 const PREMAX=()=>DPROF.pre;
 // vangnet: zakt het beeld weg tijdens navigeren, dan tijdelijk zware effecten uit (alleen veilige, geteste stijlinstellingen)
-function dgScore(){const f=DG.mf||0,j=DG.mj||0,jr=f?j/f:0,lt=DG.mlt||0,bad=Object.values(DG.fd).filter(x=>x.ok===0).length;let s=100-Math.min(45,jr*300)-Math.min(25,lt*2)-bad*5-(DG.auto?5:0);return Math.max(5,Math.round(s));}
-function dgJank(f,j){DG.mf=(DG.mf||0)*0.6+f;DG.mj=(DG.mj||0)*0.6+j;const lt=PST.lt-(DG.lt0||0);DG.lt0=PST.lt;DG.mlt=(DG.mlt||0)*0.6+lt;
+function dgScore(){const f=DG.mf||0,j=DG.mj||0,jr=f?j/f:0,lt=DG.mlt||0,bad=Object.values(DG.fd).filter(x=>x.ok===0).length;let s=100-Math.min(45,jr*300)-Math.min(25,lt*2)-bad*5-(DG.auto?5:0);return Math.min(100,Math.max(5,Math.round(s)));}
+function dgJank(f,j){DG.mf=(DG.mf||0)*0.6+f;DG.mj=(DG.mj||0)*0.6+j;const lt=Math.max(0,PST.lt-(DG.lt0||0));DG.lt0=PST.lt;DG.mlt=(DG.mlt||0)*0.6+lt;
  if(f>=40){const jr=Math.round(j/f*100);if(Date.now()-(DG.lastM||0)>3e5){DG.lastM=Date.now();dgLog("meting","Navigeren: "+f+" beelden, "+jr+"% schokken, "+lt+" lange taken · score "+dgScore()+"%");}
-  if(S.dgAuto!==0){if(jr>=8&&!DG.tune){DG.tune=1;dgLog("actie","Afgestemd: video-voorbeeld start iets later (0,95 s) zodat snel bladeren soepel blijft");}else if(jr<4&&DG.tune&&Date.now()-(DG.tuneT||0)>6e5){DG.tune=0;dgLog("actie","Beeld weer soepel: video-voorbeeld weer op normale snelheid");}if(DG.tune)DG.tuneT=Date.now();}}
+  if(S.dgAuto!==0){if(jr>=8&&!DG.tune){DG.tune=1;dgLog("actie","Afgestemd: video-voorbeeld start iets later (0,4 s) zodat snel bladeren soepel blijft");}else if(jr<4&&DG.tune&&Date.now()-(DG.tuneT||0)>6e5){DG.tune=0;dgLog("actie","Beeld weer soepel: video-voorbeeld weer op normale snelheid");}if(DG.tune)DG.tuneT=Date.now();}}
  if(S.dgAuto===0||f<40)return;const r=j/f;if(r>0.35&&!DG.auto){DG.auto=1;const n=PRE.size;PRE.clear();dgLog("actie","Beeld haperde ("+Math.round(r*100)+"% schokken, "+f+" frames): "+n+" opgeslagen afbeeldingen opgeruimd en voorladen even gepauzeerd");}
  if(DG.auto)DG.autoT=Date.now();}
 setInterval(()=>{if(DG.auto&&Date.now()-DG.autoT>5*6e4){DG.auto=0;dgLog("actie","Beeld weer vloeiend: voorladen weer aan");}},6e4);
@@ -2665,7 +2665,7 @@ async function summarize0(k){const it=ITEMS[k];if(!it)return;if(it.tv){it.zeg=it
  const fb=()=>fill(it.yt?"Deze video is nu populair bij kijkers.":it.sp?(it.s+" van "+it.c+(it.genres&&it.genres.length?", in de stijl "+it.genres.join(", "):"")+"."):(it.ov||"Geen omschrijving beschikbaar."),it.yt||it.sp?why(it):"",it.yt||it.sp?"":"Omschrijving: TMDB");
  const ak=key("claude"),gk=key("gemini");if((!ak&&!gk)||it.kind==="playlist")return fb();
  let ctx="";
- try{if(it.yt){const tok=await ytToken().catch(()=>"");const d=await j("https://www.googleapis.com/youtube/v3/commentThreads?part=snippet&order=relevance&maxResults=25&videoId="+it.v+(tok?"":"&key="+key("youtube")),tok?{headers:{Authorization:"Bearer "+tok}}:{});
+ try{if(it.yt){const tok=await ytToken().catch(()=>"");const cu0="https://www.googleapis.com/youtube/v3/commentThreads?part=snippet&order=relevance&maxResults=25&videoId="+it.v,yk0=key("youtube");const d=yk0?await j(cu0+"&key="+yk0):await j(cu0,{headers:{Authorization:"Bearer "+tok}});
    ctx=d.items.map(x=>"- "+x.snippet.topLevelComment.snippet.textOriginal.slice(0,200)).join("\n");}
   else if(!it.sp){const d=await j("https://api.themoviedb.org/3/"+it.type+"/"+it.id+"/reviews?api_key="+key("tmdb"),{signal:tmo(8000)});
    ctx=(d.results||[]).slice(0,6).map(x=>"- ("+((x.author_details||{}).rating||"?")+"/10) "+x.content.slice(0,700)).join("\n");}}catch(e){}
